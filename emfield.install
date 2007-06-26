@@ -1,0 +1,16 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install().
+ */
+function emfield_install() {
+}
+
+function _emfield_update_reset_cache() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {cache_content}");
+  $ret[] = update_sql("DELETE FROM {cache_views}");
+  return $ret;
+}
+

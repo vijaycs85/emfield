@@ -1,0 +1,18 @@
+/* $Id$ */
+
+2007-06-25
+rename ncck to emfield
+
+2007-06-19
+remove need for redundant helper_module column from widgets
+merge video_cck into ncck
+
+2007-06-15
+default links to content w/ preview/thumbnail size
+allow ability to determine link w/ various sizes in field
+
+2007-06-14
+add flickr support
+
+2007-06-13
+create engine, using video_cck as a base
