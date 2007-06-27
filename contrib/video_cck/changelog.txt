@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2007-06-27
+clean old variables during install, sorry, new update again.
 fix install -- change ncck to emfield
 
 2007-06-19

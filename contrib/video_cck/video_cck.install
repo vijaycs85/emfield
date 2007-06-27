@@ -63,12 +63,32 @@ function video_cck_update_3() {
     }
   }
   $ret[] = array(
-    'query' => t('The Video Neighborhood allowed provider variables have been updated.'),
+    'query' => t('The Embedded Video Field allowed provider variables have been updated.'),
     'success' => TRUE
   );
   $ret = array_merge($ret, _video_cck_update_reset_cache());
 
   // now we need to depend on emfield's menu. remove our old admin menu path
   menu_rebuild();
+  return $ret;
+}
+
+/**
+ *	oops. cleanup from update 3 -- we don't want to accidentally reset our variables
+ *  if we have to run update 3 again...
+ */
+function video_cck_update_4() {
+  $ret = array();
+  foreach (emfield_system_list('video_cck') as $provider) {
+    // TODO: this will need some attention when we upgrade to d6
+    $test = variable_get('video_cck_allow_' . $provider->name, NULL);
+    if (isset($test)) {
+      variable_set('video_cck_allow_' . $provider->name, NULL);
+    }
+  }
+  $ret[] = array(
+    'query' => t('The old Embedded Video Field allowed provider variables have been cleaned up.'),
+    'success' => TRUE
+  );
   return $ret;
 }
