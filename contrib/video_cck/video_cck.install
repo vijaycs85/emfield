@@ -51,15 +51,15 @@ function _video_cck_update_reset_cache() {
 }
 
 /**
- *  since we made our engine dependent on ncck, we need to change some variables accordingly
+ *  since we made our engine dependent on emfield, we need to change some variables accordingly
  */
 function video_cck_update_3() {
   $ret = array();
-  foreach (ncck_system_list('video_cck') as $provider) {
+  foreach (emfield_system_list('video_cck') as $provider) {
     // TODO: this will need some attention when we upgrade to d6
     $test = variable_get('video_cck_allow_' . $provider->name, NULL);
     if (isset($test)) {
-      variable_set('ncck_' . $module . '_allow_' . $provider->name, variable_get('video_cck_allow_' . $provider->name, true));
+      variable_set('emfield_' . $module . '_allow_' . $provider->name, variable_get('video_cck_allow_' . $provider->name, true));
     }
   }
   $ret[] = array(
@@ -68,7 +68,7 @@ function video_cck_update_3() {
   );
   $ret = array_merge($ret, _video_cck_update_reset_cache());
 
-  // now we need to depend on ncck's menu. remove our old admin menu path
+  // now we need to depend on emfield's menu. remove our old admin menu path
   menu_rebuild();
   return $ret;
 }

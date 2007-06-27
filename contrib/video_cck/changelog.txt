@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-06-27
+fix install -- change ncck to emfield
+
 2007-06-19
 add update code to change variables and remove old menu item
 require dependency on ncck
