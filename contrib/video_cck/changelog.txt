@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-07-27
+don't show 'show video' on thumbnails if no embed code value
+
 2007-06-27
 clean old variables during install, sorry, new update again.
 fix install -- change ncck to emfield
