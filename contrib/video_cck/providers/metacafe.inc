@@ -28,14 +28,14 @@ function video_cck_metacafe_settings() {
  */
 function video_cck_metacafe_extract($embed) {
   // http://www.metacafe.com/watch/479957/gorilla_prank/
-  if ($embed && preg_match('@metacafe\.com/watch/(.[^/]*)/(.[^/]*)/@', $embed, $matches)) {
+  if ($embed && preg_match('@metacafe\.com/watch/(.[^/]*)/(.[^/]*)/@i', $embed, $matches)) {
     return $matches[1] . '/' . $matches[2];
   }
-  else if ($embed && preg_match('@metacafe\.com/watch/(.[^/]*)/(.*)@', $embed, $matches)) {
+  else if ($embed && preg_match('@metacafe\.com/watch/(.[^/]*)/(.*)@i', $embed, $matches)) {
     return $matches[1] . '/' . $matches[2];
   }
   // <embed src="http://www.metacafe.com/fplayer/479957/gorilla_prank.swf" width="400" height="345" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed><br><font size = 1><a href="http://www.metacafe.com/watch/479957/gorilla_prank/">Gorilla Prank</a> - <a href='http://www.metacafe.com/'>Celebrity bloopers here</a></font>
-  else if ($embed && preg_match('@metacafe\.com/fplayer/(.[^/]*)/(.[^\.]*)\.@', $embed, $matches)) {
+  else if ($embed && preg_match('@metacafe\.com/fplayer/(.[^/]*)/(.[^\.]*)\.@i', $embed, $matches)) {
     return $matches[1] . '/' . $matches[2];
   }
   return false;

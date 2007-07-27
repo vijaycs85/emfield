@@ -80,8 +80,8 @@ function video_cck_livevideo_extract($embed = '') {
   // http://www.livevideo.com/video/591C1350DD174FE0B10C4DCFC88981DA/mascot-bloopers-video.aspx
   // NOTE: the order of the following matters very much in this case...
   return array(
-    '@livevideo\.com/flvplayer/embed/([^\"]*)\"@',
-    '@livevideo\.com/video/([^/]*)/@',
+    '@livevideo\.com/flvplayer/embed/([^\"]*)\"@i',
+    '@livevideo\.com/video/([^/]*)/@i',
   );
 }
 

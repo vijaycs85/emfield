@@ -27,7 +27,7 @@ function video_cck_ifilm_extract($embed) {
   return array(
     // http://www.ifilm.com/video/2836119/collection/19459/channel/comedy
     // <embed width="448" height="365" src="http://www.ifilm.com/efp" quality="high" bgcolor="000000" name="efp" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="flvbaseclip=2836119&"> </embed> <h1><a href="http://www.ifilm.com/video/2836119">"I Lost It" with Tom Cruize and Jesus</a></h1><span>Posted Mar 25, 2007</span><p>What happens when Jesus, Abe Lincoln, Tom Cruise, Dustin Hoffman, Buddha and Einstein play a friendly game of poker?</p>
-    '@ifilm\.com/video/([^/&"]*)@',
+    '@ifilm\.com/video/([^/&"]*)@i',
   );
 }
 

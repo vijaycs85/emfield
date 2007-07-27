@@ -100,8 +100,8 @@ function video_cck_youtube_extract($embed = '') {
   // http://youtube.com/watch?v=nvbQQnvxXDk
   // http://www.youtube.com/watch?v=YzFCA-xUc8w&feature=dir
   return array(
-    '@youtube\.com/v/([^"\&]*)"@',
-    '@youtube\.com/watch\?v=([^"\&]*)@',
+    '@youtube\.com/v/([^"\&]*)"@i',
+    '@youtube\.com/watch\?v=([^"\&]*)@i',
   );
 }
 

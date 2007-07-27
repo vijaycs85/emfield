@@ -33,8 +33,8 @@ function video_cck_google_settings() {
 
 function video_cck_google_extract($embed) {
   return array(
-    '@http://video\.google\.[a-z]{2,4}/videoplay\?docid=([^\&]*)\&@',
-    '@http://video\.google\.[a-z]{2,4}/videoplay\?docid=(.*)@',
+    '@http://video\.google\.[a-z]{2,4}/videoplay\?docid=([^\&]*)\&@i',
+    '@http://video\.google\.[a-z]{2,4}/videoplay\?docid=(.*)@i',
   );
 }
 

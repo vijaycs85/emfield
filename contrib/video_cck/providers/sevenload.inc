@@ -53,8 +53,8 @@ function video_cck_sevenload_extract($embed = '') {
   // http://de.sevenload.com/videos/zuh5KMt/Die-Zeit-rennt
   // hint: de.sevenload.com can also be en.sevenload.com and probably other languages later
   return array(
-    '@sevenload\.com/pl/([^"]*)"@',
-    '@sevenload\.com/videos/(.*)/(.*)@',
+    '@sevenload\.com/pl/([^"]*)"@i',
+    '@sevenload\.com/videos/(.*)/(.*)@i',
   );
 }
 

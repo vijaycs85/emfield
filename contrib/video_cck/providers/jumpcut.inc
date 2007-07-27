@@ -25,8 +25,8 @@ function video_cck_jumpcut_settings() {
 
 function video_cck_jumpcut_extract($embed) {
   return array(
-    '@jumpcut\.com/view\?id=(.*)@',
-    '@jumpcut\.com/view\?id=([^\&]*)\&@',
+    '@jumpcut\.com/view\?id=(.*)@i',
+    '@jumpcut\.com/view\?id=([^\&]*)\&@i',
   );
 }
 

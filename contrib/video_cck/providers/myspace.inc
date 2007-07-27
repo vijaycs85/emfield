@@ -61,8 +61,8 @@ function _video_cck_myspace_scrape_thumbnail($video, $cached = true) {
 
 function video_cck_myspace_extract($embed) {
   return array(
-    '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^"]*)"@',
-    '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&videoid=(.*)@',
+    '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^"]*)"@i',
+    '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&videoid=(.*)@i',
   );
 }
 

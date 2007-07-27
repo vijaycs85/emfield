@@ -54,24 +54,24 @@ function video_cck_bliptv_extract($embed) {
   // this gets all convoluted, because the file code is different than the video post id, which is different than the video filename,
   // and they don't all show up in the same places :(
   //<center>                              <script type="text/javascript" src="http://blip.tv/scripts/pokkariPlayer.js"></script><script type="text/javascript" src="http://blip.tv/syndication/write_player?skin=js&posts_id=182146&source=3&autoplay=true&file_type=flv&player_width=&player_height="></script><div id="blip_movie_content_182146"><a href="http://blip.tv/file/get/Make-WhatDoYouMake201.flv" onclick="play_blip_movie_182146(); return false;"><img src="http://blip.tv/file/get/Make-WhatDoYouMake201.flv.jpg" border="0" title="Click To Play" /></a><br /><a href="http://blip.tv/file/get/Make-WhatDoYouMake201.flv" onclick="play_blip_movie_182146(); return false;">Click To Play</a></div>                   </center>
-  if ($embed && preg_match('@http://blip\.tv/syndication/write_player\?skin=js\&posts_id=([^\&]*)\&@', $embed, $matches)) {
+  if ($embed && preg_match('@http://blip\.tv/syndication/write_player\?skin=js\&posts_id=([^\&]*)\&@i', $embed, $matches)) {
     $match = $matches[1];
     unset($matches);
     $result = drupal_http_request("http://blip.tv/syndication/write_player/?posts_id=$match&skin=js");
-    if (preg_match('@setPermalinkUrl\(\"http://blip.tv/file/view/([^/\?\"]*)[/\?\"]@', $result->data, $matches)) {
+    if (preg_match('@setPermalinkUrl\(\"http://blip.tv/file/view/([^/\?\"]*)[/\?\"]@i', $result->data, $matches)) {
       $code = $matches[1];
     }
   }
-  else if ($embed && preg_match('@blip\.tv/file/view/([^\?]*)[/\?]@', $embed, $matches)) {
+  else if ($embed && preg_match('@blip\.tv/file/view/([^\?]*)[/\?]@i', $embed, $matches)) {
     $code = $matches[1];
   }
-  else if ($embed && preg_match('@blip\.tv/file/view/(.*)@', $embed, $matches)) {
+  else if ($embed && preg_match('@blip\.tv/file/view/(.*)@i', $embed, $matches)) {
     $code = $matches[1];
   }
-  else if ($embed && preg_match('@blip\.tv/file/([^/\?]*)[/\?]@', $embed, $matches)) {
+  else if ($embed && preg_match('@blip\.tv/file/([^/\?]*)[/\?]@i', $embed, $matches)) {
     $code = $matches[1];
   }
-  else if ($embed && preg_match('@blip\.tv/file/(.*)@', $embed, $matches)) {
+  else if ($embed && preg_match('@blip\.tv/file/(.*)@i', $embed, $matches)) {
     $code = $matches[1];
   }
   if ($code) {

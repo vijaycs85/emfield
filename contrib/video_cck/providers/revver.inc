@@ -40,9 +40,9 @@ function video_cck_revver_settings() {
 
 function video_cck_revver_extract($embed) {
   return array(
-    '@revver\.com/watch/([^/]*)/@',
-    '@revver\.com/watch/(.*)@',
-    '@revver\.com/player/1\.0/player\.js\?mediaId\:([^;]*);@',
+    '@revver\.com/watch/([^/]*)/@i',
+    '@revver\.com/watch/(.*)@i',
+    '@revver\.com/player/1\.0/player\.js\?mediaId\:([^;]*);@i',
   );
 }
 
