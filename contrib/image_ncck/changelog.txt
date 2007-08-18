@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-08-18
+added photobucket support
+
 2007-07-27
 ignore case when matching providers
 

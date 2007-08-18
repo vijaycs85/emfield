@@ -1,13 +1,13 @@
 /* $Id$ */
 
-/**********************/
- Image Neighborhood CCK
-/**********************/
+/********************/
+ Embedded Image Field
+/********************/
 
 Author: Aaron Winborn
 Development Began 2007-06-13
 
-Requires: Drupal 5, Content (CCK), Neighborhood CCK
+Requires: Drupal 5, Content (CCK), Embedded Media Field
 Optional: Views
 
 This extensible module will create a field for node content types that can be used to display images from various third party
@@ -15,8 +15,8 @@ image providers. When entering the content, the user will simply paste the URL o
 automatically determine which content provider is being used. When displaying the image, the proper embedding format will be
 used, calling any necessary API's.
 
-The module already supports Flicker image formats. More are planned to be supported soon. An api allows other third party
-providers to be supported using simple include files and provided hooks. (Developers: examine the documentation of
+The module already supports Flicker and Photobucket image formats. More are planned to be supported soon. An api allows other
+third party providers to be supported using simple include files and provided hooks. (Developers: examine the documentation of
 /providers/flikr.inc for help in adding support for new providers).
 
 The administer of a site may decide whether to allow all content providers, or only a certain number of them. They may
