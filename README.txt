@@ -21,9 +21,9 @@ activated from the module administration page.
 
 *************************************
 
-The Embedded Image Field module currently only supports Flickr images. It creates a field that you can paste the url from a
-Flickr photo into, which will then display that photo in a configurable size, with a link either to the node or to the
-original page from Flickr.
+The Embedded Image Field module currently supports Flickr, Imageshack, and Photoshack images. It creates a field that you can
+paste the url from, for instance, a Flickr photo into, which will then display that photo in a configurable size, with a link
+either to the node or to the original page from Flickr.
 
 The Embedded Video Field module already supports YouTube, Google, Revver, MySpace, MetaCafe, JumpCut, BrightCove, SevenLoad,
 iFilm, Blip.TV, and Live Video video formats. More are planned to be supported soon. An api allows other third party video
