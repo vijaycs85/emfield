@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2007-08-18
+added imageshack support
 added photobucket support
 
 2007-07-27

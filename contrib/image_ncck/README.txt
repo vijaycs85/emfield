@@ -15,7 +15,7 @@ image providers. When entering the content, the user will simply paste the URL o
 automatically determine which content provider is being used. When displaying the image, the proper embedding format will be
 used, calling any necessary API's.
 
-The module already supports Flicker and Photobucket image formats. More are planned to be supported soon. An api allows other
+The module already supports Flicker, Imageshack, and Photobucket image formats. More are planned to be supported soon. An api allows other
 third party providers to be supported using simple include files and provided hooks. (Developers: examine the documentation of
 /providers/flikr.inc for help in adding support for new providers).
 
