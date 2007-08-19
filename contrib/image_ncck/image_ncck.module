@@ -15,6 +15,17 @@ define('IMAGE_NCCK_DEFAULT_THUMBNAIL_HEIGHT', 0);
 define('IMAGE_NCCK_DEFAULT_THUMBNAIL_LINK', IMAGE_NCCK_LINK_CONTENT);
 
 /**
+ *  Implement hook_help
+ */
+function image_ncck_help($section) {
+  switch ($section) {
+    case 'admin/modules#description':
+      return t('Defines a field type for displaying images from third party providers, such as Flickr or Imageshack. Requires <strong>Embedded Media Field(emfield)</strong>.');
+      break;
+  }
+}
+
+/**
  *  Implement hook_ncck_info
  */
 function image_ncck_emfield_info() {

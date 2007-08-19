@@ -1,8 +1,8 @@
 /* $Id$ */
 
 2007-08-18
-added imageshack support
-added photobucket support
+add support for photobucket & imageshack
+begin backport to 4.7
 
 2007-07-27
 ignore case when matching providers
