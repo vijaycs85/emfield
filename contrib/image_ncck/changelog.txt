@@ -1,5 +1,9 @@
 /* $Id$ */
 
+2007-08-31
+fixed image h/w 0 in IE: http://drupal.org/node/170854
+fixed default h/w: http://drupal.org/node/167497
+
 2007-08-18
 added imageshack support
 added photobucket support
