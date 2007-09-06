@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-09-06
+added hook_emfield_rss so modules/providers can provide rss enclosures
+
 2007-07-26
 fixed fatal string error in php5 -- http://drupal.org/node/153261
 

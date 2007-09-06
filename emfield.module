@@ -109,6 +109,10 @@ function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $mo
     break;
 
   case 'submit':
+//     print 'upload: ';
+//     print_r($_PUT['video_cck_aaa_local_upload']);
+//
+//     print_r($items);
     if ($field['multiple']) {
       foreach ($items as $delta => $item) {
         $list = _emfield_field_submit_id($field, $item, $module);
@@ -192,11 +196,11 @@ function emfield_allowed_providers($field, $module) {
  *  returns either an empty array (if no match), or an array of provider and value.
  */
 function emfield_parse_embed($field, $embed = '', $module) {
-  if ($embed) {
+//  if ($embed) {
 //     $module = $field['widget']['helper_module'];
     $providers = emfield_allowed_providers($field, $module);
     foreach ($providers as $provider) {
-      $success = emfield_include_invoke($module, $provider->name, 'extract', $embed);
+      $success = emfield_include_invoke($module, $provider->name, 'extract', $embed, $field);
       // we've been given an array of regex strings, so let's see if we can find a match
       if (is_array($success)) {
         foreach ($success as $regex) {
@@ -211,7 +215,7 @@ function emfield_parse_embed($field, $embed = '', $module) {
         return array('provider' => $provider->name, 'value' => $success);
       }
     }
-  }
+//  }
   // we found no match
   return array();
 }
@@ -221,7 +225,7 @@ function emfield_parse_embed($field, $embed = '', $module) {
  */
 function _emfield_field_validate_id($field, $item, $error_field, $module) {
   // does nothing at this time... TODO: fix this up
-  return _emfield_field_submit_id($field, $item, $module);
+  return _emfield_field_submit_id($field, $item, $module, $error_field);
 }
 
 /**
@@ -313,11 +317,16 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
       $field['required'] = FALSE;
       $providers = emfield_allowed_providers($field, $module);
       $urls = array();
+      $additional_form_elements = array();
       foreach ($providers as $provider) {
         // don't check providers not allowed
         if (variable_get('emfield_allow_' . $module . '_' . $provider->name, true)) {
           $info = emfield_include_invoke($module, $provider->name, 'info');
           $urls[] = l($info['name'], $info['url'], array('target' => '_blank'));
+          $additional_element = emfield_include_invoke($module, $provider->name, 'form');
+          if ($additional_element) {
+            $additional_form_elements[$provider->name] = $additional_element;
+          }
         }
       }
       $textfield_title = t($field['widget']['label']);
@@ -338,6 +347,11 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
               '#required' => ($delta == 0) ? $field['required'] : FALSE,
               '#maxlength' => 1024,
             );
+            if (!empty($additional_form_elements)) {
+              foreach ($additional_form_elements as $key => $element) {
+                $form[$field['field_name']][$delta][$key] = $element;
+              }
+            }
             $form[$field['field_name']][$delta]['value'] = array(
               '#type' => 'value',
               '#value' => $data['value'],
@@ -361,6 +375,11 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
             '#required' => ($delta == 0) ? $field['required'] : FALSE,
             '#maxlength' => 1024,
           );
+          if (!empty($additional_form_elements)) {
+            foreach ($additional_form_elements as $key => $element) {
+              $form[$field['field_name']][$delta][$key] = $element;
+            }
+          }
           $form[$field['field_name']][$delta]['value'] = array(
             '#type' => 'value',
             '#title' => '',
@@ -382,6 +401,11 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
             '#type' => 'value',
             '#value' => $value,
           );
+          if (!empty($additional_form_elements)) {
+            foreach ($additional_form_elements as $key => $element) {
+              $form[$field['field_name']][0][$key] = $element;
+            }
+          }
           if ($value) {
             $info = emfield_include_invoke($module, $node_field[0]['provider'], 'info');
             $form[$field['field_name']][0]['value_markup'] = array(
@@ -393,6 +417,73 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
       }
       return $form;
     default:
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_node_operations().
+ */
+function emfield_node_operations() {
+  $operations = array(
+    'emfield_reload' => array(
+      'label' => t('Reload Embedded Media Data'),
+      'callback' => 'emfield_operations_reload',
+    ),
+  );
+  return $operations;
+}
+
+/**
+ *  This reloads and saves the data for all the nid's in the array.
+ */
+function emfield_operations_reload($nids = array()) {
+  foreach ($nids as $nid) {
+    if ($node = node_load($nid)) {
+      $type = content_types($node->type);
+      foreach ($type['fields'] as $field) {
+        if (module_hook($field['type'], 'emfield_info')) {
+          drupal_set_message(t("Reloading %node-title's %field.", array('%node-title' => $node->title, '%field' => $field['type_name'])));
+          $items = $node->{$field['field_name']};
+          emfield_emfield_field('submit', $node, $field, $items, false, false, $field['type']);
+          $node->{$field['field_name']} = $items;
+          node_save($node);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+  switch ($op) {
+    case 'rss item':
+      $rss = array();
+      $type = content_types($node->type);
+      foreach ($type['fields'] as $field) {
+        if (module_hook($field['type'], 'emfield_info')) {
+          $items = $node->{$field['field_name']};
+          $rss_encl = module_invoke($field['type'], 'emfield_rss', $node, $items, $teaser);
+          if (!is_null($rss_encl)) {
+            $rss[] = $rss_encl;
+          }
+        }
+      }
+      if (!empty($rss)) {
+        $file = array_shift($rss);//print_r($file);
+        return array(
+          array(
+            'key' => 'enclosure',
+            'attributes' => array(
+              'url' => check_url($file->filepath),
+              'length' => check_plain($file->filesize),
+              'type' => check_plain($file->filemime),
+            )
+          )
+        );
+      }
       break;
   }
 }
@@ -479,6 +570,7 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = true, $
     xml_parser_free($parser);
 
     $response = array();
+    $response['_emfield_arghash'] = $arghash;
     $level = array();
     $start_level = 1;
     foreach ($vals as $xml_elem) {
