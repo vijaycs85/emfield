@@ -20,8 +20,9 @@ define('VIDEO_CCK_LIVEVIDEO_REST_ENDPOINT', 'http://www.livevideo.com/api/');
 function video_cck_livevideo_info() {
   $name = t('Live Video');
   $features = array(
-    array(t('Thumbnails'), t('Yes'), ''),
     array(t('Autoplay'), t('Yes'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('Yes'), ''),
   );
   return array(
     'provider' => 'livevideo',

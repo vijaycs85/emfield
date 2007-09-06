@@ -20,9 +20,10 @@ define('VIDEO_CCK_YOUTUBE_REST_ENDPOINT', 'http://www.youtube.com/api2_rest');
 function video_cck_youtube_info() {
   $name = t('YouTube');
   $features = array(
-    array(t('Thumbnails'), t('Yes'), t('May not currently resize thumbnails. Must have an API key for thumbnails at the moment, although research is underway to determine an alternative to this. Set your API key above.')),
     array(t('Autoplay'), t('Yes'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
     array(t('Show related videos'), t('Yes'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
+    array(t('Thumbnails'), t('Yes'), t('May not currently resize thumbnails. Must have an API key for thumbnails at the moment, although research is underway to determine an alternative to this. Set your API key above.')),
   );
   return array(
     'provider' => 'youtube',

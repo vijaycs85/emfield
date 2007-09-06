@@ -6,8 +6,9 @@ define('VIDEO_CCK_JUMPCUT_MAIN_URL', 'http://jumpcut.com/');
 function video_cck_jumpcut_info() {
   $name = t('JumpCut');
   $features = array(
-    array(t('Thumbnails'), t('No'), ''),
     array(t('Autoplay'), t('No'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('No'), ''),
   );
   return array(
     'provider' => 'jumpcut',

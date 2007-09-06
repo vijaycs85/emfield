@@ -10,6 +10,7 @@ function video_cck_zzz_custom_url_info() {
   $features = array(
     array(t('Thumbnails'), t('No'), ''),
     array(t('Autoplay'), t('Yes'), ''),
+    array(t('RSS attachment'), t('No'), ''),
   );
   return array(
     'provider' => 'zzz_custom_url',

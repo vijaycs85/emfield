@@ -6,8 +6,9 @@ define('VIDEO_CCK_MYSPACE_MAIN_URL', 'http://vids.myspace.com/index.cfm?fuseacti
 function video_cck_myspace_info() {
   $name = t('MySpace');
   $features = array(
-    array(t('Thumbnails'), t('Yes'), ''),
     array(t('Autoplay'), t('No'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('Yes'), ''),
   );
   return array(
     'provider' => 'myspace',

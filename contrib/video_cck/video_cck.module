@@ -257,6 +257,18 @@ function video_cck_embed_form($field, $item, $formatter, $node) {
   return $form;
 }
 
+/**
+ *  providers may supply an enclosure for rss feeds. this expects something in a file format, so would be an object
+ *  in the format of $file->filepath, $file->filesize, and $file->filemime.
+ *  calls the providers hook video_cck_PROVIDER_rss($item, $teaser)
+ */
+function video_cck_emfield_rss($node, $items = array(), $teaser = NULL) {
+  $item = array_shift($items);
+  if ($item['value'] && $item['provider']) {
+    return module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'rss', $item, $teaser);
+  }
+}
+
 function theme_video_cck_video_embed($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $output = drupal_get_form('video_cck_embed_form', $field, $item, $formatter, $node);

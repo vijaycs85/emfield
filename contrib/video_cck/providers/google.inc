@@ -8,8 +8,9 @@ define('VIDEO_CCK_GOOGLE_DOMAIN_DEFAULT', 'com');
 function video_cck_google_info() {
   $name = t('Google');
   $features = array(
-    array(t('Thumbnails'), t('Yes'), ''),
     array(t('Autoplay'), t('Yes'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('Yes'), ''),
   );
   return array(
     'provider' => 'google',

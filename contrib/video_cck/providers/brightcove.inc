@@ -15,8 +15,9 @@ define('VIDEO_CCK_BRIGHTCOVE_MAIN_URL', 'http://www.brightcove.com/');
 function video_cck_brightcove_info() {
   $name = t('Brightcove');
   $features = array(
-    array(t('Thumbnails'), t('No'), ''),
     array(t('Autoplay'), t('Yes'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('No'), ''),
   );
   return array(
     'provider' => 'brightcove',

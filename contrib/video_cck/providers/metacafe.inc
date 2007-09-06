@@ -6,8 +6,9 @@ define('VIDEO_CCK_METACAFE_MAIN_URL', 'http://www.metacafe.com/');
 function video_cck_metacafe_info() {
   $name = t('MetaCafe');
   $features = array(
-    array(t('Thumbnails'), t('Yes'), ''),
     array(t('Autoplay'), t('Yes'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('Yes'), ''),
   );
   return array(
     'provider' => 'metacafe',

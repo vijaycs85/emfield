@@ -6,8 +6,9 @@ define('VIDEO_CCK_IFILM_MAIN_URL', 'http://www.ifilm.com/');
 function video_cck_ifilm_info() {
   $name = t('iFilm');
   $features = array(
-    array(t('Thumbnails'), t('Yes'), ''),
     array(t('Autoplay'), t('No'), t('In the works...')),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('Yes'), ''),
   );
   return array(
     'provider' => 'ifilm',

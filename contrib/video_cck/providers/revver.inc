@@ -7,9 +7,10 @@ define('VIDEO_CCK_REVVER_AFFILIATE_PROGRAM_URL', 'http://one.revver.com/revver/g
 function video_cck_revver_info() {
   $name = t('Revver');
   $features = array(
-    array(t('Thumbnails'), t('Yes'), t('May not currently resize thumbnails, but this will be easy to add. Meanwhile, you can override theme_video_cck_revver_thumbnail if you have a pressing need for this and know how to theme.')),
-    array(t('Autoplay'), t('No'), ''),
     array(t('Affliate program'), t('Yes'), t('Not currently supported by other providers. Set affiliate ID above.')),
+    array(t('Autoplay'), t('No'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('Yes'), t('May not currently resize thumbnails, but this will be easy to add. Meanwhile, you can override theme_video_cck_revver_thumbnail if you have a pressing need for this and know how to theme.')),
   );
   return array(
     'provider' => 'revver',

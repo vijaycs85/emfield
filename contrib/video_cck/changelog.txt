@@ -1,5 +1,9 @@
 /* $Id$ */
 
+2007-09-06
+added rss support for blip.tv
+added data versioning to allow nodes to save more data, but respect older nodes
+
 2007-07-27
 ignore case when matching video url's
 don't show 'show video' on thumbnails if no embed code value

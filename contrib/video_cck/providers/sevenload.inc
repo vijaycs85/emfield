@@ -15,8 +15,9 @@ define('VIDEO_CCK_SEVENLOAD_MAIN_URL', 'http://www.sevenload.com/');
 function video_cck_sevenload_info() {
   $name = t('Sevenload');
   $features = array(
-    array(t('Thumbnails'), t('No'), ''),
     array(t('Autoplay'), t('No'), ''),
+    array(t('RSS Attachment'), t('No'), ''),
+    array(t('Thumbnails'), t('No'), ''),
   );
   return array(
     'provider' => 'sevenload',
