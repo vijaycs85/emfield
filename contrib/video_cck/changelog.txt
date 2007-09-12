@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-09-12
+better support for blip.tv's rss (allow overriding type given)
+
 2007-09-06
 added rss support for blip.tv
 added data versioning to allow nodes to save more data, but respect older nodes

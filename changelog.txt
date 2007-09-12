@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-09-12
+fixed error: warning: array_shift() [function.array-shift]: The argument should be an array...
+
 2007-09-06
 added hook_emfield_rss so modules/providers can provide rss enclosures
 

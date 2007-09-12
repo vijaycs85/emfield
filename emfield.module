@@ -464,7 +464,7 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       $type = content_types($node->type);
       foreach ($type['fields'] as $field) {
         if (module_hook($field['type'], 'emfield_info')) {
-          $items = $node->{$field['field_name']};
+          $items = (array)$node->{$field['field_name']};
           $rss_encl = module_invoke($field['type'], 'emfield_rss', $node, $items, $teaser);
           if (!is_null($rss_encl)) {
             $rss[] = $rss_encl;
