@@ -74,7 +74,7 @@ function video_cck_update_3() {
 }
 
 /**
- *	oops. cleanup from update 3 -- we don't want to accidentally reset our variables
+ *  oops. cleanup from update 3 -- we don't want to accidentally reset our variables
  *  if we have to run update 3 again...
  */
 function video_cck_update_4() {
@@ -90,5 +90,15 @@ function video_cck_update_4() {
     'query' => t('The old Embedded Video Field allowed provider variables have been cleaned up.'),
     'success' => TRUE
   );
+  return $ret;
+}
+
+/**
+ *  changed the data structure for blip.tv
+ *  TODO: this doesn't work. thought data was cached? ...
+ */
+function video_cck_update_5() {
+  $ret = _video_cck_update_reset_cache();
+  $ret[] = update_sql("DELETE FROM {cache}");
   return $ret;
 }

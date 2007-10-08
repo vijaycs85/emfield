@@ -20,14 +20,60 @@ define('IMAGE_NCCK_FLICKR_REST_ENDPOINT', 'http://api.flickr.com/services/rest/'
 
 function image_ncck_flickr_info() {
   $name = t('Flickr');
-  $features = array();
+  $features = array(
+    array(t('Import photosets'), t('Yes'), t('If you have the Embedded Media Import module activated, you may allow @name photosets to be imported into content.', array('@name' => $name))),
+  );
   return array(
     'provider' => 'flickr',
     'name' => $name,
     'url' => IMAGE_NCCK_FLICKR_MAIN_URL,
     'settings_description' => t('These settings specifically affect images displayed from !flickr.', array('!flickr' => l($name, IMAGE_NCCK_FLICKR_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), IMAGE_NCCK_FLICKR_API_INFO, array('target' => '_blank')))),
     'supported_features' => $features,
+    'import_sets_word' => t('photosets'),
   );
+}
+
+/**
+ *  This allows flickr photosets to be imported into nodes
+ */
+function image_ncck_flickr_import($url, $limit = 0, $page = 0) {
+  $codes = array();
+
+  // http://www.flickr.com/photos/nikkiana/sets/72157601948647678/
+  if (preg_match('@flickr\.com/photos/([^/]*)/([^/]*)/([^/]*)/@i', $url, $matches)) {
+    $page++;  // flickr starts current page at 1
+    $codes['#matches'] = $matches;
+    $args = array('photoset_id' => $matches[3]);
+    if ($limit) {
+      $args['per_page'] = $limit;
+    }
+    $args['page'] = $page;
+    $xml = image_ncck_flickr_request('flickr.photosets.getPhotos', $args);
+//    print_r($xml);
+    $codes['#pages'] = $xml['photoset']['pages'];
+    $codes['#page'] = $xml['photoset']['page'] - 1;
+    $codes['#total'] = $xml['photoset']['total'];
+    $codes['#per_page'] = $xml['photoset']['per_page'];
+    $codes['#set'] = array();
+    foreach ($xml['photoset']['photo'] as $photo) {
+      $data = image_ncck_flickr_data(NULL, array('value' => $photo['id']));
+      $codes['#set'][] = array(
+        '#code' => $photo['id'],
+        '#title' => $photo['title'],
+        '#link' => image_ncck_flickr_embedded_link($photo['id'], $xml['photoset']['owner']),
+        '#thumb' => image_ncck_flickr_image_url($photo['id'], 100, 100, NULL, NULL, NULL),
+        '#body' => $data['description'],
+        '#tags' => $data['tags'],
+//         '#body' => image_ncck_flickr_description($photo['id']),
+//         '#tags' => image_ncck_flickr_tags($photo['id']),
+      );
+    }
+/*
+    $data['owner'] = $xml['photo']['owner']['nsid'];
+    $data['title'] = $xml['photo']['title']['_content'];*/
+  }
+// print_r($codes);
+  return $codes;
 }
 
 /**
@@ -84,6 +130,13 @@ function image_ncck_flickr_data($field, $item) {
 
   $data['owner'] = $xml['photo']['owner']['nsid'];
   $data['title'] = $xml['photo']['title']['_content'];
+  $data['description'] = $xml['photo']['description']['_content'];
+  $data['tags'] = array();
+  if (is_array($xml['photo']['tags']['tag'])) {
+    foreach ($xml['photo']['tags']['tag'] as $tag) {
+      $data['tags'][] = $tag['raw'];
+    }
+  }
   return $data;
 }
 

@@ -286,8 +286,8 @@ function theme_image_ncck_image($field, $item, $formatter, $node, $code, $width,
 function theme_image_ncck_image_thumbnail($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $code = $item['value'];
-    $width = is_null($field['widget']['thumbnail_width']) ? variable_get('image_ncck_default_full_width', IMAGE_NCCK_DEFAULT_FULL_WIDTH) : $field['widget']['thumbnail_width'];
-    $height = is_null($field['widget']['thumbnail_height']) ? variable_get('image_ncck_default_full_height', IMAGE_NCCK_DEFAULT_FULL_HEIGHT) : $field['widget']['thumbnail_height'];
+    $width = $field['widget']['thumbnail_width'] === '' ? variable_get('image_ncck_default_full_width', IMAGE_NCCK_DEFAULT_FULL_WIDTH) : $field['widget']['thumbnail_width'];
+    $height = $field['widget']['thumbnail_height'] === '' ? variable_get('image_ncck_default_full_height', IMAGE_NCCK_DEFAULT_FULL_HEIGHT) : $field['widget']['thumbnail_height'];
     $link = $field['widget']['thumbnail_link'] ? $field['widget']['thumbnail_link'] : variable_get('image_ncck_default_thumbnail_link', IMAGE_NCCK_DEFAULT_THUMBNAIL_LINK);
     if ($link == IMAGE_NCCK_LINK_CONTENT) {
       $link = 'node/' . $node->nid;
@@ -307,8 +307,8 @@ function theme_image_ncck_image_thumbnail($field, $item, $formatter, $node) {
 function theme_image_ncck_image_full($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $code = $item['value'];
-    $width = is_null($field['widget']['full_width']) ? variable_get('image_ncck_default_full_width', IMAGE_NCCK_DEFAULT_FULL_WIDTH) : $field['widget']['full_width'];
-    $height = is_null($field['widget']['full_height']) ? variable_get('image_ncck_default_full_height', IMAGE_NCCK_DEFAULT_FULL_HEIGHT) : $field['widget']['full_height'];
+    $width = $field['widget']['full_width'] === '' ? variable_get('image_ncck_default_full_width', IMAGE_NCCK_DEFAULT_FULL_WIDTH) : $field['widget']['full_width'];
+    $height = $field['widget']['full_height'] === '' ? variable_get('image_ncck_default_full_height', IMAGE_NCCK_DEFAULT_FULL_HEIGHT) : $field['widget']['full_height'];
     $link = $field['widget']['full_link'] ? $field['widget']['full_link'] : variable_get('image_ncck_default_full_link', IMAGE_NCCK_DEFAULT_FULL_LINK);
     if ($link == IMAGE_NCCK_LINK_CONTENT) {
       $link = 'node/' . $node->nid;
@@ -332,8 +332,8 @@ function theme_image_ncck_default($field, $item, $formatter, $node) {
 function theme_image_ncck_image_preview($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $code = $item['value'];
-    $width = is_null($field['widget']['preview_width']) ? variable_get('image_ncck_default_preview_width', IMAGE_NCCK_DEFAULT_PREVIEW_WIDTH) : $field['widget']['preview_width'];
-    $height = is_null($field['widget']['preview_height']) ? variable_get('image_ncck_default_preview_height', IMAGE_NCCK_DEFAULT_PREVIEW_HEIGHT) : $field['widget']['preview_height'];
+    $width = $field['widget']['preview_width'] === '' ? variable_get('image_ncck_default_preview_width', IMAGE_NCCK_DEFAULT_PREVIEW_WIDTH) : $field['widget']['preview_width'];
+    $height = $field['widget']['preview_height'] === '' ? variable_get('image_ncck_default_preview_height', IMAGE_NCCK_DEFAULT_PREVIEW_HEIGHT) : $field['widget']['preview_height'];
     $link = $field['widget']['preview_link'] ? $field['widget']['preview_link'] : variable_get('image_ncck_default_preview_link', IMAGE_NCCK_DEFAULT_PREVIEW_LINK);
     if ($link == IMAGE_NCCK_LINK_CONTENT) {
       $link = 'node/' . $node->nid;

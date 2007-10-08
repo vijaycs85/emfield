@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-10-04
+add hooks to allow import of media sets
+
 2007-09-12
 fixed error: warning: array_shift() [function.array-shift]: The argument should be an array...
 

@@ -13,7 +13,17 @@ function emfield_menu($may_cache) {
       'description' => t('Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.'),
       'callback' => 'drupal_get_form',
       'callback arguments' => 'emfield_settings',
-      'access' => user_access('administer site configuration'));
+      'access' => user_access('administer site configuration'),
+    );
+    $items[] = array(
+      'path' => 'admin/content/emfield/media',
+      'title' => t('Media settings'),
+      'description' => t('Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.'),
+      'callback' => 'drupal_get_form',
+      'callback arguments' => 'emfield_settings',
+      'access' => user_access('administer site configuration'),
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+    );
   }
   return $items;
 }
@@ -24,22 +34,22 @@ function emfield_menu($may_cache) {
 function emfield_settings() {
   $form = array();
   $header = array(t('Feature'), t('Supported'), t('Notes'));
-  foreach (module_implements('emfield_info', true) as $module) {
+  foreach (module_implements('emfield_info', TRUE) as $module) {
     $emfield_info = module_invoke($module, 'emfield_info');
     $providers = emfield_system_list($module);
     $form[$module] = array(
       '#type' => 'fieldset',
       '#title' => t('@neighborhood', array('@neighborhood' => $emfield_info['#name'])),
       '#description' => $emfield_info['#settings_description'],
-      '#collapsible' => true,
-      '#collapsed' => true,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
     );
     $form[$module]['providers'] = array(
       '#type' => 'fieldset',
       '#title' => t('Providers'),
       '#description' => t('The following settings determine what providers are allowed, and what provider-specific options, if any, are set.'),
-      '#collapsible' => true,
-      '#collapsed' => false,
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
     );
     foreach ($providers as $provider) {
       $info = emfield_include_invoke($module, $provider->name, 'info');
@@ -47,16 +57,16 @@ function emfield_settings() {
         '#type' => 'fieldset',
         '#title' => t('@provider configuration', array('@provider' => $info['name'])),
         '#description' => $info['settings_description'],
-        '#collapsible' => true,
-        '#collapsed' => true,
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
       );
       if (is_array($info['supported_features']) && !empty($info['supported_features'])) {
         $form[$module]['providers'][$provider->name]['supported_features'] = array(
           '#type' => 'fieldset',
           '#title' => t('Supported features'),
           '#description' => t('This is a list of the current state of support for the following features by %provider:', array('%provider' => $info['name'])),
-          '#collapsible' => true,
-          '#collapsed' => true,
+          '#collapsible' => TRUE,
+          '#collapsed' => TRUE,
           '#weight' => 7,
         );
         $form[$module]['providers'][$provider->name]['supported_features']['features'] = array(
@@ -69,12 +79,13 @@ function emfield_settings() {
         '#title' => t('Allow content from %provider', array('%provider' => $info['name'])),
         '#description' => t('If checked, then content types may be created that allow content to be provided by %provider.', array('%provider' => $info['name'])),
         '#weight' => -10,
-        '#default_value' => variable_get('emfield_' . $module . '_allow_' . $provider->name, true),
+        '#default_value' => variable_get('emfield_' . $module . '_allow_' . $provider->name, TRUE),
       );
       $form[$module]['providers'][$provider->name][] = emfield_include_invoke($module, $provider->name, 'settings');
     }
     $form[$module] = array_merge($form[$module], module_invoke($module, 'emfield_settings'));
   }
+
   return system_settings_form($form);
 }
 
@@ -83,7 +94,7 @@ function emfield_field_columns() {
     'embed' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
     'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
     'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-    'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => false),
+    'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => FALSE),
   );
   return $columns;
 }
@@ -172,9 +183,9 @@ function emfield_allowed_providers($field, $module) {
 //   $module = $field['widget']['helper_module'];
   $allowed_providers = emfield_system_list($module);
   $providers = array();
-  $allow_all = true;
+  $allow_all = TRUE;
   foreach ($allowed_providers as $test) {
-    if (!variable_get('emfield_allow_' . $module . '_' . $test->name, true)) {
+    if (!variable_get('emfield_allow_' . $module . '_' . $test->name, TRUE)) {
       unset($allowed_providers[$test->name]);
     }
     else {
@@ -189,6 +200,47 @@ function emfield_allowed_providers($field, $module) {
     }
   }
   return $allowed_providers;
+}
+
+/**
+ *  this returns a list of content types that are implemented by emfield
+ */
+function emfield_implement_types($cached = TRUE) {
+  static $types;
+
+  if (!isset($types) || !$cached) {
+    // if it's a cachable request, try to load a cached value
+    if ($cached && $cache = cache_get('emfield_implement_types', 'cache')) {
+      $types = unserialize($cache->data);
+    }
+    else {
+      $system_types = _content_type_info();
+      $content_types = $system_types['content types'];
+      $field_types = $system_types['field types'];
+
+      // the array that will store type/field information for provider import
+      $types = array();
+
+      foreach (module_implements('emfield_info', TRUE) as $module) {
+        // settings per content type for the module
+        foreach ($content_types as $content_type => $type) {
+
+          // determine which content types implement this module
+          foreach ($type['fields'] as $field_type => $field) {
+
+            // if this field type is defined by this module, then include it here
+            if ($field_types[$field['type']]['module'] == $module) {
+              // settings per content type per module
+              $types[$module][$content_type][$field_type] = $field;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  cache_set('emfield_implement_types', 'cache', serialize($types), CACHE_PERMANENT);
+  return $types;
 }
 
 /**
@@ -272,15 +324,14 @@ function emfield_emfield_field_formatter($field, $item, $formatter, $node, $modu
 function emfield_emfield_widget_settings($op, $widget, $module) {
   switch ($op) {
     case 'form':
+      // make sure to register the new type as supported by this module
+      emfield_implement_types(FALSE);
+
       $form = array();
-//       $form['helper_module'] = array(
-//         '#type' => 'value',
-//         '#value' => $module,
-//       );
       $options = array();
       $providers = emfield_system_list($module);
       foreach ($providers as $provider) {
-        if (variable_get('emfield_allow_' . $module . '_' . $provider->name, true)) {
+        if (variable_get('emfield_allow_' . $module . '_' . $provider->name, TRUE)) {
           $info = emfield_include_invoke($module, $provider->name, 'info');
           $options[$provider->name] = $info['name'];
         }
@@ -289,8 +340,8 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
         '#type' => 'fieldset',
         '#title' => t('Providers Supported'),
         '#description' => t('Select which third party providers you wish to allow for this content type from the list below. If no checkboxes are checked, then all providers will be supported. When a user submits new content, the URL they enter will be matched to the provider, assuming that provider is allowed here.'),
-        '#collapsible' => true,
-        '#collapsed' => false,
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
       );
       $form['provider_list']['providers'] = array(
         '#type' => 'checkboxes',
@@ -298,10 +349,18 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
         '#default_value' => $widget['providers'] ? $widget['providers'] : array(),
         '#options' => $options,
       );
+
+      foreach (module_implements('emfield_widget_settings_extra') as $module) {
+        $form[$module] = module_invoke($module, 'emfield_widget_settings_extra', 'form', $widget, $module);
+      }
+
       return $form;
 
     case 'save':
       $columns = array('providers'); //, 'helper_module', );
+      foreach (module_implements('emfield_widget_settings_extra') as $module) {
+        $columns = array_merge($columns, module_invoke($module, 'emfield_widget_settings_extra', 'save', $widget, $module));
+      }
       return $columns;
   }
 }
@@ -320,7 +379,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
       $additional_form_elements = array();
       foreach ($providers as $provider) {
         // don't check providers not allowed
-        if (variable_get('emfield_allow_' . $module . '_' . $provider->name, true)) {
+        if (variable_get('emfield_allow_' . $module . '_' . $provider->name, TRUE)) {
           $info = emfield_include_invoke($module, $provider->name, 'info');
           $urls[] = l($info['name'], $info['url'], array('target' => '_blank'));
           $additional_element = emfield_include_invoke($module, $provider->name, 'form');
@@ -445,7 +504,7 @@ function emfield_operations_reload($nids = array()) {
         if (module_hook($field['type'], 'emfield_info')) {
           drupal_set_message(t("Reloading %node-title's %field.", array('%node-title' => $node->title, '%field' => $field['type_name'])));
           $items = $node->{$field['field_name']};
-          emfield_emfield_field('submit', $node, $field, $items, false, false, $field['type']);
+          emfield_emfield_field('submit', $node, $field, $items, FALSE, FALSE, $field['type']);
           $node->{$field['field_name']} = $items;
           node_save($node);
         }
@@ -499,12 +558,12 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
  *   @param $args
  *     an array of args to pass to the xml url
  *   @param $cached
- *     optional; if true, the result of this xml request will be cached. good to play nice w/
+ *     optional; if TRUE, the result of this xml request will be cached. good to play nice w/
  *     the third party folks so they don't stop providing service to your site...
  *   @return
  *     the xml results returned as an array
  */
-function emfield_request_xml($provider, $url, $args = array(), $cached = true, $return_errors = FALSE, $hash_extra = false, $serialized = false) {
+function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $return_errors = FALSE, $hash_extra = FALSE, $serialized = FALSE) {
   ksort($args);
 
   // build an argument hash that we'll use for the cache id and api signing
@@ -610,11 +669,11 @@ function emfield_set_error($error) {
  * @param $provider
  *   Optional; name of the passed $provider to find (e.g. "youtube", "google", etc.).
  * @param $load
- *   Defaults to true; whether to include matching files into memory.
+ *   Defaults to TRUE; whether to include matching files into memory.
  * @return
  *   An array of file objects optionally matching $provider.
  */
-function emfield_system_list($module, $provider = NULL, $load = true) {
+function emfield_system_list($module, $provider = NULL, $load = TRUE) {
   $files = drupal_system_listing("$provider\.inc", drupal_get_path('module', $module) . "/providers", 'name', 0);
 
   ksort($files);
