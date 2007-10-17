@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-10-17
+#179454 fix youtube's new &rel=1 url structure
+
 2007-09-12
 better support for blip.tv's rss (allow overriding type given)
 
