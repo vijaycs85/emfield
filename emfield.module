@@ -225,6 +225,7 @@ function emfield_implement_types($cached = TRUE) {
         // settings per content type for the module
         foreach ($content_types as $content_type => $type) {
 
+          $types[$module] = array();
           // determine which content types implement this module
           foreach ($type['fields'] as $field_type => $field) {
 

@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2007-10-30
+fix http://drupal.org/node/187855 -- empty types array
 allow fields to be required - http://drupal.org/node/187771
 
 2007-10-04
