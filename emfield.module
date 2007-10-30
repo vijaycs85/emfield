@@ -373,7 +373,6 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
 
       $form[$field['field_name']] = array('#tree' => TRUE);
       $textfield = 'embed';
-      $field['required'] = FALSE;
       $providers = emfield_allowed_providers($field, $module);
       $urls = array();
       $additional_form_elements = array();

@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-10-30
+allow fields to be required - http://drupal.org/node/187771
+
 2007-10-04
 add hooks to allow import of media sets
 
