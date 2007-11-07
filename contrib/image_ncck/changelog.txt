@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-11-07
+add support for picasa -- thanks alexua!
+
 2007-10-08
 make sure xml in data knows whether an array is returned for tags
 
