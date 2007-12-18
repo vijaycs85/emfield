@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2007-12-18
+alerts when flickr api is missing (when uploading flickr content)
+
 2007-11-07
 add support for picasa -- thanks alexua!
 

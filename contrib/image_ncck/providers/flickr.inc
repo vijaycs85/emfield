@@ -86,7 +86,7 @@ function image_ncck_flickr_settings() {
   $form['flickr']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Flickr API'),
-    '#description' => t('You will first need to apply for an API Developer Key from the !flickr.', array('!flickr' => l('Flickr Developer Profile page', IMAGE_NCCK_FLICKR_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('You will first need to apply for an API Developer Key from the !flickr.', array('!flickr' => l(t('Flickr Developer Profile page'), IMAGE_NCCK_FLICKR_API_APPLICATION_URL, array('target' => '_blank')))),
     '#collapsible' => true,
     '#collapsed' => (variable_get('image_ncck_flickr_api_key', '') != ''),
   );
@@ -107,9 +107,12 @@ function image_ncck_flickr_settings() {
 
 
 /**
- * this is a wrapper for video_cck_request_xml that includes youtube's api key
+ * this is a wrapper for image_ncck_request_xml that includes flickr's api key
  */
-function image_ncck_flickr_request($method, $args = array(), $cached = false) {
+function image_ncck_flickr_request($method, $args = array(), $cached = TRUE) {
+  // display an error if we don't have an api key yet
+  image_ncck_flickr_error_check();
+
   $args['api_key'] = trim(variable_get('image_ncck_flickr_api_key', ''));
   if ($secret = trim(variable_get('image_ncck_flickr_api_secret', ''))) {
     $args['secret'] = md5($secret . $arghash);
@@ -117,7 +120,7 @@ function image_ncck_flickr_request($method, $args = array(), $cached = false) {
   $args['method'] = $method;
   $args['format'] = 'php_serial';
 
-  $xml = module_invoke('emfield', 'request_xml', 'flickr', IMAGE_NCCK_FLICKR_REST_ENDPOINT, $args, $cached, false, false, true);
+  $xml = module_invoke('emfield', 'request_xml', 'flickr', IMAGE_NCCK_FLICKR_REST_ENDPOINT, $args, $cached, FALSE, FALSE, TRUE);
   return $xml;
 }
 
@@ -138,6 +141,22 @@ function image_ncck_flickr_data($field, $item) {
     }
   }
   return $data;
+}
+
+/**
+ *  This will log an error if we don't have a key yet. In addition, if the user is an admin, we'll display an error.
+ */
+function image_ncck_flickr_error_check() {
+  static $checked;
+  if (!$checked && (variable_get('image_ncck_flickr_api_key', '') == '')) {
+    global $user;
+    $error = t('You do not yet have a Flickr API key set. You will need to !apply and enter your key at the !settings before Flickr images may be displayed.', array('!apply' => l(t('apply for a Flickr API key'), IMAGE_NCCK_FLICKR_API_APPLICATION_URL, array('target' => '_blank')), '!settings' => l(t('settings administration page'), 'admin/content/emfield')));
+    if (user_access('administer site configuration')) {
+      drupal_set_message($error, 'error');
+    }
+    watchdog('Embedded Media Field', $error);
+  }
+  $checked = TRUE;
 }
 
 function image_ncck_flickr_extract($embed = '') {
@@ -180,7 +199,7 @@ function image_ncck_flickr_embedded_link($code, $data = array()) {
  *  @return
  *    the url directly to the image to display
  */
-function image_ncck_flickr_image_url($code, $width, $height, $formatter, $field, $item) {
+function image_ncck_flickr_image_url($code, $width, $height, $formatter, $field, $item, $node) {
   if ($code) {
     $photo = image_ncck_flickr_request('flickr.photos.getInfo', array('photo_id' => $code));
     $photo = $photo['photo'];
