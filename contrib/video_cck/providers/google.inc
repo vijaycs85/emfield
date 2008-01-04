@@ -36,6 +36,7 @@ function video_cck_google_extract($embed) {
   return array(
     '@http://video\.google\.[a-z]{2,4}/videoplay\?docid=([^\&]*)\&@i',
     '@http://video\.google\.[a-z]{2,4}/videoplay\?docid=(.*)@i',
+    '@http://video\.google\.[a-z]{2,4}/googleplayer\.swf\?docId=(-?\d*)@i',
   );
 }
 
