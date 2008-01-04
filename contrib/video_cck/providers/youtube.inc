@@ -72,7 +72,7 @@ function video_cck_youtube_settings() {
 /**
  * this is a wrapper for video_cck_request_xml that includes youtube's api key
  */
-function video_cck_youtube_request($method, $args = array(), $cached = false) {
+function video_cck_youtube_request($method, $args = array(), $cached = TRUE) {
   $args['dev_id'] = trim(variable_get('video_cck_youtube_api_key', ''));
   $args['method'] = $method;
 
