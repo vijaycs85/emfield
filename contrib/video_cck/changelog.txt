@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-01-04
+remove bliptv debugging printout on node submission
 dailymotion autoplay support
 added dailymotion support
 #181095:alley youtube thumbnails w/o api or requests

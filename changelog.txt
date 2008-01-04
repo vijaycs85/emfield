@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-01-04
+remove debugging statements
 clean up multiple fields on field op hooks
 add emfield_widget_settings_extra and emfield_field_extra hooks for emthumb support
 

@@ -1,5 +1,6 @@
 /* $Id$ */
 
 2008-01-04
+remove debugging statements on multiple
 fix array_push bug
 created emthumb module

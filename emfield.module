@@ -98,7 +98,7 @@ function emfield_field_columns() {
   );
   foreach (module_implements('emfield_field_columns_extra') as $module) {
     $extra = module_invoke($module, 'emfield_field_columns_extra');
-    if (is_array($extra)) {print_r($extra);
+    if (is_array($extra)) {//print_r($extra);
       $columns = array_merge($columns, $extra);
     }
   }

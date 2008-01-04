@@ -69,10 +69,10 @@ function video_cck_bliptv_data($field, $item) {
   // some of our data we'll get from the api, like available files
   $rss = video_cck_bliptv_request($item['value'], TRUE, 'rss');
   $api = video_cck_bliptv_request($item['value'], TRUE, 'api');
-print 'rss: ';
+/*print 'rss: ';
 print_r($rss);
 print "\n\n<br />\napi: ";
-print_r($api);
+print_r($api);*/
   // get our thumbnail url
   $data['thumbnail']['url'] = $rss['ITEM']['MEDIA:THUMBNAIL'][1]['URL'];
 

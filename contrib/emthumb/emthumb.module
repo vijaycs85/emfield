@@ -103,7 +103,7 @@ function emthumb_emfield_field_extra($op, $node, $field, &$items, $teaser, $page
     case 'submit':
     case 'validate':
       if ($field['multiple']) {
-        print 'multiple: '; print_r($items);
+        print 'multiple: '; //print_r($items);
         foreach ($items as $delta => $item) {
           $items[$delta]['data'] = $list['provider'];
         }
