@@ -5,6 +5,8 @@ define('VIDEO_CCK_YOUTUBE_MAIN_URL', 'http://www.youtube.com/');
 define('VIDEO_CCK_YOUTUBE_API_INFO', 'http://youtube.com/dev');
 define('VIDEO_CCK_YOUTUBE_API_APPLICATION_URL', 'http://www.youtube.com/my_profile_dev');
 define('VIDEO_CCK_YOUTUBE_REST_ENDPOINT', 'http://www.youtube.com/api2_rest');
+define('VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT', '#FFFFFF');
+define('VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT', '#CCCCCC');
 
 /**
  * hook video_cck_PROVIDER_info
@@ -66,24 +68,49 @@ function video_cck_youtube_settings() {
     '#default_value' => variable_get('video_cck_youtube_api_secret', ''),
     '#description' => t('If you have a secret for the YouTube API, enter it here.'),
   );
-  // TODO: use color.module if active for this...
   $form['youtube']['colors'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embedded Video Player Colors'),
-    '#description' => t('Enter two colors to customize the embedded player. Should be in hexidecimal form (RRGGBB)'),
+    '#description' => t('If allowed, these two colors, in hexidecimal form (#RRGGBB), will be used to skin the YouTube player.'),
     '#collapsible' => true,
     '#collapsed' => true,
+  );
+  $form['youtube']['colors']['video_cck_youtube_show_colors'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Override player colors'),
+    '#default_value' => variable_get('video_cck_youtube_show_colors', FALSE),
+  );
+  $form['youtube']['colors']['video_cck_youtube_show_border'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display border around player'),
+    '#default_value' => variable_get('video_cck_youtube_show_border', FALSE),
   );
   $form['youtube']['colors']['video_cck_youtube_colors_color1'] = array(
     '#type' => 'textfield',
     '#title' => t('Color 1'),
-    '#default_value' => variable_get('video_cck_youtube_colors_color1',''),
+    '#default_value' => variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT),
   );
   $form['youtube']['colors']['video_cck_youtube_colors_color2'] = array(
     '#type' => 'textfield',
     '#title' => t('Color 2'),
-    '#default_value' => variable_get('video_cck_youtube_colors_color2',''),
+    '#default_value' => variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT),
   );
+  if (module_exists('colorpicker')) {
+    $form['youtube']['colors']['video_cck_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
+    $form['youtube']['colors']['video_cck_youtube_colors_color1']['#colorpicker'] = 'colorpicker_1';
+    $form['youtube']['colors']['video_cck_youtube_colors_color2']['#type'] = 'colorpicker_textfield';
+    $form['youtube']['colors']['video_cck_youtube_colors_color2']['#colorpicker'] = 'colorpicker_2';
+    $form['youtube']['colors']['colorpicker_1'] = array(
+      '#type' => 'colorpicker',
+      '#title' => t('Color 1 picker'),
+      '#description' => t('Click in this textfield to start picking your color'),
+    );
+    $form['youtube']['colors']['colorpicker_2'] = array(
+      '#type' => 'colorpicker',
+      '#title' => t('Color 2 picker'),
+      '#description' => t('Click in this textfield to start picking your color'),
+    );
+  }
   return $form;
 }
 
@@ -136,6 +163,13 @@ function video_cck_youtube_embedded_link($video_code) {
   return 'http://www.youtube.com/watch?v=' . $video_code;
 }
 
+function video_cck_youtube_convert_color($color = NULL) {
+  if ($color{0} == '#') {
+    return substr($color, 1);
+  }
+  return $color;
+}
+
 /**
  * the embedded flash displaying the youtube video
  */
@@ -145,13 +179,14 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
       $autoplay_value = '&autoplay=1';
     }
     $related = variable_get('video_cck_youtube_show_related_videos', 0);
-    $color1 = variable_get('video_cck_youtube_colors_color1','');
-    $color2 = variable_get('video_cck_youtube_colors_color2','');
-    if ($color1 || $color2) {
+    if (variable_get('video_cck_youtube_show_colors', FALSE)) {
+      $color1 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT));
+      $color2 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT));
       $colors='&color1=0x'.$color1.'&color2=0x'.$color2;
     }
-    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . "\" id=\"VideoPlayback\">
-      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . "\">
+    $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&border=1');
+    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . $border . "\" id=\"VideoPlayback\">
+      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . $border . "\">
       <param name=\"allowScriptAcess\" value=\"sameDomain\">
       <param name=\"quality\" value=\"best\">
       <param name=\"bgcolor\" value=\"#FFFFFF\">
