@@ -127,7 +127,15 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
       $autoplay_value = '&autoplay=1';
     }
     $related = variable_get('video_cck_youtube_show_related_videos', 0);
-    $output .= "<object height=\"$height\" width=\"$width\"><param name=\"movie\" value=\"http://www.youtube.com/v/$embed\"><param name=\"wmode\" value=\"transparent\"><embed src=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . "\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" height=\"$height\" width=\"$width\"></object>";
+    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . "\" id=\"VideoPlayback\">
+      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . "\">
+      <param name=\"allowScriptAcess\" value=\"sameDomain\">
+      <param name=\"quality\" value=\"best\">
+      <param name=\"bgcolor\" value=\"#FFFFFF\">
+      <param name=\"scale\" value=\"noScale\">
+      <param name=\"salign\" value=\"TL\">
+      <param name=\"FlashVars\" value=\"playerMode=embedded\" />
+    </object>\n";
   }
   return $output;
 }
