@@ -17,7 +17,7 @@ define('VIDEO_CCK_DAILYMOTION_MAIN_URL', 'http://www.dailymotion.com/');
 function video_cck_dailymotion_info() {
   $name = t('Dailymotion');
   $features = array(
-    array(t('Autoplay'), t('No'), ''),
+    array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
     array(t('Thumbnails'), t('No'), t('')),
   );
@@ -101,7 +101,7 @@ function theme_video_cck_dailymotion_flash($embed, $width, $height, $autoplay) {
       <param name=\"bgcolor\" value=\"#FFFFFF\">
       <param name=\"scale\" value=\"noScale\">
       <param name=\"salign\" value=\"TL\">
-      <param name=\"FlashVars\" value=\"playerMode=embedded\" />
+      <param name=\"FlashVars\" value=\"playerMode=embedded$autoplay_value\" />
       <param name=\"wmode\" value=\"transparent\" />
     </object>\n";
   }

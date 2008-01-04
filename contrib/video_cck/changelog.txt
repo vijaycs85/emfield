@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-01-04
+dailymotion autoplay support
 added dailymotion support
 #181095:alley youtube thumbnails w/o api or requests
 #177593:anonymous5190 parse new google embed code
