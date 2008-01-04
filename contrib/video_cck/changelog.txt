@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-01-04
+#201855;jhedstrom add color options for youtube player
 #184980 cache youtube thumbnails (cache was accidentally left off while debugging)
 #173780;alexua - fix 'Cannot find server or DNS Error' in ie6 for youtube
 add support for emthumb, so that custom thumbnails may be stored and displayed for videos

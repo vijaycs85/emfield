@@ -66,6 +66,24 @@ function video_cck_youtube_settings() {
     '#default_value' => variable_get('video_cck_youtube_api_secret', ''),
     '#description' => t('If you have a secret for the YouTube API, enter it here.'),
   );
+  // TODO: use color.module if active for this...
+  $form['youtube']['colors'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Embedded Video Player Colors'),
+    '#description' => t('Enter two colors to customize the embedded player. Should be in hexidecimal form (RRGGBB)'),
+    '#collapsible' => true,
+    '#collapsed' => true,
+  );
+  $form['youtube']['colors']['video_cck_youtube_colors_color1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Color 1'),
+    '#default_value' => variable_get('video_cck_youtube_colors_color1',''),
+  );
+  $form['youtube']['colors']['video_cck_youtube_colors_color2'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Color 2'),
+    '#default_value' => variable_get('video_cck_youtube_colors_color2',''),
+  );
   return $form;
 }
 
@@ -127,8 +145,13 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
       $autoplay_value = '&autoplay=1';
     }
     $related = variable_get('video_cck_youtube_show_related_videos', 0);
-    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . "\" id=\"VideoPlayback\">
-      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . "\">
+    $color1 = variable_get('video_cck_youtube_colors_color1','');
+    $color2 = variable_get('video_cck_youtube_colors_color2','');
+    if ($color1 || $color2) {
+      $colors='&color1=0x'.$color1.'&color2=0x'.$color2;
+    }
+    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . "\" id=\"VideoPlayback\">
+      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . "\">
       <param name=\"allowScriptAcess\" value=\"sameDomain\">
       <param name=\"quality\" value=\"best\">
       <param name=\"bgcolor\" value=\"#FFFFFF\">
