@@ -111,7 +111,7 @@ function emthumb_emfield_field_extra($op, $node, $field, &$items, $teaser, $page
       else {
         $emthumb = array_pop($items);
         if (empty($items)) {
-          array_push($items);
+          array_push($items, $emthumb);
         }
         else {
           $items[0]['data']['emthumb'] = $emthumb['emthumb']['emthumb'];
