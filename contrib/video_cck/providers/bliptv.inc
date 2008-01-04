@@ -69,10 +69,10 @@ function video_cck_bliptv_data($field, $item) {
   // some of our data we'll get from the api, like available files
   $rss = video_cck_bliptv_request($item['value'], TRUE, 'rss');
   $api = video_cck_bliptv_request($item['value'], TRUE, 'api');
-// print 'rss: ';
-// print_r($rss);
-// print "\n\n<br />\napi: ";
-// print_r($api);
+print 'rss: ';
+print_r($rss);
+print "\n\n<br />\napi: ";
+print_r($api);
   // get our thumbnail url
   $data['thumbnail']['url'] = $rss['ITEM']['MEDIA:THUMBNAIL'][1]['URL'];
 
@@ -104,10 +104,12 @@ function video_cck_bliptv_data($field, $item) {
       $data[$video_type] = $video_info;
 
       // however, we store the whole thing under role, so the information is still saved
-      if ($api['MEDIA']['ROLE'][$x]) {
-        $data[$video_type]['role'] = $api['MEDIA']['ROLE'][$x];
-        $data[$api['MEDIA']['ROLE'][$x]] = $video_info;
-        $data[$api['MEDIA']['ROLE'][$x]]['role'] = $api['MEDIA']['ROLE'][$x];
+      // but our arrays may be out of synch...
+      $y = $x + 1;
+      if ($api['MEDIA']['ROLE'][$y]) {
+        $data[$video_type]['role'] = $api['MEDIA']['ROLE'][$y];
+        $data[$api['MEDIA']['ROLE'][$y]] = $video_info;
+        $data[$api['MEDIA']['ROLE'][$y]]['role'] = $api['MEDIA']['ROLE'][$y];
       }
     }
   }

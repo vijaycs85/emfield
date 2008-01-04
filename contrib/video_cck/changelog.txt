@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-01-04
+add support for emthumb, so that custom thumbnails may be stored and displayed for videos
+
 2007-12-07
 change url for brightcove to .tv
 

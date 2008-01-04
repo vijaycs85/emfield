@@ -291,7 +291,7 @@ function emimport_types_allowing_import($cached = TRUE, $rebuild_menu = TRUE) {
 }
 
 
-function emimport_emfield_widget_settings_extra($op, $widget, $module) {
+function emimport_emfield_widget_settings_extra($op, $widget) {
   switch ($op) {
     case 'form':
       emimport_types_allowing_import(FALSE);
@@ -373,7 +373,7 @@ function emimport_import($type = NULL, $form_values = NULL) {
   $second_page = isset($form_values);
 
   $url = $second_page ? $form_values['url'] : '';
-  
+
   $form['import'] = array(
     '#type' => 'fieldset',
     '#title' => t('Set import'),
@@ -439,7 +439,7 @@ function emimport_import($type = NULL, $form_values = NULL) {
 
 /**
  *  This will import the selected set items as new nodes.
- * 
+ *
  * TODO: create a cron loop to handle overflow when a lot of nodes are selected, so we don't time out.
  */
 function emimport_import_submit($form_id, $form_values) {
@@ -466,7 +466,7 @@ function emimport_import_submit($form_id, $form_values) {
             '#original_link' => $form_values[$field_name . '_link_' . $item['#code']],
             '#code' => $item['#code'],
             '#tags' => $form_values[$field_name . '_tags_' . $item['#code']],
-            
+
           );
           emimport_save_info_for_processing($info);
         }
@@ -500,18 +500,18 @@ function eimport_process_info($info) {
 
 /**
  *  this will create a new node based on the values given in $item and prepare it for saving.
- * 
+ *
  * @param $form_values
  * this is returned when submitting the form
  * @param $field_name
  * this is the field we're using for title & body
  */
 function emimport_node($info) {
-//$form_values, $field_name, $item, $codes, $tags_vid, $type) {  
+//$form_values, $field_name, $item, $codes, $tags_vid, $type) {
   $node = array();
   $node = (object)$node;
   $node->type = $info['#type'];
-  
+
   node_object_prepare($node);
 
   $node_options = variable_get('node_options_'. $node->type, array('status', 'promote'));
@@ -526,7 +526,7 @@ function emimport_node($info) {
   $node->revision = in_array('revision', $node_options);
 
   $node->name = $info['#account']->name;
-  
+
   $node->title = $info['#title'];
   $node->body = $info['#body'];
   $node->{$info['#field_name']}[0]['embed'] = $info['#original_link'];
@@ -547,7 +547,7 @@ function emimport_import_validate($form_id, $form_values) {
       $value = $form_values[$field['field_name']];
       $providers = $parser['#providers'];
       $flag = FALSE;
-  
+
       foreach ($providers as $provider => $info) {
         $limit = _emfield_display_limit($module, $type, $field, $provider);
         $items = emfield_include_invoke($module, $provider, 'import', $value, $limit);

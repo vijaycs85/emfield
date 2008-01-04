@@ -270,6 +270,14 @@ function video_cck_emfield_rss($node, $items = array(), $teaser = NULL) {
 }
 
 function theme_video_cck_video_embed($field, $item, $formatter, $node) {
+  /*
+    Note you can use this in node.tpl.php, substituting the proper field type:
+    $field_type = 'field_video';
+    $system_types = _content_type_info();
+    $field = $system_types['fields'][$field_type];
+    $field['widget'] = $system_types['content types'][$node->type]['fields'][$field_type]['widget'];
+    print theme('video_cck_video_embed', $field, $node->{$field_type}[0], 'video_cck_embed', $node);
+   */
   if ($item['value'] && $item['provider']) {
     $output = drupal_get_form('video_cck_embed_form', $field, $item, $formatter, $node);
   }
@@ -278,9 +286,11 @@ function theme_video_cck_video_embed($field, $item, $formatter, $node) {
 
 function theme_video_cck_video_thumbnail($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
+    // if we have emthumb installed, then give it a chance to override our thumbnail
+    $thumbnail_url = module_invoke('emthumb', 'thumbnail_url', $item);
     $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
     $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
-    $thumbnail_url = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height);
+    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height);
     if ($thumbnail_url) {
       $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
     }

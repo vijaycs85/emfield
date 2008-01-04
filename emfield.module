@@ -96,84 +96,65 @@ function emfield_field_columns() {
     'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
     'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => FALSE),
   );
+  foreach (module_implements('emfield_field_columns_extra') as $module) {
+    $extra = module_invoke($module, 'emfield_field_columns_extra');
+    if (is_array($extra)) {print_r($extra);
+      $columns = array_merge($columns, $extra);
+    }
+  }
   return $columns;
 }
 
 /** Implementation of hook_emfield_field **/
 function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
   switch ($op) {
-
-  // TODO: nothing to validate at the moment. we need to have different api's have a chance to validate
-  case 'validate':
-    if ($field['multiple']) {
+    // TODO: nothing to validate at the moment. we need to have different provider api's have a chance to validate
+    case 'validate':
       foreach ($items as $delta => $item) {
-        $error_field = $field['field_name'].']['.$delta.'][embed';
-
+        $error_field = $field['multiple'] ? $field['field_name'].']['.$delta.'][embed' : $field['field_name'];
         _emfield_field_validate_id($field, $item, $error_field, $module);
       }
-    }
-    else {
-      $error_field = $field['field_name'];
+      break;
 
-      _emfield_field_validate_id($field, $items[0], $error_field, $module);
-    }
-    break;
-
-  case 'submit':
-//     print 'upload: ';
-//     print_r($_PUT['video_cck_aaa_local_upload']);
-//
-//     print_r($items);
-    if ($field['multiple']) {
+    case 'submit':
       foreach ($items as $delta => $item) {
         $list = _emfield_field_submit_id($field, $item, $module);
         $items[$delta]['provider'] = $list['provider'];
         $items[$delta]['value'] = $list['value'];
         $items[$delta]['data'] = $list['data'];
       }
-    }
-    else {
-      $list = _emfield_field_submit_id($field, $items[0], $module);
-      $items[0]['provider'] = $list['provider'];
-      $items[0]['value'] = $list['value'];
-      $items[0]['data'] = $list['data'];
-    }
-    break;
+      break;
 
-  case 'insert':
-  case 'update':
-    // we need to manually serialize the 'data' array
-    if ($field['multiple']) {
-      foreach ($items as $delta => $item) {
-        $items[$delta]['data'] = serialize($items[$delta]['data']);
-      }
-    }
-    else {
-      $items[0]['data'] = serialize($items[0]['data']);
-    }
-    break;
-
-  case 'load':
-    // We need to unserialize the 'data' column manually
-    $field_name = $field['field_name'];
-
-    if ($field['multiple']) {
+    case 'load':
+      // We need to unserialize the 'data' column manually
+      $field_name = $field['field_name'];
       foreach ($items as $delta => $item) {
         $data = (array)unserialize($items[$delta]['data']);
         $items[$delta]['data'] = $data;
         $node->{$field_name}[$delta]['data'] = $data;
       }
-    }
-    else {
-      $data = (array)unserialize($items[0]['data']);
-      $items[0]['data'] = $data;
-      $node->{$field_name}[0]['data'] = $data;
-    }
-    $return = array();
-    $return[$field_name] = $items;
-    return $return;
-    break;
+      $return = array();
+      $return[$field_name] = $items;
+      break;
+    case 'delete':
+      break;
   }
+  // allow modules (such as emthumb) to alter our data.
+  foreach (module_implements('emfield_field_extra') as $module) {
+    $args = array($op, &$node, $field, &$items, $teaser, $page, $module);
+    $ret = call_user_func_array($module . '_emfield_field_extra', $args);
+    if (is_array($return) && is_array($ret)) {
+      $return = array_merge($return, $ret);
+    }
+  }
+//  drupal_set_message($op .' node field: <pre>'. print_r($items, true) .'</pre>');
+  if (in_array($op, array('insert', 'update'))) {
+    // we need to manually serialize the 'data' array
+    foreach ($items as $delta => $item) {
+      $items[$delta]['data'] = serialize($items[$delta]['data']);
+    }
+  }
+  return $return;
 }
 
 /**
@@ -352,7 +333,7 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
       );
 
       foreach (module_implements('emfield_widget_settings_extra') as $module) {
-        $form[$module] = module_invoke($module, 'emfield_widget_settings_extra', 'form', $widget, $module);
+        $form[$module] = module_invoke($module, 'emfield_widget_settings_extra', 'form', $widget);
       }
 
       return $form;
@@ -360,7 +341,7 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
     case 'save':
       $columns = array('providers'); //, 'helper_module', );
       foreach (module_implements('emfield_widget_settings_extra') as $module) {
-        $columns = array_merge($columns, module_invoke($module, 'emfield_widget_settings_extra', 'save', $widget, $module));
+        $columns = array_merge($columns, module_invoke($module, 'emfield_widget_settings_extra', 'save', $widget));
       }
       return $columns;
   }
@@ -369,6 +350,12 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
 function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
 //  $module = $field['widget']['helper_module'];
   switch ($op) {
+    case 'prepare form values':
+      foreach (module_implements('emfield_widget_extra') as $module) {
+        $args = array($op, &$node, $field, &$node_field, $module);
+        call_user_func_array($module . '_emfield_widget_extra', $args);
+      }
+      break;
     case 'form':
       $form = array();
 
@@ -417,10 +404,13 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
             );
             if ($data['value']) {
               $info = emfield_include_invoke($module, $data['provider'], 'info');
-              $form[$field['field_name']][$delta]['markup_value'] = array(
+              $form[$field['field_name']][$delta]['value_markup'] = array(
                 '#type' => 'item',
                 '#value' => t('(@provider ID: !value)', array('@provider' => $info['name'], '!value' => l($data['value'], emfield_include_invoke($module, $info['provider'], 'embedded_link', $data['value'], $data['data']), array('target' => '_blank')))),
               );
+            }
+            foreach (module_implements('emfield_widget_extra') as $module) {
+              $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $data);
             }
             $delta++;
           }
@@ -443,6 +433,9 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
             '#type' => 'value',
             '#title' => '',
           );
+          foreach (module_implements('emfield_widget_extra') as $module) {
+            $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $node, $field, $data);
+          }
         }
       }
       else {
@@ -471,6 +464,9 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
               '#type' => 'item',
               '#value' => t('(@provider ID: !value)', array('@provider' => $info['provider'], '!value' => l($value, emfield_include_invoke($module, $info['provider'], 'embedded_link', $value, $node_field[0]['data']), array('target' => '_blank')))),
             );
+          }
+          foreach (module_implements('emfield_widget_extra') as $module) {
+            $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $node, $field, $node_field[0]);
           }
         }
       }

@@ -1,0 +1,4 @@
+/* $Id$ */
+
+2008-01-04
+created emthumb module
