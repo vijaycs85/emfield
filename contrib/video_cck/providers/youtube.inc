@@ -193,6 +193,7 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
       <param name=\"scale\" value=\"noScale\">
       <param name=\"salign\" value=\"TL\">
       <param name=\"FlashVars\" value=\"playerMode=embedded\" />
+      <param name=\"wmode\" value=\"transparent\" />
     </object>\n";
   }
   return $output;

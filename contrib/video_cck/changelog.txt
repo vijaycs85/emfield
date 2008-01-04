@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-01-04
+add <param name=\"wmode\" value=\"transparent\" /> to youtube & google
 integrate with colorpicker module; add border options for youtube
 #201855;jhedstrom add color options for youtube player
 #184980 cache youtube thumbnails (cache was accidentally left off while debugging)

@@ -71,7 +71,7 @@ function theme_video_cck_google_flash($embed, $width, $height, $autoplay) {
     <param name="bgcolor" value="#ffffff" />
     <param name="allowScriptAccess" value="sameDomain" />
     <param name="scale" value="noScale" />
-    <param name="wmode" value="window" />
+    <param name="wmode" value="transparent" />
     <param name="salign" value="TL" />
     <param name="FlashVars" value="playerMode=embedded" />
     <p>'. t('Your browser is not able to display this multimedia content.') .'</p>
