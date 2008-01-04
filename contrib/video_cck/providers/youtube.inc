@@ -25,7 +25,8 @@ function video_cck_youtube_info() {
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
     array(t('Show related videos'), t('Yes'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
-    array(t('Thumbnails'), t('Yes'), t('May not currently resize thumbnails. Must have an API key for thumbnails at the moment, although research is underway to determine an alternative to this. Set your API key above.')),
+    array(t('Thumbnails'), t('Yes'), t('')),
+    array(t('Custom player colors'), t('Yes'), t('You may customize the player\'s skin by choosing your own colors, and/or border in that setting field set.')),
   );
   return array(
     'provider' => 'youtube',
@@ -52,7 +53,7 @@ function video_cck_youtube_settings() {
   $form['youtube']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('YouTube API'),
-    '#description' => t('If you wish to be able to display YouTube thumbnails automatically, you will first need to apply for an API Developer Key from the !youtube. Note that you do not need this key to display YouTube videos themselves.', array('!youtube' => l('YouTube Developer Profile page', VIDEO_CCK_YOUTUBE_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the !youtube. Note that you do not need this key to display YouTube videos or their thumbnails.', array('!youtube' => l('YouTube Developer Profile page', VIDEO_CCK_YOUTUBE_API_APPLICATION_URL, array('target' => '_blank')))),
     '#collapsible' => true,
     '#collapsed' => true,
   );
@@ -110,6 +111,8 @@ function video_cck_youtube_settings() {
       '#title' => t('Color 2 picker'),
       '#description' => t('Click in this textfield to start picking your color'),
     );
+  } else {
+    $form['youtube']['colors']['#description'] .= t(' The !colorpicker, if active, gives an easy way to select these colors.', array('!colorpicker' => l(t('Colorpicker module'), 'http://drupal.org/project/colorpicker')));
   }
   return $form;
 }
@@ -212,8 +215,13 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
  */
 function video_cck_youtube_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $youtube_id = $item['value'];
-  $request = video_cck_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
-  $tn = $request['THUMBNAIL_URL'][0];
+//   $request = video_cck_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
+//   $tn = $request['THUMBNAIL_URL'][0];
+  if ($width > 130 || $height > 97) {
+    $tn = 'http://img.youtube.com/vi/'.$youtube_id.'/0.jpg';
+  } else {
+    $tn = 'http://img.youtube.com/vi/'.$youtube_id.'/1.jpg';
+  }
   return $tn;
 }
 
