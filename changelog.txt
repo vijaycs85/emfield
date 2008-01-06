@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-01-06
+#201734/skywalker2208 show custom help text on field submission
+
 2008-01-04
 remove debugging statements
 clean up multiple fields on field op hooks

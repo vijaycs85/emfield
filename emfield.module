@@ -376,7 +376,12 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
         }
       }
       $textfield_title = t($field['widget']['label']);
-      $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
+      if(!(empty($field['widget']['description']))){
+        $textfield_description = $field['widget']['description'];
+      }
+      else {
+        $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
+      }
       $textfield_description .= '<br />' . t('The following services are provided: !urls', array('!urls' => implode(', ', $urls)));
 
       if ($field['multiple']) {
