@@ -215,12 +215,17 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
  */
 function video_cck_youtube_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $youtube_id = $item['value'];
+  // old code to grab thumbnail via api
 //   $request = video_cck_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
 //   $tn = $request['THUMBNAIL_URL'][0];
+
+  // if we have a large thumbnail size, then get the larger version available.
   if ($width > 130 || $height > 97) {
-    $tn = 'http://img.youtube.com/vi/'.$youtube_id.'/0.jpg';
+    $tn = "http://img.youtube.com/vi/$youtube_id/0.jpg";
   } else {
-    $tn = 'http://img.youtube.com/vi/'.$youtube_id.'/1.jpg';
+    // youtube offers 3 thumbnails. select one randomly.
+    $rand = rand(0, 2) + 1;
+    $tn = "http://img.youtube.com/vi/$youtube_id/$rand.jpg";
   }
   return $tn;
 }
