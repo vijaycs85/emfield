@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-01-06
+#200435/jhedstrom - default thumbnail when video thumbnail not available
+
 2008-01-04
 remove bliptv debugging printout on node submission
 dailymotion autoplay support

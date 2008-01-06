@@ -197,6 +197,15 @@ function video_cck_widget_settings($op, $widget) {
           '#required' => true,
           '#description' => t('The height of the thumbnail. It defaults to @height.', array('@height' => $height)),
         );
+        if (!module_exists('emthumb')) {
+          $tn_desc = t(' You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis.');
+        }
+        $form['tn']['thumbnail_default_path'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Default thumbnail path'),
+          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path',''),
+          '#description' => t('Path to a local default thumbnail image for cases when a thumbnail can\'t be found. For example, you might have a default thumbnail at %files.', array('%files' => 'files/thumbnail.png')) . $tn_desc,
+        );
       }
       return $form;
 
@@ -225,7 +234,7 @@ function video_cck_widget_settings($op, $widget) {
 
     case 'save':
       if ($widget['widget']['type'] == 'video_cck_textfields') {
-        $columns = array('video_width', 'video_height', 'video_autoplay', 'preview_width', 'preview_height', 'preview_autoplay', 'thumbnail_width', 'thumbnail_height', );
+        $columns = array('video_width', 'video_height', 'video_autoplay', 'preview_width', 'preview_height', 'preview_autoplay', 'thumbnail_width', 'thumbnail_height', 'thumbnail_default_path', );
         $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'video_cck'));
         return $columns;
       }
@@ -288,14 +297,25 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     // if we have emthumb installed, then give it a chance to override our thumbnail
     $thumbnail_url = module_invoke('emthumb', 'thumbnail_url', $item);
-    $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
-    $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
+
+    // if we don't have a custom thumbnail, then see if the provider gives us one
     $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height);
+
+    // if we still don't have a thumbnail, then apply a default thumbnail, if it exists
+    if (!$thumbnail_url) {
+      $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path', NULL);
+      if ($default_thumbnail_url) {
+        $thumbnail_url = base_path() . $default_thumbnail_url;
+      }
+    }
     if ($thumbnail_url) {
+      $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
+      $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
       $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
     }
     else {
-      $output .= l(t('See Video'), 'node/' . $node->nid);
+      // if all else fails, then just print a 'see video' link.
+      $output = l(t('See Video'), 'node/' . $node->nid);
     }
   }
   return $output;
