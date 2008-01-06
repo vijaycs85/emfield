@@ -351,6 +351,12 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
 //  $module = $field['widget']['helper_module'];
   switch ($op) {
     case 'prepare form values':
+      // Don't save empty fields except the first value
+      foreach ($node_field as $delta => $item) {
+        if ($item['value'] == '' && $delta > 0) {
+          unset($node_field[$delta]);
+        }
+      }//print 'nodefield:' ; print_r($node_field);
       foreach (module_implements('emfield_widget_extra') as $module) {
         $args = array($op, &$node, $field, &$node_field, $module);
         call_user_func_array($module . '_emfield_widget_extra', $args);
