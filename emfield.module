@@ -421,7 +421,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
               );
             }
             foreach (module_implements('emfield_widget_extra') as $module) {
-              $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $data);
+              $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $node, $field, $data);
             }
             $delta++;
           }

@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-01-07
+#207168/vnd Missing arguments for emthumb_emfield_widget_extra()
+
 2008-01-06
 Don't save empty fields except the first value
 #201734/skywalker2208 show custom help text on field submission
