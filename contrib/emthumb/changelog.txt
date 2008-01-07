@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-01-07
+#207165/vnd remove debug code
 #207085/vnd Fatal error: Cannot access empty property
 
 2008-01-04
