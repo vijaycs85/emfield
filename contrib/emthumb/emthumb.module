@@ -60,7 +60,7 @@ function emthumb_file_insert($node, &$file, $field) {
   $fieldname = $field['field_name'];
   $filepath = file_create_path($field['widget']['emthumb_image_path']) . '/' . $file['filename'];
 
-  if (imagefield_check_directory($field['widget']['emthumb_image_path']) && $file = file_save_upload((object)$file, $filepath)) {
+  if (emthumb_check_directory($field['widget']['emthumb_image_path']) && $file = file_save_upload((object)$file, $filepath)) {
     $file = (array)$file;
     $file['fid'] = db_next_id('{files}_fid');
     db_query("INSERT into {files} (fid, nid, filename, filepath, filemime, filesize)
@@ -288,7 +288,7 @@ function emthumb_emfield_widget_extra($op, &$node, $field, &$items) {
 
 function _emthumb_widget_form($node, $field, $items) {
   $fieldname = $field['field_name'];
-  drupal_add_css(drupal_get_path('module', 'imagefield') .'/imagefield.css');
+  drupal_add_css(drupal_get_path('module', 'emthumb') .'/emthumb.css');
 
 //   $form = array();
   $form = array(
