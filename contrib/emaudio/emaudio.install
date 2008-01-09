@@ -1,0 +1,15 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install().
+ */
+function emaudio_install() {
+}
+
+function _emaudio_update_reset_cache() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {cache_content}");
+  $ret[] = update_sql("DELETE FROM {cache_views}");
+  return $ret;
+}
