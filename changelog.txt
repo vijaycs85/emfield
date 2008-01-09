@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-01-09
+branch to drupal 6
+
 2008-01-07
 #207168/vnd Missing arguments for emthumb_emfield_widget_extra()
 
