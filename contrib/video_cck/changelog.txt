@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-07
+support for goleft.tv
+
 2008-01-06
 grab random youtube thumbnail
 #200435/jhedstrom - default thumbnail when video thumbnail not available
