@@ -1,4 +1,7 @@
 /* $Id$ */
+2008-02-09
+#216553- patch by dalin to increase max length to $form['emthumb']['emthumb_description'].
+#213447- patch by jhedstrom to change paths in emthumb_thumbnail_url() from relative to absolute.
 
 2008-01-08
 remove references to imagefield

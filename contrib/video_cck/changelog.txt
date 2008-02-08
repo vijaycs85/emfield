@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-09
+#211529 - MrKatz fixed the revver url
+
 2008-02-07
 support for goleft.tv
 

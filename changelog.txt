@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-09
+#214011 - patch by dgtlmoon to fix variable_get syntax
+
 2008-01-07
 #207168/vnd Missing arguments for emthumb_emfield_widget_extra()
 
