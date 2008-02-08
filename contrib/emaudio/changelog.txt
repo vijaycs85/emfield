@@ -2,3 +2,5 @@
 
 2008-01-06
 began development for emaudio
+2008-01-30
+Added Odeo and Podcast Alley Support
