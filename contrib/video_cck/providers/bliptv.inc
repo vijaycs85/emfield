@@ -247,7 +247,16 @@ function video_cck_bliptv_rss($item, $teaser = NULL) {
 function theme_video_cck_bliptv_flash($embed, $width, $height, $field, $item, $autoplay, $flv, $thumbnail) {
   if ($embed) {
     $autoplay = $autoplay ? 'autoStart=true' : 'autoStart=false';
-    $output .= '<embed wmode="transparent" src="http://blip.tv/scripts/flash/blipplayer.swf?' . $autoplay . '&file=' . $flv . '%3Fsource%3D3" quality="high" width="' .$width . '" height="' . $height . '" name="movie" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+    $output .= '<object type="application/x-shockwave-flash" height="' . $height . '" width="' .$width . '" data="http://blip.tv/scripts/flash/blipplayer.swf?' . $autoplay . '&amp;file=' . $flv . '%3Fsource%3D3"  >
+      <param name="movie" value="http://blip.tv/scripts/flash/blipplayer.swf?' . $autoplay . '&amp;file=' . $flv . '%3Fsource%3D3"  />
+      <param name="allowScriptAcess" value="always" />
+      <param name="allowFullScreen" value="true" />
+      <param name="quality" value="high" />
+      <param name="bgcolor" value="#FFFFFF" />
+      <param name="scale" value="noScale" />
+      <param name="salign" value="TL" />
+      <param name="wmode" value="transparent" />
+    </object>';
   }
   return $output;
 }
