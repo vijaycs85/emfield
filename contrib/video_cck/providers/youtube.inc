@@ -188,7 +188,7 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
       $colors='&color1=0x'.$color1.'&color2=0x'.$color2;
     }
     $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&border=1');
-    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related" . $autoplay_value . $colors . $border . "\" id=\"VideoPlayback\" />
+    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related" . $autoplay_value . $colors . $border . "\" id=\"VideoPlayback\" >
       <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&amp;rel=$related" . $autoplay_value . $colors . $border . "\" />
       <param name=\"allowScriptAcess\" value=\"sameDomain\"/>
       <param name=\"quality\" value=\"best\"/>
