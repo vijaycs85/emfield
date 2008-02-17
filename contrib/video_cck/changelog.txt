@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-02-17
+removed goleft support -- no user contributed videos, and no thumbnails.
 add provider views handlers
 
 2008-02-16
