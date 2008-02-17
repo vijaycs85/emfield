@@ -44,9 +44,8 @@ function video_cck_update_2() {
 }
 
 function _video_cck_update_reset_cache() {
-  $ret = array();
+  $ret = _video_cck_update_reset_cache_views();
   $ret[] = update_sql("DELETE FROM {cache_content}");
-  $ret[] = update_sql("DELETE FROM {cache_views}");
   return $ret;
 }
 
@@ -100,5 +99,18 @@ function video_cck_update_4() {
 function video_cck_update_5() {
   $ret = _video_cck_update_reset_cache();
   $ret[] = update_sql("DELETE FROM {cache}");
+  return $ret;
+}
+
+function video_cck_update_6() {
+  $ret = _video_cck_update_reset_cache_views();
+  return $ret;
+}
+
+// I'd like this to be conditional, so it only runs if they don't have views installed.
+// however, module_exists doesn't actually work in the update scripts.
+function _video_cck_update_reset_cache_views() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {cache_views}");
   return $ret;
 }

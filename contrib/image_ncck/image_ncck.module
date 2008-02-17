@@ -46,7 +46,46 @@ function image_ncck_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
       return module_invoke('emfield', 'field_columns');
+    case 'filters':
+      return array(
+        'not null' => array(
+          'name' => t('Has Embedded Image'),
+          'operator' => array('=' => t('Has Embedded Image')),
+          'list' => 'views_handler_operator_yesno',
+          'list-type' => 'select',
+          'handler' => 'emfield_views_handler_filter_is_not_null',
+          'help' => t('Selecting yes will choose only nodes with this field that successfully provide an embedded image.'),
+        ),
+        'provider' => array(
+          'name' => t('Image Provider'),
+          'list' => 'emfield_views_handler_filter_provider_list',
+          'list-type' => 'list',
+          'operator' => 'views_handler_operator_or',
+          'value-type' => 'array',
+          'handler' => 'emfield_views_handler_filter_provider',
+          'help' => t('Include or exclude images from the selected provider.'),
+        ),
+      );
+      break;
+    case 'arguments':
+      return array(
+        'content: ' . $field['field_name'] => array(
+          'name' => t('Embedded Image: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
+          'handler' => 'content_views_argument_handler',
+          'help' => t('This is the default argument handler provided by CCK. It uses the original embed code or URL pasted into the field.'),
+        ),
+        'provider: ' . $field['field_name'] => array(
+          'name' => t('Embedded Image Provider: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
+          'handler' => 'image_ncck_handler_arg_provider',
+          'help' => t('The Embedded Image Provider argument allows users to filter a view by specifying the image provider.'),
+        ),
+      );
+      break;
   }
+}
+
+function image_ncck_handler_arg_provider($op, &$query, $argtype, $arg = '') {
+  return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'image_ncck');
 }
 
 /** Implementation of hook_field **/
