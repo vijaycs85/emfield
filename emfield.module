@@ -166,7 +166,7 @@ function emfield_allowed_providers($field, $module) {
   $providers = array();
   $allow_all = TRUE;
   foreach ($allowed_providers as $test) {
-    if (!variable_get('emfield_' . $module . '_allow_' . $test->name, TRUE)) {
+    if (!variable_get('emfield_allow_' . $module . '_' . $test->name, TRUE)) {
       unset($allowed_providers[$test->name]);
     }
     else {
@@ -749,5 +749,105 @@ function emfield_include_invoke() {
   $function = $module . '_' . $provider . '_' . $hook;
   emfield_system_list($module, $provider);
   return emfield_include_hook($module, $provider, $hook) ? call_user_func_array($function, $args) : NULL;
+}
+
+/**
+ * Custom filter for provider NOT NULL
+ */
+function emfield_views_handler_filter_is_not_null($op, $filter, $filterinfo, &$query) {
+  if ($op == 'handler') {
+    $query->ensure_table($filterinfo['table']);
+    if ($filter['value']) {
+      $qs = "%s.%s <> '' AND %s.%s IS NOT NULL";
+    }
+    else {
+      $qs = "%s.%s = '' OR %s.%s IS NULL";
+    }
+    $query->add_where($qs, $filterinfo['table'], $filterinfo['content_db_info']['columns']['provider']['column'], $filterinfo['table'], $filterinfo['content_db_info']['columns']['provider']['column']);
+  }
+}
+
+/**
+ * Create a list of providers.
+ */
+function emfield_views_handler_filter_provider_list($op) {
+  $providers = array();
+  foreach (emfield_system_list('video_cck') as $provider => $info) {
+    $providers[$provider] = $info->name;
+  }
+  return $providers;
+}
+
+/**
+ *  Views handler for the provider list filter.
+ */
+function emfield_views_handler_filter_provider($op, $filter, $filterinfo, &$query) {
+  if ($op == 'handler') {
+    $query->ensure_table($filterinfo['table']);
+    if ($filter['operator'] == 'OR') {
+      foreach ($filter['value'] as $provider) {
+        $items[] = "%s.%s = '$provider'";
+        $where[] = $filterinfo['table'];
+        $where[] = $filterinfo['content_db_info']['columns']['provider']['column'];
+      }
+      $qs = implode(' OR ', $items);
+    }
+    else {
+      foreach ($filter['value'] as $provider) {
+        $items[] = "%s.%s <> '$provider'";
+        $where[] = $filterinfo['table'];
+        $where[] = $filterinfo['content_db_info']['columns']['provider']['column'];
+      }
+      $qs = implode(' AND ', $items);
+    }
+    $query->add_where($qs, $where);
+  }
+}
+
+/**
+ * Handle the provider argument. This is called from a wrapper that includes the module.
+ */
+function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $module = '') {
+  if ($op == 'filter') {
+    $field_name = substr($argtype['type'], 10);
+  }
+  else {
+    $field_name = substr($argtype, 10);
+  }
+
+  $field = content_fields($field_name);
+  $db_info = content_database_info($field);
+  $main_column = $db_info['columns']['provider'];
+
+  // The table name used here is the Views alias for the table, not the actual
+  // table name.
+  $table = 'node_data_'. $field['field_name'];
+
+  switch($op) {
+    case 'summary':
+      $query->ensure_table($table);
+      $query->add_field($main_column['column'], $table);
+      $query->add_groupby($table .'.'. $main_column['column']);
+      return array('field' => $table .'.'. $main_column['column']);
+    case 'sort':
+      $query->ensure_table($table);
+      $query->add_orderby($table, $main_column['column'], $argtype);
+      break;
+    case 'filter':
+      $query->ensure_table($table);
+      $where = db_escape_string($arg);
+      $query->add_where($table . '.' . $main_column['column'] . " = '%s'", $where);
+      break;
+    case 'link':
+      $provider = emfield_system_list($module,  $query->$main_column['column']);
+      $info = emfield_include_invoke($module, $provider[$query]->name, 'info');
+      $title = $info['name'];
+      return l($title, $arg .'/'. $query->$main_column['column']);
+    case 'title':
+      $provider = emfield_system_list($module,  $query);
+      $info = emfield_include_invoke($module, $provider[$query]->name, 'info');
+      $title = $info['name'];
+      return $title ? $title : check_plain($query);
+  }
 }
 

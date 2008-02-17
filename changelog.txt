@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-17
+add views handlers for use by contrib modules
+
 2008-02-09
 #214011 - patch by dgtlmoon to fix variable_get syntax
 
