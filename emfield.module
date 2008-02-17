@@ -402,7 +402,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
               '#description' => $textfield_description,
               '#default_value' => $data[$textfield],
               '#required' => ($delta == 0) ? $field['required'] : FALSE,
-              '#maxlength' => 1024,
+              '#maxlength' => 2048,
             );
             if (!empty($additional_form_elements)) {
               foreach ($additional_form_elements as $key => $element) {
@@ -433,7 +433,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
             '#description' => $textfield_description,
             '#default_value' => '',
             '#required' => ($delta == 0) ? $field['required'] : FALSE,
-            '#maxlength' => 1024,
+            '#maxlength' => 2048,
           );
           if (!empty($additional_form_elements)) {
             foreach ($additional_form_elements as $key => $element) {
@@ -456,7 +456,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
           '#description' => $textfield_description,
           '#default_value' => isset($node_field[0][$textfield]) ? $node_field[0][$textfield] : '',
           '#required' => $field['required'],
-          '#maxlength' => 1024,
+          '#maxlength' => 2048,
         );
         if ($textfield == 'embed') {
           $value = isset($node_field[0]['value']) ? $node_field[0]['value'] : '';
