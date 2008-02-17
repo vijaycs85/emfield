@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-16
+#178299/dalin - modified patch to allow filter by video present
+
 2008-02-09
 #211529 - MrKatz fixed the revver url
 

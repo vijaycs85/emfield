@@ -53,6 +53,19 @@ function video_cck_field_settings($op, $field) {
           break;
       }
       return $columns;
+      break;
+    case 'filters':
+      return array(
+        'not null' => array(
+          'operator' => array('=' => t('Has Video')),
+          'list' => 'views_handler_operator_yesno',
+          'list-type' => 'select',
+          'handler' => 'video_cck_views_handler_filter_is_not_null',
+          'help' => t('Selecting yes will choose only nodes with this field that successfully provide an embedded video.'),
+        ),
+      );
+      break;
+
   }
 }
 
@@ -345,4 +358,21 @@ function theme_video_cck_video_preview($field, $item, $formatter, $node) {
     $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
   }
   return $output;
+}
+
+/**
+ * Custom filter for video_cck NOT NULL
+ */
+function video_cck_views_handler_filter_is_not_null($op, $filter, $filterinfo, &$query) {
+  if ($op == 'handler') {
+    $query->ensure_table($filterinfo['table']);
+    if ($filter['value']) {
+      $qs = "%s.%s <> '' AND %s.%s IS NOT NULL";
+    }
+    else {
+      $qs = "%s.%s = '' OR %s.%s IS NULL";
+    }
+    $query->add_where($qs, $filterinfo['table'], $filterinfo['content_db_info']['columns']['provider']['column'], $filterinfo['table'], $filterinfo['content_db_info']['columns']['provider']['column']);
+  }
+
 }
