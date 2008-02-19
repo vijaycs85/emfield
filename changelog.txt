@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-18
+#212575 Display warning when no modules are enabled
+
 2008-02-17
 #197807 change maxlength of embed field to 2048
 add views handlers for use by contrib modules
