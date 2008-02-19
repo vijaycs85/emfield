@@ -204,20 +204,21 @@ function emfield_implement_types($cached = TRUE) {
 
       // the array that will store type/field information for provider import
       $types = array();
+      $modules = array();
 
       foreach (module_implements('emfield_info', TRUE) as $module) {
-        // settings per content type for the module
-        foreach ($content_types as $content_type => $type) {
+        $modules[$module] = $module;
+      }
 
-          $types[$module] = array();
-          // determine which content types implement this module
-          foreach ($type['fields'] as $field_type => $field) {
+      // settings per content type for the module
+      foreach ($content_types as $content_type => $type) {
+        // determine which content types implement this module
+        foreach ($type['fields'] as $field_type => $field) {
 
-            // if this field type is defined by this module, then include it here
-            if ($field_types[$field['type']]['module'] == $module) {
-              // settings per content type per module
-              $types[$module][$content_type][$field_type] = $field;
-            }
+          // if this field type is defined by this module, then include it here
+          if ($module = $modules[$field_types[$field['type']]['module']]) {
+            // settings per content type per module
+            $types[$module][$content_type][$field_type] = $field;
           }
         }
       }

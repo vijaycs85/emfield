@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-19
+fix loop when determining fields implementing contributed emfield modules
+
 2008-02-18
 #212575 Display warning when no modules are enabled
 
