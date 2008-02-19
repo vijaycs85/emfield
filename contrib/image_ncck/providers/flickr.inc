@@ -199,7 +199,7 @@ function image_ncck_flickr_embedded_link($code, $data = array()) {
  *  @return
  *    the url directly to the image to display
  */
-function image_ncck_flickr_image_url($code, $width, $height, $formatter, $field, $item, $node) {
+function image_ncck_flickr_image_url($code, $width, $height, $formatter = NULL, $field = NULL, $item = NULL, $node = NULL) {
   if ($code) {
     $photo = image_ncck_flickr_request('flickr.photos.getInfo', array('photo_id' => $code));
     $photo = $photo['photo'];

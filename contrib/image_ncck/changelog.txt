@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-02-19
+fix error in flickr when importing (args)
+
 2008-02-17
 add provider views handlers
 
