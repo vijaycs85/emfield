@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-02-22
+#217339/fjen fix myspace thumbnails
 myspace now is also myspacetv.com
 fix myspace to use object instead of embed
 

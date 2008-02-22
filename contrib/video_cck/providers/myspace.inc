@@ -35,22 +35,22 @@ function video_cck_myspace_request($code, $cacheable = TRUE) {
 function _video_cck_myspace_scrape_thumbnail($video, $cached = true) {
   if (!$cached || !$cache = cache_get('myspace:thumbnail:' . $video, 'cache')) {
     $vidid = substr($video, 0, 10);
-    $vidlink = 'http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid='.$vidid.'';
+    if ($str = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=$vidid")) {
+      // grab videos channel-id first
+      $channelID = preg_replace('/.*tvchanid=([0-9]+);.*/si','\1',$str);
 
-    $str=file_get_contents($vidlink);
-    if ($str) {
-//       $regex = '@src="((?=/' . $vidid . '_thumb1\.jpg)[^"]*)"@';
-//       if (preg_match($regex, $str, $matches)) {
-//         $thumbnail = $matches[1];
-//         cache_set('myspace:thumbnail:' . $video, 'cache', $thumbnail, time() + 3600);
-//       }print_r($regex);print_r($matches);
+      if (is_numeric($channelID)) {
+        // now from channel-page grab videos thumbnail
+        $str2 = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.viewVideos&channelid=$channelID");
 
-      $pos = strpos($str, $vidid."_thumb1.jpg")-44;
-      $post = strpos($str, $vidid."_thumb1.jpg")-$pos;
-      $picturelink = substr($str,$pos,$post);
-      if ($picturelink) {
-        $thumbnail = $picturelink.$vidid."_thumb1.jpg";
-        cache_set('myspace:thumbnail:' . $video, 'cache', $thumbnail, time() + 3600);
+        if ($str2) {
+          $picturelink = preg_replace('@.*href="[^"]+'.$vidid.'"[^>]+><img[^>]+src="([^"]+)".*@si','\1',$str2);
+
+          if ($picturelink) {
+            $thumbnail = $picturelink;
+            cache_set('myspace:thumbnail:' . $video, 'cache', $thumbnail, time() + 3600);
+          }
+        }
       }
     }
   }
@@ -93,7 +93,7 @@ function theme_video_cck_myspace_flash($embed, $width, $height) {
 }
 
 function video_cck_myspace_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return _video_cck_myspace_scrape_thumbnail($item['value'], false);
+  return _video_cck_myspace_scrape_thumbnail($item['value']);
 }
 
 function video_cck_myspace_video($embed, $width, $height, $field, $item) {
