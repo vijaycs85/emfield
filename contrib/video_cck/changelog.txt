@@ -1,5 +1,9 @@
 /* $Id$ */
 
+2008-02-22
+myspace now is also myspacetv.com
+fix myspace to use object instead of embed
+
 2008-02-17
 removed goleft support -- no user contributed videos, and no thumbnails.
 add provider views handlers

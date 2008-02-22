@@ -61,9 +61,12 @@ function _video_cck_myspace_scrape_thumbnail($video, $cached = true) {
 }
 
 function video_cck_myspace_extract($embed) {
+  // <a href="http://myspacetv.com/index.cfm?fuseaction=vids.individual&videoid=14686340">What's That Floating In The Water Part 1</a><br><embed src="http://lads.myspace.com/videos/vplayer.swf" flashvars="m=14686340&v=2&type=video" type="application/x-shockwave-flash" width="430" height="346"></embed><br><a href="http://myspacetv.com/index.cfm?fuseaction=vids.addToProfileConfirm&videoid=14686340&title=What's That Floating In The Water Part 1">Add to My Profile</a> | <a href="http://myspacetv.com/index.cfm?fuseaction=vids.home">More Videos</a>
   return array(
-    '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^"]*)"@i',
-    '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&videoid=(.*)@i',
+    '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
+    '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
+    '@src="myspacetv\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)"@i',
+    '@myspacetv\.com/index\.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
   );
 }
 
@@ -72,9 +75,20 @@ function video_cck_myspace_video_link($video_code) {
 }
 
 function theme_video_cck_myspace_flash($embed, $width, $height) {
+  static $count = 0;
   if ($embed) {
-    $output .= '<embed src="http://lads.myspace.com/videos/vplayer.swf" flashvars="m=' . $embed . '&type=video" type="application/x-shockwave-flash" width="' . $width . '" height="' . $height . '"></embed>';
+    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://lads.myspace.com/videos/vplayer.swf\" id=\"emfield-video-myspace-$count\" >
+      <param name=\"movie\" value=\"http://lads.myspace.com/videos/vplayer.swf\" />
+      <param name=\"allowScriptAcess\" value=\"sameDomain\"/>
+      <param name=\"quality\" value=\"best\"/>
+      <param name=\"bgcolor\" value=\"#FFFFFF\"/>
+      <param name=\"scale\" value=\"noScale\"/>
+      <param name=\"salign\" value=\"TL\"/>
+      <param name=\"FlashVars\" value=\"m=$embed&type=video\" />
+      <param name=\"wmode\" value=\"transparent\" />
+    </object>\n";
   }
+  $count++;
   return $output;
 }
 
