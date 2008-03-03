@@ -2,11 +2,6 @@
 // $Id$
 
 define('VIDEO_CCK_TUDOU_MAIN_URL', 'http://www.tudou.com/');
-define('VIDEO_CCK_TUDOU_API_INFO', 'http://tudou.com/dev');
-define('VIDEO_CCK_TUDOU_API_APPLICATION_URL', 'http://www.tudou.com/my_profile_dev');
-define('VIDEO_CCK_TUDOU_REST_ENDPOINT', 'http://www.tudou.com/api2_rest');
-define('VIDEO_CCK_TUDOU_COLOR1_DEFAULT', '#FFFFFF');
-define('VIDEO_CCK_TUDOU_COLOR2_DEFAULT', '#CCCCCC');
 
 /**
  * hook video_cck_PROVIDER_info
@@ -30,7 +25,7 @@ function video_cck_tudou_info() {
     'provider' => 'tudou',
     'name' => $name,
     'url' => VIDEO_CCK_TUDOU_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !tudou. You can learn more about its !api here.', array('!tudou' => l($name, VIDEO_CCK_TUDOU_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), VIDEO_CCK_TUDOU_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from !tudou.', array('!tudou' => l($name, VIDEO_CCK_TUDOU_MAIN_URL, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
