@@ -8,7 +8,7 @@ function video_cck_revver_info() {
   $name = t('Revver');
   $features = array(
     array(t('Affliate program'), t('Yes'), t('Not currently supported by other providers. Set affiliate ID above.')),
-    array(t('Autoplay'), t('No'), ''),
+    array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
     array(t('Thumbnails'), t('Yes'), t('May not currently resize thumbnails, but this will be easy to add. Meanwhile, you can override theme_video_cck_revver_thumbnail if you have a pressing need for this and know how to theme.')),
   );
@@ -41,34 +41,34 @@ function video_cck_revver_settings() {
 
 function video_cck_revver_extract($embed) {
   return array(
-    '@revver\.com/watch/([^/]*)/@i',
-    '@revver\.com/watch/(.*)@i',
+    '@revver\.com/video/([^/]*)/@i',
+    '@revver\.com/video/(.*)@i',
     '@revver\.com/player/1\.0/player\.js\?mediaId\:([^;]*);@i',
   );
 }
 
 function video_cck_revver_video_link($video_code) {
-  return 'http://one.revver.com/watch/' . $video_code;
+  return 'http://one.revver.com/video/'. $video_code;
 }
 
-function theme_video_cck_revver_flash($embed, $width, $height) {
+function theme_video_cck_revver_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
-    $output .= '<script src="http://flash.revver.com/player/1.0/player.js?mediaId:' . $embed . ';affiliateId:' . check_plain(variable_get('video_cck_revver_affiliate_id', '0')) . ';height:' . $height . ';width:' . $width . ';" type="text/javascript"></script>';
+    $autoplay = $autoplay ? ';flashvars:autoStart=true;' : '';
+    $output .= '<script src="http://flash.revver.com/player/1.0/player.js?mediaId:'. $embed .';affiliateId:'. check_plain(variable_get('video_cck_revver_affiliate_id', '0')) .';height:'. $height .';width:'. $width . $autoplay .';" type="text/javascript"></script>';
   }
   return $output;
 }
 
 function video_cck_revver_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return 'http://frame.revver.com/frame/' . $width . 'x' . $height . '/' . check_plain($item['value']) . '.jpg';
+  return 'http://frame.revver.com/frame/'. $width .'x'. $height .'/'. check_plain($item['value']) .'.jpg';
 }
 
-function video_cck_revver_video($embed, $width, $height, $field, $item) {
-  $output = theme('video_cck_revver_flash', $embed, $width, $height);
+function video_cck_revver_video($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('video_cck_revver_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
-function video_cck_revver_preview($embed, $width, $height, $field, $item) {
-  $output = theme('video_cck_revver_flash', $embed, $width, $height);
+function video_cck_revver_preview($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('video_cck_revver_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
-

@@ -1,5 +1,6 @@
 ; $Id$
 name = Embedded Audio Field
 description = Defines a field type for displaying third party music, podcasts, and other audio, such as podOmatic and Odeo.
-dependencies = emfield
+dependencies[] = emfield
 package = CCK
+core = 6.x

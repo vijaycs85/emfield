@@ -5,11 +5,39 @@
  * Implementation of hook_install().
  */
 function emaudio_install() {
+  content_notify('install', 'emaudio');
 }
 
-function _emaudio_update_reset_cache() {
+/**
+* Implementation of hook_uninstall().
+*/
+function emaudio_uninstall() {
+  content_notify('uninstall', 'emaudio');
+}
+
+/**
+* Implementation of hook_enable().
+*/
+function emaudio_enable() {
+  content_notify('enable', 'emaudio');
+}
+
+/**
+* Implementation of hook_disable().
+*/
+function emaudio_disable() {
+  content_notify('disable', 'emaudio');
+}
+
+function emaudio_update_1() {
+  $ret = _emaudio_update_reset_cache_views();
+  return $ret;
+}
+
+// I'd like this to be conditional, so it only runs if they don't have views installed.
+// however, module_exists doesn't actually work in the update scripts.
+function _emaudio_update_reset_cache_views() {
   $ret = array();
-  $ret[] = update_sql("DELETE FROM {cache_content}");
   $ret[] = update_sql("DELETE FROM {cache_views}");
   return $ret;
 }

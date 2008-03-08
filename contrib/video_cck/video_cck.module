@@ -31,7 +31,14 @@ function video_cck_emfield_settings() {
 
 function video_cck_field_info() {
   $fields = array(
-    'video_cck' => array('label' => t('Embedded Video')),
+    'video_cck' => array(
+      'label' => t('Embedded Video'),
+      'description' => t('Embed a video from a third party provider or local path (as permitted).'),
+      'callbacks' => array(
+        'tables' => CONTENT_CALLBACK_CUSTOM,
+        'arguments' => CONTENT_CALLBACK_CUSTOM,
+      ),
+    ),
   );
   return $fields;
 }
@@ -43,16 +50,56 @@ function video_cck_field_settings($op, $field) {
 
     case 'database columns':
       $columns = array(
-        'embed' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-        'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-        'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-        'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => false),
+        'embed' => array('type' => 'text', 'size' => 'big', 'sortable' => TRUE, 'description' => t('Stores the URL or embed code pasted by the editor.')),
+        'value' => array('type' => 'text', 'size' => 'small', 'sortable' => TRUE, 'description' => t('Stores the video code given by the provider.')),
+        'provider' => array('type' => 'text', 'size' => 'tiny', 'sortable' => TRUE, 'description' => t('Stores the provider of the third party video.')),
+        'data' => array('type' => 'text', 'size' => 'big', 'sortable' => FALSE, 'description' => t('Stores any extra data required by the field and/or by the provider.')),
+//         'embed' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
+//         'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
+//         'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
+//         'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => false),
       );
       switch ($field['type']) {
         case 'video_cck':
           break;
       }
       return $columns;
+      break;
+    case 'filters':
+      return array(
+        'not null' => array(
+          'name' => t('Has Embedded Video'),
+          'operator' => array('=' => t('Has Embedded Video')),
+          'list' => 'views_handler_operator_yesno',
+          'list-type' => 'select',
+          'handler' => 'emfield_views_handler_filter_is_not_null',
+          'help' => t('Selecting yes will choose only nodes with this field that successfully provide an embedded video.'),
+        ),
+        'provider' => array(
+          'name' => t('Video Provider'),
+          'list' => 'emfield_views_handler_filter_provider_list',
+          'list-type' => 'list',
+          'operator' => 'views_handler_operator_or',
+          'value-type' => 'array',
+          'handler' => 'emfield_views_handler_filter_provider',
+          'help' => t('Include or exclude videos from the selected provider.'),
+        ),
+      );
+      break;
+    case 'arguments':
+      return array(
+        'content: '. $field['field_name'] => array(
+          'name' => t('Embedded Video: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
+          'handler' => 'content_views_argument_handler',
+          'help' => t('This is the default argument handler provided by CCK. It uses the original embed code or URL pasted into the field.'),
+        ),
+        'provider: '. $field['field_name'] => array(
+          'name' => t('Embedded Video Provider: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
+          'handler' => 'video_cck_handler_arg_provider',
+          'help' => t('The Embedded Video Provider argument allows users to filter a view by specifying the video provider.'),
+        ),
+      );
+      break;
   }
 }
 
@@ -65,7 +112,7 @@ function video_cck_field($op, &$node, $field, &$items, $teaser, $page) {
 
 /** Implementation of hook_field_formatter_info **/
 function video_cck_field_formatter_info() {
-  $types = array('video_cck',);
+  $types = array('video_cck');
   $formats = array(
     'default' => array(
       'label' => t('Default'),
@@ -104,7 +151,7 @@ function video_cck_widget_info() {
   return array(
     'video_cck_textfields' => array(
       'label' => t('3rd Party Video'),
-      'field types' => array('video_cck',),
+      'field types' => array('video_cck'),
     ),
   );
 }
@@ -203,7 +250,7 @@ function video_cck_widget_settings($op, $widget) {
         $form['tn']['thumbnail_default_path'] = array(
           '#type' => 'textfield',
           '#title' => t('Default thumbnail path'),
-          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path',''),
+          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path', ''),
           '#description' => t('Path to a local default thumbnail image for cases when a thumbnail can\'t be found. For example, you might have a default thumbnail at %files.', array('%files' => 'files/thumbnail.png')) . $tn_desc,
         );
       }
@@ -278,6 +325,29 @@ function video_cck_emfield_rss($node, $items = array(), $teaser = NULL) {
   }
 }
 
+/**
+ *  Implements hook_theme
+ */
+function video_cck_theme() {
+  return array(
+    'video_cck_video_embed' => array(
+      'attributes' => array('field', 'item', 'formatter', 'node'),
+    ),
+    'video_cck_video_thumbnail' => array(
+      'attributes' => array('field', 'item', 'formatter', 'node'),
+    ),
+    'video_cck_video_preview' => array(
+      'attributes' => array('field', 'item', 'formatter', 'node'),
+    ),
+    'video_cck_video_video' => array(
+      'attributes' => array('field', 'item', 'formatter', 'node'),
+    ),
+        'video_cck_video_default' => array(
+      'attributes' => array('field', 'item', 'formatter', 'node'),
+    ),
+  );
+}
+
 function theme_video_cck_video_embed($field, $item, $formatter, $node) {
   /*
     Note you can use this in node.tpl.php, substituting the proper field type:
@@ -311,11 +381,11 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node) {
     if ($thumbnail_url) {
       $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
       $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
-      $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
+      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('See Video') .'" title="'. t('See Video') .'" />', 'node/'. $node->nid, array(), NULL, NULL, false, true);
     }
     else {
       // if all else fails, then just print a 'see video' link.
-      $output = l(t('See Video'), 'node/' . $node->nid);
+      $output = l(t('See Video'), 'node/'. $node->nid);
     }
   }
   return $output;
@@ -345,4 +415,15 @@ function theme_video_cck_video_preview($field, $item, $formatter, $node) {
     $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
   }
   return $output;
+}
+
+function video_cck_handler_arg_provider($op, &$query, $argtype, $arg = '') {
+  return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'video_cck');
+}
+
+/**
+* Implementation of hook_content_is_empty().
+*/
+function video_cck_content_is_empty($item, $field) {
+  return _emfield_content_is_empty($item, $field);
 }

@@ -4,34 +4,33 @@
 /**
  * Implement hook_menu
  */
-function emfield_menu($may_cache) {
+function emfield_menu() {
   $items = array();
-  if ($may_cache) {
-    $items[] = array(
-      'path' => 'admin/content/emfield',
-      'title' => t('Embedded Media Field configuration'),
-      'description' => t('Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.'),
-      'callback' => 'drupal_get_form',
-      'callback arguments' => 'emfield_settings',
-      'access' => user_access('administer site configuration'),
-    );
-    $items[] = array(
-      'path' => 'admin/content/emfield/media',
-      'title' => t('Media settings'),
-      'description' => t('Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.'),
-      'callback' => 'drupal_get_form',
-      'callback arguments' => 'emfield_settings',
-      'access' => user_access('administer site configuration'),
-      'type' => MENU_DEFAULT_LOCAL_TASK,
-    );
-  }
+  $items['admin/content/emfield'] = array(
+    'title' => 'Embedded Media Field configuration',
+    'description' => 'Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('emfield_settings'),
+    'access arguments' => array('administer site configuration'),
+  );
+  $items['admin/content/emfield/media'] = array(
+    'title' => 'Media settings',
+    'description' => 'Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('emfield_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
   return $items;
 }
 
 /**
- * Implement hook_settings
+ * Callback for admin/content/emfield
  */
 function emfield_settings() {
+  if (!module_exists('video_cck') && !module_exists('image_ncck') && !module_exists('emaudio')) {
+    drupal_set_message(t('The Embedded Media Field module does nothing on its own. You should also install the Embedded Video Field, Embedded Image Field, and/or Embedded Audio Field modules from the !modules. (If you do not see them listed there, under the CCK section, you may need to !download from its project page. They are all in the same package.)', array('!download' => l(t('download the module'), 'http://drupal.org/project/emfield'), '!modules' => l(t('modules administration page'), 'admin/build/modules'))), 'error');
+  }
   $form = array();
   $header = array(t('Feature'), t('Supported'), t('Notes'));
   foreach (module_implements('emfield_info', TRUE) as $module) {
@@ -74,12 +73,12 @@ function emfield_settings() {
           '#value' => theme('table', $header, $info['supported_features']),
         );
       }
-      $form[$module]['providers'][$provider->name]['emfield_' . $module . '_allow_' . $provider->name] = array(
+      $form[$module]['providers'][$provider->name]['emfield_'. $module .'_allow_'. $provider->name] = array(
         '#type' => 'checkbox',
         '#title' => t('Allow content from %provider', array('%provider' => $info['name'])),
         '#description' => t('If checked, then content types may be created that allow content to be provided by %provider.', array('%provider' => $info['name'])),
         '#weight' => -10,
-        '#default_value' => variable_get('emfield_' . $module . '_allow_' . $provider->name, TRUE),
+        '#default_value' => variable_get('emfield_'. $module .'_allow_'. $provider->name, TRUE),
       );
       $form[$module]['providers'][$provider->name][] = emfield_include_invoke($module, $provider->name, 'settings');
     }
@@ -111,7 +110,7 @@ function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $mo
     // TODO: nothing to validate at the moment. we need to have different provider api's have a chance to validate
     case 'validate':
       foreach ($items as $delta => $item) {
-        $error_field = $field['multiple'] ? $field['field_name'].']['.$delta.'][embed' : $field['field_name'];
+        $error_field = $field['multiple'] ? $field['field_name'] .']['. $delta .'][embed' : $field['field_name'];
         _emfield_field_validate_id($field, $item, $error_field, $module);
       }
       break;
@@ -142,7 +141,7 @@ function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $mo
   // allow modules (such as emthumb) to alter our data.
   foreach (module_implements('emfield_field_extra') as $module) {
     $args = array($op, &$node, $field, &$items, $teaser, $page, $module);
-    $ret = call_user_func_array($module . '_emfield_field_extra', $args);
+    $ret = call_user_func_array($module .'_emfield_field_extra', $args);
     if (is_array($return) && is_array($ret)) {
       $return = array_merge($return, $ret);
     }
@@ -166,7 +165,7 @@ function emfield_allowed_providers($field, $module) {
   $providers = array();
   $allow_all = TRUE;
   foreach ($allowed_providers as $test) {
-    if (!variable_get('emfield_allow_' . $module . '_' . $test->name, TRUE)) {
+    if (!variable_get('emfield_allow_'. $module .'_'. $test->name, TRUE)) {
       unset($allowed_providers[$test->name]);
     }
     else {
@@ -201,27 +200,28 @@ function emfield_implement_types($cached = TRUE) {
 
       // the array that will store type/field information for provider import
       $types = array();
+      $modules = array();
 
       foreach (module_implements('emfield_info', TRUE) as $module) {
-        // settings per content type for the module
-        foreach ($content_types as $content_type => $type) {
+        $modules[$module] = $module;
+      }
 
-          $types[$module] = array();
-          // determine which content types implement this module
-          foreach ($type['fields'] as $field_type => $field) {
+      // settings per content type for the module
+      foreach ($content_types as $content_type => $type) {
+        // determine which content types implement this module
+        foreach ($type['fields'] as $field_type => $field) {
 
-            // if this field type is defined by this module, then include it here
-            if ($field_types[$field['type']]['module'] == $module) {
-              // settings per content type per module
-              $types[$module][$content_type][$field_type] = $field;
-            }
+          // if this field type is defined by this module, then include it here
+          if ($module = $modules[$field_types[$field['type']]['module']]) {
+            // settings per content type per module
+            $types[$module][$content_type][$field_type] = $field;
           }
         }
       }
     }
   }
 
-  cache_set('emfield_implement_types', 'cache', serialize($types), CACHE_PERMANENT);
+  cache_set('emfield_implement_types', serialize($types), 'cache', CACHE_PERMANENT);
   return $types;
 }
 
@@ -280,7 +280,7 @@ function emfield_emfield_field_formatter($field, $item, $formatter, $node, $modu
   }
 
   // if we have no value, then return an empty string
-  if (!isset($item['value'])) {
+  if ($item['value'] == '') {
     return '';
   }
 
@@ -297,7 +297,7 @@ function emfield_emfield_field_formatter($field, $item, $formatter, $node, $modu
 
 //  $module = $field['widget']['helper_module'];
 
-  $output .= theme($module . '_' . $formatter, $field, $item, $formatter, $node);
+  $output .= theme($module .'_'. $formatter, $field, $item, $formatter, $node);
 
   return $output;
 }
@@ -313,7 +313,7 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
       $options = array();
       $providers = emfield_system_list($module);
       foreach ($providers as $provider) {
-        if (variable_get('emfield_allow_' . $module . '_' . $provider->name, TRUE)) {
+        if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
           $info = emfield_include_invoke($module, $provider->name, 'info');
           $options[$provider->name] = $info['name'];
         }
@@ -359,7 +359,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
       }//print 'nodefield:' ; print_r($node_field);
       foreach (module_implements('emfield_widget_extra') as $module) {
         $args = array($op, &$node, $field, &$node_field, $module);
-        call_user_func_array($module . '_emfield_widget_extra', $args);
+        call_user_func_array($module .'_emfield_widget_extra', $args);
       }
       break;
     case 'form':
@@ -372,7 +372,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
       $additional_form_elements = array();
       foreach ($providers as $provider) {
         // don't check providers not allowed
-        if (variable_get('emfield_allow_' . $module . '_' . $provider->name, TRUE)) {
+        if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
           $info = emfield_include_invoke($module, $provider->name, 'info');
           $urls[] = l($info['name'], $info['url'], array('target' => '_blank'));
           $additional_element = emfield_include_invoke($module, $provider->name, 'form');
@@ -382,27 +382,27 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
         }
       }
       $textfield_title = t($field['widget']['label']);
-      if(!(empty($field['widget']['description']))){
+      if (!(empty($field['widget']['description']))) {
         $textfield_description = $field['widget']['description'];
       }
       else {
         $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
       }
-      $textfield_description .= '<br />' . t('The following services are provided: !urls', array('!urls' => implode(', ', $urls)));
+      $textfield_description .= '<br />'. t('The following services are provided: !urls', array('!urls' => implode(', ', $urls)));
 
       if ($field['multiple']) {
         $form[$field['field_name']]['#type'] = 'fieldset';
         $form[$field['field_name']]['#title'] = t($field['widget']['label']);
         $delta = 0;
         foreach ($node_field as $data) {
-          if (isset($data[$textfield])) {
+          if ($data[$textfield] != '') {
             $form[$field['field_name']][$delta][$textfield] = array(
               '#type' => 'textfield',
               '#title' => $textfield_title,
               '#description' => $textfield_description,
               '#default_value' => $data[$textfield],
               '#required' => ($delta == 0) ? $field['required'] : FALSE,
-              '#maxlength' => 1024,
+              '#maxlength' => 2048,
             );
             if (!empty($additional_form_elements)) {
               foreach ($additional_form_elements as $key => $element) {
@@ -433,7 +433,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
             '#description' => $textfield_description,
             '#default_value' => '',
             '#required' => ($delta == 0) ? $field['required'] : FALSE,
-            '#maxlength' => 1024,
+            '#maxlength' => 2048,
           );
           if (!empty($additional_form_elements)) {
             foreach ($additional_form_elements as $key => $element) {
@@ -454,12 +454,12 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
           '#type' => 'textfield',
           '#title' => $textfield_title, //t($field['widget']['label']),
           '#description' => $textfield_description,
-          '#default_value' => isset($node_field[0][$textfield]) ? $node_field[0][$textfield] : '',
+          '#default_value' => $node_field[0][$textfield] ? $node_field[0][$textfield] : '',
           '#required' => $field['required'],
-          '#maxlength' => 1024,
+          '#maxlength' => 2048,
         );
         if ($textfield == 'embed') {
-          $value = isset($node_field[0]['value']) ? $node_field[0]['value'] : '';
+          $value = $node_field[0]['value'] ? $node_field[0]['value'] : '';
           $form[$field['field_name']][0]['value'] = array(
             '#type' => 'value',
             '#value' => $value,
@@ -574,14 +574,14 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
   ksort($args);
 
   // build an argument hash that we'll use for the cache id and api signing
-  $arghash = $provider . ':';
-  foreach($args as $k => $v){
+  $arghash = $provider .':';
+  foreach ($args as $k => $v) {
     $arghash .= $k . $v;
   }
 
   // build the url
-  foreach ($args as $k => $v){
-    $encoded_params[] = urlencode($k).'='.urlencode($v);
+  foreach ($args as $k => $v) {
+    $encoded_params[] = urlencode($k) .'='. urlencode($v);
   }
   if (!empty($encoded_params)) {
     $url .= '?'. implode('&', $encoded_params);
@@ -590,7 +590,7 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
   // some providers, such as bliptv, actually change the url, and not just the queries.
   // we provide an extra section for a unique identifier in that case
   if (isset($hash_extra)) {
-    $arghash .= ':' . $hash_extra;
+    $arghash .= ':'. $hash_extra;
   }
 
   // if it's a cachable request, try to load a cached value
@@ -641,26 +641,27 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
     $start_level = 1;
     foreach ($vals as $xml_elem) {
       if ($xml_elem['type'] == 'open') {
-        if (array_key_exists('attributes',$xml_elem)) {
-          list($level[$xml_elem['level']],$extra) = array_values($xml_elem['attributes']);
-        } else {
+        if (array_key_exists('attributes', $xml_elem)) {
+          list($level[$xml_elem['level']], $extra) = array_values($xml_elem['attributes']);
+        }
+        else {
           $level[$xml_elem['level']] = $xml_elem['tag'];
         }
       }
       if ($xml_elem['type'] == 'complete') {
         $php_stmt = '$response';
-        while($start_level < $xml_elem['level']) {
-          $php_stmt .= '[$level['.$start_level.']]';
+        while ($start_level < $xml_elem['level']) {
+          $php_stmt .= '[$level['. $start_level .']]';
           $start_level++;
         }
-        $php_stmt .= '[$xml_elem[\'tag\']][] = $xml_elem[\'value\'];' . $php_stmt . '[$xml_elem[\'tag\']][] = $xml_elem[\'attributes\'];';
+        $php_stmt .= '[$xml_elem[\'tag\']][] = $xml_elem[\'value\'];'. $php_stmt .'[$xml_elem[\'tag\']][] = $xml_elem[\'attributes\'];';
         eval($php_stmt);
         $start_level--;
       }
     }
   }
 
-  cache_set($arghash, 'cache', serialize($response), time() + variable_get('emfield_cache_duration', 3600));
+  cache_set($arghash, serialize($response), 'cache', time() + variable_get('emfield_cache_duration', 3600));
   return $response;
 }
 
@@ -681,7 +682,7 @@ function emfield_set_error($error) {
  *   An array of file objects optionally matching $provider.
  */
 function emfield_system_list($module, $provider = NULL, $load = TRUE) {
-  $files = drupal_system_listing("$provider\.inc", drupal_get_path('module', $module) . "/providers", 'name', 0);
+  $files = drupal_system_listing("$provider\.inc", drupal_get_path('module', $module) ."/providers", 'name', 0);
 
   ksort($files);
 
@@ -706,7 +707,7 @@ function emfield_include_list($file = NULL) {
   static $list = array();
 
   if ($file && !isset($list[$file->name])) {
-    include_once('./' . $file->filename);
+    include_once('./'. $file->filename);
     $list[$file->name] = $file->name;
   }
 
@@ -724,7 +725,7 @@ function emfield_include_list($file = NULL) {
  *   TRUE if the provider is loaded and the hook is implemented.
  */
 function emfield_include_hook($module, $provider, $hook) {
-  return function_exists($module . '_' . $provider .'_'. $hook);
+  return function_exists($module .'_'. $provider .'_'. $hook);
 }
 
 /**
@@ -746,8 +747,118 @@ function emfield_include_invoke() {
   $module = array_shift($args);
   $provider  = array_shift($args);
   $hook     = array_shift($args);
-  $function = $module . '_' . $provider . '_' . $hook;
+  $function = $module .'_'. $provider .'_'. $hook;
   emfield_system_list($module, $provider);
   return emfield_include_hook($module, $provider, $hook) ? call_user_func_array($function, $args) : NULL;
 }
 
+/**
+ * Custom filter for provider NOT NULL
+ */
+function emfield_views_handler_filter_is_not_null($op, $filter, $filterinfo, &$query) {
+  if ($op == 'handler') {
+    $query->ensure_table($filterinfo['table']);
+    if ($filter['value']) {
+      $qs = "%s.%s <> '' AND %s.%s IS NOT NULL";
+    }
+    else {
+      $qs = "%s.%s = '' OR %s.%s IS NULL";
+    }
+    $query->add_where($qs, $filterinfo['table'], $filterinfo['content_db_info']['columns']['provider']['column'], $filterinfo['table'], $filterinfo['content_db_info']['columns']['provider']['column']);
+  }
+}
+
+/**
+ * Create a list of providers.
+ */
+function emfield_views_handler_filter_provider_list($op) {
+  $providers = array();
+  foreach (emfield_system_list('video_cck') as $provider => $info) {
+    $providers[$provider] = $info->name;
+  }
+  return $providers;
+}
+
+/**
+ *  Views handler for the provider list filter.
+ */
+function emfield_views_handler_filter_provider($op, $filter, $filterinfo, &$query) {
+  if ($op == 'handler') {
+    $query->ensure_table($filterinfo['table']);
+    if ($filter['operator'] == 'OR') {
+      foreach ($filter['value'] as $provider) {
+        $items[] = "%s.%s = '$provider'";
+        $where[] = $filterinfo['table'];
+        $where[] = $filterinfo['content_db_info']['columns']['provider']['column'];
+      }
+      $qs = implode(' OR ', $items);
+    }
+    else {
+      foreach ($filter['value'] as $provider) {
+        $items[] = "%s.%s <> '$provider'";
+        $where[] = $filterinfo['table'];
+        $where[] = $filterinfo['content_db_info']['columns']['provider']['column'];
+      }
+      $qs = implode(' AND ', $items);
+    }
+    $query->add_where($qs, $where);
+  }
+}
+
+/**
+ * Handle the provider argument. This is called from a wrapper that includes the module.
+ */
+function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $module = '') {
+  if ($op == 'filter') {
+    $field_name = substr($argtype['type'], 10);
+  }
+  else {
+    $field_name = substr($argtype, 10);
+  }
+
+  $field = content_fields($field_name);
+  $db_info = content_database_info($field);
+  $main_column = $db_info['columns']['provider'];
+
+  // The table name used here is the Views alias for the table, not the actual
+  // table name.
+  $table = 'node_data_'. $field['field_name'];
+
+  switch ($op) {
+    case 'summary':
+      $query->ensure_table($table);
+      $query->add_field($main_column['column'], $table);
+      $query->add_groupby($table .'.'. $main_column['column']);
+      return array('field' => $table .'.'. $main_column['column']);
+    case 'sort':
+      $query->ensure_table($table);
+      $query->add_orderby($table, $main_column['column'], $argtype);
+      break;
+    case 'filter':
+      $query->ensure_table($table);
+      $where = db_escape_string($arg);
+      $query->add_where($table .'.'. $main_column['column'] ." = '%s'", $where);
+      break;
+    case 'link':
+      $provider = emfield_system_list($module,  $query->$main_column['column']);
+      $info = emfield_include_invoke($module, $provider[$query]->name, 'info');
+      $title = $info['name'];
+      return l($title, $arg .'/'. $query->$main_column['column']);
+    case 'title':
+      $provider = emfield_system_list($module,  $query);
+      $info = emfield_include_invoke($module, $provider[$query]->name, 'info');
+      $title = $info['name'];
+      return $title ? $title : check_plain($query);
+  }
+}
+
+/**
+* callback for contrib Implementation of hook_content_is_empty().
+*/
+function _emfield_content_is_empty($item, $field) {
+  // we're empty if the URL didn't parse correctly.
+  if (empty($item['value'])) {
+    return TRUE;
+  }
+  return FALSE;
+}

@@ -1,0 +1,6 @@
+; $Id$
+name = Embedded Media Import
+description = Imports media from certain third providers, such as FlickR.
+dependencies[] = emfield
+package = CCK
+core = 6.x

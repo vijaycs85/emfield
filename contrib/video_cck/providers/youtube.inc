@@ -111,7 +111,8 @@ function video_cck_youtube_settings() {
       '#title' => t('Color 2 picker'),
       '#description' => t('Click in this textfield to start picking your color'),
     );
-  } else {
+  }
+  else {
     $form['youtube']['colors']['#description'] .= t(' The !colorpicker, if active, gives an easy way to select these colors.', array('!colorpicker' => l(t('Colorpicker module'), 'http://drupal.org/project/colorpicker')));
   }
   return $form;
@@ -163,7 +164,7 @@ function video_cck_youtube_extract($embed = '') {
  *    a string containing the URL to view the video at the original provider's site
  */
 function video_cck_youtube_embedded_link($video_code) {
-  return 'http://www.youtube.com/watch?v=' . $video_code;
+  return 'http://www.youtube.com/watch?v='. $video_code;
 }
 
 function video_cck_youtube_convert_color($color = NULL) {
@@ -185,16 +186,16 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
     if (variable_get('video_cck_youtube_show_colors', FALSE)) {
       $color1 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT));
       $color2 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT));
-      $colors='&color1=0x'.$color1.'&color2=0x'.$color2;
+      $colors = '&color1=0x'. $color1 .'&color2=0x'. $color2;
     }
     $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&border=1');
-    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . $border . "\" id=\"VideoPlayback\">
-      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&rel=$related" . $autoplay_value . $colors . $border . "\">
-      <param name=\"allowScriptAcess\" value=\"sameDomain\">
-      <param name=\"quality\" value=\"best\">
-      <param name=\"bgcolor\" value=\"#FFFFFF\">
-      <param name=\"scale\" value=\"noScale\">
-      <param name=\"salign\" value=\"TL\">
+    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" id=\"VideoPlayback\" >
+      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" />
+      <param name=\"allowScriptAcess\" value=\"sameDomain\"/>
+      <param name=\"quality\" value=\"best\"/>
+      <param name=\"bgcolor\" value=\"#FFFFFF\"/>
+      <param name=\"scale\" value=\"noScale\"/>
+      <param name=\"salign\" value=\"TL\"/>
       <param name=\"FlashVars\" value=\"playerMode=embedded\" />
       <param name=\"wmode\" value=\"transparent\" />
     </object>\n";
@@ -222,7 +223,8 @@ function video_cck_youtube_thumbnail($field, $item, $formatter, $node, $width, $
   // if we have a large thumbnail size, then get the larger version available.
   if ($width > 130 || $height > 97) {
     $tn = "http://img.youtube.com/vi/$youtube_id/0.jpg";
-  } else {
+  }
+  else {
     // youtube offers 3 thumbnails. select one randomly.
     $rand = rand(0, 2) + 1;
     $tn = "http://img.youtube.com/vi/$youtube_id/$rand.jpg";

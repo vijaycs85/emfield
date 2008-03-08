@@ -31,7 +31,7 @@ function image_ncck_imageshack_data($field, $item) {
   $data = array();
 
   $url = stristr($item['embed'], 'my.php?image=')? _image_ncck_imageshack_scrape_image_url($item['embed']) : $item['embed'];
-  if(preg_match('!([^/.:@]+)\.imageshack\.us/([^/]+)/([^/]+)/(.+)$!i', $url, $matches)) {
+  if (preg_match('!([^/.:@]+)\.imageshack\.us/([^/]+)/([^/]+)/(.+)$!i', $url, $matches)) {
     $data = array(
       'server' => $matches[1],
       'a1' => $matches[2],
@@ -46,7 +46,7 @@ function image_ncck_imageshack_data($field, $item) {
 function image_ncck_imageshack_extract($embed = '') {
   // http://img255.imageshack.us/my.php?image=dscn0036ky1.jpg
   // http://img255.imageshack.us/img255/7682/dscn0036ky1.jpg
-  if(preg_match('!([^/.:@]+)\.imageshack\.us/(([^/]+)/([^/]+)/|my.php\?image=)?(.+)$!i', $embed, $matches)) {
+  if (preg_match('!([^/.:@]+)\.imageshack\.us/(([^/]+)/([^/]+)/|my.php\?image=)?(.+)$!i', $embed, $matches)) {
     return $matches[5];
   }
   return array();
@@ -112,7 +112,7 @@ function _image_ncck_imageshack_scrape_image_url($url) {
   }
 
   $html = file_get_contents($url);
-  if (preg_match('!<img id="thepic" .+? src="(.+?)"!is', $html, $matches)) {
+  if (preg_match('!<img id="thepic".+? src="(.+?)"!is', $html, $matches)) {
     return $urls[$url] = $matches[1];
   }
 }

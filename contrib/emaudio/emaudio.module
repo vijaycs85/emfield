@@ -53,7 +53,46 @@ function emaudio_field_settings($op, $field) {
           break;
       }
       return $columns;
+    case 'filters':
+      return array(
+        'not null' => array(
+          'name' => t('Has Embedded Audio'),
+          'operator' => array('=' => t('Has Embedded Audio')),
+          'list' => 'views_handler_operator_yesno',
+          'list-type' => 'select',
+          'handler' => 'emfield_views_handler_filter_is_not_null',
+          'help' => t('Selecting yes will choose only nodes with this field that successfully provide embedded audio.'),
+        ),
+        'provider' => array(
+          'name' => t('Audio Provider'),
+          'list' => 'emfield_views_handler_filter_provider_list',
+          'list-type' => 'list',
+          'operator' => 'views_handler_operator_or',
+          'value-type' => 'array',
+          'handler' => 'emfield_views_handler_filter_provider',
+          'help' => t('Include or exclude audio from the selected provider.'),
+        ),
+      );
+      break;
+    case 'arguments':
+      return array(
+        'content: '. $field['field_name'] => array(
+          'name' => t('Embedded Audio: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
+          'handler' => 'content_views_argument_handler',
+          'help' => t('This is the default argument handler provided by CCK. It uses the original embed code or URL pasted into the field.'),
+        ),
+        'provider: '. $field['field_name'] => array(
+          'name' => t('Embedded Audio Provider: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
+          'handler' => 'emaudio_handler_arg_provider',
+          'help' => t('The Embedded Audio Provider argument allows users to filter a view by specifying the audio provider.'),
+        ),
+      );
+      break;
   }
+}
+
+function emaudio_handler_arg_provider($op, &$query, $argtype, $arg = '') {
+  return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'emaudio');
 }
 
 /** Implementation of hook_field **/
@@ -65,7 +104,7 @@ function emaudio_field($op, &$node, $field, &$items, $teaser, $page) {
 
 /** Implementation of hook_field_formatter_info **/
 function emaudio_field_formatter_info() {
-  $types = array('emaudio',);
+  $types = array('emaudio');
   $formats = array(
     'default' => array(
       'label' => t('Default'),
@@ -104,7 +143,7 @@ function emaudio_widget_info() {
   return array(
     'emaudio_textfields' => array(
       'label' => t('3rd Party Audio'),
-      'field types' => array('emaudio',),
+      'field types' => array('emaudio'),
     ),
   );
 }
@@ -203,7 +242,7 @@ function emaudio_widget_settings($op, $widget) {
         $form['tn']['thumbnail_default_path'] = array(
           '#type' => 'textfield',
           '#title' => t('Default thumbnail path'),
-          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('emaudio_default_thumbnail_path',''),
+          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('emaudio_default_thumbnail_path', ''),
           '#description' => t('Path to a local default thumbnail image for cases when a thumbnail can\'t be found. For example, you might have a default thumbnail at %files.', array('%files' => 'files/thumbnail.png')) . $tn_desc,
         );
       }
@@ -278,6 +317,14 @@ function emaudio_emfield_rss($node, $items = array(), $teaser = NULL) {
   }
 }
 
+function emaudio_theme() {
+  return array(
+    'emaudio_emaudio_embed' => array(
+      'arguments' => array('field', 'item', 'formatter', 'node'),
+    );
+  );
+}
+
 function theme_emaudio_emaudio_embed($field, $item, $formatter, $node) {
   /*
     Note you can use this in node.tpl.php, substituting the proper field type:
@@ -311,11 +358,11 @@ function theme_emaudio_emaudio_thumbnail($field, $item, $formatter, $node) {
     if ($thumbnail_url) {
       $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emaudio_default_thumbnail_width', EMAUDIO_DEFAULT_THUMBNAIL_WIDTH);
       $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('emaudio_default_thumbnail_height', EMAUDIO_DEFAULT_THUMBNAIL_HEIGHT);
-      $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('Hear Audio') . '" title="' . t('Hear Audio') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
+      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('Hear Audio') .'" title="'. t('Hear Audio') .'" />', 'node/'. $node->nid, array(), NULL, NULL, false, true);
     }
     else {
       // if all else fails, then just print a 'see audio' link.
-      $output = l(t('Hear Audio'), 'node/' . $node->nid);
+      $output = l(t('Hear Audio'), 'node/'. $node->nid);
     }
   }
   return $output;
@@ -345,4 +392,11 @@ function theme_emaudio_emaudio_preview($field, $item, $formatter, $node) {
     $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
   }
   return $output;
+}
+
+/**
+* Implementation of hook_content_is_empty().
+*/
+function emaudio_content_is_empty($item, $field) {
+  return _emfield_content_is_empty($item, $field);
 }

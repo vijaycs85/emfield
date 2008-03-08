@@ -1,5 +1,6 @@
 ; $Id$
 name = Embedded Image Field
 description = Defines a field type for displaying images from third party providers, such as Flickr.
-dependencies = emfield
+dependencies[] = emfield
 package = CCK
+core = 6.x

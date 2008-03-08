@@ -108,7 +108,7 @@ function video_cck_livevideo_embedded_link($video_code) {
 function theme_video_cck_livevideo_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     $autostart = $autoplay ? '&autoStart=1' : '';
-    $output .= '<embed src="http://www.livevideo.com/flvplayer/embed/' . $embed . $autostart . '" type="application/x-shockwave-flash" quality="high" WIDTH="' . $width . '" HEIGHT="' . $height . '" wmode="transparent"></embed>';
+    $output .= '<embed src="http://www.livevideo.com/flvplayer/embed/'. $embed . $autostart .'" type="application/x-shockwave-flash" quality="high" WIDTH="'. $width .'" HEIGHT="'. $height .'" wmode="transparent"></embed>';
   }
   return $output;
 }

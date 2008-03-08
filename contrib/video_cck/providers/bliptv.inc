@@ -123,7 +123,7 @@ print_r($api);*/
   $data['description'] = $api['en']['DESCRIPTION'][0] ? $api['en']['DESCRIPTION'][0] : $rss['ITEM']['BLIP:PUREDESCRIPTION'][0];
   $data['blip_user']['uid'] = $api['CREATEDBY']['UID'][0] ? $api['CREATEDBY']['UID'][0] : $rss['ITEM']['BLIP:USERID'][0];
   $data['blip_user']['username'] = $api['CREATEDBY']['LOGIN'][0] ? $api['CREATEDBY']['LOGIN'][0] : $rss['ITEM']['BLIP:USER'][0];
-  $data['blip_user']['url'] = $api['CREATEDBY']['LINKS']['LINK'][1] ? $api['CREATEDBY']['LINKS']['LINK'][1] : 'http://blip.tv/users/view/' . $data['blip_user']['username'];
+  $data['blip_user']['url'] = $api['CREATEDBY']['LINKS']['LINK'][1] ? $api['CREATEDBY']['LINKS']['LINK'][1] : 'http://blip.tv/users/view/'. $data['blip_user']['username'];
 
   foreach ((array)$api['en']['LINKS']['LINK'] as $link) {
     if ($link['TYPE'] == 'text/html') {
@@ -141,7 +141,7 @@ print_r($api);*/
 
 function video_cck_bliptv_request($code, $cacheable = TRUE, $skin = 'rss') {
   $args = array();
-  return module_invoke('emfield', 'request_xml', 'bliptv', "http://blip.tv/file/$code?skin=" . $skin, $args, $cacheable, false, $code . ':' . $skin);
+  return module_invoke('emfield', 'request_xml', 'bliptv', "http://blip.tv/file/$code?skin=" . $skin, $args, $cacheable, false, $code .':'. $skin);
 }
 
 function video_cck_bliptv_extract($embed) {
@@ -180,13 +180,13 @@ function video_cck_bliptv_extract($embed) {
 }
 
 function video_cck_bliptv_video_link($video_code) {
-  return 'http://blip.tv/file/' . $video_code;
+  return 'http://blip.tv/file/'. $video_code;
 }
 
 function _video_cck_bliptv_get_video_info_from_preferred_tag($data, $var) {
   $preferred_tags = (array)variable_get($var, array(VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE => VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE));
 // print_r($var);
-  foreach($preferred_tags as $test_tag) {
+  foreach ($preferred_tags as $test_tag) {
     // if we override the tag with a type, then break so it can be handled
     if ($test_tag == 'override') {
       $video_info = 'override';
@@ -247,7 +247,16 @@ function video_cck_bliptv_rss($item, $teaser = NULL) {
 function theme_video_cck_bliptv_flash($embed, $width, $height, $field, $item, $autoplay, $flv, $thumbnail) {
   if ($embed) {
     $autoplay = $autoplay ? 'autoStart=true' : 'autoStart=false';
-    $output .= '<embed wmode="transparent" src="http://blip.tv/scripts/flash/blipplayer.swf?' . $autoplay . '&file=' . $flv . '%3Fsource%3D3" quality="high" width="' .$width . '" height="' . $height . '" name="movie" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+    $output .= '<object type="application/x-shockwave-flash" height="'. $height .'" width="'. $width .'" data="http://blip.tv/scripts/flash/blipplayer.swf?'. $autoplay .'&amp;file='. $flv .'%3Fsource%3D3"  >
+      <param name="movie" value="http://blip.tv/scripts/flash/blipplayer.swf?'. $autoplay .'&amp;file='. $flv .'%3Fsource%3D3"  />
+      <param name="allowScriptAcess" value="always" />
+      <param name="allowFullScreen" value="true" />
+      <param name="quality" value="high" />
+      <param name="bgcolor" value="#FFFFFF" />
+      <param name="scale" value="noScale" />
+      <param name="salign" value="TL" />
+      <param name="wmode" value="transparent" />
+    </object>';
   }
   return $output;
 }

@@ -1,7 +1,17 @@
 /* $Id$ */
 
-2008-01-09
-branch to drupal 6
+2008-02-19
+fix loop when determining fields implementing contributed emfield modules
+
+2008-02-18
+#212575 Display warning when no modules are enabled
+
+2008-02-17
+#197807 change maxlength of embed field to 2048
+add views handlers for use by contrib modules
+
+2008-02-09
+#214011 - patch by dgtlmoon to fix variable_get syntax
 
 2008-01-07
 #207168/vnd Missing arguments for emthumb_emfield_widget_extra()

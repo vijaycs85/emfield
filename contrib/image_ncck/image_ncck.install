@@ -5,12 +5,39 @@
  * Implementation of hook_install().
  */
 function image_ncck_install() {
+  content_notify('install', 'image_ncck');
 }
 
-function _image_ncck_update_reset_cache() {
-  $ret = array();
-  $ret[] = update_sql("DELETE FROM {cache_content}");
-  $ret[] = update_sql("DELETE FROM {cache_views}");
+/**
+* Implementation of hook_uninstall().
+*/
+function image_ncck_uninstall() {
+  content_notify('uninstall', 'image_ncck');
+}
+
+/**
+* Implementation of hook_enable().
+*/
+function image_ncck_enable() {
+  content_notify('enable', 'image_ncck');
+}
+
+/**
+* Implementation of hook_disable().
+*/
+function image_ncck_disable() {
+  content_notify('disable', 'image_ncck');
+}
+
+function image_cck_update_1() {
+  $ret = _image_cck_update_reset_cache_views();
   return $ret;
 }
 
+// I'd like this to be conditional, so it only runs if they don't have views installed.
+// however, module_exists doesn't actually work in the update scripts.
+function _image_ncck_update_reset_cache_views() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {cache_views}");
+  return $ret;
+}

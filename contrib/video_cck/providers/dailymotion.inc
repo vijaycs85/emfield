@@ -55,7 +55,7 @@ function video_cck_dailymotion_extract($embed = '') {
   // http://www.dailymotion.com/us/cluster/news/featured/video/x3xk8v_primary-smackdown-obama-girl-return_fun
   // http://www.dailymotion.com/barelypolitical/video/x3xk8v_primary-smackdown-obama-girl-return_fun
   // http://www.dailymotion.com/barelypolitical/video/x3xk8v
-  // <div><object width="420" height="252"><param name="movie" value="http://www.dailymotion.com/swf/x3xk8v"></param><param name="allowFullScreen" value="true"></param><param name="allowScriptAccess" value="always"></param><embed src="http://www.dailymotion.com/swf/x3xk8v" type="application/x-shockwave-flash" width="420" height="252" allowFullScreen="true" allowScriptAccess="always"></embed></object><br /><b><a href="http://www.dailymotion.com/video/x3xk8v_primary-smackdown-obama-girl-return_fun">Primary Smackdown: Obama Girl Returns</a></b><br /><i>Uploaded by <a href="http://www.dailymotion.com/BarelyPolitical">BarelyPolitical</a></i></div>
+  // <div><object width="420" height="252"><param name="movie" value="http://www.dailymotion.com/swf/x3xk8v" /></param><param name="allowFullScreen" value="true"></param><param name="allowScriptAccess" value="always"></param><embed src="http://www.dailymotion.com/swf/x3xk8v" type="application/x-shockwave-flash" width="420" height="252" allowFullScreen="true" allowScriptAccess="always"></embed></object><br /><b><a href="http://www.dailymotion.com/video/x3xk8v_primary-smackdown-obama-girl-return_fun">Primary Smackdown: Obama Girl Returns</a></b><br /><i>Uploaded by <a href="http://www.dailymotion.com/BarelyPolitical">BarelyPolitical</a></i></div>
   // <div><object width="420" height="252"><param name="movie" value="http://www.dailymotion.com/swf/x3xk8v"></param><param name="allowFullScreen" value="true"></param><param name="allowScriptAccess" value="always"></param><embed src="http://www.dailymotion.com/swf/x3xk8v" type="application/x-shockwave-flash" width="420" height="252" allowFullScreen="true" allowScriptAccess="always"></embed></object><br /><b><a href="http://www.dailymotion.com/video/x3xk8v_primary-smackdown-obama-girl-return_fun">Primary Smackdown: Obama Girl Returns</a></b><br /><i>Uploaded by <a href="http://www.dailymotion.com/BarelyPolitical">BarelyPolitical</a></i></div>
 //   if (preg_match('@dailymotion\.com@i', $embed, $matches)) {
 //     if (preg_match('@/([^/_]+)_@i', $embed, $matches)) {
@@ -82,7 +82,7 @@ function video_cck_dailymotion_extract($embed = '') {
  *    a string containing the URL to view the video at the original provider's site
  */
 function video_cck_dailymotion_embedded_link($video_code) {
-  return 'http://www.dailymotion.com/swf/' . $video_code;
+  return 'http://www.dailymotion.com/swf/'. $video_code;
 }
 
 /**
@@ -93,14 +93,14 @@ function theme_video_cck_dailymotion_flash($embed, $width, $height, $autoplay) {
     if ($autoplay) {
       $autoplay_value = '&autoStart=1';
     }
-    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.dailymotion.com/swf/$embed" . $autoplay_value . "\" id=\"VideoPlayback\">
-      <param name=\"movie\" value=\"http://www.dailymotion.com/swf/$embed" . $autoplay_value . "\">
-      <param name=\"allowScriptAcess\" value=\"always\">
-      <param name=\"allowFullScreen\" value=\"true\">
-      <param name=\"quality\" value=\"best\">
-      <param name=\"bgcolor\" value=\"#FFFFFF\">
-      <param name=\"scale\" value=\"noScale\">
-      <param name=\"salign\" value=\"TL\">
+    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.dailymotion.com/swf/$embed". $autoplay_value ."\" id=\"VideoPlayback\">
+      <param name=\"movie\" value=\"http://www.dailymotion.com/swf/$embed". $autoplay_value ."\" />
+      <param name=\"allowScriptAcess\" value=\"always\" />
+      <param name=\"allowFullScreen\" value=\"true\" />
+      <param name=\"quality\" value=\"best\" />
+      <param name=\"bgcolor\" value=\"#FFFFFF\" />
+      <param name=\"scale\" value=\"noScale\" />
+      <param name=\"salign\" value=\"TL\" />
       <param name=\"FlashVars\" value=\"playerMode=embedded$autoplay_value\" />
       <param name=\"wmode\" value=\"transparent\" />
     </object>\n";

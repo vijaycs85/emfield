@@ -1,5 +1,23 @@
 /* $Id$ */
 
+2008-02-22
+#217339/fjen fix myspace thumbnails
+myspace now is also myspacetv.com
+fix myspace to use object instead of embed
+
+2008-02-17
+removed goleft support -- no user contributed videos, and no thumbnails.
+add provider views handlers
+
+2008-02-16
+#178299/dalin - modified patch to allow filter by video present
+
+2008-02-09
+#211529 - MrKatz fixed the revver url
+
+2008-02-07
+support for goleft.tv
+
 2008-01-06
 grab random youtube thumbnail
 #200435/jhedstrom - default thumbnail when video thumbnail not available
