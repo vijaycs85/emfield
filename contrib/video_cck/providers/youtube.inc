@@ -151,6 +151,7 @@ function video_cck_youtube_extract($embed = '') {
   return array(
     '@youtube\.com/v/([^"\&]+)@i',
     '@youtube\.com/watch\?v=([^"\&]+)@i',
+     '@youtube\.com/\?v=([^"\&]+)@i',
   );
 }
 
