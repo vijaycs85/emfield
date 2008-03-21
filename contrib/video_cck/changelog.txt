@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-03-21
+add support for last.fm videos
+
 2008-02-22
 #217339/fjen fix myspace thumbnails
 myspace now is also myspacetv.com
