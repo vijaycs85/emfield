@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-03-26
+#237749 - Invalid argument supplied for foreach()
+
 2007-10-08
 readme
 
