@@ -124,6 +124,13 @@ function video_cck_field_formatter_info() {
       'field types' => $types,
     ),
   );
+  // add thickbox formatter if thickbox module exists
+  if (module_exists('thickbox')) {
+    $formats['thickbox'] = array(
+      'label' => t('Thickbox: Image Thumbnail -> Full Size Video'),
+      'field types' => $types,
+      );
+  }
   return $formats;
 }
 
@@ -329,13 +336,13 @@ function theme_video_cck_video_embed($field, $item, $formatter, $node) {
   return $output;
 }
 
-function theme_video_cck_video_thumbnail($field, $item, $formatter, $node) {
+function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_link = false, $options = array()) {
   if ($item['value'] && $item['provider']) {
     // if we have emthumb installed, then give it a chance to override our thumbnail
     $thumbnail_url = module_invoke('emthumb', 'thumbnail_url', $item);
 
     // if we don't have a custom thumbnail, then see if the provider gives us one
-    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height);
+    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height, $options);
 
     // if we still don't have a thumbnail, then apply a default thumbnail, if it exists
     if (!$thumbnail_url) {
@@ -347,42 +354,88 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node) {
     if ($thumbnail_url) {
       $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
       $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
-      $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
+      if ($no_link) { //thickbox requires the thumbnail returned without the link
+        $output = '<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />';
+      }
+      else {
+        $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
+      }
     }
     else {
-      // if all else fails, then just print a 'see video' link.
-      $output = l(t('See Video'), 'node/' . $node->nid);
+       // if all else fails, then just print a 'see video' link.
+      if ($no_link) {
+        $output = ''; //thickbox won't work without a thumbnail
+      }
+      else {
+        $output = l(t('See Video'), 'node/' . $node->nid);
+      }
     }
   }
   return $output;
 }
 
-function theme_video_cck_video_video($field, $item, $formatter, $node) {
+function theme_video_cck_video_video($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
     $width = $field['widget']['video_width'] ? $field['widget']['video_width'] : variable_get('video_cck_default_video_width', VIDEO_CCK_DEFAULT_VIDEO_WIDTH);;
     $height = $field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('video_cck_default_video_height', VIDEO_CCK_DEFAULT_VIDEO_HEIGHT);;
     $autoplay = $field['widget']['video_autoplay'];
-    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'video', $embed, $width, $height, $field, $item, $autoplay);
+    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'video', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
   return $output;
 }
 
-function theme_video_cck_default($field, $item, $formatter, $node) {
-  return theme('video_cck_video_video', $field, $item, $formatter, $node);
+function theme_video_cck_default($field, $item, $formatter, $node, $options = array()) {
+  return theme('video_cck_video_video', $field, $item, $formatter, $node, $options);
 }
 
-function theme_video_cck_video_preview($field, $item, $formatter, $node) {
+function theme_video_cck_video_preview($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
     $width = $field['widget']['preview_width'] ? $field['widget']['preview_width'] : variable_get('video_cck_default_preview_width', VIDEO_CCK_DEFAULT_PREVIEW_WIDTH);;
     $height = $field['widget']['preview_height'] ? $field['widget']['preview_height'] : variable_get('video_cck_default_preview_height', VIDEO_CCK_DEFAULT_PREVIEW_HEIGHT);;
     $autoplay = $field['widget']['preview_autoplay'];
-    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
+    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
+  return $output;
+}
+
+function theme_video_cck_thickbox($field, $item, $formatter, $node, $options = array()) {
+  $thumbnail = theme('video_cck_video_thumbnail', $field, $item, 'video_thumbnail', $node, true, $options);
+
+  $destination = 'video-cck/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'];
+
+  $output = l($thumbnail, $destination, array('title' => $title, 'class' => 'thickbox', 'rel' => $field['type_name']), NULL, NULL, FALSE, TRUE);
   return $output;
 }
 
 function video_cck_handler_arg_provider($op, &$query, $argtype, $arg = '') {
   return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'video_cck');
+}
+
+function video_cck_menu ($may_cache) {
+  $items = array();
+  if (module_exists('thickbox')) {
+    if ($may_cache) {
+      $items[] = array(
+        'path' => 'video-cck/thickbox',
+        'callback' => 'video_cck_thickbox',
+        'access' => user_access('access content'),
+        'type' => MENU_CALLBACK,
+        );
+    }
+  }
+  return $items;
+}
+
+function video_cck_thickbox($nid, $width, $height, $field_name) {
+    $field = array();
+    $field['widget']['video_width'] = $width;
+    $field['widget']['video_height'] = $height;
+    $field['widget']['video_autoplay'] = 1;
+    $field['field_name'] = $field_name;
+    $node = node_load($nid);
+    $items = $node->$field_name;
+    $item = $items[0];
+    print theme('video_cck_video_video', $field, $item, 'video_video', $node);
 }
