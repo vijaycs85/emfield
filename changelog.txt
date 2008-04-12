@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-04-12
+#245472/schuyler1d add hook_emfield_providers to allow other modules to be providers for emfield sub-modules
+
 2008-02-19
 fix loop when determining fields implementing contributed emfield modules
 
