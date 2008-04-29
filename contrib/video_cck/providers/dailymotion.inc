@@ -120,7 +120,7 @@ function theme_video_cck_dailymotion_flash($embed, $width, $height, $autoplay) {
  *    a URL pointing to the thumbnail
  */
 function video_cck_dailymotion_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return $tn;
+  return 'http://www.dailymotion.com/thumbnail/160x120/video/'. $item['value'];
 }
 
 /**

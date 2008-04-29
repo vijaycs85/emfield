@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-04-29
+dailymotion thumbnails
+
 2008-04-07
 support for blip.tv's new player
 added $options=array() to themes for future expansion of options
