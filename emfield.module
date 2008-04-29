@@ -711,9 +711,9 @@ function emfield_system_list($module, $provider = NULL, $load = TRUE) {
 function emfield_include_list($file = NULL) {
   static $list = array();
 
-  if ($file && !isset($list[$file->name])) {
+  if ($file && !isset($list[$file->filename])) {
     include_once('./' . $file->filename);
-    $list[$file->name] = $file->name;
+    $list[$file->filename] = $file->name;
   }
 
   return $list;
