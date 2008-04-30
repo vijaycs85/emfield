@@ -228,7 +228,7 @@ function video_cck_widget_settings($op, $widget) {
         );
         $form['tn']['thumbnail_width'] = array(
           '#type' => 'textfield',
-          '#title' => t('Video width'),
+          '#title' => t('Thumbnail width'),
           '#default_value' => $widget['thumbnail_width'] ? $widget['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH),
           '#required' => true,
           '#description' => t('The width of the thumbnail. It defaults to @width.', array('@width' => $width)),

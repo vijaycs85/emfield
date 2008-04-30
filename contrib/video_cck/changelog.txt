@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-04-30
+change 'thumbnail' text on widget settings form
+
 2008-04-29
 dailymotion thumbnails
 
