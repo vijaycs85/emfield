@@ -1,4 +1,6 @@
 /* $Id$ */
+2008-05-10
+#208963- robomalo + darrenmUK  added Vimeo support
 
 2008-04-30
 change 'thumbnail' text on widget settings form
