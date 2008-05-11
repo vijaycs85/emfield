@@ -2,6 +2,7 @@
 2008-05-10
 #208963- robomalo + darrenmUK  added Vimeo support
 #249255 - ekes added MRSS support to multiple files
+#170799 - ekes added support for google video URLs from '.com.au', 'co.uk' etc.
 
 2008-04-30
 change 'thumbnail' text on widget settings form
