@@ -56,6 +56,18 @@ function video_cck_zzz_custom_url_extract($embed = '') {
 
 function video_cck_zzz_custom_url_data($field, $item) {
   $data = array();
+  // adding the version control
+  $data['video_cck_zzz_custom_url_data_version'] = 1;
+
+  // attempt to get info from headers
+  $response = emfield_request_header('zzz_custom_url', $item['embed']);
+
+  if ($response->code == 200) {
+    $data['url'] = $item['embed'];
+    $data['size'] = $response->headers['Content-Length'];
+    $data['mime'] = $response->headers['Content-Type'];
+  }
+  // @todo replace ['type'] with converted mime info if available
   $types = _video_cck_zzz_custom_url_implode_types();
   $regex = '@\.(' . $types . ')@i';
   if (preg_match($regex, $item['embed'], $matches)) {
@@ -63,6 +75,30 @@ function video_cck_zzz_custom_url_data($field, $item) {
   }
   return $data;
 }
+
+/**
+ * hook emfield_PROVIDER_rss
+ */
+function video_cck_zzz_custom_url_rss($item, $teaser = NULL) {
+  if ($item['value']) {
+    if ($item['data']['video_cck_zzz_custom_url_data_version'] >= 1) {
+      $data = $item['data'];
+    }
+    else {
+      $data = video_cck_zzz_custom_url_data(NULL, $item);
+    }
+
+    $file = array();
+    if ($data['size'] > 0) {
+      $file['filepath'] = $data['url'];
+      $file['filesize'] = $data['size'];
+      $file['filemime'] = $data['mime'];
+    }
+
+    return $file;
+  }
+}
+
 
 function video_cck_zzz_custom_url_embedded_link($video_code) {
   return $video_code;

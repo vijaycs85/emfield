@@ -126,8 +126,22 @@ function emthumb_emfield_field_extra($op, $node, $field, &$items, $teaser, $page
           $items[$delta]['data']['emthumb'] = _emthumb_file_load($file['data']['emthumb']['fid']);
         }
         return array($field['field_name'] => $items);
-      };
+      }
       break;
+    case 'rss item':
+      // different from load (and others) as it can be, and is, called within each $field individually 
+      $output = array();
+      if (count($items)) {
+        $values = array();
+        foreach ($items as $delta => $file) { 
+          $thumbnail = _emthumb_file_load($file['data']['emthumb']['fid']);
+          if (isset($thumbnail['filepath'])) {
+            $thumbnail['filepath'] = url($thumbnail['filepath'], NULL, NULL, TRUE);
+            $output[$delta]['thumbnail'] = $thumbnail;
+          }
+        }
+      }
+      return $output;
     // called before content.module defaults.
     case 'insert':
       foreach ($items as  $delta => $item) {

@@ -1,4 +1,6 @@
 /* $Id$ */
+2008-05-10
+#249255 - ekes added MRSS support to multiple files
 
 2008-04-30
 #239374 Can't turn off custom thumbnail feature on node/add for video and image

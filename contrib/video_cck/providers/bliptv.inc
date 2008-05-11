@@ -216,11 +216,18 @@ function video_cck_bliptv_rss($item, $teaser = NULL) {
 
     if (is_array($video_info)) {
       // Begin building file object.
-      $file = new stdClass();
+      $file = array();
       // Create temporary name/path for newly uploaded files.
-      $file->filepath = $video_info['url'];
-      $file->filesize = $video_info['size'];
-      $file->filemime = $video_info['mime'];
+      $file['filepath'] = $video_info['url'];
+      $file['filesize'] = $video_info['size'];
+      $file['filemime'] = $video_info['mime'];
+
+      // additional data for Y! MRSS
+      $file['thumbnail']['filepath'] = $data['thumbnail']['url'];
+      $file['width'] = ($video_info['width']) ? $video_info['width'] : 0;
+      $file['height'] = ($video_info['height']) ? $video_info['height'] : 0;
+      $file['duration'] = ($video_info['duration']) ? $video_info['duration'] : FALSE;
+      // @todo media:credit role="author" ...
 
       return $file;
     }

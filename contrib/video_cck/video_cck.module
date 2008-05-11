@@ -92,7 +92,7 @@ function video_cck_field_settings($op, $field) {
   }
 }
 
-/** Implementation of hook_field **/
+//** Implementation of hook_field **/
 function video_cck_field($op, &$node, $field, &$items, $teaser, $page) {
   if (module_hook('emfield', 'emfield_field')) {
     return emfield_emfield_field($op, $node, $field, $items, $teaser, $page, 'video_cck');
@@ -135,7 +135,6 @@ function video_cck_field_formatter_info() {
 }
 
 /** Implementation of hook_field_formatter **/
-
 function video_cck_field_formatter($field, $item, $formatter, $node) {
   return module_invoke('emfield', 'emfield_field_formatter', $field, $item, $formatter, $node, 'video_cck');
 }
@@ -315,10 +314,14 @@ function video_cck_embed_form($field, $item, $formatter, $node) {
  *  calls the providers hook video_cck_PROVIDER_rss($item, $teaser)
  */
 function video_cck_emfield_rss($node, $items = array(), $teaser = NULL) {
-  $item = array_shift($items);
-  if ($item['value'] && $item['provider']) {
-    return module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'rss', $item, $teaser);
+  $rss_data = array();
+  foreach ($items as $item) {
+    // note only the first $item will get an RSS enclosure, other items may have media: data in the feed however
+    if ($item['value'] && $item['provider']) {
+      $rss_data[] = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'rss', $item, $teaser);
+    }
   }
+  return $rss_data;
 }
 
 function theme_video_cck_video_embed($field, $item, $formatter, $node) {
@@ -351,26 +354,38 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_l
         $thumbnail_url = base_path() . $default_thumbnail_url;
       }
     }
-    if ($thumbnail_url) {
-      $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
-      $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
-      if ($no_link) { //thickbox requires the thumbnail returned without the link
-        $output = '<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />';
-      }
-      else {
-        $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
-      }
-    }
-    else {
-       // if all else fails, then just print a 'see video' link.
-      if ($no_link) {
-        $output = ''; //thickbox won't work without a thumbnail
-      }
-      else {
-        $output = l(t('See Video'), 'node/' . $node->nid);
+  }
+  else {
+    // seems to be an unknown video
+    // apply a default thumbnail, if it exists
+    if (!$thumbnail_url) {
+      $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path', NULL);
+      if ($default_thumbnail_url) {
+        $thumbnail_url = base_path() . $default_thumbnail_url;
       }
     }
   }
+
+  if ($thumbnail_url) {
+    $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
+    $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
+    if ($no_link) { //thickbox requires the thumbnail returned without the link
+      $output = '<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />';
+    }
+    else {
+      $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
+    }
+  }
+  else {
+     // if all else fails, then just print a 'see video' link.
+    if ($no_link) {
+      $output = ''; //thickbox won't work without a thumbnail
+    }
+    else {
+      $output = l(t('See Video'), 'node/' . $node->nid);
+    }
+  }
+
   return $output;
 }
 

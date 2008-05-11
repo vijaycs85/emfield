@@ -311,10 +311,14 @@ function emaudio_embed_form($field, $item, $formatter, $node) {
  *  calls the providers hook emaudio_PROVIDER_rss($item, $teaser)
  */
 function emaudio_emfield_rss($node, $items = array(), $teaser = NULL) {
-  $item = array_shift($items);
-  if ($item['value'] && $item['provider']) {
-    return module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'rss', $item, $teaser);
+  $rss_data = array();
+  foreach ($items as $item) {
+    // note only the first $item will get an RSS enclosure, other items may have media: data in the feed however
+    if ($item['value'] && $item['provider']) {
+      $rss_data[] = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'rss', $item, $teaser);
+    }
   }
+  return $rss_data;
 }
 
 function theme_emaudio_emaudio_embed($field, $item, $formatter, $node) {

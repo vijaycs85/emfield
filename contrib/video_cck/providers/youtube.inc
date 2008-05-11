@@ -23,7 +23,7 @@ function video_cck_youtube_info() {
   $name = t('YouTube');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
-    array(t('RSS Attachment'), t('No'), ''),
+    array(t('RSS Attachment'), t('Yes'), ''),
     array(t('Show related videos'), t('Yes'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
     array(t('Thumbnails'), t('Yes'), t('')),
     array(t('Custom player colors'), t('Yes'), t('You may customize the player\'s skin by choosing your own colors, and/or border in that setting field set.')),
@@ -115,6 +115,59 @@ function video_cck_youtube_settings() {
     $form['youtube']['colors']['#description'] .= t(' The !colorpicker, if active, gives an easy way to select these colors.', array('!colorpicker' => l(t('Colorpicker module'), 'http://drupal.org/project/colorpicker')));
   }
   return $form;
+}
+
+/**
+ * hook emfield_PROVIDER_data
+ *
+ * provides an array to be serialised and made available with $item elsewhere
+ */
+function video_cck_youtube_data($field, $item) {
+  $data = array();
+  // create some 'field' version control
+  $data['video_cck_youtube_version'] = 1;
+
+  // be nice to make this an array for changing media:thumbnail?
+  $data['thumbnail']['url'] = 'http://img.youtube.com/vi/'. $item['value'] .'/0.jpg';
+
+  // gather info about the item
+  // RSS / MRSS feeds with the item would have enough info
+  // alternative try getting the minimum from an http get
+  $url = 'http://youtube.com/v/'. $item['value'];
+  $response = emfield_request_header('youtube', $url);
+
+  if ($response->code == 200) {
+    // probably shouldn't give the 303 path
+    $data['flash']['url'] = $url;
+    $data['flash']['size'] = $response->headers['Content-Length'];
+    $data['flash']['mime'] = $response->headers['Content-Type'];
+  }
+
+  return $data;
+}
+
+/**
+ *
+ */
+function video_cck_youtube_rss($item, $teaser = NULL) {
+  if ($item['value']) {
+    if ($item['data']['video_cck_youtube_data_version'] >= 1) {
+      $data = $item['data'];
+    }
+    else {
+      $data = video_cck_youtube_data(NULL, $item);
+    }
+    
+    $file = array();
+    if (is_array($data['flash'])) {
+      $file['filepath'] = $data['flash']['url'];
+      $file['filesize'] = $data['flash']['size'];
+      $file['filemime'] = $data['flash']['mime'];
+    }
+    $file['thumbnail']['filepath'] = $data['thumbnail']['url'];
+
+    return $file;
+  }
 }
 
 /**
