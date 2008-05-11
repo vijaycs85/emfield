@@ -1,4 +1,6 @@
 /* $Id$ */
+2008-05-10 
+#228678 - vanvemden fixed problem where on node preview video was not shown
 
 2008-04-29
 #250273/schuyler1d include files should key off of file->filename
