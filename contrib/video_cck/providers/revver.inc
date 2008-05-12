@@ -48,19 +48,19 @@ function video_cck_revver_extract($embed) {
 }
 
 function video_cck_revver_video_link($video_code) {
-  return 'http://one.revver.com/video/' . $video_code;
+  return 'http://one.revver.com/video/'. $video_code;
 }
 
 function theme_video_cck_revver_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     $autoplay = $autoplay ? ';flashvars:autoStart=true;' : '';
-    $output .= '<script src="http://flash.revver.com/player/1.0/player.js?mediaId:' . $embed . ';affiliateId:' . check_plain(variable_get('video_cck_revver_affiliate_id', '0')) . ';height:' . $height . ';width:' . $width . $autoplay . ';" type="text/javascript"></script>';
+    $output .= '<script src="http://flash.revver.com/player/1.0/player.js?mediaId:'. $embed .';affiliateId:'. check_plain(variable_get('video_cck_revver_affiliate_id', '0')) .';height:'. $height .';width:'. $width . $autoplay .';" type="text/javascript"></script>';
   }
   return $output;
 }
 
 function video_cck_revver_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return 'http://frame.revver.com/frame/' . $width . 'x' . $height . '/' . check_plain($item['value']) . '.jpg';
+  return 'http://frame.revver.com/frame/'. $width .'x'. $height .'/'. check_plain($item['value']) .'.jpg';
 }
 
 function video_cck_revver_video($embed, $width, $height, $field, $item, $autoplay) {

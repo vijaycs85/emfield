@@ -68,7 +68,7 @@ function video_cck_sevenload_extract($embed = '') {
  *    a string containing the URL to view the video at the original provider's site
  */
 function video_cck_sevenload_video_link($video_code) {
-  return 'http://www.sevenload.com/videos/' . $video_code;
+  return 'http://www.sevenload.com/videos/'. $video_code;
 }
 
 function video_cck_sevenload_thumbnail($field, $item, $formatter, $node, $width, $height) {

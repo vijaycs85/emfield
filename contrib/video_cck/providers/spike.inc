@@ -37,7 +37,7 @@ function video_cck_spike_request($embed, $cacheable = TRUE) {
 }
 
 function video_cck_spike_video_link($video_code) {
-  return 'http://www.spike.com/video/' . $video_code;
+  return 'http://www.spike.com/video/'. $video_code;
 }
 
 function theme_video_cck_spike_flash($embed, $width, $height, $autoplay) {
@@ -45,14 +45,14 @@ function theme_video_cck_spike_flash($embed, $width, $height, $autoplay) {
   //<embed width="448" height="365" src="http://www.spike.com/efp" quality="high" bgcolor="000000" name="efp" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="flvbaseclip=2952560&"> </embed>
  if ($embed) {
     $autoplay = $autoplay ? ' autoplay="true"' : '';
-    $output = '<embed width="' . $width . '" height="' . $height . '" src="http://www.spike.com/efp" quality="high" bgcolor="000000" name="efp" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="flvbaseclip=' . $embed .'"> </embed>';
+    $output = '<embed width="'. $width .'" height="'. $height .'" src="http://www.spike.com/efp" quality="high" bgcolor="000000" name="efp" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="flvbaseclip='. $embed .'"> </embed>';
   }
   return $output;
 }
 
 function video_cck_spike_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $picturelink = substr($item['value'], 0, 7);
-  return 'http://img1.ifilmpro.com/resize/image/stills/films/resize/istd/' . $picturelink . '.jpg?width=' . $width;
+  return 'http://img1.ifilmpro.com/resize/image/stills/films/resize/istd/'. $picturelink .'.jpg?width='. $width;
 }
 
 function video_cck_spike_video($embed, $width, $height, $field, $item, $autoplay) {

@@ -73,7 +73,7 @@ function video_cck_brightcove_extract($embed = '') {
  *    a string containing the URL to view the video at the original provider's site
  */
 function video_cck_brightcove_video_link($video_code) {
-  return 'http://www.brightcove.tv/title.jsp?title=' . $video_code;
+  return 'http://www.brightcove.tv/title.jsp?title='. $video_code;
 }
 
 /**

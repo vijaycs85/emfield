@@ -77,12 +77,12 @@ function video_cck_field_settings($op, $field) {
       break;
     case 'arguments':
       return array(
-        'content: ' . $field['field_name'] => array(
+        'content: '. $field['field_name'] => array(
           'name' => t('Embedded Video: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
           'handler' => 'content_views_argument_handler',
           'help' => t('This is the default argument handler provided by CCK. It uses the original embed code or URL pasted into the field.'),
         ),
-        'provider: ' . $field['field_name'] => array(
+        'provider: '. $field['field_name'] => array(
           'name' => t('Embedded Video Provider: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
           'handler' => 'video_cck_handler_arg_provider',
           'help' => t('The Embedded Video Provider argument allows users to filter a view by specifying the video provider.'),
@@ -101,7 +101,7 @@ function video_cck_field($op, &$node, $field, &$items, $teaser, $page) {
 
 /** Implementation of hook_field_formatter_info **/
 function video_cck_field_formatter_info() {
-  $types = array('video_cck',);
+  $types = array('video_cck', );
   $formats = array(
     'default' => array(
       'label' => t('Default'),
@@ -146,7 +146,7 @@ function video_cck_widget_info() {
   return array(
     'video_cck_textfields' => array(
       'label' => t('3rd Party Video'),
-      'field types' => array('video_cck',),
+      'field types' => array('video_cck', ),
     ),
   );
 }
@@ -245,7 +245,7 @@ function video_cck_widget_settings($op, $widget) {
         $form['tn']['thumbnail_default_path'] = array(
           '#type' => 'textfield',
           '#title' => t('Default thumbnail path'),
-          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path',''),
+          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path', ''),
           '#description' => t('Path to a local default thumbnail image for cases when a thumbnail can\'t be found. For example, you might have a default thumbnail at %files.', array('%files' => 'files/thumbnail.png')) . $tn_desc,
         );
       }
@@ -370,10 +370,10 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_l
     $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
     $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
     if ($no_link) { //thickbox requires the thumbnail returned without the link
-      $output = '<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />';
+      $output = '<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('See Video') .'" title="'. t('See Video') .'" />';
     }
     else {
-      $output = l('<img src="' . $thumbnail_url . '" width="' . $width  . '" height="' . $height  . '" alt="' . t('See Video') . '" title="' . t('See Video') . '" />', 'node/' . $node->nid, array(), NULL, NULL, false, true);
+      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('See Video') .'" title="'. t('See Video') .'" />', 'node/'. $node->nid, array(), NULL, NULL, false, true);
     }
   }
   else {
@@ -382,7 +382,7 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_l
       $output = ''; //thickbox won't work without a thumbnail
     }
     else {
-      $output = l(t('See Video'), 'node/' . $node->nid);
+      $output = l(t('See Video'), 'node/'. $node->nid);
     }
   }
 
@@ -428,7 +428,7 @@ function video_cck_handler_arg_provider($op, &$query, $argtype, $arg = '') {
   return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'video_cck');
 }
 
-function video_cck_menu ($may_cache) {
+function video_cck_menu($may_cache) {
   $items = array();
   if (module_exists('thickbox')) {
     if ($may_cache) {
