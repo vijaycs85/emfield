@@ -1,4 +1,7 @@
 /* $Id$ */
+2008-05-23
+#214011 - dgtlmoon fixed variable syntax that was precenting users from choosing which providers should show up and which shouldn't on the CCK form.
+
 2008-05-10 
 #228678 - vanvemden fixed problem where on node preview video was not shown
 

@@ -168,7 +168,7 @@ function emfield_allowed_providers($field, $module) {
   $providers = array();
   $allow_all = TRUE;
   foreach ($allowed_providers as $test) {
-    if (!variable_get('emfield_allow_'. $module .'_'. $test->name, TRUE)) {
+    if (!variable_get('emfield_' . $module . '_allow_' . $test->name, TRUE)) {
       unset($allowed_providers[$test->name]);
     }
     else {

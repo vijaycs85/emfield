@@ -234,15 +234,15 @@ function video_cck_youtube_convert_color($color = NULL) {
 function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     if ($autoplay) {
-      $autoplay_value = '&autoplay=1';
+      $autoplay_value = '&amp;autoplay=1';
     }
     $related = variable_get('video_cck_youtube_show_related_videos', 0);
     if (variable_get('video_cck_youtube_show_colors', FALSE)) {
       $color1 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT));
       $color2 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT));
-      $colors='&color1=0x'. $color1 .'&color2=0x'. $color2;
+      $colors='&amp;color1=0x'.$color1.'&amp;color2=0x'.$color2;
     }
-    $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&border=1');
+    $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&amp;border=1');
     $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" id=\"VideoPlayback\" >
       <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" />
       <param name=\"allowScriptAcess\" value=\"sameDomain\"/>

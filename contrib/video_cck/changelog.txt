@@ -1,6 +1,9 @@
 /* $Id$ */
+2008-05-23
+#261999 - chirale fixed XHTML validation errors in YouTube.inc
+
 2008-05-10
-#208963- robomalo + darrenmUK  added Vimeo support
+#208963 - robomalo + darrenmUK  added Vimeo support
 #249255 - ekes added MRSS support to multiple files
 #170799 - ekes added support for google video URLs from '.com.au', 'co.uk' etc.
 #199189 - vsnguyen + Rysk added support for Veoh
