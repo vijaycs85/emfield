@@ -1,4 +1,8 @@
 /* $Id$ */
+
+2008-05-27
+allow w/h (and other) overrides to thumbnails
+
 2008-05-23
 #261999 - chirale fixed XHTML validation errors in YouTube.inc
 
