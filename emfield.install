@@ -25,6 +25,6 @@ function emfield_enable() {
 /**
 * Implementation of hook_disable().
 */
-function text_disable() {
+function emfield_disable() {
   content_notify('disable', 'emfield');
 }
