@@ -2,7 +2,29 @@
 // $Id$
 
 /**
- * Implementation of hook_install().
- */
+* Implementation of hook_install().
+*/
 function emfield_install() {
+  content_notify('install', 'emfield');
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function emfield_uninstall() {
+  content_notify('uninstall', 'emfield');
+}
+
+/**
+* Implementation of hook_enable().
+*/
+function emfield_enable() {
+  content_notify('enable', 'emfield');
+}
+
+/**
+* Implementation of hook_disable().
+*/
+function text_disable() {
+  content_notify('disable', 'emfield');
 }
