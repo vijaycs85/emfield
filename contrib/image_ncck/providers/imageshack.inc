@@ -112,7 +112,7 @@ function _image_ncck_imageshack_scrape_image_url($url) {
   }
 
   $html = file_get_contents($url);
-  if (preg_match('!<img id="thepic".+? src="(.+?)"!is', $html, $matches)) {
+  if (preg_match('!<img id="thepic" .+? src="(.+?)"!is', $html, $matches)) {
     return $urls[$url] = $matches[1];
   }
 }

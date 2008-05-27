@@ -104,7 +104,7 @@ function emaudio_field($op, &$node, $field, &$items, $teaser, $page) {
 
 /** Implementation of hook_field_formatter_info **/
 function emaudio_field_formatter_info() {
-  $types = array('emaudio');
+  $types = array('emaudio', );
   $formats = array(
     'default' => array(
       'label' => t('Default'),
@@ -143,7 +143,7 @@ function emaudio_widget_info() {
   return array(
     'emaudio_textfields' => array(
       'label' => t('3rd Party Audio'),
-      'field types' => array('emaudio'),
+      'field types' => array('emaudio', ),
     ),
   );
 }
@@ -311,18 +311,35 @@ function emaudio_embed_form($field, $item, $formatter, $node) {
  *  calls the providers hook emaudio_PROVIDER_rss($item, $teaser)
  */
 function emaudio_emfield_rss($node, $items = array(), $teaser = NULL) {
-  $item = array_shift($items);
-  if ($item['value'] && $item['provider']) {
-    return module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'rss', $item, $teaser);
+  $rss_data = array();
+  foreach ($items as $item) {
+    // note only the first $item will get an RSS enclosure, other items may have media: data in the feed however
+    if ($item['value'] && $item['provider']) {
+      $rss_data[] = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'rss', $item, $teaser);
+    }
   }
+  return $rss_data;
 }
 
 function emaudio_theme() {
   return array(
     'emaudio_emaudio_embed' => array(
-      'arguments' => array('field', 'item', 'formatter', 'node'),
-    );
+       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
+    ),
+    'emaudio_emaudio_thumbnail' => array(
+	 'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
+    ),
+    'emaudio_audio_audio' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
+    ),
+    'emaudio_emaudio_preview' => array(
+      'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
+    ),
+    'emaudio_default' => array(
+	'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
+    ),
   );
+
 }
 
 function theme_emaudio_emaudio_embed($field, $item, $formatter, $node) {
@@ -392,11 +409,4 @@ function theme_emaudio_emaudio_preview($field, $item, $formatter, $node) {
     $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
   }
   return $output;
-}
-
-/**
-* Implementation of hook_content_is_empty().
-*/
-function emaudio_content_is_empty($item, $field) {
-  return _emfield_content_is_empty($item, $field);
 }

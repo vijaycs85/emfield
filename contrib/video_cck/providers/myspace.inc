@@ -44,7 +44,7 @@ function _video_cck_myspace_scrape_thumbnail($video, $cached = true) {
         $str2 = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.viewVideos&channelid=$channel_id");
 
         if ($str2) {
-          $picturelink = preg_replace('@.*href="[^"]+'. $vidid .'"[^>]+><img[^>]+src="([^"]+)".*@si', '\1', $str2);
+          $picturelink = preg_replace('@.*href="[^"]+'. $vidid .'"[^>]+><img[^>]+src="([^"]+)".*@si', '\1',  $str2);
 
           if ($picturelink) {
             $thumbnail = $picturelink;

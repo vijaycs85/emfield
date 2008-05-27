@@ -236,7 +236,7 @@ function _image_ncck_flickr_image_url($photo, $size = NULL, $format = NULL) {
   $id = isset($photo['primary']) ? $photo['primary'] : $photo['id'];
   $secret = $photo['secret'];
 
-  return "http://farm{$farm}.static.flickr.com/{$server}/{$id}_{$secret}". ($size ? "_$size." : '.') . ($size == 'o' ? $format : 'jpg');
+  return "http://farm{$farm}.static.flickr.com/{$server}/{$id}_{$secret}" . ($size ? "_$size." : '.') . ($size == 'o' ? $format : 'jpg');
 }
 
 function _image_ncck_flickr_guess_size($width, $height) {

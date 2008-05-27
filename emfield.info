@@ -1,6 +1,8 @@
 ; $Id$
 name = Embedded Media Field
+core = 6.x
 description = Provides an engine for modules to integrate various 3rd party content providers, such as Video Neighborhood, Image Neighborhood, and Audio Neighborhood.
 dependencies[] = content
 package = CCK
-core = 6.x
+
+

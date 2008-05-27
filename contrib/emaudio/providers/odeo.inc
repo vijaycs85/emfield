@@ -71,10 +71,10 @@ function theme_emaudio_odeo_flash($embed, $width, $height, $autoplay) {
       <param name=\"name\" value=\"odeo_player_black\" />
       <param name=\"allowScriptAccess\" value=\"always\" />
       <param name=\"wmode\" value=\"transparent\" />
-      <embed src=\"http://odeo.com/flash/audio_player_black.swf\"
-      quality=\"high\" width=\"322\" height=\"54\"
-      name=\"odeo_player_black\" align=\"middle\"
-      allowScriptAccess=\"always\" wmode=\"transparent\"
+      <embed src=\"http://odeo.com/flash/audio_player_black.swf\" 
+      quality=\"high\" width=\"322\" height=\"54\" 
+      name=\"odeo_player_black\" align=\"middle\" 
+      allowScriptAccess=\"always\" wmode=\"transparent\"  
       type=\"application/x-shockwave-flash\" flashvars=\"type=audio&id=". $embed ."\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" />
       </object>
     \n";

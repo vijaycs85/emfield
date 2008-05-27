@@ -5,28 +5,6 @@
  * Implementation of hook_install().
  */
 function image_ncck_install() {
-  content_notify('install', 'image_ncck');
-}
-
-/**
-* Implementation of hook_uninstall().
-*/
-function image_ncck_uninstall() {
-  content_notify('uninstall', 'image_ncck');
-}
-
-/**
-* Implementation of hook_enable().
-*/
-function image_ncck_enable() {
-  content_notify('enable', 'image_ncck');
-}
-
-/**
-* Implementation of hook_disable().
-*/
-function image_ncck_disable() {
-  content_notify('disable', 'image_ncck');
 }
 
 function image_cck_update_1() {

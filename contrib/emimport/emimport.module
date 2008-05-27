@@ -11,48 +11,38 @@
  */
 function emimport_menu() {
   $items = array();
-  $items['admin/content/emfield/import'] = array(
-    'title' => 'Import settings',
-    'description' => 'Configure Embedded Media Import: Allow importing 3rd party provider playlists; set content types and taxonomy; etc.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => 'emimport_settings',
-    'access arguments' => 'administer site configuration',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 3,
-  );
-  $items['emimport'] = array(
-    'title' => 'Import media set',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => 'emimport_import',
-    'type' => MENU_ITEM_GROUPING,
-    'access arguments' => 'import media sets',
-    'weight' => 1,
-  );
-  $items['emimport/%type'] = array(
-    'title' => 'Import %type',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('emimport_import', 1),
-    'access callback' => '_emimport_access',
-    'access arguments' => array(1),
-  );
-//   foreach (emimport_types_allowing_import(FALSE, FALSE) as $module => $types) {
-//     foreach ($types as $type => $fields) {
-//       $type = node_get_types('type', $type);
-//       $type_url_str = str_replace('_', '-', $type->type);
-//       $items[] = array(
-//         'path' => 'emimport/'. $type_url_str,
-//         'title' => t('Import @type set', array('@type' => $type->name)),
-//         'callback' => 'drupal_get_form',
-//         'callback arguments' => array('emimport_import', $type->type),
-//         'access' => user_access('import media sets') && user_access('create '. $type->type .' content');
-//       );
-//     }
-//   }
+    $items['admin/content/emfield/import'] = array(
+      'title' => 'Import settings',
+      'description' => 'Configure Embedded Media Import: Allow importing 3rd party provider playlists; set content types and taxonomy; etc.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('emimport_settings'),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_LOCAL_TASK,
+      'weight' => 3,
+    );
+    $items['emimport'] = array(
+      'title' => 'Import media set',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('emimport_import'),
+      'type' => MENU_ITEM_GROUPING,
+      'access arguments' => 'import media sets',
+      'weight' => 1,
+    );
+    foreach (emimport_types_allowing_import(FALSE, FALSE) as $module => $types) {
+      foreach ($types as $type => $fields) {
+        $type = node_get_types('type', $type);
+        $type_url_str = str_replace('_', '-', $type->type);
+	  $create_type_access = 'create '. $type->type .' content';
+	  $path = 'emimport/'. $type_url_str;
+        $items[$path] = array(
+          'title' => 'Import $type->name set',
+          'page callback' => 'drupal_get_form',
+          'page arguments' => array('emimport_import', $type->type),
+          'access' => array('import media sets',$create_type_access),
+        );
+      }
+    }
   return $items;
-}
-
-function _emimport_access($type) {
-  return user_access('import media sets') && user_access('create '. $type .' content');
 }
 
 function emimport_perm() {
@@ -152,40 +142,42 @@ function emimport_settings() {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
-    foreach ($types[$module] as $content_type => $fields) {
-      // settings per content type per module
-      $form['emimport'][$module]['types'][$content_type] = array(
-        '#type' => 'fieldset',
-        '#title' => $content_types[$content_type]['name'],
-        '#description' => t('Settings affecting %module sets imported into !type nodes.', array('%module' => $module_info['#name'], '!type' => l($content_types[$content_type]['name'], 'admin/content/types/'. $content_types[$type]['url_str']))),
-        '#collapsible' => TRUE,
-        '#collapsed' => TRUE,
-      );
-      $form['emimport'][$module]['types'][$content_type]['emimport_'. $module .'_type_allow_'. $content_type] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Allow import'),
-        '#description' => t('When checked, this will allow importing %module sets into this node type.', array('%module' => $module_info['#name'])),
-        '#default_value' => variable_get('emimport_'. $module .'_type_allow_'. $content_type, TRUE),
-      );
-      $form['emimport'][$module]['types'][$content_type]['emimport_'. $module .'_type_display_'. $content_type] = array(
-        '#type' => 'textfield',
-        '#title' => t('Import display limit'),
-        '#description' => t('This will limit how many titles/thumbnails will be displayed on the actual import page for %module types, when checking the individual set items to import. Keep at 0 to allow individual providers to override, assuming the global value is also 0.', array('%module' => $module_info['#name'])),
-        '#default_value' => variable_get('emimport_'. $module .'_type_display_'. $content_type, 0),
-      );
-      $tags_select = array(0 => '(None)');
-      foreach (taxonomy_get_vocabularies() as $vocabulary) {
-        if ($vocabulary->tags && in_array($content_type, $vocabulary->nodes)) {
-          $tags_select[$vocabulary->vid] = $vocabulary->name;
+    if (is_array($types[$module])) {
+      foreach ($types[$module] as $content_type => $fields) {
+        // settings per content type per module
+        $form['emimport'][$module]['types'][$content_type] = array(
+          '#type' => 'fieldset',
+          '#title' => $content_types[$content_type]['name'],
+          '#description' => t('Settings affecting %module sets imported into !type nodes.', array('%module' => $module_info['#name'], '!type' => l($content_types[$content_type]['name'], 'admin/content/types/'. $content_types[$type]['url_str']))),
+          '#collapsible' => TRUE,
+          '#collapsed' => TRUE,
+        );
+        $form['emimport'][$module]['types'][$content_type]['emimport_'. $module .'_type_allow_'. $content_type] = array(
+          '#type' => 'checkbox',
+          '#title' => t('Allow import'),
+          '#description' => t('When checked, this will allow importing %module sets into this node type.', array('%module' => $module_info['#name'])),
+          '#default_value' => variable_get('emimport_'. $module .'_type_allow_'. $content_type, TRUE),
+        );
+        $form['emimport'][$module]['types'][$content_type]['emimport_'. $module .'_type_display_'. $content_type] = array(
+          '#type' => 'textfield',
+          '#title' => t('Import display limit'),
+          '#description' => t('This will limit how many titles/thumbnails will be displayed on the actual import page for %module types, when checking the individual set items to import. Keep at 0 to allow individual providers to override, assuming the global value is also 0.', array('%module' => $module_info['#name'])),
+          '#default_value' => variable_get('emimport_'. $module .'_type_display_'. $content_type, 0),
+        );
+        $tags_select = array(0 => '(None)');
+        foreach (taxonomy_get_vocabularies() as $vocabulary) {
+          if ($vocabulary->tags && in_array($content_type, $vocabulary->nodes)) {
+            $tags_select[$vocabulary->vid] = $vocabulary->name;
+          }
         }
+        $form['emimport'][$module]['types'][$content_type]['emimport_'. $module .'_type_tags_'. $content_type] = array(
+          '#type' => 'select',
+          '#title' => t('Tags vocabulary'),
+          '#description' => t('When importing an individual set, any tags imported (or overridden) for an item will be saved into this vocabulary, if allowed for that node type. If selected, this will override the %module value.', array('%module' => $module_info['#name'])),
+          '#options' => $tags_select,
+          '#default_value' => variable_get('emimport_'. $module .'_type_tags_'. $content_type, 0),
+        );
       }
-      $form['emimport'][$module]['types'][$content_type]['emimport_'. $module .'_type_tags_'. $content_type] = array(
-        '#type' => 'select',
-        '#title' => t('Tags vocabulary'),
-        '#description' => t('When importing an individual set, any tags imported (or overridden) for an item will be saved into this vocabulary, if allowed for that node type. If selected, this will override the %module value.', array('%module' => $module_info['#name'])),
-        '#options' => $tags_select,
-        '#default_value' => variable_get('emimport_'. $module .'_type_tags_'. $content_type, 0),
-      );
     }
     $emfield_info = module_invoke($module, 'emfield_info');
     $form['emimport'][$module]['providers'] = array(
@@ -210,7 +202,7 @@ function emimport_settings() {
             '#collapsible' => TRUE,
             '#collapsed' => TRUE,
           );
-          $form['emimport'][$module]['providers'][$provider->name]['emimport_'. $module .'_allow_'. $provider->name] = array(
+         $form['emimport'][$module]['providers'][$provider->name]['emimport_'. $module .'_allow_'. $provider->name] = array(
             '#type' => 'checkbox',
             '#title' => t('Allow importing @sets from %provider.', array('@sets' => ($info['import_sets_word'] ? $info['import_sets_word'] : t('sets')), '%provider' => $info['name'])),
             '#default_value' => variable_get('emimport_'. $module .'_allow_'. $provider->name, TRUE),
@@ -287,7 +279,7 @@ function emimport_types_allowing_import($cached = TRUE, $rebuild_menu = TRUE) {
   }
 
   // save our types to cache
-  cache_set('emimport_types_allowing_import', 'cache', serialize($emfield_types), CACHE_PERMANENT);
+  cache_set('emimport_types_allowing_import', serialize($emfield_types),  'cache', CACHE_PERMANENT);
 
   if ($rebuild_menu) {
     // make sure to register any new import types in the menu
@@ -328,7 +320,7 @@ function emimport_form_alter($form_id, &$form) {
     foreach ($emfield_types as $module => $types) {
       foreach ($types as $type => $fields) {
         if ($type == $form['#node_type']->type) {
-//          drupal_set_message($module .': '. $type);
+//          drupal_set_message($module . ': ' . $type);
         }
       }
     }
@@ -363,7 +355,6 @@ function emimport_import($type = NULL, $form_values = NULL) {
     }
     return $form;
   }
-  $type = str_replace('-', '_', $type);
   $media_type = array();
   foreach (emimport_types_allowing_import() as $module => $types) {
     foreach ($types as $content_type => $fields) {
@@ -377,7 +368,7 @@ function emimport_import($type = NULL, $form_values = NULL) {
     drupal_not_found();
   }
 
-  $form['#multistep'] = TRUE;
+  $form_state['rebuild'] = TRUE;
   $second_page = isset($form_values);
 
   $url = $second_page ? $form_values['url'] : '';
@@ -450,10 +441,10 @@ function emimport_import($type = NULL, $form_values = NULL) {
  *
  * TODO: create a cron loop to handle overflow when a lot of nodes are selected, so we don't time out.
  */
-function emimport_import_submit($form_id, $form_values) {
+function emimport_import_submit($form, &$form_state) {
   global $user;
-  if ($form_values['op'] == t('Import')) {
-    foreach ($form_values['info'] as $field_name => $field_info) {
+  if ($form_state['values']['op'] == t('Import')) {
+    foreach ($form_state['values']['info'] as $field_name => $field_info) {
       $module = $field_info['codes']['#module'];  // TODO: doesn't look like we need that in this step...
       $provider = $field_info['codes']['#provider'];
       $codes = $field_info['codes']['#codes'];
@@ -462,18 +453,18 @@ function emimport_import_submit($form_id, $form_values) {
       $type = $field_info['codes']['#content_type'];
       foreach ($codes['#set'] as $item) {
         // process only if we've checked the box next to the thumbnail
-        if ($form_values[$field_name .'_code_'. $item['#code']]) {
+        if ($form_state['values'][$field_name .'_code_'. $item['#code']]) {
           $info = array(
             '#type' => $type,
             '#account' => $user,
             '#field_name' => $field_name,
             '#provider' => $provider,
             '#tags_vid' => $tags_vid,
-            '#title' => $form_values[$field_name .'_title_'. $item['#code']],
-            '#body' => $form_values[$field_name .'_body_'. $item['#code']],
-            '#original_link' => $form_values[$field_name .'_link_'. $item['#code']],
+            '#title' => $form_state['values'][$field_name .'_title_'. $item['#code']],
+            '#body' => $form_state['values'][$field_name .'_body_'. $item['#code']],
+            '#original_link' => $form_state['values'][$field_name .'_link_'. $item['#code']],
             '#code' => $item['#code'],
-            '#tags' => $form_values[$field_name .'_tags_'. $item['#code']],
+            '#tags' => $form_state['values'][$field_name .'_tags_'. $item['#code']],
 
           );
           emimport_save_info_for_processing($info);
@@ -482,7 +473,7 @@ function emimport_import_submit($form_id, $form_values) {
     }
     return 'emimport/'. $type;
   }
-  else if ($form_values['op'] == t('Cancel')) {
+  else if ($form_state['values']['op'] == t('Cancel')) {
     return 'emimport/'. arg(1);  // TODO: hack; i forget where i set the type in the form
   }
 }
@@ -545,7 +536,7 @@ function emimport_node($info) {
   return node_submit($node);
 }
 
-function emimport_import_validate($form_id, &$form_state) {
+function emimport_import_validate($form, &$form_state) {
   if ($form_state['values']['op'] != t('Cancel')) {
     $parsers = $form_state['values']['parsers'];
     foreach ($parsers as $parser) {
@@ -697,7 +688,7 @@ function _emimport_import_codes($parsers = array()) {
 
 function _emimport_form_tags($vid = 0, $typed_terms = array()) {
   $form = array();
-  $vocabulary = taxonomy_get_vocabulary($vid);
+  $vocabulary = taxonomy_vocabulary_load($vid);
   if ($vocabulary->vid) {
     $typed_string = implode(', ', $typed_terms);
 

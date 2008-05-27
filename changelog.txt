@@ -1,4 +1,15 @@
 /* $Id$ */
+2008-05-23
+#214011 - dgtlmoon fixed variable syntax that was precenting users from choosing which providers should show up and which shouldn't on the CCK form.
+
+2008-05-10 
+#228678 - vanvemden fixed problem where on node preview video was not shown
+
+2008-04-29
+#250273/schuyler1d include files should key off of file->filename
+
+2008-04-12
+#245472/schuyler1d add hook_emfield_providers to allow other modules to be providers for emfield sub-modules
 
 2008-02-19
 fix loop when determining fields implementing contributed emfield modules

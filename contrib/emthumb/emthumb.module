@@ -1,18 +1,17 @@
 <?php
 // $Id$
 
-function emthumb_menu($maycache) {
+function emthumb_menu() {
   $items = array();
-  if (!$maycache && $_SESSION['emthumb']) {
+  if ($_SESSION['emthumb']) {
     // Add handlers for previewing new uploads.
     foreach ($_SESSION['emthumb'] as $fieldname => $files) {
       if (is_array($files)) {
         foreach ($files as $delta => $file) {
           if ($file['preview']) {
-            $items[] = array(
-              'path' => $file['preview'],
-              'callback' => '_emthumb_preview',
-              'access' => TRUE,
+            $items[$file['preview']] = array(
+              'page callback' => '_emthumb_preview',
+              'access arguments' => array('TRUE'),
               'type' => MENU_CALLBACK,
             );
           }
@@ -62,9 +61,9 @@ function emthumb_file_insert($node, &$file, $field) {
 
   if (emthumb_check_directory($field['widget']['emthumb_image_path']) && $file = file_save_upload((object)$file, $filepath)) {
     $file = (array)$file;
-    $file['fid'] = db_last_insert_id('files', 'fid');
+    $file['fid'] = db_last_insert_id('{files}','fid');
     db_query("INSERT into {files} (fid, nid, filename, filepath, filemime, filesize)
-             VALUES (%d, %d, '%s', '%s', '%s',%d)",
+             VALUES (%d, %d, '%s','%s','%s',%d)",
             $file['fid'], $node->nid, $file['filename'], $file['filepath'], $file['filemime'], $file['filesize']);
     return (array)$file;
   }
@@ -126,8 +125,23 @@ function emthumb_emfield_field_extra($op, $node, $field, &$items, $teaser, $page
           $items[$delta]['data']['emthumb'] = _emthumb_file_load($file['data']['emthumb']['fid']);
         }
         return array($field['field_name'] => $items);
-      };
+      }
       break;
+    case 'rss item':
+      // different from load (and others) as it can be, and is, called within each $field individually 
+      $output = array();
+      if (count($items)) {
+        $values = array();
+        foreach ($items as $delta => $file) { 
+          $thumbnail = _emthumb_file_load($file['data']['emthumb']['fid']);
+          if (isset($thumbnail['filepath'])) {
+		$options = array('absolute' => TRUE);
+            $thumbnail['filepath'] = url($thumbnail['filepath'], $options);
+            $output[$delta]['thumbnail'] = $thumbnail;
+          }
+        }
+      }
+      return $output;
     // called before content.module defaults.
     case 'insert':
       foreach ($items as  $delta => $item) {
@@ -187,9 +201,9 @@ function emthumb_emfield_widget_settings_extra($op, $widget) {
         '#title' => t('Custom thumbnail description'),
         '#default_value' => $widget['emthumb_description'] ? $widget['emthumb_description'] : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $widget['label'])),
         '#description' => t('This description will be displayed when uploading a custom thumbnail.'),
-        '#maxlength' => 512,
+  '#maxlength' => 512,
       );
-      $form['emthumb']['emthumb_max_resolution'] = array(
+     $form['emthumb']['emthumb_max_resolution'] = array(
         '#type' => 'textfield',
         '#title' => t('Maximum resolution for Images'),
         '#default_value' => $widget['emthumb_max_resolution'] ? $widget['emthumb_max_resolution'] : 0,
@@ -237,7 +251,8 @@ function emthumb_emfield_widget_extra($op, &$node, $field, &$items) {
       }
 
       // Attach new files
-      if ($file = file_check_upload($fieldname .'_upload')) {
+	$validators = array();
+      if ($file = file_save_upload($fieldname. '_upload',$validators,FALSE,FILE_EXISTS_RENAME )) {
         $file = (array)$file;
         if (strpos($file['filemime'], 'image') !== FALSE) {
           $file = _emthumb_scale_image($file, $field['widget']['emthumb_max_resolution']);
@@ -279,7 +294,7 @@ function emthumb_emfield_widget_extra($op, &$node, $field, &$items) {
       }
       break;
     case 'form':
-      if (isset($field['widget']['emthumb'])) {
+      if ($field['widget']['emthumb']) {
         $form = _emthumb_widget_form($node, $field, $items);
         return $form;
       }
@@ -309,7 +324,6 @@ function _emthumb_widget_form($node, $field, $items) {
     '#tree' => FALSE,
     '#weight' => 9,
   );
-  $form['#attributes']['enctype'] = "multipart/form-data";
 
   $form['upload'] = array(
     '#type' => 'button',
@@ -322,7 +336,7 @@ function _emthumb_widget_form($node, $field, $items) {
 
   // Store the file data object to be carried on.
   $file = $items['data']['emthumb'];
-//   drupal_set_message('file:<pre>'. print_r($file) .'</pre>');
+//   drupal_set_message('file:<pre>' . print_r($file) . '</pre>');
 //   print_r($node);
   if ($file['filepath'] && !$file['flags']['delete']) {
     $form['emthumb'] = array(
@@ -336,7 +350,7 @@ function _emthumb_widget_form($node, $field, $items) {
     );
 
     $filename = $file['fid'] == 'upload' ? file_create_filename($file['filename'], file_create_path($field['widget']['emimport_image_path'])) : $file['filepath'];
-// drupal_set_message('filename: '. $filename);
+// drupal_set_message('filename: ' . $filename);
     $form['emthumb']['preview'] = array(
       '#type' => 'markup',
       '#value' => theme('emthumb_image', $file, $file['emthumb_alt'], $file['emthumb_title'], array('width' => '150'), FALSE),
@@ -501,6 +515,23 @@ function emthumb_thumbnail_url($item) {
     return file_create_url($item['data']['emthumb']['filepath']);
   }
 }
+
+function emthumb_theme() {
+  return array(
+    'emthumb_view_image' => array(
+      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
+     ),
+    'emthumb_edit_image_row' => array(
+      'arguments' => array('element' => NULL),
+     ),		
+    'emthumb_image' => array(
+      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
+     ),
+    'emthumb_multiple' => array(
+      'arguments' => array('images' => NULL),
+     ),
+  );
+} 
 
 function theme_emthumb_view_image($file, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
   return theme('emthumb_image', $file, $alt, $title, $attributes , $getsize);

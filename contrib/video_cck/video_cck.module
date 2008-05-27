@@ -31,14 +31,7 @@ function video_cck_emfield_settings() {
 
 function video_cck_field_info() {
   $fields = array(
-    'video_cck' => array(
-      'label' => t('Embedded Video'),
-      'description' => t('Embed a video from a third party provider or local path (as permitted).'),
-      'callbacks' => array(
-        'tables' => CONTENT_CALLBACK_CUSTOM,
-        'arguments' => CONTENT_CALLBACK_CUSTOM,
-      ),
-    ),
+    'video_cck' => array('label' => t('Embedded Video')),
   );
   return $fields;
 }
@@ -50,14 +43,10 @@ function video_cck_field_settings($op, $field) {
 
     case 'database columns':
       $columns = array(
-        'embed' => array('type' => 'text', 'size' => 'big', 'sortable' => TRUE, 'description' => t('Stores the URL or embed code pasted by the editor.')),
-        'value' => array('type' => 'text', 'size' => 'small', 'sortable' => TRUE, 'description' => t('Stores the video code given by the provider.')),
-        'provider' => array('type' => 'text', 'size' => 'tiny', 'sortable' => TRUE, 'description' => t('Stores the provider of the third party video.')),
-        'data' => array('type' => 'text', 'size' => 'big', 'sortable' => FALSE, 'description' => t('Stores any extra data required by the field and/or by the provider.')),
-//         'embed' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-//         'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-//         'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-//         'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => false),
+        'embed' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
+        'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
+        'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
+        'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => false),
       );
       switch ($field['type']) {
         case 'video_cck':
@@ -103,7 +92,7 @@ function video_cck_field_settings($op, $field) {
   }
 }
 
-/** Implementation of hook_field **/
+//** Implementation of hook_field **/
 function video_cck_field($op, &$node, $field, &$items, $teaser, $page) {
   if (module_hook('emfield', 'emfield_field')) {
     return emfield_emfield_field($op, $node, $field, $items, $teaser, $page, 'video_cck');
@@ -112,7 +101,7 @@ function video_cck_field($op, &$node, $field, &$items, $teaser, $page) {
 
 /** Implementation of hook_field_formatter_info **/
 function video_cck_field_formatter_info() {
-  $types = array('video_cck');
+  $types = array('video_cck', );
   $formats = array(
     'default' => array(
       'label' => t('Default'),
@@ -135,11 +124,17 @@ function video_cck_field_formatter_info() {
       'field types' => $types,
     ),
   );
+  // add thickbox formatter if thickbox module exists
+  if (module_exists('thickbox')) {
+    $formats['thickbox'] = array(
+      'label' => t('Thickbox: Image Thumbnail -> Full Size Video'),
+      'field types' => $types,
+      );
+  }
   return $formats;
 }
 
 /** Implementation of hook_field_formatter **/
-
 function video_cck_field_formatter($field, $item, $formatter, $node) {
   return module_invoke('emfield', 'emfield_field_formatter', $field, $item, $formatter, $node, 'video_cck');
 }
@@ -151,7 +146,7 @@ function video_cck_widget_info() {
   return array(
     'video_cck_textfields' => array(
       'label' => t('3rd Party Video'),
-      'field types' => array('video_cck'),
+      'field types' => array('video_cck', ),
     ),
   );
 }
@@ -232,7 +227,7 @@ function video_cck_widget_settings($op, $widget) {
         );
         $form['tn']['thumbnail_width'] = array(
           '#type' => 'textfield',
-          '#title' => t('Video width'),
+          '#title' => t('Thumbnail width'),
           '#default_value' => $widget['thumbnail_width'] ? $widget['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH),
           '#required' => true,
           '#description' => t('The width of the thumbnail. It defaults to @width.', array('@width' => $width)),
@@ -319,31 +314,35 @@ function video_cck_embed_form($field, $item, $formatter, $node) {
  *  calls the providers hook video_cck_PROVIDER_rss($item, $teaser)
  */
 function video_cck_emfield_rss($node, $items = array(), $teaser = NULL) {
-  $item = array_shift($items);
-  if ($item['value'] && $item['provider']) {
-    return module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'rss', $item, $teaser);
+  $rss_data = array();
+  foreach ($items as $item) {
+    // note only the first $item will get an RSS enclosure, other items may have media: data in the feed however
+    if ($item['value'] && $item['provider']) {
+      $rss_data[] = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'rss', $item, $teaser);
+    }
   }
+  return $rss_data;
 }
 
-/**
- *  Implements hook_theme
- */
 function video_cck_theme() {
   return array(
     'video_cck_video_embed' => array(
-      'attributes' => array('field', 'item', 'formatter', 'node'),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
     ),
     'video_cck_video_thumbnail' => array(
-      'attributes' => array('field', 'item', 'formatter', 'node'),
-    ),
-    'video_cck_video_preview' => array(
-      'attributes' => array('field', 'item', 'formatter', 'node'),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
     ),
     'video_cck_video_video' => array(
-      'attributes' => array('field', 'item', 'formatter', 'node'),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node', 'options' => array()),
     ),
-        'video_cck_video_default' => array(
-      'attributes' => array('field', 'item', 'formatter', 'node'),
+    'video_cck_default' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+    ),
+    'video_cck_video_preview' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+    ),
+    'video_cck_video_thickbox' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
     ),
   );
 }
@@ -363,13 +362,13 @@ function theme_video_cck_video_embed($field, $item, $formatter, $node) {
   return $output;
 }
 
-function theme_video_cck_video_thumbnail($field, $item, $formatter, $node) {
+function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_link = false, $options = array()) {
   if ($item['value'] && $item['provider']) {
     // if we have emthumb installed, then give it a chance to override our thumbnail
     $thumbnail_url = module_invoke('emthumb', 'thumbnail_url', $item);
 
     // if we don't have a custom thumbnail, then see if the provider gives us one
-    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height);
+    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height, $options);
 
     // if we still don't have a thumbnail, then apply a default thumbnail, if it exists
     if (!$thumbnail_url) {
@@ -378,52 +377,109 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node) {
         $thumbnail_url = base_path() . $default_thumbnail_url;
       }
     }
-    if ($thumbnail_url) {
-      $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
-      $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
-      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('See Video') .'" title="'. t('See Video') .'" />', 'node/'. $node->nid, array(), NULL, NULL, false, true);
+  }
+  else {
+    // seems to be an unknown video
+    // apply a default thumbnail, if it exists
+    if (!$thumbnail_url) {
+      $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path', NULL);
+      if ($default_thumbnail_url) {
+        $thumbnail_url = base_path() . $default_thumbnail_url;
+      }
+    }
+  }
+
+  if ($thumbnail_url) {
+    $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH);
+    $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT);
+    if ($no_link) { //thickbox requires the thumbnail returned without the link
+      $output = '<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('See Video') .'" title="'. t('See Video') .'" />';
     }
     else {
-      // if all else fails, then just print a 'see video' link.
+      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('See Video') .'" title="'. t('See Video') .'" />', 'node/'. $node->nid, array(), NULL, NULL, false, true);
+    }
+  }
+  else {
+     // if all else fails, then just print a 'see video' link.
+    if ($no_link) {
+      $output = ''; //thickbox won't work without a thumbnail
+    }
+    else {
       $output = l(t('See Video'), 'node/'. $node->nid);
     }
   }
+
   return $output;
 }
 
-function theme_video_cck_video_video($field, $item, $formatter, $node) {
+function theme_video_cck_video_video($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
     $width = $field['widget']['video_width'] ? $field['widget']['video_width'] : variable_get('video_cck_default_video_width', VIDEO_CCK_DEFAULT_VIDEO_WIDTH);;
     $height = $field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('video_cck_default_video_height', VIDEO_CCK_DEFAULT_VIDEO_HEIGHT);;
     $autoplay = $field['widget']['video_autoplay'];
-    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'video', $embed, $width, $height, $field, $item, $autoplay);
+    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'video', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
   return $output;
 }
 
-function theme_video_cck_default($field, $item, $formatter, $node) {
-  return theme('video_cck_video_video', $field, $item, $formatter, $node);
+function theme_video_cck_default($field, $item, $formatter, $node, $options = array()) {
+  return theme('video_cck_video_video', $field, $item, $formatter, $node, $options);
 }
 
-function theme_video_cck_video_preview($field, $item, $formatter, $node) {
+function theme_video_cck_video_preview($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
     $width = $field['widget']['preview_width'] ? $field['widget']['preview_width'] : variable_get('video_cck_default_preview_width', VIDEO_CCK_DEFAULT_PREVIEW_WIDTH);;
     $height = $field['widget']['preview_height'] ? $field['widget']['preview_height'] : variable_get('video_cck_default_preview_height', VIDEO_CCK_DEFAULT_PREVIEW_HEIGHT);;
     $autoplay = $field['widget']['preview_autoplay'];
-    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
+    $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
   return $output;
+}
+
+function theme_video_cck_thickbox($field, $item, $formatter, $node, $options = array()) {
+  $thumbnail = theme('video_cck_video_thumbnail', $field, $item, 'video_thumbnail', $node, true, $options);
+
+  $destination = 'video-cck/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'];
+  $options = array(
+    'attributes'=> array(
+      'title' => $title, 
+      'class' => 'thickbox',
+      'rel' => $field['type_name']),
+    'query' => NULL,
+    'fragment' => NULL,
+    'absolute' => FALSE,
+    'html' => TRUE,
+ );
+ $output = l($thumbnail, $destination,$options);
+ return $output;
 }
 
 function video_cck_handler_arg_provider($op, &$query, $argtype, $arg = '') {
   return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'video_cck');
 }
 
-/**
-* Implementation of hook_content_is_empty().
-*/
-function video_cck_content_is_empty($item, $field) {
-  return _emfield_content_is_empty($item, $field);
+function video_cck_menu() {
+  $items = array();
+  if (module_exists('thickbox')) {
+      $items['video-cck/thickbox'] = array(
+        'page callback' => 'video_cck_thickbox',
+        'access arguments' => array('access content'),
+        'type' => MENU_CALLBACK,
+        );
+  }
+  return $items;
+}
+
+function video_cck_thickbox($nid, $width, $height, $field_name) {
+    $field = array();
+    $field['widget']['video_width'] = $width;
+    $field['widget']['video_height'] = $height;
+    $field['widget']['video_autoplay'] = 1;
+    $field['field_name'] = $field_name;
+    $node = node_load($nid);
+    $items = $node->$field_name;
+    $item = $items[0];
+    print theme('video_cck_video_video', $field, $item, 'video_video', $node);
 }

@@ -23,7 +23,7 @@ function video_cck_youtube_info() {
   $name = t('YouTube');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
-    array(t('RSS Attachment'), t('No'), ''),
+    array(t('RSS Attachment'), t('Yes'), ''),
     array(t('Show related videos'), t('Yes'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
     array(t('Thumbnails'), t('Yes'), t('')),
     array(t('Custom player colors'), t('Yes'), t('You may customize the player\'s skin by choosing your own colors, and/or border in that setting field set.')),
@@ -111,11 +111,64 @@ function video_cck_youtube_settings() {
       '#title' => t('Color 2 picker'),
       '#description' => t('Click in this textfield to start picking your color'),
     );
-  }
+  } 
   else {
     $form['youtube']['colors']['#description'] .= t(' The !colorpicker, if active, gives an easy way to select these colors.', array('!colorpicker' => l(t('Colorpicker module'), 'http://drupal.org/project/colorpicker')));
   }
   return $form;
+}
+
+/**
+ * hook emfield_PROVIDER_data
+ *
+ * provides an array to be serialised and made available with $item elsewhere
+ */
+function video_cck_youtube_data($field, $item) {
+  $data = array();
+  // create some 'field' version control
+  $data['video_cck_youtube_version'] = 1;
+
+  // be nice to make this an array for changing media:thumbnail?
+  $data['thumbnail']['url'] = 'http://img.youtube.com/vi/'. $item['value'] .'/0.jpg';
+
+  // gather info about the item
+  // RSS / MRSS feeds with the item would have enough info
+  // alternative try getting the minimum from an http get
+  $url = 'http://youtube.com/v/'. $item['value'];
+  $response = emfield_request_header('youtube', $url);
+
+  if ($response->code == 200) {
+    // probably shouldn't give the 303 path
+    $data['flash']['url'] = $url;
+    $data['flash']['size'] = $response->headers['Content-Length'];
+    $data['flash']['mime'] = $response->headers['Content-Type'];
+  }
+
+  return $data;
+}
+
+/**
+ *
+ */
+function video_cck_youtube_rss($item, $teaser = NULL) {
+  if ($item['value']) {
+    if ($item['data']['video_cck_youtube_data_version'] >= 1) {
+      $data = $item['data'];
+    }
+    else {
+      $data = video_cck_youtube_data(NULL, $item);
+    }
+    
+    $file = array();
+    if (is_array($data['flash'])) {
+      $file['filepath'] = $data['flash']['url'];
+      $file['filesize'] = $data['flash']['size'];
+      $file['filemime'] = $data['flash']['mime'];
+    }
+    $file['thumbnail']['filepath'] = $data['thumbnail']['url'];
+
+    return $file;
+  }
 }
 
 /**
@@ -152,6 +205,7 @@ function video_cck_youtube_extract($embed = '') {
   return array(
     '@youtube\.com/v/([^"\&]+)@i',
     '@youtube\.com/watch\?v=([^"\&]+)@i',
+     '@youtube\.com/\?v=([^"\&]+)@i',
   );
 }
 
@@ -180,15 +234,15 @@ function video_cck_youtube_convert_color($color = NULL) {
 function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     if ($autoplay) {
-      $autoplay_value = '&autoplay=1';
+      $autoplay_value = '&amp;autoplay=1';
     }
     $related = variable_get('video_cck_youtube_show_related_videos', 0);
     if (variable_get('video_cck_youtube_show_colors', FALSE)) {
       $color1 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT));
       $color2 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT));
-      $colors = '&color1=0x'. $color1 .'&color2=0x'. $color2;
+      $colors='&amp;color1=0x'.$color1.'&amp;color2=0x'.$color2;
     }
-    $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&border=1');
+    $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&amp;border=1');
     $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" id=\"VideoPlayback\" >
       <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" />
       <param name=\"allowScriptAcess\" value=\"sameDomain\"/>
@@ -223,7 +277,7 @@ function video_cck_youtube_thumbnail($field, $item, $formatter, $node, $width, $
   // if we have a large thumbnail size, then get the larger version available.
   if ($width > 130 || $height > 97) {
     $tn = "http://img.youtube.com/vi/$youtube_id/0.jpg";
-  }
+  } 
   else {
     // youtube offers 3 thumbnails. select one randomly.
     $rand = rand(0, 2) + 1;

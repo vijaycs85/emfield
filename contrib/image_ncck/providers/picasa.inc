@@ -108,7 +108,7 @@ function image_ncck_picasa_image_url($code, $width, $height, $formatter, $field,
     $size = _image_ncck_picasa_guess_size($width, $height);
   }
   //http://lh5.google.com/kaos777/RwqRRgxcKrI/AAAAAAAAAB0/pl5FboT6x2M/IMG_0468.JPG
-  if (preg_match('!([^/]*)\.google\.com/([^/]*)/([^/]*)/([^/]*)/([^/]*)/(.*)!i', $code, $matches)) {
+ if (preg_match ('!([^/]*)\.ggpht\.com/([^/]*)/([^/]*)/([^/]*)/([^/]*)/(.*)!i', $code, $matches)) {
     $info = array(
       'server' => $matches[1],
      'userid' => $matches[2],

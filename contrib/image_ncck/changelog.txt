@@ -1,4 +1,6 @@
 /* $Id$ */
+2008-05-20
+#254028 - bangpound fixed regex problem with Picassa to support new address for images
 
 2008-02-19
 fix error in flickr when importing (args)

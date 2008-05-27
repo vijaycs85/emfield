@@ -5,28 +5,6 @@
  * Implementation of hook_install().
  */
 function video_cck_install() {
-  content_notify('install', 'video_cck');
-}
-
-/**
-* Implementation of hook_uninstall().
-*/
-function video_cck_uninstall() {
-  content_notify('uninstall', 'video_cck');
-}
-
-/**
-* Implementation of hook_enable().
-*/
-function video_cck_enable() {
-  content_notify('enable', 'video_cck');
-}
-
-/**
-* Implementation of hook_disable().
-*/
-function video_cck_disable() {
-  content_notify('disable', 'video_cck');
 }
 
 /**
