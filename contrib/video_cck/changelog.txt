@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-05-28
+utilize $options arrays in other theme functions
+
 2008-05-27
 allow w/h (and other) overrides to thumbnails
 
