@@ -89,10 +89,10 @@ function emfield_settings() {
 
 function emfield_field_columns() {
   $columns = array(
-    'embed' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-    'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-    'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-    'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => FALSE),
+    'embed' => array('type' => 'longtext', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    'data' => array('type' => 'longtext', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
   );
   foreach (module_implements('emfield_field_columns_extra') as $module) {
     $extra = module_invoke($module, 'emfield_field_columns_extra');
