@@ -43,10 +43,10 @@ function emaudio_field_settings($op, $field) {
 
     case 'database columns':
       $columns = array(
-        'embed' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-        'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-        'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => "''", 'sortable' => TRUE),
-        'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => false),
+        'embed' => array('type' => 'text', 'size' => 'big', 'not null' => FALSE, 'sortable' => TRUE),
+        'value' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE, 'sortable' => TRUE),
+        'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE, 'sortable' => TRUE),
+        'data' => array('type' => 'text', 'size' => 'big', 'not null' => FALSE, 'sortable' => false),
       );
       switch ($field['type']) {
         case 'emaudio':
