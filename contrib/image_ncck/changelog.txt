@@ -1,4 +1,7 @@
 /* $Id$ */
+2008-05-29
+#177027/dipen chaudhary - close parens on array
+
 2008-05-20
 #254028 - bangpound fixed regex problem with Picassa to support new address for images
 

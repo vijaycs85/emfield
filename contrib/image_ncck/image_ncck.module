@@ -300,7 +300,7 @@ function image_ncck_embed_form($field, $item, $formatter, $node) {
 }
 
 function image_ncck_theme(){
-  return array(  
+  return array(
    'image_ncck_image_embed' => array(
       'arguments' => array(
         'field' => NULL,
@@ -348,6 +348,7 @@ function image_ncck_theme(){
         'formatter' => NULL,
         'node' => NULL),
       ),
+    );
 }
 
 function theme_image_ncck_image_embed($field, $item, $formatter, $node) {
