@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-05-30
+allow w/h (and other) overrides to thumbnails and other formatters
 case 'database columns': return module_invoke('emfield', 'field_columns', $field);
 content_notify in .install files
 
