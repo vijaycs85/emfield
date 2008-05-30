@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-05-30
+widget info
 'callbacks' => array('tables' => CONTENT_CALLBACK_DEFAULT, 'arguments' => CONTENT_CALLBACK_DEFAULT, ),
 case 'database columns': return module_invoke('emfield', 'field_columns', $field);
 content_notify in .install files

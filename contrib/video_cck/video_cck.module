@@ -149,6 +149,10 @@ function video_cck_widget_info() {
     'video_cck_textfields' => array(
       'label' => t('3rd Party Video'),
       'field types' => array('video_cck', ),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+        ),
     ),
   );
 }

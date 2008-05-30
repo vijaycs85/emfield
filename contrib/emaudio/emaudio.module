@@ -147,6 +147,10 @@ function emaudio_widget_info() {
     'emaudio_textfields' => array(
       'label' => t('3rd Party Audio'),
       'field types' => array('emaudio', ),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+        ),
     ),
   );
 }

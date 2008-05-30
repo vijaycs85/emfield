@@ -148,6 +148,10 @@ function image_ncck_widget_info() {
     'image_ncck_textfields' => array(
       'label' => t('3rd Party Image'),
       'field types' => array('image_ncck', ),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+        ),
     ),
   );
 }
