@@ -92,9 +92,13 @@ function emfield_settings() {
  */
 function emfield_field_columns($field) {
   $columns = array(
+    // poorly named. but this contains the original URL or embed code pre-parsing, as entered by the user/editor.
     'embed' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    // this contains the code used by the provider to identify the media
     'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    // this is the actual provider used; matches up with the specific provider.inc file
     'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    // an array for any extra data required by this media, such as unique thumbnail requirements or rss feed data
     'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
   );
   // allow other modules to add new columns
