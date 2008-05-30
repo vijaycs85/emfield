@@ -45,7 +45,7 @@ function image_ncck_field_info() {
 function image_ncck_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
-      return module_invoke('emfield', 'field_columns');
+      return module_invoke('emfield', 'field_columns', $field);
     case 'filters':
       return array(
         'not null' => array(

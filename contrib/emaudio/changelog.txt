@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-05-30
+case 'database columns': return module_invoke('emfield', 'field_columns', $field);
 content_notify in .install files
 
 2008-05-29

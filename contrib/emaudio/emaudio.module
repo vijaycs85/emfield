@@ -42,17 +42,7 @@ function emaudio_field_settings($op, $field) {
   switch ($op) {
 
     case 'database columns':
-      $columns = array(
-        'embed' => array('type' => 'text', 'size' => 'big', 'not null' => FALSE, 'sortable' => TRUE),
-        'value' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE, 'sortable' => TRUE),
-        'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE, 'sortable' => TRUE),
-        'data' => array('type' => 'text', 'size' => 'big', 'not null' => FALSE, 'sortable' => false),
-      );
-      switch ($field['type']) {
-        case 'emaudio':
-          break;
-      }
-      return $columns;
+      return module_invoke('emfield', 'field_columns', $field);
     case 'filters':
       return array(
         'not null' => array(

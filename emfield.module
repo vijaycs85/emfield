@@ -87,16 +87,22 @@ function emfield_settings() {
   return system_settings_form($form);
 }
 
-function emfield_field_columns() {
+/**
+ *  helper function to consistently define field columns
+ */
+function emfield_field_columns($field) {
   $columns = array(
     'embed' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
     'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
     'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
     'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
   );
+  // allow other modules to add new columns
+  // TODO: couldn't we just use module_invoke_all here? also make sure those modules do their magic on enable/disable
+  // finally, is this actually used? seems extraneous with the data array (unless we're using views magic for them)
   foreach (module_implements('emfield_field_columns_extra') as $module) {
-    $extra = module_invoke($module, 'emfield_field_columns_extra');
-    if (is_array($extra)) {//print_r($extra);
+    $extra = module_invoke($module, 'emfield_field_columns_extra', $field);
+    if (is_array($extra) && !empty($extra)) {
       $columns = array_merge($columns, $extra);
     }
   }
