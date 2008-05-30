@@ -31,7 +31,13 @@ function video_cck_emfield_settings() {
 
 function video_cck_field_info() {
   $fields = array(
-    'video_cck' => array('label' => t('Embedded Video')),
+    'video_cck' => array(
+      'label' => t('Embedded Video'),
+      'callbacks' => array(
+        'tables' => CONTENT_CALLBACK_DEFAULT,
+        'arguments' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
   );
   return $fields;
 }

@@ -36,7 +36,13 @@ function image_ncck_emfield_settings() {
 
 function image_ncck_field_info() {
   $fields = array(
-    'image_ncck' => array('label' => t('External Image')),
+    'image_ncck' => array(
+      'label' => t('External Image'),
+      'callbacks' => array(
+        'tables' => CONTENT_CALLBACK_DEFAULT,
+        'arguments' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
   );
   return $fields;
 }

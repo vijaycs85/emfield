@@ -31,7 +31,13 @@ function emaudio_emfield_settings() {
 
 function emaudio_field_info() {
   $fields = array(
-    'emaudio' => array('label' => t('Embedded Audio')),
+    'emaudio' => array(
+      'label' => t('Embedded Audio'),
+      'callbacks' => array(
+        'tables' => CONTENT_CALLBACK_DEFAULT,
+        'arguments' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
   );
   return $fields;
 }
