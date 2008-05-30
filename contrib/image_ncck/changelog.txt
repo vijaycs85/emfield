@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-05-30
+content_notify in .install files
+
 2008-05-29
 implement hook_content_is_empty
 #177027/dipen chaudhary - close parens on array

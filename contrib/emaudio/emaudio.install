@@ -5,6 +5,28 @@
  * Implementation of hook_install().
  */
 function emaudio_install() {
+  content_notify('install', 'emaudio');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function emaudio_uninstall() {
+  content_notify('uninstall', 'emaudio');
+}
+
+/**
+* Implementation of hook_enable().
+*/
+function emaudio_enable() {
+  content_notify('enable', 'emaudio');
+}
+
+/**
+* Implementation of hook_disable().
+*/
+function emaudio_disable() {
+  content_notify('disable', 'emaudio');
 }
 
 function emaudio_update_1() {
