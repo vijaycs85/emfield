@@ -289,12 +289,12 @@ function emaudio_widget($op, &$node, $field, &$node_field) {
   }
 }
 
-function emaudio_embed_form($field, $item, $formatter, $node) {
+function emaudio_embed_form($field, $item, $formatter, $node, $options = array()) {
   $embed = $item['value'];
   $width = $field['widget']['audio_width'];
   $height = $field['widget']['audio_height'];
   $autoplay = $field['widget']['audio_autoplay'];
-  $text = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'audio', $embed, $width, $height, $field, $item, $autoplay);
+  $text = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'audio', $embed, $width, $height, $field, $item, $autoplay, $node, $options);
   $form = array();
   $form['emaudio_embed'] = array(
     '#type' => 'textarea',
@@ -321,7 +321,7 @@ function emaudio_emfield_rss($node, $items = array(), $teaser = NULL) {
   return $rss_data;
 }
 
-function theme_emaudio_emaudio_embed($field, $item, $formatter, $node) {
+function theme_emaudio_emaudio_embed($field, $item, $formatter, $node, $options = array()) {
   /*
     Note you can use this in node.tpl.php, substituting the proper field type:
     $field_type = 'field_audio';
@@ -331,18 +331,18 @@ function theme_emaudio_emaudio_embed($field, $item, $formatter, $node) {
     print theme('emaudio_emaudio_embed', $field, $node->{$field_type}[0], 'emaudio_embed', $node);
    */
   if ($item['value'] && $item['provider']) {
-    $output = drupal_get_form('emaudio_embed_form', $field, $item, $formatter, $node);
+    $output = drupal_get_form('emaudio_embed_form', $field, $item, $formatter, $node, $options);
   }
   return $output;
 }
 
-function theme_emaudio_emaudio_thumbnail($field, $item, $formatter, $node) {
+function theme_emaudio_emaudio_thumbnail($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     // if we have emthumb installed, then give it a chance to override our thumbnail
     $thumbnail_url = module_invoke('emthumb', 'thumbnail_url', $item);
 
     // if we don't have a custom thumbnail, then see if the provider gives us one
-    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height);
+    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height, $options);
 
     // if we still don't have a thumbnail, then apply a default thumbnail, if it exists
     if (!$thumbnail_url) {
@@ -364,28 +364,28 @@ function theme_emaudio_emaudio_thumbnail($field, $item, $formatter, $node) {
   return $output;
 }
 
-function theme_emaudio_audio_audio($field, $item, $formatter, $node) {
+function theme_emaudio_audio_audio($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
     $width = $field['widget']['audio_width'] ? $field['widget']['audio_width'] : variable_get('emaudio_default_audio_width', EMAUDIO_DEFAULT_AUDIO_WIDTH);;
     $height = $field['widget']['audio_height'] ? $field['widget']['audio_height'] : variable_get('emaudio_default_audio_height', EMAUDIO_DEFAULT_AUDIO_HEIGHT);;
     $autoplay = $field['widget']['audio_autoplay'];
-    $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'audio', $embed, $width, $height, $field, $item, $autoplay);
+    $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'audio', $embed, $width, $height, $field, $item, $autoplay, $node, $options);
   }
   return $output;
 }
 
-function theme_emaudio_default($field, $item, $formatter, $node) {
-  return theme('emaudio_audio_audio', $field, $item, $formatter, $node);
+function theme_emaudio_default($field, $item, $formatter, $node, $options = array()) {
+  return theme('emaudio_audio_audio', $field, $item, $formatter, $node, $options);
 }
 
-function theme_emaudio_emaudio_preview($field, $item, $formatter, $node) {
+function theme_emaudio_emaudio_preview($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
     $width = $field['widget']['preview_width'] ? $field['widget']['preview_width'] : variable_get('emaudio_default_preview_width', EMAUDIO_DEFAULT_PREVIEW_WIDTH);;
     $height = $field['widget']['preview_height'] ? $field['widget']['preview_height'] : variable_get('emaudio_default_preview_height', EMAUDIO_DEFAULT_PREVIEW_HEIGHT);;
     $autoplay = $field['widget']['preview_autoplay'];
-    $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
+    $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay, $node, $options);
   }
   return $output;
 }
