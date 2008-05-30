@@ -45,7 +45,7 @@ function _emaudio_zzz_custom_url_implode_types() {
 
 function emaudio_zzz_custom_url_extract($embed = '') {
   $types = _emaudio_zzz_custom_url_implode_types();
-  if (preg_match('@\ .('. $types .')@i', $embed, $matches)) {
+  if (preg_match('@\.('. $types .')@i', $embed, $matches)) {
     return $embed;
   }
   return false;
@@ -105,7 +105,7 @@ function theme_emaudio_zzz_custom_url_embedded_audio($type, $url, $width, $heigh
   static $count;
   if ($url) {
     $count++;
-    $title = $options['title'] ? $options['title'] : ($node->title ? $node->title : t('Download audio'));
+    $title = $options['title'] ? $options['title'] : t('Download audio');
     $class = $options['class'] ? $options['class'] : 'emaudio-zzz-custom-url-embedded-audio media';
     $id = $options['id'] ? $options['id'] : "$class-$count";
     switch ($type) {
@@ -121,13 +121,13 @@ function emaudio_zzz_custom_url_thumbnail($field, $item, $formatter, $node, $wid
   return '';
 }
 
-function emaudio_zzz_custom_url_audio($code, $width, $height, $field, $item, $autoplay) {
+function emaudio_zzz_custom_url_audio($code, $width, $height, $field, $item, $autoplay, $node = NULL) {
   $type = $item['data']['type'];
   $output = theme('emaudio_zzz_custom_url_embedded_audio', $type, $code, $width, $height, $autoplay, $field, $item, $node, $options);
   return $output;
 }
 
-function emaudio_zzz_custom_url_preview($code, $width, $height, $field, $item, $autoplay) {
+function emaudio_zzz_custom_url_preview($code, $width, $height, $field, $item, $autoplay, $node = NULL) {
   $type = $item['data']['type'];
   $output = theme('emaudio_zzz_custom_url_embedded_audio', $type, $code, $width, $height, $autoplay, $field, $item, $node, $options);
   return $output;
