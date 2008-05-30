@@ -95,6 +95,13 @@ function image_ncck_field($op, &$node, $field, &$items, $teaser, $page) {
   }
 }
 
+/**
+ *  implement hook_content_is_empty
+ */
+function image_ncck_content_is_empty($item, $field) {
+  return module_invoke('emfield', 'emfield_content_is_empty', $item, $field);
+}
+
 /** Implementation of hook_emfield_field_formatter_info **/
 function image_ncck_field_formatter_info() {
   $types = array('image_ncck', );
@@ -348,7 +355,7 @@ function image_ncck_theme(){
         'formatter' => NULL,
         'node' => NULL),
       ),
-    );
+  );
 }
 
 function theme_image_ncck_image_embed($field, $item, $formatter, $node) {

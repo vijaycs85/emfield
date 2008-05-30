@@ -102,6 +102,13 @@ function emaudio_field($op, &$node, $field, &$items, $teaser, $page) {
   }
 }
 
+/**
+ *  implement hook_content_is_empty
+ */
+function emaudio_content_is_empty($item, $field) {
+  return module_invoke('emfield', 'emfield_content_is_empty', $item, $field);
+}
+
 /** Implementation of hook_field_formatter_info **/
 function emaudio_field_formatter_info() {
   $types = array('emaudio', );

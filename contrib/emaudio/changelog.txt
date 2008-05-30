@@ -1,5 +1,8 @@
 /* $Id$ */
 
+2008-05-29
+implement hook_content_is_empty
+
 2008-02-17
 add provider views handlers
 

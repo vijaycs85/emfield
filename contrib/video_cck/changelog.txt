@@ -1,4 +1,8 @@
 /* $Id$ */
+
+2008-05-29
+implement hook_content_is_empty
+
 2008-05-23
 #261999 - chirale fixed XHTML validation errors in YouTube.inc
 

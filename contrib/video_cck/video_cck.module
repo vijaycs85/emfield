@@ -92,6 +92,13 @@ function video_cck_field_settings($op, $field) {
   }
 }
 
+/**
+ *  implement hook_content_is_empty
+ */
+function video_cck_content_is_empty($item, $field) {
+  return module_invoke('emfield', 'emfield_content_is_empty', $item, $field);
+}
+
 //** Implementation of hook_field **/
 function video_cck_field($op, &$node, $field, &$items, $teaser, $page) {
   if (module_hook('emfield', 'emfield_field')) {
@@ -444,7 +451,7 @@ function theme_video_cck_thickbox($field, $item, $formatter, $node, $options = a
   $destination = 'video-cck/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'];
   $options = array(
     'attributes'=> array(
-      'title' => $title, 
+      'title' => $title,
       'class' => 'thickbox',
       'rel' => $field['type_name']),
     'query' => NULL,

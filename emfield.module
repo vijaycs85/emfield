@@ -20,7 +20,7 @@ function emfield_menu() {
       'access arguments' => array('administer site configuration'),
       'type' => MENU_DEFAULT_LOCAL_TASK,
     );
-  
+
   return $items;
 }
 
@@ -153,6 +153,13 @@ function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $mo
     }
   }
   return $return;
+}
+
+/**
+ *  helper function to implement hook_content_is_empty
+ */
+function emfield_emfield_content_is_empty($item, $field) {
+  return empty($item['value']);
 }
 
 /**
@@ -534,7 +541,7 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
           // about here let extras change the data
           // allow modules (such as emthumb, or a future emmetadata) to alter our data.
           foreach (module_implements('emfield_field_extra') as $module) {
-            $args = array($op, &$node, $field, &$items, $teaser, $page, $module); 
+            $args = array($op, &$node, $field, &$items, $teaser, $page, $module);
             $ret = call_user_func_array($module .'_emfield_field_extra', $args);
             if (is_array($rss_encl) && is_array($ret)) {
               while (list($delta, ) = each($rss_encl)) {
@@ -605,14 +612,14 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
             $media['duration'] = (int) $file['duration'];
           }
           if (
-            isset($file['width']) && isset($file['height']) && 
+            isset($file['width']) && isset($file['height']) &&
             $file['width'] > 0 && $file['height'] > 0
           ) {
             $media['width'] = (int) $file['width'];
             $media['height'] = (int) $file['height'];
           }
           // media:lang will be interesting
-    
+
           $mrss_thumbnail = array();
           if (is_array($file['thumbnail']) && $file['thumbnail']['filepath'] != '') {
             $thumbnail = array();
@@ -734,7 +741,7 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
       if ($xml_elem['type'] == 'open') {
         if (array_key_exists('attributes', $xml_elem)) {
           list($level[$xml_elem['level']], $extra) = array_values($xml_elem['attributes']);
-        } 
+        }
   else {
           $level[$xml_elem['level']] = $xml_elem['tag'];
         }
