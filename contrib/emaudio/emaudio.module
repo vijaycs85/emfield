@@ -218,7 +218,7 @@ function emaudio_widget_settings($op, $widget) {
         $form['tn'] = array(
           '#type' => 'fieldset',
           '#title' => t('Thumbnail'),
-          '#description' => t('When displayed as a thumbnail, these settings control the image returned. Note that not all 3rd party audio content providers offer thumbnails, and others may require an API key or other requirements. More information from the !settings. The default size for thumbnails is @widthx@height.', array('!settings' => l(t('settings page'), 'admin/content/emaudio'), '@width' => $width, '@height' => $height)),
+          '#description' => t('When displayed as a thumbnail, these settings control the image returned. Note that not all 3rd party audio content providers offer thumbnails, and others may require an API key or other requirements. More information from the !settings. The default size for thumbnails is @widthx@height.', array('!settings' => l(t('settings page'), 'admin/content/emfield'), '@width' => $width, '@height' => $height)),
           '#collapsible' => true,
           '#collapsed' => false,
         );
