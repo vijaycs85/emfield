@@ -29,10 +29,10 @@ also be displayed, and sized appropriately. Any necessary API calls to third par
 
 Other features available are allowing a video to autoplay, or changing the size of the video. Those features will be set
 when creating or editing the specific field. Note that not all options are supported by all providers. You can see a list
-of what features are currently supported by a provider at admin/content/video_cck.
+of what features are currently supported by a provider at admin/content/emfield.
 
 Some providers may provide other features that are supported by Video CCK, such as affiliate programs with Revver, or related
-video thumbnails with YouTube, embedded within the video. You can find those settings at admin/content/video_cck, in the
+video thumbnails with YouTube, embedded within the video. You can find those settings at admin/content/emfield, in the
 fieldset for the specific provider.
 
 Questions can be directed to winborn at advomatic dot com
