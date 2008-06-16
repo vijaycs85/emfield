@@ -281,7 +281,7 @@ function video_cck_widget_settings($op, $widget) {
       break;
 
     case 'save':
-      if ($widget['widget']['type'] == 'video_cck_textfields') {
+      if ($widget['widget_type'] == 'video_cck_textfields') {
         $columns = array('video_width', 'video_height', 'video_autoplay', 'preview_width', 'preview_height', 'preview_autoplay', 'thumbnail_width', 'thumbnail_height', 'thumbnail_default_path', );
         $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'video_cck'));
         return $columns;
@@ -292,9 +292,9 @@ function video_cck_widget_settings($op, $widget) {
 
 /** Implementation of hook_widget **/
 
-function video_cck_widget($op, &$node, $field, &$node_field) {
+function video_cck_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   if (module_hook('emfield', 'emfield_widget')) {
-    return emfield_emfield_widget($op, $node, $field, $node_field, 'video_cck');
+    return emfield_emfield_widget($form, $form_state, $field, $items, $delta, 'video_cck');
   }
 }
 

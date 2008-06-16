@@ -286,18 +286,19 @@ function image_ncck_widget_settings($op, $widget) {
       break;
 
     case 'save':
-      if ($widget['widget']['type'] == 'image_ncck_textfields') {
+      if ($widget['widget_type'] == 'image_ncck_textfields') {
         $columns = array('full_width', 'full_height', 'full_link', 'preview_width', 'preview_height', 'preview_link', 'thumbnail_width', 'thumbnail_height', 'thumbnail_link', );
         $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'image_ncck'));
+
         return $columns;
       }
       break;
   }
 }
 
-function image_ncck_widget($op, &$node, $field, &$node_field) {
+function image_ncck_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   if (module_hook('emfield', 'emfield_widget')) {
-    return emfield_emfield_widget($op, $node, $field, $node_field, 'image_ncck');
+    return emfield_emfield_widget($form, $form_state, $field, $items, $delta, 'image_ncck');
   }
 }
 

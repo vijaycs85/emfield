@@ -93,13 +93,13 @@ function emfield_settings() {
 function emfield_field_columns($field) {
   $columns = array(
     // poorly named. but this contains the original URL or embed code pre-parsing, as entered by the user/editor.
-    'embed' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    'embed' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
     // this contains the code used by the provider to identify the media
-    'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
     // this is the actual provider used; matches up with the specific provider.inc file
-    'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
+    'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
     // an array for any extra data required by this media, such as unique thumbnail requirements or rss feed data
-    'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'unsigned' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
+    'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
   );
   // allow other modules to add new columns
   // TODO: couldn't we just use module_invoke_all here? also make sure those modules do their magic on enable/disable
@@ -363,144 +363,61 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
   }
 }
 
-function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
-//  $module = $field['widget']['helper_module'];
-  switch ($op) {
-    case 'prepare form values':
-      // Don't save empty fields except the first value
-      foreach ($node_field as $delta => $item) {
-        if ($item['value'] == '' && $delta > 0) {
-          unset($node_field[$delta]);
-        }
-      }//print 'nodefield:' ; print_r($node_field);
-      foreach (module_implements('emfield_widget_extra') as $module) {
-        $args = array($op, &$node, $field, &$node_field, $module);
-        call_user_func_array($module .'_emfield_widget_extra', $args);
+function emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 0, $module) { //($op, &$node, $field, &$node_field, $module) {
+  $tree = array('#tree' => TRUE);
+  $textfield = 'embed';
+  $providers = emfield_allowed_providers($field, $module);
+  $urls = array();
+  $additional_form_elements = array();
+  foreach ($providers as $provider) {
+    // don't check providers not allowed
+    if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
+      $info = emfield_include_invoke($module, $provider->name, 'info');
+      $urls[] = l($info['name'], $info['url'], array('target' => '_blank'));
+      $additional_element = emfield_include_invoke($module, $provider->name, 'form');
+      if ($additional_element) {
+        $additional_form_elements[$provider->name] = $additional_element;
       }
-      break;
-    case 'form':
-      $form = array();
-
-      $form[$field['field_name']] = array('#tree' => TRUE);
-      $textfield = 'embed';
-      $providers = emfield_allowed_providers($field, $module);
-      $urls = array();
-      $additional_form_elements = array();
-      foreach ($providers as $provider) {
-        // don't check providers not allowed
-        if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
-          $info = emfield_include_invoke($module, $provider->name, 'info');
-          $urls[] = l($info['name'], $info['url'], array('target' => '_blank'));
-          $additional_element = emfield_include_invoke($module, $provider->name, 'form');
-          if ($additional_element) {
-            $additional_form_elements[$provider->name] = $additional_element;
-          }
-        }
-      }
-      $textfield_title = t($field['widget']['label']);
-      if (!(empty($field['widget']['description']))) {
-        $textfield_description = $field['widget']['description'];
-      }
-      else {
-        $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
-      }
-      $textfield_description .= '<br />'. t('The following services are provided: !urls', array('!urls' => implode(', ', $urls)));
-
-      if ($field['multiple']) {
-        $form[$field['field_name']]['#type'] = 'fieldset';
-        $form[$field['field_name']]['#title'] = t($field['widget']['label']);
-        $delta = 0;
-        foreach ($node_field as $data) {
-          if (isset($data[$textfield])) {
-            $form[$field['field_name']][$delta][$textfield] = array(
-              '#type' => 'textfield',
-              '#title' => $textfield_title,
-              '#description' => $textfield_description,
-              '#default_value' => $data[$textfield],
-              '#required' => ($delta == 0) ? $field['required'] : FALSE,
-              '#maxlength' => 2048,
-            );
-            if (!empty($additional_form_elements)) {
-              foreach ($additional_form_elements as $key => $element) {
-                $form[$field['field_name']][$delta][$key] = $element;
-              }
-            }
-            $form[$field['field_name']][$delta]['value'] = array(
-              '#type' => 'value',
-              '#value' => $data['value'],
-            );
-            if ($data['value']) {
-              $info = emfield_include_invoke($module, $data['provider'], 'info');
-              $form[$field['field_name']][$delta]['value_markup'] = array(
-                '#type' => 'item',
-                '#value' => t('(@provider ID: !value)', array('@provider' => $info['name'], '!value' => l($data['value'], emfield_include_invoke($module, $info['provider'], 'embedded_link', $data['value'], $data['data']), array('target' => '_blank')))),
-              );
-            }
-            foreach (module_implements('emfield_widget_extra') as $module) {
-              $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $node, $field, $data);
-            }
-            $delta++;
-          }
-        }
-        foreach (range($delta, $delta + 2) as $delta) {
-           $form[$field['field_name']][$delta][$textfield] = array(
-            '#type' => 'textfield',
-            '#title' => $textfield_title,
-            '#description' => $textfield_description,
-            '#default_value' => '',
-            '#required' => ($delta == 0) ? $field['required'] : FALSE,
-            '#maxlength' => 2048,
-          );
-          if (!empty($additional_form_elements)) {
-            foreach ($additional_form_elements as $key => $element) {
-              $form[$field['field_name']][$delta][$key] = $element;
-            }
-          }
-          $form[$field['field_name']][$delta]['value'] = array(
-            '#type' => 'value',
-            '#title' => '',
-          );
-          foreach (module_implements('emfield_widget_extra') as $module) {
-            $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $node, $field, $data);
-          }
-        }
-      }
-      else {
-        $form[$field['field_name']][0][$textfield] = array(
-          '#type' => 'textfield',
-          '#title' => $textfield_title, //t($field['widget']['label']),
-          '#description' => $textfield_description,
-          '#default_value' => isset($node_field[0][$textfield]) ? $node_field[0][$textfield] : '',
-          '#required' => $field['required'],
-          '#maxlength' => 2048,
-        );
-        if ($textfield == 'embed') {
-          $value = isset($node_field[0]['value']) ? $node_field[0]['value'] : '';
-          $form[$field['field_name']][0]['value'] = array(
-            '#type' => 'value',
-            '#value' => $value,
-          );
-          if (!empty($additional_form_elements)) {
-            foreach ($additional_form_elements as $key => $element) {
-              $form[$field['field_name']][0][$key] = $element;
-            }
-          }
-          if ($value) {
-            $info = emfield_include_invoke($module, $node_field[0]['provider'], 'info');
-            $form[$field['field_name']][0]['value_markup'] = array(
-              '#type' => 'item',
-              '#value' => t('(@provider ID: !value)', array('@provider' => $info['provider'], '!value' => l($value, emfield_include_invoke($module, $info['provider'], 'embedded_link', $value, $node_field[0]['data']), array('target' => '_blank')))),
-            );
-          }
-          foreach (module_implements('emfield_widget_extra') as $module) {
-            $form[$field['field_name']][$delta][$module] = module_invoke($module, 'emfield_widget_extra', 'form', $node, $field, $node_field[0]);
-          }
-        }
-      }
-      return $form;
-    default:
-      break;
+    }
   }
+  $textfield_title = t($field['widget']['label']);
+  if (!(empty($field['widget']['description']))) {
+    $textfield_description = $field['widget']['description'];
+  }
+  else {
+    $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
+  }
+  $textfield_description .= '<br />'. t('The following services are provided: !urls', array('!urls' => implode(', ', $urls)));
+  $value = isset($items[$delta][$textfield]) ? $items[$delta][$textfield] : '';
+  $tree[$textfield] = array(
+    '#type' => 'textfield',
+    '#title' => $textfield_title, //t($field['widget']['label']),
+    '#description' => $textfield_description,
+    '#default_value' => $value,
+    '#required' => $field['required'],
+    '#maxlength' => 2048,
+  );
+
+  $tree['value'] = array(
+    '#type' => 'value',
+    '#value' => $value,
+  );
+  if (!empty($additional_form_elements)) {
+    foreach ($additional_form_elements as $key => $element) {
+      $tree[$key] = $element;
+    }
+  }
+  if ($value) {
+    $info = emfield_include_invoke($module, $items[$delta]['provider'], 'info');
+    $tree['value_markup'] = array(
+      '#type' => 'item',
+      '#value' => t('(@provider ID: !value)', array('@provider' => $info['provider'], '!value' => l($value, emfield_include_invoke($module, $info['provider'], 'embedded_link', $value, $items[$delta]['data']), array('target' => '_blank')))),
+    );
+  }
+  foreach (module_implements('emfield_widget_extra') as $module_extra) {
+    $tree[$module_extra] = module_invoke($module_extra, 'emfield_widget_extra', 'form', $form, $field, $items[$delta]);
+  }
+  return $tree;
 }
 
 /**

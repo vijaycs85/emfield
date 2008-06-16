@@ -279,7 +279,7 @@ function emaudio_widget_settings($op, $widget) {
       break;
 
     case 'save':
-      if ($widget['widget']['type'] == 'emaudio_textfields') {
+      if ($widget['widget_type'] == 'emaudio_textfields') {
         $columns = array('audio_width', 'audio_height', 'audio_autoplay', 'preview_width', 'preview_height', 'preview_autoplay', 'thumbnail_width', 'thumbnail_height', 'thumbnail_default_path', );
         $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'emaudio'));
         return $columns;
@@ -290,9 +290,9 @@ function emaudio_widget_settings($op, $widget) {
 
 /** Implementation of hook_widget **/
 
-function emaudio_widget($op, &$node, $field, &$node_field) {
+function emaudio_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   if (module_hook('emfield', 'emfield_widget')) {
-    return emfield_emfield_widget($op, $node, $field, $node_field, 'emaudio');
+    return emfield_emfield_widget($form, $form_state, $field, $items, $delta, 'emaudio');
   }
 }
 
