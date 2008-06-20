@@ -1,6 +1,7 @@
 /* $Id$ */
 
 2008-06-20
+add swfobject to general settings page
 #263660 set a form error for invalid urls
 
 2008-05-30
