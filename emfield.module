@@ -120,7 +120,7 @@ function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $mo
     case 'validate':
       foreach ($items as $delta => $item) {
         $error_field = $field['multiple'] ? $field['field_name'] .']['. $delta .'][embed' : $field['field_name'];
-        _emfield_field_validate_id($field, $item, $error_field, $module);
+        _emfield_field_validate_id($field, $item, $error_field, $module, $delta);
       }
       break;
 
@@ -273,9 +273,14 @@ function emfield_parse_embed($field, $embed = '', $module) {
 /**
  *  extract the id from embedded code or url
  */
-function _emfield_field_validate_id($field, $item, $error_field, $module) {
-  // does nothing at this time... TODO: fix this up
-  return _emfield_field_submit_id($field, $item, $module, $error_field);
+function _emfield_field_validate_id($field, $item, $error_field, $module, $delta = 0) {
+  // load the provider info
+  $item = _emfield_field_submit_id($field, $item, $module, $error_field);
+  // ensure we have proper provider info
+  if ($item['embed'] && !$item['value']) {
+    form_set_error($error_field, t('You have specified an invalid media URL or embed code.'));
+  }
+  return $item;
 }
 
 /**
