@@ -1,7 +1,7 @@
 <?php
 // $Id$
 
-define('VIDEO_CCK_IFILM_MAIN_URL', 'http://www.spike.com/');
+define('VIDEO_CCK_SPIKE_MAIN_URL', 'http://www.spike.com/');
 
 function video_cck_spike_info() {
   $name = t('Spike TV');
@@ -50,6 +50,9 @@ function theme_video_cck_spike_flash($embed, $width, $height, $autoplay) {
   return $output;
 }
 
+/**
+ *  TODO: Is this correct? Using ifilmpro for thumbnails.
+ */
 function video_cck_spike_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $picturelink = substr($item['value'], 0, 7);
   return 'http://img1.ifilmpro.com/resize/image/stills/films/resize/istd/'. $picturelink .'.jpg?width='. $width;

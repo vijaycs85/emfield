@@ -2,6 +2,7 @@
 
 2008-06-23
 ----------
+ * Add TODO for thumbnails for spike.tv (aaron).
  * Add placeholder ifilm.inc to help with updates after ifilm-spike switch (aaron).
 
 2008-05-28
