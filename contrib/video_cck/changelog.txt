@@ -1,5 +1,9 @@
 /* $Id$ */
 
+2008-06-23
+----------
+ * Add placeholder ifilm.inc to help with updates after ifilm-spike switch (aaron).
+
 2008-05-28
 utilize $options arrays in other theme functions
 
