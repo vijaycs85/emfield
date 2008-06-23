@@ -1,5 +1,10 @@
 /* $Id$ */
 
+2008-06-22
+----------
+ * Move theme functions to video_cck.theme.inc (aaron).
+ * Implement hook_theme (aaron).
+
 2008-05-30
 widget info
 'callbacks' => array('tables' => CONTENT_CALLBACK_DEFAULT, 'arguments' => CONTENT_CALLBACK_DEFAULT, ),
