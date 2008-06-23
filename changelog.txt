@@ -1,5 +1,11 @@
 /* $Id$ */
 
+2008-06-22
+----------
+ * Separate rss nodeapi functionality into emfield.rss.inc (aaron).
+ * Separate cck functions into emfield.cck.inc (aaron).
+ * Separate admin callback into emfield.admin.inc (aaron).
+
 2008-06-20
 add swfobject to general settings page
 #263660 set a form error for invalid urls
