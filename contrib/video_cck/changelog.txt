@@ -1,5 +1,11 @@
 /* $Id$ */
 
+2008-06-23
+----------
+ * Add TODO for thumbnails for spike.tv (aaron).
+ * Add placeholder ifilm.inc to help with updates after ifilm-spike switch (aaron).
+ * Move ifilm.inc to spike.inc (aaron).
+
 2008-06-22
 ----------
  * Move theme functions to video_cck.theme.inc (aaron).
