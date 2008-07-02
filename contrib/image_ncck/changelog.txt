@@ -1,4 +1,9 @@
 /* $Id$ */
+
+2008-07-02
+----------
+ * Simplify regex for image_ncck_flickr_extract, to eventually allow better photoset imports (aaron).
+
 2008-05-20
 #254028 - bangpound fixed regex problem with Picassa to support new address for images
 
