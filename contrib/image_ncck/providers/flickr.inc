@@ -161,13 +161,7 @@ function image_ncck_flickr_error_check() {
 
 function image_ncck_flickr_extract($embed = '') {
   // http://flickr.com/photos/96898796@N00/194727976/
-  if (preg_match('@flickr\.com/photos/([^/]*)/([^/]*)/@i', $embed, $matches)) {
-    return $matches[2];
-  }
-  else if (preg_match('@flickr\.com/photos/([^/]*)/(.*)@i', $embed, $matches)) {
-    return $matches[2];
-  }
-  return array();
+  return array('@flickr\.com/photos/[^/]*/(\d*)@i');
 }
 
 /**
