@@ -25,7 +25,7 @@ function video_cck_dailymotion_info() {
     'provider' => 'dailymotion',
     'name' => $name,
     'url' => VIDEO_CCK_DAILYMOTION_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !dailymotion. You can learn more about its !api here.', array('!dailymotion' => l($name, VIDEO_CCK_DAILYMOTION_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), VIDEO_CCK_DAILYMOTION_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from !dailymotion. You can learn more about its !api here.', array('!dailymotion' => l($name, VIDEO_CCK_DAILYMOTION_MAIN_URL, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
