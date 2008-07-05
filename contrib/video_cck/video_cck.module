@@ -200,8 +200,8 @@ function video_cck_field_formatter($field, $item, $formatter, $node) {
 function video_cck_widget_info() {
   return array(
     'video_cck_textfields' => array(
-      'label' => t('3rd Party Video'),
-      'field types' => array('video_cck', ),
+      'label' => '3rd Party Video',
+      'field types' => array('video_cck'),
       'multiple values' => CONTENT_HANDLE_CORE,
       'callbacks' => array(
         'default value' => CONTENT_CALLBACK_DEFAULT,
@@ -227,21 +227,21 @@ function video_cck_widget_settings($op, $widget) {
         $form['video']['video_width'] = array(
           '#type' => 'textfield',
           '#title' => t('Video display width'),
-          '#default_value' => $widget['video_width'] ? $widget['video_width'] : $width,
+          '#default_value' => empty($widget['video_width']) ? $width : $widget['video_width'],
           '#required' => true,
           '#description' => t('The width of the video. It defaults to @width.', array('@width' => $width)),
         );
         $form['video']['video_height'] = array(
           '#type' => 'textfield',
           '#title' => t('Video display height'),
-          '#default_value' => $widget['video_height'] ? $widget['video_height'] : $height,
+          '#default_value' => empty($widget['video_height']) ? $height : $widget['video_height'],
           '#required' => true,
           '#description' => t('The height of the video. It defaults to @height.', array('@height' => $height)),
         );
         $form['video']['video_autoplay'] = array(
           '#type' => 'checkbox',
           '#title' => t('Autoplay'),
-          '#default_value' => $widget['video_autoplay'] ? $widget['video_autoplay'] : false,
+          '#default_value' => empty($widget['video_autoplay']) ? '' : $widget['video_autoplay'],
           '#description' => t('If supported by the provider, checking this box will cause the video to automatically begin after the video loads when in its full size.'),
         );
 
@@ -257,21 +257,21 @@ function video_cck_widget_settings($op, $widget) {
         $form['preview']['preview_width'] = array(
           '#type' => 'textfield',
           '#title' => t('Video preview width'),
-          '#default_value' => $widget['preview_width'] ? $widget['preview_width'] : variable_get('video_cck_default_preview_width', VIDEO_CCK_DEFAULT_PREVIEW_WIDTH),
+          '#default_value' => empty($widget['preview_width']) ? $width : $widget['preview_width'],
           '#required' => true,
           '#description' => t('The width of the preview video. It defaults to @width.', array('@width' => $width)),
         );
         $form['preview']['preview_height'] = array(
           '#type' => 'textfield',
           '#title' => t('Video preview height'),
-          '#default_value' => $widget['preview_height'] ? $widget['preview_height'] : variable_get('video_cck_default_preview_height', VIDEO_CCK_DEFAULT_PREVIEW_HEIGHT),
+          '#default_value' => empty($widget['preview_height']) ? $height : $widget['preview_height'],
           '#required' => true,
           '#description' => t('The height of the preview video. It defaults to @height.', array('@height' => $height)),
         );
         $form['preview']['preview_autoplay'] = array(
           '#type' => 'checkbox',
           '#title' => t('Autoplay'),
-          '#default_value' => $widget['preview_autoplay'] ? $widget['preview_autoplay'] : false,
+          '#default_value' => empty($widget['preview_autoplay']) ? '' : $widget['preview_autoplay'],
           '#description' => t('If supported by the provider, checking this box will cause the video to automatically begin after the video loads when in its preview size.'),
         );
 
@@ -287,24 +287,25 @@ function video_cck_widget_settings($op, $widget) {
         $form['tn']['thumbnail_width'] = array(
           '#type' => 'textfield',
           '#title' => t('Thumbnail width'),
-          '#default_value' => $widget['thumbnail_width'] ? $widget['thumbnail_width'] : variable_get('video_cck_default_thumbnail_width', VIDEO_CCK_DEFAULT_THUMBNAIL_WIDTH),
+          '#default_value' => empty($widget['thumbnail_width']) ? $width : $widget['thumbnail_width'],
           '#required' => true,
           '#description' => t('The width of the thumbnail. It defaults to @width.', array('@width' => $width)),
         );
         $form['tn']['thumbnail_height'] = array(
           '#type' => 'textfield',
           '#title' => t('Thumbnail height'),
-          '#default_value' => $widget['thumbnail_height'] ? $widget['thumbnail_height'] : variable_get('video_cck_default_thumbnail_height', VIDEO_CCK_DEFAULT_THUMBNAIL_HEIGHT),
+          '#default_value' => empty($widget['thumbnail_height']) ? $height : $widget['thumbnail_height'],
           '#required' => true,
           '#description' => t('The height of the thumbnail. It defaults to @height.', array('@height' => $height)),
         );
         if (!module_exists('emthumb')) {
           $tn_desc = t(' You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis.');
         }
+		$default_path = variable_get('video_cck_default_thumbnail_path', '');
         $form['tn']['thumbnail_default_path'] = array(
           '#type' => 'textfield',
           '#title' => t('Default thumbnail path'),
-          '#default_value' => $widget['thumbnail_default_path'] ? $widget['thumbnail_default_path'] : variable_get('video_cck_default_thumbnail_path', ''),
+          '#default_value' => empty($widget['thumbnail_default_path']) ? $default_path : $widget['thumbnail_default_path'],
           '#description' => t('Path to a local default thumbnail image for cases when a thumbnail can\'t be found. For example, you might have a default thumbnail at %files.', array('%files' => 'files/thumbnail.png')) . $tn_desc,
         );
       }

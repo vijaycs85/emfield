@@ -108,7 +108,7 @@ function _emfield_emfield_widget_settings($op, $widget, $module) {
       $form['provider_list']['providers'] = array(
         '#type' => 'checkboxes',
         '#title' => t('Providers'),
-        '#default_value' => $widget['providers'] ? $widget['providers'] : array(),
+        '#default_value' => empty($widget['providers']) ? array() : $widget['providers'],
         '#options' => $options,
       );
 
