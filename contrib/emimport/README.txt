@@ -4,6 +4,8 @@
  Embedded Media Import
 /**********************/
 
+****PLEASE NOTE: EMIMPORT IS DEPRECATED IN DRUPAL 6 IN FAVOR OF FEEDAPI INTEGRATION********
+
 Author: Aaron Winborn
 Development Began 2007-10-04
 

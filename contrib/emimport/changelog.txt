@@ -1,4 +1,5 @@
 /* $Id$ */
+2008-07 - EMIMPORT HAS BEEN DEPRECATED!
 
 2008-03-26
 #237749 - Invalid argument supplied for foreach()
