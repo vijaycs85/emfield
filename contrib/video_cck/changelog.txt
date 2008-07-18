@@ -1,5 +1,9 @@
 /* $Id$ */
 
+2008-07-18
+----------
+Changed name from video_cck to emvideo to comply with new naming standards.
+
 2008-06-23
 ----------
  * Add TODO for thumbnails for spike.tv (aaron).

@@ -1,13 +1,13 @@
 /* $Id$ */
 
 /***********/
- Video CCK
+ Embedded Video Field
 /***********/
 
 Author: Aaron Winborn
 Development Began 2007-02-23
 
-Requires: Drupal 5, Content (CCK)
+Requires: Drupal 6, Content (CCK), emfield
 Optional: Views
 
 This extensible module will create a field for node content types that can be used to display video and thumbnails
