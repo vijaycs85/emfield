@@ -1,9 +1,9 @@
 <?php
 // $Id$
 
-define('VIDEO_CCK_METACAFE_MAIN_URL', 'http://www.metacafe.com/');
+define('EMVIDEO_METACAFE_MAIN_URL', 'http://www.metacafe.com/');
 
-function video_cck_metacafe_info() {
+function emvideo_metacafe_info() {
   $name = t('MetaCafe');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
@@ -13,13 +13,13 @@ function video_cck_metacafe_info() {
   return array(
     'provider' => 'metacafe',
     'name' => $name,
-    'url' => VIDEO_CCK_METACAFE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, VIDEO_CCK_METACAFE_MAIN_URL, array('target' => '_blank')))),
+    'url' => EMVIDEO_METACAFE_MAIN_URL,
+    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_METACAFE_MAIN_URL, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
 
-function video_cck_metacafe_settings() {
+function emvideo_metacafe_settings() {
   $form = array();
   return $form;
 }
@@ -27,7 +27,7 @@ function video_cck_metacafe_settings() {
 /**
  *  we're going to handle our own matches, unless someone can come up with a regex that will match this better
  */
-function video_cck_metacafe_extract($embed) {
+function emvideo_metacafe_extract($embed) {
   // http://www.metacafe.com/watch/479957/gorilla_prank/
   if ($embed && preg_match('@metacafe\.com/watch/(.[^/]*)/(.[^/]*)/@i', $embed, $matches)) {
     return $matches[1] .'/'. $matches[2];
@@ -42,11 +42,11 @@ function video_cck_metacafe_extract($embed) {
   return false;
 }
 
-function video_cck_metacafe_video_link($video_code) {
+function emvideo_metacafe_video_link($video_code) {
   return 'http://www.metacafe.com/watch/'. $video_code .'/';
 }
 
-function theme_video_cck_metacafe_flash($embed, $width, $height, $autoplay) {
+function theme_emvideo_metacafe_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     $autoplay = $autoplay ? '?playerVars=autoPlay=yes' : '';
     $output .= '<embed src="http://www.metacafe.com/fplayer/'. $embed .'.swf'. $autoplay .'" width="'. $width .'" height="'. $height .'" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>';
@@ -54,18 +54,18 @@ function theme_video_cck_metacafe_flash($embed, $width, $height, $autoplay) {
   return $output;
 }
 
-function video_cck_metacafe_thumbnail($field, $item, $formatter, $node, $width, $height) {
+function emvideo_metacafe_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $picturelink=substr($item['value'], 0, 6);
   return 'http://www.metacafe.com/thumb/'. $picturelink .'.jpg';
 }
 
-function video_cck_metacafe_video($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_metacafe_flash', $embed, $width, $height, $autoplay);
+function emvideo_metacafe_video($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_metacafe_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
-function video_cck_metacafe_preview($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_metacafe_flash', $embed, $width, $height, $autoplay);
+function emvideo_metacafe_preview($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_metacafe_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 

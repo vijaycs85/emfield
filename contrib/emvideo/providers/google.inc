@@ -1,11 +1,11 @@
 <?php
 // $Id$
 
-define('VIDEO_CCK_GOOGLE_MAIN_URL', 'http://video.google.com/');
-define('VIDEO_CCK_GOOGLE_XML', 'http://video.google.com/videofeed');
-define('VIDEO_CCK_GOOGLE_DOMAIN_DEFAULT', 'com');
+define('EMVIDEO_GOOGLE_MAIN_URL', 'http://video.google.com/');
+define('EMVIDEO_GOOGLE_XML', 'http://video.google.com/videofeed');
+define('EMVIDEO_GOOGLE_DOMAIN_DEFAULT', 'com');
 
-function video_cck_google_info() {
+function emvideo_google_info() {
   $name = t('Google');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
@@ -15,24 +15,24 @@ function video_cck_google_info() {
   return array(
     'provider' => 'google',
     'name' => $name,
-    'url' => VIDEO_CCK_GOOGLE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !google.', array('!google' => l($name, VIDEO_CCK_GOOGLE_MAIN_URL, array('target' => '_blank')))),
+    'url' => EMVIDEO_GOOGLE_MAIN_URL,
+    'settings_description' => t('These settings specifically affect videos displayed from !google.', array('!google' => l($name, EMVIDEO_GOOGLE_MAIN_URL, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
 
-function video_cck_google_settings() {
+function emvideo_google_settings() {
   $form = array();
-  $form['video_cck_google_domain'] = array(
+  $form['emvideo_google_domain'] = array(
     '#type' => 'textfield',
     '#title' => t('Google video domain'),
-    '#default_value' => variable_get('video_cck_google_domain', VIDEO_CCK_GOOGLE_DOMAIN_DEFAULT),
+    '#default_value' => variable_get('emvideo_google_domain', EMVIDEO_GOOGLE_DOMAIN_DEFAULT),
     '#description' => t('Google hosts their videos on various servers throughout the world. By default, videos from Google will be displayed from the United States, at their google.<b><em>com</em></b> servers. If you wish to display the video from another Google server, please enter the domain here, without the initial dot. For instance, you might enter <b><em>it</em></b> for the Italian Google servers at google.it, or <b><em>ca</em></b> for their Canadian servers.'),
   );
   return $form;
 }
 
-function video_cck_google_extract($embed) {
+function emvideo_google_extract($embed) {
   return array(
     '@http://video\.google(?:\.[a-z]{2,4})+/videoplay\?docid=([^\&]*)\&@i',
     '@http://video\.google(?:\.[a-z]{2,4})+/videoplay\?docid=([^\&]*)\&@i',
@@ -42,22 +42,22 @@ function video_cck_google_extract($embed) {
   );
 }
 
-function video_cck_google_request($embed, $cacheable = TRUE) {
+function emvideo_google_request($embed, $cacheable = TRUE) {
   $args = array('docid' => $embed);
-  return module_invoke('emfield', 'request_xml', 'google', VIDEO_CCK_GOOGLE_XML, $args, $cacheable);
+  return module_invoke('emfield', 'request_xml', 'google', EMVIDEO_GOOGLE_XML, $args, $cacheable);
 }
 
-function video_cck_google_video_link($video_code) {
-  return 'http://video.google.'. variable_get('video_cck_google_domain', VIDEO_CCK_GOOGLE_DOMAIN_DEFAULT) .'/videoplay?docid='. $video_code;
+function emvideo_google_video_link($video_code) {
+  return 'http://video.google.'. variable_get('emvideo_google_domain', EMVIDEO_GOOGLE_DOMAIN_DEFAULT) .'/videoplay?docid='. $video_code;
 }
 
-function theme_video_cck_google_flash($embed, $width, $height, $autoplay) {
+function theme_emvideo_google_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     $autoplay = $autoplay ? '&autoPlay=true' : '';
     // this will be executed by not Internet Explorer browsers
     $output = '<!--[if !IE]> <-->
   <object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'"
-  data="http://video.google.'. variable_get('video_cck_google_domain', VIDEO_CCK_GOOGLE_DOMAIN_DEFAULT) .'/googleplayer.swf?docId='. check_plain($embed) . $autoplay .'">
+  data="http://video.google.'. variable_get('emvideo_google_domain', EMVIDEO_GOOGLE_DOMAIN_DEFAULT) .'/googleplayer.swf?docId='. check_plain($embed) . $autoplay .'">
   <!--> <![endif]-->'."\n";
 
     // this will be executed by Internet Explorer
@@ -68,7 +68,7 @@ function theme_video_cck_google_flash($embed, $width, $height, $autoplay) {
   <![endif]-->'."\n";
 
     // params will be passed to both IE or not IE browsers
-    $output .= '<param name="movie" value="http://video.google.'. variable_get('video_cck_google_domain', VIDEO_CCK_GOOGLE_DOMAIN_DEFAULT) .'/googleplayer.swf?docId='. check_plain($embed) . $autoplay .'" />'."\n";
+    $output .= '<param name="movie" value="http://video.google.'. variable_get('emvideo_google_domain', EMVIDEO_GOOGLE_DOMAIN_DEFAULT) .'/googleplayer.swf?docId='. check_plain($embed) . $autoplay .'" />'."\n";
     // following a list of params simply copied from old embed tag params. I don't know if this are really needed.
     $output .= '<param name="quality" value="best" />
     <param name="bgcolor" value="#ffffff" />
@@ -88,12 +88,12 @@ function theme_video_cck_google_flash($embed, $width, $height, $autoplay) {
  *
  * provides an array to be serialised and made available with $item elsewhere
  */
-function video_cck_google_data($field, $item) {
+function emvideo_google_data($field, $item) {
   $data = array();
   // create some 'field' version control
-  //$data['video_cck_google_version'] = 1;
+  //$data['emvideo_google_version'] = 1;
 
-  $rss = video_cck_google_request($item['value']);
+  $rss = emvideo_google_request($item['value']);
 
   if (
     is_array($rss['ITEM']) &&
@@ -135,7 +135,7 @@ function video_cck_google_data($field, $item) {
 
   // google rss doesn't actually have <embeded> media, just MRSS, and no size
   // so not actually really really necessary or really useful but for completeness
-  $play = 'http://video.google.'. variable_get('video_cck_google_domain', VIDEO_CCK_GOOGLE_DOMAIN_DEFAULT) .'/googleplayer.swf?docId='. check_plain($item['embed']);
+  $play = 'http://video.google.'. variable_get('emvideo_google_domain', EMVIDEO_GOOGLE_DOMAIN_DEFAULT) .'/googleplayer.swf?docId='. check_plain($item['embed']);
   $response = emfield_request_header('google', $play, FALSE, FALSE);
 
   if ($response->code == 200) {
@@ -145,25 +145,25 @@ function video_cck_google_data($field, $item) {
   return $data;
 }
 
-function video_cck_google_rss($item, $teaser) {
+function emvideo_google_rss($item, $teaser) {
   if ($item['value']) {
-    if ($item['data']['video_cck_google_data_version'] >= 1000000) {
+    if ($item['data']['emvideo_google_data_version'] >= 1000000) {
       $data = $item['data'];
     }
     else {
-      $data = video_cck_google_data(NULL, $item);
+      $data = emvideo_google_data(NULL, $item);
     }
 
     return $data;
   }
 }
 
-function video_cck_google_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  if ($item['data']['video_cck_google_data_version'] >= 1) {
+function emvideo_google_thumbnail($field, $item, $formatter, $node, $width, $height) {
+  if ($item['data']['emvideo_google_data_version'] >= 1) {
     $data = $item['data'];
   }
   else {
-    $data = video_cck_google_data($field, $item);
+    $data = emvideo_google_data($field, $item);
   }
 
   return $data['thumbnail']['filepath'];
@@ -171,12 +171,12 @@ function video_cck_google_thumbnail($field, $item, $formatter, $node, $width, $h
   return NULL;
 }
 
-function video_cck_google_video($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_google_flash', $embed, $width, $height, $autoplay);
+function emvideo_google_video($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_google_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
-function video_cck_google_preview($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_google_flash', $embed, $width, $height, $autoplay);
+function emvideo_google_preview($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_google_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

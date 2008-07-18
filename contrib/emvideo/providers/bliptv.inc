@@ -1,9 +1,9 @@
 <?php
 // $Id$
-define('VIDEO_CCK_BLIPTV_MAIN_URL', 'http://blip.tv/');
-define('VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE', 'flv');
+define('EMVIDEO_BLIPTV_MAIN_URL', 'http://blip.tv/');
+define('EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE', 'flv');
 
-function video_cck_bliptv_info() {
+function emvideo_bliptv_info() {
   $name = t('Blip.tv');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
@@ -13,13 +13,13 @@ function video_cck_bliptv_info() {
   return array(
     'provider' => 'bliptv',
     'name' => $name,
-    'url' => VIDEO_CCK_BLIPTV_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, VIDEO_CCK_BLIPTV_MAIN_URL, array('target' => '_blank')))),
+    'url' => EMVIDEO_BLIPTV_MAIN_URL,
+    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_BLIPTV_MAIN_URL, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
 
-function video_cck_bliptv_settings() {
+function emvideo_bliptv_settings() {
   $tags = array('none' => t('No video'), 'flv' => t('Flash Video'), 'override' => t('Override tag'), 'web' => t('Web'), 'Web High Resolution' => t('Web High Resolution'), 'Portable (iPod)' => t('Portable (iPod)'), 'Portable (other)' => t('Portable (other)'), 'Television' => t('Television'), 'HDTV' => t('HDTV'), 'Cell Phone' => t('Cell Phone'), 'Source' => t('Source'));
   $formats = array('none' => t('No video'), 'flv' => t('Flash video (flv)'), 'mov' => t('Quicktime Movie (mov)'), 'mp3' => t('MP3'), 'm4a' => t('m4a'), 'mpg' => t('MPEG'), 'mp4' => t('mp4'), 'm4v' => t('m4v'), 'wmv' => t('Windows Media (wmv)'));
 
@@ -39,41 +39,41 @@ function video_cck_bliptv_settings() {
     '#collapsed' => true,
   );
 
-  $form['video_formats']['rss']['video_cck_bliptv_rss_tag'] = array(
+  $form['video_formats']['rss']['emvideo_bliptv_rss_tag'] = array(
     '#type' => 'select',
     '#title' => t('RSS full page tag'),
     '#description' => t("When RSS feeds are displayed, and this tag is available for a video, then the clip for that tag will be displayed as an enclosure tag in the feed. Select 'Override tag' if you wish to control the format displayed. Select 'No video' if you do not wish a video to be displayed in RSS feeds."),
     '#options' => $tags,
-    '#default_value' => variable_get('video_cck_bliptv_rss_tag', array(VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE => VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE)),
+    '#default_value' => variable_get('emvideo_bliptv_rss_tag', array(EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE => EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE)),
   );
-  $form['video_formats']['rss']['video_cck_bliptv_rss_format'] = array(
+  $form['video_formats']['rss']['emvideo_bliptv_rss_format'] = array(
     '#type' => 'select',
     '#title' => t('RSS full page format override'),
     '#description' => t("When RSS feeds are displayed, and the 'Override tag' option is selected above, then this format will be displayed as an enclosure tag in the feed."),
     '#options' => $formats,
-    '#default_value' => variable_get('video_cck_bliptv_rss_format', array(VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE => VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE)),
+    '#default_value' => variable_get('emvideo_bliptv_rss_format', array(EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE => EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE)),
   );
   return $form;
 }
 
-function video_cck_bliptv_data($field, $item) {
+function emvideo_bliptv_data($field, $item) {
   $data = array();
 
   // we added new data fields to keep from having to reload the api/rss
   // because the data is only stored on update/insert, however, we have to know which data type we're using
   // this will just be an integer, increased when we make a change to data
-  $data['video_cck_bliptv_data_version'] = 2;
+  $data['emvideo_bliptv_data_version'] = 2;
 
   // use the page id, since we'll have that in most cases (except in embed pastes, which gets parsed during extraction)
   // we use this to get an rss feed w/ all the info for the video. interesting reading ;)
   // some of our data we'll get from the api, like available files
-  $rss = video_cck_bliptv_request($item['value'], TRUE, 'rss');
-  $api = video_cck_bliptv_request($item['value'], TRUE, 'api');
+  $rss = emvideo_bliptv_request($item['value'], TRUE, 'rss');
+  $api = emvideo_bliptv_request($item['value'], TRUE, 'api');
 
   // special handling for show/feature pages
   // TODO: this is disabled for now.
 //   if (empty($rss) && empty($api) && preg_match('@http\://([^\.]+)\.blip\.tv/@i', $item['embed'], $matches)) {
-//     $show_rss = video_cck_bliptv_request($item['value'], TRUE, 'rss', TRUE);
+//     $show_rss = emvideo_bliptv_request($item['value'], TRUE, 'rss', TRUE);
 //     $data['thumbnail']['url'] = $rss['IMAGE']['URL'][0];
 //     $data['flv'] = array();
 //     $data['showpage'] = "http://{$item['value']}.blip.tv/";
@@ -145,13 +145,13 @@ function video_cck_bliptv_data($field, $item) {
   return $data;
 }
 
-function video_cck_bliptv_request($code, $cacheable = TRUE, $skin = 'rss', $show = FALSE) {
+function emvideo_bliptv_request($code, $cacheable = TRUE, $skin = 'rss', $show = FALSE) {
   $args = array();
   $file = $show ? "http://$code.blip.tv/file/?skin=" . $skin : "http://blip.tv/file/$code?skin=" . $skin;
   return module_invoke('emfield', 'request_xml', 'bliptv', $file, $args, $cacheable, false, $code .':'. $skin . ($show ? ':show' : ':post'));
 }
 
-function video_cck_bliptv_extract($embed) {
+function emvideo_bliptv_extract($embed) {
   return array(
     '@blip\.tv/rss/flash/([^"\&\?]+)@i',
     '@blip\.tv/file/view/([^"\&\?]+)@i',
@@ -162,12 +162,12 @@ function video_cck_bliptv_extract($embed) {
   );
 }
 
-function video_cck_bliptv_video_link($video_code) {
+function emvideo_bliptv_video_link($video_code) {
   return 'http://blip.tv/file/'. $video_code;
 }
 
-function _video_cck_bliptv_get_video_info_from_preferred_tag($data, $var) {
-  $preferred_tags = (array)variable_get($var, array(VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE => VIDEO_CCK_BLIPTV_DEFAULT_RSS_TYPE));
+function _emvideo_bliptv_get_video_info_from_preferred_tag($data, $var) {
+  $preferred_tags = (array)variable_get($var, array(EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE => EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE));
 
   foreach ($preferred_tags as $test_tag) {
     // if we override the tag with a type, then break so it can be handled
@@ -188,25 +188,25 @@ function _video_cck_bliptv_get_video_info_from_preferred_tag($data, $var) {
 
 /**
  *  providers may supply an enclosure for rss feeds. this expects something in a file format, so would be an object
- *  in the format of $file->filepath, $file->filesize, and $file->filemime. calls the providers hook video_cck_PROVIDER_rss
+ *  in the format of $file->filepath, $file->filesize, and $file->filemime. calls the providers hook emvideo_PROVIDER_rss
  */
-function video_cck_bliptv_rss($item, $teaser = NULL) {
+function emvideo_bliptv_rss($item, $teaser = NULL) {
   if ($item['value']) {
-    if ($item['data']['video_cck_bliptv_data_version'] >= 1) {
+    if ($item['data']['emvideo_bliptv_data_version'] >= 1) {
       $data = $item['data'];
     }
     else {
-      $data = video_cck_bliptv_data(NULL, $item);
+      $data = emvideo_bliptv_data(NULL, $item);
     }
 
     // get the preferred type for the rss feed
-    $var = 'video_cck_bliptv_rss_tag';
-    $video_info = _video_cck_bliptv_get_video_info_from_preferred_tag($data, $var);
+    $var = 'emvideo_bliptv_rss_tag';
+    $video_info = _emvideo_bliptv_get_video_info_from_preferred_tag($data, $var);
 
     // grab the preferred filetype rather than tag, so .mov rather than 'web'
     if ($video_info == 'override') {
-       $var = 'video_cck_bliptv_rss_format';
-      $video_info = _video_cck_bliptv_get_video_info_from_preferred_tag($data, $var);
+       $var = 'emvideo_bliptv_rss_format';
+      $video_info = _emvideo_bliptv_get_video_info_from_preferred_tag($data, $var);
     }
 
     // default to flv if there's no available clip format
@@ -234,7 +234,7 @@ function video_cck_bliptv_rss($item, $teaser = NULL) {
   }
 }
 
-function theme_video_cck_bliptv_flash($code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail, $options = array()) {
+function theme_emvideo_bliptv_flash($code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail, $options = array()) {
   static $count;
   if ($code) {
     $count++;
@@ -255,8 +255,8 @@ function theme_video_cck_bliptv_flash($code, $width, $height, $field, $item, $au
   return $output;
 }
 
-function video_cck_bliptv_thumbnail($field, $item, $formatter, $node, $width, $height, $options = array()) {
-  if ($item['data']['video_cck_bliptv_data_version'] >= 1) {
+function emvideo_bliptv_thumbnail($field, $item, $formatter, $node, $width, $height, $options = array()) {
+  if ($item['data']['emvideo_bliptv_data_version'] >= 1) {
     $tn = $item['data']['thumbnail']['url'];
   }
   else {
@@ -265,8 +265,8 @@ function video_cck_bliptv_thumbnail($field, $item, $formatter, $node, $width, $h
   return $tn;
 }
 
-function video_cck_bliptv_video($code, $width, $height, $field, $item, $autoplay, $options = array()) {
-  if ($item['data']['video_cck_bliptv_data_version'] >= 1) {
+function emvideo_bliptv_video($code, $width, $height, $field, $item, $autoplay, $options = array()) {
+  if ($item['data']['emvideo_bliptv_data_version'] >= 1) {
     $flv = $item['data']['flv']['url'];
     $thumbnail = $item['data']['thumbnail']['url'];
   }
@@ -275,12 +275,12 @@ function video_cck_bliptv_video($code, $width, $height, $field, $item, $autoplay
     $thumbnail = $item['data']['thumbnail'];
   }
 
-  $output = theme('video_cck_bliptv_flash', $code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail);
+  $output = theme('emvideo_bliptv_flash', $code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail);
   return $output;
 }
 
-function video_cck_bliptv_preview($code, $width, $height, $field, $item, $autoplay, $options = array()) {
-  if ($item['data']['video_cck_bliptv_data_version'] >= 1) {
+function emvideo_bliptv_preview($code, $width, $height, $field, $item, $autoplay, $options = array()) {
+  if ($item['data']['emvideo_bliptv_data_version'] >= 1) {
     $flv = $item['data']['flv']['url'];
     $thumbnail = $item['data']['thumbnail']['url'];
   }
@@ -288,7 +288,7 @@ function video_cck_bliptv_preview($code, $width, $height, $field, $item, $autopl
     $flv = $item['data']['flv'];
     $thumbnail = $item['data']['thumbnail'];
   }
-  $output = theme('video_cck_bliptv_flash', $code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail);
+  $output = theme('emvideo_bliptv_flash', $code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail);
   return $output;
 }
 

@@ -1,11 +1,11 @@
 <?php
 // $Id$
 
-function _video_cck_zzz_custom_url_default_types() {
+function _emvideo_zzz_custom_url_default_types() {
   return array('wmv', 'wma', 'swf', 'flv', 'mov', 'rm');
 }
 
-function video_cck_zzz_custom_url_info() {
+function emvideo_zzz_custom_url_info() {
   $name = t('Custom URL');
   $features = array(
     array(t('Thumbnails'), t('No'), ''),
@@ -22,7 +22,7 @@ function video_cck_zzz_custom_url_info() {
   );
 }
 
-function video_cck_zzz_custom_url_settings() {
+function emvideo_zzz_custom_url_settings() {
   $options = array(
     'wmv' => t('Windows Media (wmv)'),
     'wma' => t('Windows Media (wma)'),
@@ -32,32 +32,32 @@ function video_cck_zzz_custom_url_settings() {
     'rm' => t('Real Media (rm)'),
   );
   $form = array();
-  $form['video_cck_zzz_custom_url_supported_types'] = array(
+  $form['emvideo_zzz_custom_url_supported_types'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Supported Types'),
     '#options' => $options,
-    '#default_value' => variable_get('video_cck_zzz_custom_url_supported_types', _video_cck_zzz_custom_url_default_types()),
+    '#default_value' => variable_get('emvideo_zzz_custom_url_supported_types', _emvideo_zzz_custom_url_default_types()),
     '#description' => t('Select the video types you wish to support. When a custom url with that type is entered into an embedded video field, it will be parsed and displayed appropriately. If a type is not supported, then it will be ignored.'),
   );
   return $form;
 }
 
-function _video_cck_zzz_custom_url_implode_types() {
-  return implode('|', variable_get('video_cck_zzz_custom_url_supported_types', _video_cck_zzz_custom_url_default_types()));
+function _emvideo_zzz_custom_url_implode_types() {
+  return implode('|', variable_get('emvideo_zzz_custom_url_supported_types', _emvideo_zzz_custom_url_default_types()));
 }
 
-function video_cck_zzz_custom_url_extract($embed = '') {
-  $types = _video_cck_zzz_custom_url_implode_types();
+function emvideo_zzz_custom_url_extract($embed = '') {
+  $types = _emvideo_zzz_custom_url_implode_types();
   if (preg_match('@\ .('. $types .')@i', $embed, $matches)) {
     return $embed;
   }
   return false;
 }
 
-function video_cck_zzz_custom_url_data($field, $item) {
+function emvideo_zzz_custom_url_data($field, $item) {
   $data = array();
   // adding the version control
-  $data['video_cck_zzz_custom_url_data_version'] = 1;
+  $data['emvideo_zzz_custom_url_data_version'] = 1;
 
   // attempt to get info from headers
   $response = emfield_request_header('zzz_custom_url', $item['embed']);
@@ -68,7 +68,7 @@ function video_cck_zzz_custom_url_data($field, $item) {
     $data['mime'] = $response->headers['Content-Type'];
   }
   // @todo replace ['type'] with converted mime info if available
-  $types = _video_cck_zzz_custom_url_implode_types();
+  $types = _emvideo_zzz_custom_url_implode_types();
   $regex = '@\.('. $types .')@i';
   if (preg_match($regex, $item['embed'], $matches)) {
     $data['type'] = $matches[1];
@@ -79,13 +79,13 @@ function video_cck_zzz_custom_url_data($field, $item) {
 /**
  * hook emfield_PROVIDER_rss
  */
-function video_cck_zzz_custom_url_rss($item, $teaser = NULL) {
+function emvideo_zzz_custom_url_rss($item, $teaser = NULL) {
   if ($item['value']) {
-    if ($item['data']['video_cck_zzz_custom_url_data_version'] >= 1) {
+    if ($item['data']['emvideo_zzz_custom_url_data_version'] >= 1) {
       $data = $item['data'];
     }
     else {
-      $data = video_cck_zzz_custom_url_data(NULL, $item);
+      $data = emvideo_zzz_custom_url_data(NULL, $item);
     }
 
     $file = array();
@@ -100,11 +100,11 @@ function video_cck_zzz_custom_url_rss($item, $teaser = NULL) {
 }
 
 
-function video_cck_zzz_custom_url_embedded_link($video_code) {
+function emvideo_zzz_custom_url_embedded_link($video_code) {
   return $video_code;
 }
 
-function theme_video_cck_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = false, $field = NULL, $item = NULL) {
+function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = false, $field = NULL, $item = NULL) {
   if ($url) {
     switch ($type) {
       case 'wmv':
@@ -126,18 +126,18 @@ function theme_video_cck_zzz_custom_url_embedded_video($type, $url, $width, $hei
   }
 }
 
-function video_cck_zzz_custom_url_thumbnail($field, $item, $formatter, $node, $width, $height) {
+function emvideo_zzz_custom_url_thumbnail($field, $item, $formatter, $node, $width, $height) {
   return '';
 }
 
-function video_cck_zzz_custom_url_video($code, $width, $height, $field, $item, $autoplay) {
+function emvideo_zzz_custom_url_video($code, $width, $height, $field, $item, $autoplay) {
   $type = $item['data']['type'];
-  $output = theme('video_cck_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item);
+  $output = theme('emvideo_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item);
   return $output;
 }
 
-function video_cck_zzz_custom_url_preview($code, $width, $height, $field, $item, $autoplay) {
+function emvideo_zzz_custom_url_preview($code, $width, $height, $field, $item, $autoplay) {
   $type = $item['data']['type'];
-  $output = theme('video_cck_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item);
+  $output = theme('emvideo_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item);
   return $output;
 }

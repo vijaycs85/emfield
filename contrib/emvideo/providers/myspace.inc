@@ -1,9 +1,9 @@
 <?php
 // $Id$
 
-define('VIDEO_CCK_MYSPACE_MAIN_URL', 'http://vids.myspace.com/index.cfm?fuseaction=vids.videos');
+define('EMVIDEO_MYSPACE_MAIN_URL', 'http://vids.myspace.com/index.cfm?fuseaction=vids.videos');
 
-function video_cck_myspace_info() {
+function emvideo_myspace_info() {
   $name = t('MySpace');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
@@ -13,18 +13,18 @@ function video_cck_myspace_info() {
   return array(
     'provider' => 'myspace',
     'name' => $name,
-    'url' => VIDEO_CCK_MYSPACE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, VIDEO_CCK_MYSPACE_MAIN_URL, array('target' => '_blank')))),
+    'url' => EMVIDEO_MYSPACE_MAIN_URL,
+    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_MYSPACE_MAIN_URL, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
 
-function video_cck_myspace_settings() {
+function emvideo_myspace_settings() {
   $form = array();
   return $form;
 }
 
-function video_cck_myspace_request($code, $cacheable = TRUE) {
+function emvideo_myspace_request($code, $cacheable = TRUE) {
   $args = array();
   return module_invoke('emfield', 'request_xml', 'myspace', "http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=$code", $args, $cacheable);
 }
@@ -32,7 +32,7 @@ function video_cck_myspace_request($code, $cacheable = TRUE) {
 /**
  *  this scrapes the thumbnail from the video page and caches it
  */
-function _video_cck_myspace_scrape_thumbnail($video, $cached = true) {
+function _emvideo_myspace_scrape_thumbnail($video, $cached = true) {
   if (!$cached || !$cache = cache_get('myspace:thumbnail:'. $video, 'cache')) {
     $vidid = substr($video, 0, 10);
     if ($str = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=$vidid")) {
@@ -60,7 +60,7 @@ function _video_cck_myspace_scrape_thumbnail($video, $cached = true) {
   return $thumbnail;
 }
 
-function video_cck_myspace_extract($embed) {
+function emvideo_myspace_extract($embed) {
   // <a href="http://myspacetv.com/index.cfm?fuseaction=vids.individual&videoid=14686340">What's That Floating In The Water Part 1</a><br><embed src="http://lads.myspace.com/videos/vplayer.swf" flashvars="m=14686340&v=2&type=video" type="application/x-shockwave-flash" width="430" height="346"></embed><br><a href="http://myspacetv.com/index.cfm?fuseaction=vids.addToProfileConfirm&videoid=14686340&title=What's That Floating In The Water Part 1">Add to My Profile</a> | <a href="http://myspacetv.com/index.cfm?fuseaction=vids.home">More Videos</a>
   return array(
     '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
@@ -70,11 +70,11 @@ function video_cck_myspace_extract($embed) {
   );
 }
 
-function video_cck_myspace_video_link($video_code) {
+function emvideo_myspace_video_link($video_code) {
   return 'http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid='. $video_code;
 }
 
-function theme_video_cck_myspace_flash($embed, $width, $height) {
+function theme_emvideo_myspace_flash($embed, $width, $height) {
   static $count = 0;
   if ($embed) {
     $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://lads.myspace.com/videos/vplayer.swf\" id=\"emfield-video-myspace-$count\" >
@@ -92,16 +92,16 @@ function theme_video_cck_myspace_flash($embed, $width, $height) {
   return $output;
 }
 
-function video_cck_myspace_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return _video_cck_myspace_scrape_thumbnail($item['value']);
+function emvideo_myspace_thumbnail($field, $item, $formatter, $node, $width, $height) {
+  return _emvideo_myspace_scrape_thumbnail($item['value']);
 }
 
-function video_cck_myspace_video($embed, $width, $height, $field, $item) {
-  $output = theme('video_cck_myspace_flash', $embed, $width, $height);
+function emvideo_myspace_video($embed, $width, $height, $field, $item) {
+  $output = theme('emvideo_myspace_flash', $embed, $width, $height);
   return $output;
 }
 
-function video_cck_myspace_preview($embed, $width, $height, $field, $item) {
-  $output = theme('video_cck_myspace_flash', $embed, $width, $height);
+function emvideo_myspace_preview($embed, $width, $height, $field, $item) {
+  $output = theme('emvideo_myspace_flash', $embed, $width, $height);
   return $output;
 }

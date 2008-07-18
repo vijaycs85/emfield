@@ -1,15 +1,15 @@
 <?php
 // $Id$
 
-define('VIDEO_CCK_YOUTUBE_MAIN_URL', 'http://www.youtube.com/');
-define('VIDEO_CCK_YOUTUBE_API_INFO', 'http://youtube.com/dev');
-define('VIDEO_CCK_YOUTUBE_API_APPLICATION_URL', 'http://www.youtube.com/my_profile_dev');
-define('VIDEO_CCK_YOUTUBE_REST_ENDPOINT', 'http://www.youtube.com/api2_rest');
-define('VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT', '#FFFFFF');
-define('VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT', '#CCCCCC');
+define('EMVIDEO_YOUTUBE_MAIN_URL', 'http://www.youtube.com/');
+define('EMVIDEO_YOUTUBE_API_INFO', 'http://youtube.com/dev');
+define('EMVIDEO_YOUTUBE_API_APPLICATION_URL', 'http://www.youtube.com/my_profile_dev');
+define('EMVIDEO_YOUTUBE_REST_ENDPOINT', 'http://www.youtube.com/api2_rest');
+define('EMVIDEO_YOUTUBE_COLOR1_DEFAULT', '#FFFFFF');
+define('EMVIDEO_YOUTUBE_COLOR2_DEFAULT', '#CCCCCC');
 
 /**
- * hook video_cck_PROVIDER_info
+ * hook emvideo_PROVIDER_info
  * this returns information relevant to a specific 3rd party video provider
  * @return
  *   an array of strings requested by various admin and other forms
@@ -19,7 +19,7 @@ define('VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT', '#CCCCCC');
  *   'supported_features' => an array of rows describing the state of certain supported features by the provider.
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
-function video_cck_youtube_info() {
+function emvideo_youtube_info() {
   $name = t('YouTube');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
@@ -31,42 +31,42 @@ function video_cck_youtube_info() {
   return array(
     'provider' => 'youtube',
     'name' => $name,
-    'url' => VIDEO_CCK_YOUTUBE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !youtube. You can learn more about its !api here.', array('!youtube' => l($name, VIDEO_CCK_YOUTUBE_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), VIDEO_CCK_YOUTUBE_API_INFO, array('target' => '_blank')))),
+    'url' => EMVIDEO_YOUTUBE_MAIN_URL,
+    'settings_description' => t('These settings specifically affect videos displayed from !youtube. You can learn more about its !api here.', array('!youtube' => l($name, EMVIDEO_YOUTUBE_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMVIDEO_YOUTUBE_API_INFO, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
 
 /**
- * hook video_cck_PROVIDER_settings
- * this should return a subform to be added to the video_cck_settings() admin settings page.
+ * hook emvideo_PROVIDER_settings
+ * this should return a subform to be added to the emvideo_settings() admin settings page.
  * note that a form field will already be provided, at $form['PROVIDER'] (such as $form['youtube'])
  * so if you want specific provider settings within that field, you can add the elements to that form field.
  */
-function video_cck_youtube_settings() {
-  $form['youtube']['video_cck_youtube_show_related_videos'] = array(
+function emvideo_youtube_settings() {
+  $form['youtube']['emvideo_youtube_show_related_videos'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show related videos'),
-    '#default_value' => variable_get('video_cck_youtube_show_related_videos', 0),
+    '#default_value' => variable_get('emvideo_youtube_show_related_videos', 0),
     '#description' => t('If checked, then when playing a video from YouTube, users may hover over the video to see thumbnails & links to related videos.'),
   );
   $form['youtube']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('YouTube API'),
-    '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the !youtube. Note that you do not need this key to display YouTube videos or their thumbnails.', array('!youtube' => l('YouTube Developer Profile page', VIDEO_CCK_YOUTUBE_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the !youtube. Note that you do not need this key to display YouTube videos or their thumbnails.', array('!youtube' => l('YouTube Developer Profile page', EMVIDEO_YOUTUBE_API_APPLICATION_URL, array('target' => '_blank')))),
     '#collapsible' => true,
     '#collapsed' => true,
   );
-  $form['youtube']['api']['video_cck_youtube_api_key'] = array(
+  $form['youtube']['api']['emvideo_youtube_api_key'] = array(
     '#type' => 'textfield',
     '#title' => t('YouTube API Key'),
-    '#default_value' => variable_get('video_cck_youtube_api_key', ''),
+    '#default_value' => variable_get('emvideo_youtube_api_key', ''),
     '#description' => t('Please enter your YouTube Developer Key here.'),
   );
-  $form['youtube']['api']['video_cck_youtube_api_secret'] = array(
+  $form['youtube']['api']['emvideo_youtube_api_secret'] = array(
     '#type' => 'textfield',
     '#title' => t('YouTube API Secret'),
-    '#default_value' => variable_get('video_cck_youtube_api_secret', ''),
+    '#default_value' => variable_get('emvideo_youtube_api_secret', ''),
     '#description' => t('If you have a secret for the YouTube API, enter it here.'),
   );
   $form['youtube']['colors'] = array(
@@ -76,31 +76,31 @@ function video_cck_youtube_settings() {
     '#collapsible' => true,
     '#collapsed' => true,
   );
-  $form['youtube']['colors']['video_cck_youtube_show_colors'] = array(
+  $form['youtube']['colors']['emvideo_youtube_show_colors'] = array(
     '#type' => 'checkbox',
     '#title' => t('Override player colors'),
-    '#default_value' => variable_get('video_cck_youtube_show_colors', FALSE),
+    '#default_value' => variable_get('emvideo_youtube_show_colors', FALSE),
   );
-  $form['youtube']['colors']['video_cck_youtube_show_border'] = array(
+  $form['youtube']['colors']['emvideo_youtube_show_border'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display border around player'),
-    '#default_value' => variable_get('video_cck_youtube_show_border', FALSE),
+    '#default_value' => variable_get('emvideo_youtube_show_border', FALSE),
   );
-  $form['youtube']['colors']['video_cck_youtube_colors_color1'] = array(
+  $form['youtube']['colors']['emvideo_youtube_colors_color1'] = array(
     '#type' => 'textfield',
     '#title' => t('Color 1'),
-    '#default_value' => variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT),
+    '#default_value' => variable_get('emvideo_youtube_colors_color1', EMVIDEO_YOUTUBE_COLOR1_DEFAULT),
   );
-  $form['youtube']['colors']['video_cck_youtube_colors_color2'] = array(
+  $form['youtube']['colors']['emvideo_youtube_colors_color2'] = array(
     '#type' => 'textfield',
     '#title' => t('Color 2'),
-    '#default_value' => variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT),
+    '#default_value' => variable_get('emvideo_youtube_colors_color2', EMVIDEO_YOUTUBE_COLOR2_DEFAULT),
   );
   if (module_exists('colorpicker')) {
-    $form['youtube']['colors']['video_cck_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
-    $form['youtube']['colors']['video_cck_youtube_colors_color1']['#colorpicker'] = 'colorpicker_1';
-    $form['youtube']['colors']['video_cck_youtube_colors_color2']['#type'] = 'colorpicker_textfield';
-    $form['youtube']['colors']['video_cck_youtube_colors_color2']['#colorpicker'] = 'colorpicker_2';
+    $form['youtube']['colors']['emvideo_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
+    $form['youtube']['colors']['emvideo_youtube_colors_color1']['#colorpicker'] = 'colorpicker_1';
+    $form['youtube']['colors']['emvideo_youtube_colors_color2']['#type'] = 'colorpicker_textfield';
+    $form['youtube']['colors']['emvideo_youtube_colors_color2']['#colorpicker'] = 'colorpicker_2';
     $form['youtube']['colors']['colorpicker_1'] = array(
       '#type' => 'colorpicker',
       '#title' => t('Color 1 picker'),
@@ -123,10 +123,10 @@ function video_cck_youtube_settings() {
  *
  * provides an array to be serialised and made available with $item elsewhere
  */
-function video_cck_youtube_data($field, $item) {
+function emvideo_youtube_data($field, $item) {
   $data = array();
   // create some 'field' version control
-  $data['video_cck_youtube_version'] = 1;
+  $data['emvideo_youtube_version'] = 1;
 
   // be nice to make this an array for changing media:thumbnail?
   $data['thumbnail']['url'] = 'http://img.youtube.com/vi/'. $item['value'] .'/0.jpg';
@@ -150,13 +150,13 @@ function video_cck_youtube_data($field, $item) {
 /**
  *
  */
-function video_cck_youtube_rss($item, $teaser = NULL) {
+function emvideo_youtube_rss($item, $teaser = NULL) {
   if ($item['value']) {
-    if ($item['data']['video_cck_youtube_data_version'] >= 1) {
+    if ($item['data']['emvideo_youtube_data_version'] >= 1) {
       $data = $item['data'];
     }
     else {
-      $data = video_cck_youtube_data(NULL, $item);
+      $data = emvideo_youtube_data(NULL, $item);
     }
     
     $file = array();
@@ -172,24 +172,24 @@ function video_cck_youtube_rss($item, $teaser = NULL) {
 }
 
 /**
- * this is a wrapper for video_cck_request_xml that includes youtube's api key
+ * this is a wrapper for emvideo_request_xml that includes youtube's api key
  */
-function video_cck_youtube_request($method, $args = array(), $cached = TRUE) {
-  $args['dev_id'] = trim(variable_get('video_cck_youtube_api_key', ''));
+function emvideo_youtube_request($method, $args = array(), $cached = TRUE) {
+  $args['dev_id'] = trim(variable_get('emvideo_youtube_api_key', ''));
   $args['method'] = $method;
 
   // if we've got a secret sign the arguments
   // TODO: doesn't seem to matter
-//  if ($secret = trim(variable_get('video_cck_youtube_api_secret', ''))) {
+//  if ($secret = trim(variable_get('emvideo_youtube_api_secret', ''))) {
 //    $args['api_sig'] = md5($secret . $arghash);
 //  }
 
-  $request = module_invoke('emfield', 'request_xml', 'youtube', VIDEO_CCK_YOUTUBE_REST_ENDPOINT, $args, $cached);
+  $request = module_invoke('emfield', 'request_xml', 'youtube', EMVIDEO_YOUTUBE_REST_ENDPOINT, $args, $cached);
   return $request;
 }
 
 /**
- * hook video_cck_PROVIDER_extract
+ * hook emvideo_PROVIDER_extract
  * this is called to extract the video code from a pasted URL or embed code.
  * @param $embed
  *   an optional string with the pasted URL or embed code
@@ -198,7 +198,7 @@ function video_cck_youtube_request($method, $args = array(), $cached = TRUE) {
  *   if the hook tests the code itself, it should return either the string of the video code (if matched), or an empty array.
  *   otherwise, the calling function will handle testing the embed code against each regex string in the returned array.
  */
-function video_cck_youtube_extract($embed = '') {
+function emvideo_youtube_extract($embed = '') {
   // src="http://www.youtube.com/v/nvbQQnvxXDk"
   // http://youtube.com/watch?v=nvbQQnvxXDk
   // http://www.youtube.com/watch?v=YzFCA-xUc8w&feature=dir
@@ -210,18 +210,18 @@ function video_cck_youtube_extract($embed = '') {
 }
 
 /**
- * hook video_cck_PROVIDER_embedded_link($video_code)
+ * hook emvideo_PROVIDER_embedded_link($video_code)
  * returns a link to view the video at the provider's site
  *  @param $video_code
  *    the string containing the video to watch
  *  @return
  *    a string containing the URL to view the video at the original provider's site
  */
-function video_cck_youtube_embedded_link($video_code) {
+function emvideo_youtube_embedded_link($video_code) {
   return 'http://www.youtube.com/watch?v='. $video_code;
 }
 
-function video_cck_youtube_convert_color($color = NULL) {
+function emvideo_youtube_convert_color($color = NULL) {
   if ($color{0} == '#') {
     return substr($color, 1);
   }
@@ -231,18 +231,18 @@ function video_cck_youtube_convert_color($color = NULL) {
 /**
  * the embedded flash displaying the youtube video
  */
-function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
+function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     if ($autoplay) {
       $autoplay_value = '&amp;autoplay=1';
     }
-    $related = variable_get('video_cck_youtube_show_related_videos', 0);
-    if (variable_get('video_cck_youtube_show_colors', FALSE)) {
-      $color1 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT));
-      $color2 = video_cck_youtube_convert_color(variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT));
+    $related = variable_get('emvideo_youtube_show_related_videos', 0);
+    if (variable_get('emvideo_youtube_show_colors', FALSE)) {
+      $color1 = emvideo_youtube_convert_color(variable_get('emvideo_youtube_colors_color1', EMVIDEO_YOUTUBE_COLOR1_DEFAULT));
+      $color2 = emvideo_youtube_convert_color(variable_get('emvideo_youtube_colors_color2', EMVIDEO_YOUTUBE_COLOR2_DEFAULT));
       $colors='&amp;color1=0x'.$color1.'&amp;color2=0x'.$color2;
     }
-    $border = (variable_get('video_cck_youtube_show_border', FALSE) == FALSE ? '' : '&amp;border=1');
+    $border = (variable_get('emvideo_youtube_show_border', FALSE) == FALSE ? '' : '&amp;border=1');
     $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" id=\"VideoPlayback\" >
       <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" />
       <param name=\"allowScriptAcess\" value=\"sameDomain\"/>
@@ -258,7 +258,7 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
 }
 
 /**
- * hook video_cck_PROVIDER_thumbnail
+ * hook emvideo_PROVIDER_thumbnail
  * returns the external url for a thumbnail of a specific video
  * TODO: make the args: ($embed, $field, $item), with $field/$item provided if we need it, but otherwise simplifying things
  *  @param $field
@@ -268,10 +268,10 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay) {
  *  @return
  *    a URL pointing to the thumbnail
  */
-function video_cck_youtube_thumbnail($field, $item, $formatter, $node, $width, $height) {
+function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $youtube_id = $item['value'];
   // old code to grab thumbnail via api
-//   $request = video_cck_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
+//   $request = emvideo_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
 //   $tn = $request['THUMBNAIL_URL'][0];
 
   // if we have a large thumbnail size, then get the larger version available.
@@ -287,7 +287,7 @@ function video_cck_youtube_thumbnail($field, $item, $formatter, $node, $width, $
 }
 
 /**
- * hook video_cck_PROVIDER_video
+ * hook emvideo_PROVIDER_video
  * this actually displays the full/normal-sized video we want, usually on the default page view
  *  @param $embed
  *    the video code for the video to embed
@@ -302,13 +302,13 @@ function video_cck_youtube_thumbnail($field, $item, $formatter, $node, $width, $
  *  @return
  *    the html of the embedded video
  */
-function video_cck_youtube_video($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_youtube_flash', $embed, $width, $height, $autoplay);
+function emvideo_youtube_video($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_youtube_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
 /**
- * hook video_cck_PROVIDER_video
+ * hook emvideo_PROVIDER_video
  * this actually displays the preview-sized video we want, commonly for the teaser
  *  @param $embed
  *    the video code for the video to embed
@@ -323,7 +323,7 @@ function video_cck_youtube_video($embed, $width, $height, $field, $item, $autopl
  *  @return
  *    the html of the embedded video
  */
-function video_cck_youtube_preview($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_youtube_flash', $embed, $width, $height, $autoplay);
+function emvideo_youtube_preview($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_youtube_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

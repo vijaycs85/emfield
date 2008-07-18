@@ -1,13 +1,13 @@
 <?php
 // $Id$
 
-define('VIDEO_CCK_LIVEVIDEO_MAIN_URL', 'http://www.livevideo.com/');
-define('VIDEO_CCK_LIVEVIDEO_API_INFO', 'http://www.livevideo.com/api/default.aspx');
-define('VIDEO_CCK_LIVEVIDEO_API_APPLICATION_URL', 'http://www.livevideo.com/profile/admin/editdeveloperprofile.aspx');
-define('VIDEO_CCK_LIVEVIDEO_REST_ENDPOINT', 'http://www.livevideo.com/api/');
+define('EMVIDEO_LIVEVIDEO_MAIN_URL', 'http://www.livevideo.com/');
+define('EMVIDEO_LIVEVIDEO_API_INFO', 'http://www.livevideo.com/api/default.aspx');
+define('EMVIDEO_LIVEVIDEO_API_APPLICATION_URL', 'http://www.livevideo.com/profile/admin/editdeveloperprofile.aspx');
+define('EMVIDEO_LIVEVIDEO_REST_ENDPOINT', 'http://www.livevideo.com/api/');
 
 /**
- * hook video_cck_PROVIDER_info
+ * hook emvideo_PROVIDER_info
  * this returns information relevant to a specific 3rd party video provider
  * @return
  *   an array of strings requested by various admin and other forms
@@ -17,7 +17,7 @@ define('VIDEO_CCK_LIVEVIDEO_REST_ENDPOINT', 'http://www.livevideo.com/api/');
  *   'supported_features' => an array of rows describing the state of certain supported features by the provider.
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
-function video_cck_livevideo_info() {
+function emvideo_livevideo_info() {
   $name = t('Live Video');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
@@ -27,47 +27,47 @@ function video_cck_livevideo_info() {
   return array(
     'provider' => 'livevideo',
     'name' => $name,
-    'url' => VIDEO_CCK_LIVEVIDEO_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !livevideo. You can learn more about its !api here.', array('!livevideo' => l($name, VIDEO_CCK_LIVEVIDEO_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), VIDEO_CCK_LIVEVIDEO_API_INFO, array('target' => '_blank')))),
+    'url' => EMVIDEO_LIVEVIDEO_MAIN_URL,
+    'settings_description' => t('These settings specifically affect videos displayed from !livevideo. You can learn more about its !api here.', array('!livevideo' => l($name, EMVIDEO_LIVEVIDEO_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMVIDEO_LIVEVIDEO_API_INFO, array('target' => '_blank')))),
     'supported_features' => $features,
   );
 }
 
 /**
- * hook video_cck_PROVIDER_settings
- * this should return a subform to be added to the video_cck_settings() admin settings page.
+ * hook emvideo_PROVIDER_settings
+ * this should return a subform to be added to the emvideo_settings() admin settings page.
  * note that a form field will already be provided, at $form['PROVIDER'] (such as $form['livevideo'])
  * so if you want specific provider settings within that field, you can add the elements to that form field.
  */
-function video_cck_livevideo_settings() {
+function emvideo_livevideo_settings() {
   $form['livevideo']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Live Video API'),
-    '#description' => t('If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the !livevideo. Note that you do not need this key to display Live Video videos themselves.', array('!livevideo' => l('Live Video Developer Profile page', VIDEO_CCK_LIVEVIDEO_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the !livevideo. Note that you do not need this key to display Live Video videos themselves.', array('!livevideo' => l('Live Video Developer Profile page', EMVIDEO_LIVEVIDEO_API_APPLICATION_URL, array('target' => '_blank')))),
     '#collapsible' => true,
     '#collapsed' => true,
   );
-  $form['livevideo']['api']['video_cck_livevideo_api_key'] = array(
+  $form['livevideo']['api']['emvideo_livevideo_api_key'] = array(
     '#type' => 'textfield',
     '#title' => t('Live Video API Key'),
-    '#default_value' => variable_get('video_cck_livevideo_api_key', ''),
+    '#default_value' => variable_get('emvideo_livevideo_api_key', ''),
     '#description' => t('Please enter your Live Video Developer Key here.'),
   );
   return $form;
 }
 
 /**
- * this is a wrapper for video_cck_request_xml that includes livevideo's api key
+ * this is a wrapper for emvideo_request_xml that includes livevideo's api key
  */
-function video_cck_livevideo_request($method, $args = array(), $cached = true) {
-  $args['developerId'] = trim(variable_get('video_cck_livevideo_api_key', ''));
+function emvideo_livevideo_request($method, $args = array(), $cached = true) {
+  $args['developerId'] = trim(variable_get('emvideo_livevideo_api_key', ''));
 
-  $request = module_invoke('emfield', 'request_xml', 'livevideo', VIDEO_CCK_LIVEVIDEO_REST_ENDPOINT . $method, $args, $cached);
+  $request = module_invoke('emfield', 'request_xml', 'livevideo', EMVIDEO_LIVEVIDEO_REST_ENDPOINT . $method, $args, $cached);
   return $request;
 }
 
 /**
- * hook video_cck_PROVIDER_extract
+ * hook emvideo_PROVIDER_extract
  * this is called to extract the video code from a pasted URL or embed code.
  * @param $embed
  *   an optional string with the pasted URL or embed code
@@ -76,7 +76,7 @@ function video_cck_livevideo_request($method, $args = array(), $cached = true) {
  *   if the hook tests the code itself, it should return either the string of the video code (if matched), or an empty array.
  *   otherwise, the calling function will handle testing the embed code against each regex string in the returned array.
  */
-function video_cck_livevideo_extract($embed = '') {
+function emvideo_livevideo_extract($embed = '') {
   // <div><embed src="http://www.livevideo.com/flvplayer/embed/591C1350DD174FE0B10C4DCFC88981DA" type="application/x-shockwave-flash" quality="high" WIDTH="445" HEIGHT="369" wmode="transparent"></embed><br/><a href="http://www.livevideo.com/video/embedLink/591C1350DD174FE0B10C4DCFC88981DA/236172/mascot-bloopers-video.aspx">Mascot Bloopers Video</a></div>
   // http://www.livevideo.com/video/591C1350DD174FE0B10C4DCFC88981DA/mascot-bloopers-video.aspx
   // NOTE: the order of the following matters very much in this case...
@@ -87,17 +87,17 @@ function video_cck_livevideo_extract($embed = '') {
 }
 
 /**
- * hook video_cck_PROVIDER_embedded_link($video_code)
+ * hook emvideo_PROVIDER_embedded_link($video_code)
  * returns a link to view the video at the provider's site
  *  @param $video_code
  *    the string containing the video to watch
  *  @return
  *    a string containing the URL to view the video at the original provider's site
  */
-function video_cck_livevideo_embedded_link($video_code) {
+function emvideo_livevideo_embedded_link($video_code) {
   $method = 'GetVideoDetails.ashx';
   $args = array('videoId' => $video_code);
-  $request = video_cck_livevideo_request($method, $args);
+  $request = emvideo_livevideo_request($method, $args);
   $url = $request['VIDEODETAILS']['VIEWURL'][0];
   return $url;
 }
@@ -105,7 +105,7 @@ function video_cck_livevideo_embedded_link($video_code) {
 /**
  * the embedded flash displaying the livevideo video
  */
-function theme_video_cck_livevideo_flash($embed, $width, $height, $autoplay) {
+function theme_emvideo_livevideo_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     $autostart = $autoplay ? '&autoStart=1' : '';
     $output .= '<embed src="http://www.livevideo.com/flvplayer/embed/'. $embed . $autostart .'" type="application/x-shockwave-flash" quality="high" WIDTH="'. $width .'" HEIGHT="'. $height .'" wmode="transparent"></embed>';
@@ -114,7 +114,7 @@ function theme_video_cck_livevideo_flash($embed, $width, $height, $autoplay) {
 }
 
 /**
- * hook video_cck_PROVIDER_thumbnail
+ * hook emvideo_PROVIDER_thumbnail
  * returns the external url for a thumbnail of a specific video
  * TODO: make the args: ($embed, $field, $item), with $field/$item provided if we need it, but otherwise simplifying things
  *  @param $field
@@ -124,16 +124,16 @@ function theme_video_cck_livevideo_flash($embed, $width, $height, $autoplay) {
  *  @return
  *    a URL pointing to the thumbnail
  */
-function video_cck_livevideo_thumbnail($field, $item, $formatter, $node, $width, $height) {
+function emvideo_livevideo_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $method = 'GetVideoDetails.ashx';
   $args = array('videoId' => $item['value']);
-  $request = video_cck_livevideo_request($method, $args);
+  $request = emvideo_livevideo_request($method, $args);
   $tn = $request['VIDEODETAILS']['DEFAULTTHUMBNAIL'][0];
   return $tn;
 }
 
 /**
- * hook video_cck_PROVIDER_video
+ * hook emvideo_PROVIDER_video
  * this actually displays the full/normal-sized video we want, usually on the default page view
  *  @param $embed
  *    the video code for the video to embed
@@ -148,13 +148,13 @@ function video_cck_livevideo_thumbnail($field, $item, $formatter, $node, $width,
  *  @return
  *    the html of the embedded video
  */
-function video_cck_livevideo_video($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_livevideo_flash', $embed, $width, $height, $autoplay);
+function emvideo_livevideo_video($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_livevideo_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
 /**
- * hook video_cck_PROVIDER_video
+ * hook emvideo_PROVIDER_video
  * this actually displays the preview-sized video we want, commonly for the teaser
  *  @param $embed
  *    the video code for the video to embed
@@ -169,7 +169,7 @@ function video_cck_livevideo_video($embed, $width, $height, $field, $item, $auto
  *  @return
  *    the html of the embedded video
  */
-function video_cck_livevideo_preview($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('video_cck_livevideo_flash', $embed, $width, $height, $autoplay);
+function emvideo_livevideo_preview($embed, $width, $height, $field, $item, $autoplay) {
+  $output = theme('emvideo_livevideo_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
