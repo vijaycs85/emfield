@@ -4,40 +4,40 @@
 /**
  * Implementation of hook_install().
  */
-function image_ncck_install() {
-  content_notify('install', 'image_ncck');
+function emimage_install() {
+  content_notify('install', 'emimage');
 }
 
 /**
  * Implementation of hook_uninstall().
  */
-function image_ncck_uninstall() {
-  content_notify('uninstall', 'image_ncck');
+function emimage_uninstall() {
+  content_notify('uninstall', 'emimage');
 }
 
 /**
 * Implementation of hook_enable().
 */
-function image_ncck_enable() {
-  content_notify('enable', 'image_ncck');
+function emimage_enable() {
+  content_notify('enable', 'emimage');
 }
 
 /**
 * Implementation of hook_disable().
 */
-function image_ncck_disable() {
-  content_notify('disable', 'image_ncck');
+function emimage_disable() {
+  content_notify('disable', 'emimage');
 }
 
-function image_ncck_update_1() {
-  $ret = _image_ncck_update_reset_cache_views();
+function emimage_update_1() {
+  $ret = _emimage_update_reset_cache_views();
   return $ret;
 }
 
 // I'd like this to be conditional, so it only runs if they don't have views installed.
 // however, module_exists doesn't actually work in the update scripts.
 // TODO: conditional on if table exists instead...
-function _image_ncck_update_reset_cache_views() {
+function _emimage_update_reset_cache_views() {
   $ret = array();
   $ret[] = update_sql("DELETE FROM {cache_views}");
   return $ret;

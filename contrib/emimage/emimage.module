@@ -1,23 +1,23 @@
 <?php
 // $Id$
 
-define('IMAGE_NCCK_LINK_NONE', 0);
-define('IMAGE_NCCK_LINK_CONTENT', 'node');
-define('IMAGE_NCCK_LINK_PROVIDER', 'provider');
-define('IMAGE_NCCK_DEFAULT_FULL_WIDTH', 500);
-define('IMAGE_NCCK_DEFAULT_FULL_HEIGHT', 800);
-define('IMAGE_NCCK_DEFAULT_FULL_LINK', IMAGE_NCCK_LINK_PROVIDER);
-define('IMAGE_NCCK_DEFAULT_PREVIEW_WIDTH', 240);
-define('IMAGE_NCCK_DEFAULT_PREVIEW_HEIGHT', 360);
-define('IMAGE_NCCK_DEFAULT_PREVIEW_LINK', IMAGE_NCCK_LINK_CONTENT);
-define('IMAGE_NCCK_DEFAULT_THUMBNAIL_WIDTH', 100);
-define('IMAGE_NCCK_DEFAULT_THUMBNAIL_HEIGHT', 180);
-define('IMAGE_NCCK_DEFAULT_THUMBNAIL_LINK', IMAGE_NCCK_LINK_CONTENT);
+define('EMIMAGE_LINK_NONE', 0);
+define('EMIMAGE_LINK_CONTENT', 'node');
+define('EMIMAGE_LINK_PROVIDER', 'provider');
+define('EMIMAGE_DEFAULT_FULL_WIDTH', 500);
+define('EMIMAGE_DEFAULT_FULL_HEIGHT', 800);
+define('EMIMAGE_DEFAULT_FULL_LINK', EMIMAGE_LINK_PROVIDER);
+define('EMIMAGE_DEFAULT_PREVIEW_WIDTH', 240);
+define('EMIMAGE_DEFAULT_PREVIEW_HEIGHT', 360);
+define('EMIMAGE_DEFAULT_PREVIEW_LINK', EMIMAGE_LINK_CONTENT);
+define('EMIMAGE_DEFAULT_THUMBNAIL_WIDTH', 100);
+define('EMIMAGE_DEFAULT_THUMBNAIL_HEIGHT', 180);
+define('EMIMAGE_DEFAULT_THUMBNAIL_LINK', EMIMAGE_LINK_CONTENT);
 
 /**
  *  Implement hook_ncck_info
  */
-function image_ncck_emfield_info() {
+function emimage_emfield_info() {
   return array(
     '#name' => t('Embedded Image Field'),
     '#settings_description' => t('The following settings configure content with any fields controlled by Embedded Image Field.'),
@@ -27,16 +27,16 @@ function image_ncck_emfield_info() {
 /**
  * Implement hook_ncck_settings
  */
-function image_ncck_emfield_settings() {
+function emimage_emfield_settings() {
   $form = array();
   return $form;
 }
 
 /**Implementation of hook_field_info  **/
 
-function image_ncck_field_info() {
+function emimage_field_info() {
   $fields = array(
-    'image_ncck' => array(
+    'emimage' => array(
       'label' => t('Embedded Image'),
       'callbacks' => array(
         'tables' => CONTENT_CALLBACK_DEFAULT,
@@ -48,7 +48,7 @@ function image_ncck_field_info() {
 }
 
 /** Implementation of hook_field_settings **/
-function image_ncck_field_settings($op, $field) {
+function emimage_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
       return module_invoke('emfield', 'field_columns', $field);
@@ -82,7 +82,7 @@ function image_ncck_field_settings($op, $field) {
         ),
         'provider: '. $field['field_name'] => array(
           'name' => t('Embedded Image Provider: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
-          'handler' => 'image_ncck_handler_arg_provider',
+          'handler' => 'emimage_handler_arg_provider',
           'help' => t('The Embedded Image Provider argument allows users to filter a view by specifying the image provider.'),
         ),
       );
@@ -90,27 +90,27 @@ function image_ncck_field_settings($op, $field) {
   }
 }
 
-function image_ncck_handler_arg_provider($op, &$query, $argtype, $arg = '') {
-  return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'image_ncck');
+function emimage_handler_arg_provider($op, &$query, $argtype, $arg = '') {
+  return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'emimage');
 }
 
 /** Implementation of hook_field **/
-function image_ncck_field($op, &$node, $field, &$items, $teaser, $page) {
+function emimage_field($op, &$node, $field, &$items, $teaser, $page) {
   if (module_hook('emfield', 'emfield_field')) {
-    return emfield_emfield_field($op, $node, $field, $items, $teaser, $page, 'image_ncck');
+    return emfield_emfield_field($op, $node, $field, $items, $teaser, $page, 'emimage');
   }
 }
 
 /**
  *  implement hook_content_is_empty
  */
-function image_ncck_content_is_empty($item, $field) {
+function emimage_content_is_empty($item, $field) {
   return module_invoke('emfield', 'emfield_content_is_empty', $item, $field);
 }
 
 /** Implementation of hook_emfield_field_formatter_info **/
-function image_ncck_field_formatter_info() {
-  $types = array('image_ncck', );
+function emimage_field_formatter_info() {
+  $types = array('emimage', );
   $formats = array(
     'default' => array(
       'label' => t('Default'),
@@ -136,18 +136,18 @@ function image_ncck_field_formatter_info() {
   return $formats;
 }
 
-function image_ncck_field_formatter($field, $item, $formatter, $node) {
-  return module_invoke('emfield', 'emfield_field_formatter', $field, $item, $formatter, $node, 'image_ncck');
+function emimage_field_formatter($field, $item, $formatter, $node) {
+  return module_invoke('emfield', 'emfield_field_formatter', $field, $item, $formatter, $node, 'emimage');
 }
 
 /** Widgets **/
 
 /** Implementation of hook_widget_info **/
-function image_ncck_widget_info() {
+function emimage_widget_info() {
   return array(
-    'image_ncck_textfields' => array(
+    'emimage_textfields' => array(
       'label' => t('3rd Party Image'),
-      'field types' => array('image_ncck', ),
+      'field types' => array('emimage', ),
       'multiple values' => CONTENT_HANDLE_CORE,
       'callbacks' => array(
         'default value' => CONTENT_CALLBACK_DEFAULT,
@@ -156,18 +156,18 @@ function image_ncck_widget_info() {
   );
 }
 
-function image_ncck_widget_settings($op, $widget) {
+function emimage_widget_settings($op, $widget) {
   switch ($op) {
     case 'form':
-      $form = (array)module_invoke('emfield', 'emfield_widget_settings', 'form', $widget, 'image_ncck');
-      if ($widget['type'] == 'image_ncck_textfields') {
+      $form = (array)module_invoke('emfield', 'emfield_widget_settings', 'form', $widget, 'emimage');
+      if ($widget['type'] == 'emimage_textfields') {
         $link_options = array(
-          IMAGE_NCCK_LINK_NONE => t('No link'),
-          IMAGE_NCCK_LINK_CONTENT => t('Link to content'),
-          IMAGE_NCCK_LINK_PROVIDER => t('Link to provider'),
+          EMIMAGE_LINK_NONE => t('No link'),
+          EMIMAGE_LINK_CONTENT => t('Link to content'),
+          EMIMAGE_LINK_PROVIDER => t('Link to provider'),
         );
-        $width = variable_get('image_ncck_default_full_width', IMAGE_NCCK_DEFAULT_FULL_WIDTH);
-        $height = variable_get('image_ncck_default_full_height', IMAGE_NCCK_DEFAULT_FULL_HEIGHT);
+        $width = variable_get('emimage_default_full_width', EMIMAGE_DEFAULT_FULL_WIDTH);
+        $height = variable_get('emimage_default_full_height', EMIMAGE_DEFAULT_FULL_HEIGHT);
         $form['full'] = array(
           '#type' => 'fieldset',
           '#title' => t('Full size display settings'),
@@ -189,7 +189,7 @@ function image_ncck_widget_settings($op, $widget) {
           '#required' => true,
           '#description' => t('The height of the image. It defaults to @height. Set it to 0 if you want to leave the image at its original aspect ratio.', array('@height' => $height)),
         );
-		$full_link = variable_get('image_ncck_default_full_link', IMAGE_NCCK_DEFAULT_FULL_LINK);
+		$full_link = variable_get('emimage_default_full_link', EMIMAGE_DEFAULT_FULL_LINK);
         $form['full']['full_link'] = array(
           '#type' => 'select',
           '#title' => t('Full size link'),
@@ -198,8 +198,8 @@ function image_ncck_widget_settings($op, $widget) {
           '#default_value' => empty($widget['full_link']) ? $full_link : $widget['full_link'],
         );
 
-        $width = variable_get('image_ncck_default_preview_width', IMAGE_NCCK_DEFAULT_PREVIEW_WIDTH);
-        $height = variable_get('image_ncck_default_preview_height', IMAGE_NCCK_DEFAULT_PREVIEW_HEIGHT);
+        $width = variable_get('emimage_default_preview_width', EMIMAGE_DEFAULT_PREVIEW_WIDTH);
+        $height = variable_get('emimage_default_preview_height', EMIMAGE_DEFAULT_PREVIEW_HEIGHT);
         $form['preview'] = array(
           '#type' => 'fieldset',
           '#title' => t('Image Preview Settings'),
@@ -221,7 +221,7 @@ function image_ncck_widget_settings($op, $widget) {
           '#required' => true,
           '#description' => t('The height of the image preview. It defaults to @height. Set it to 0 if you want to leave the image at its original aspect ratio.', array('@height' => $height)),
         );
-		$full_link = variable_get('image_ncck_default_preview_link', IMAGE_NCCK_DEFAULT_PREVIEW_LINK);
+		$full_link = variable_get('emimage_default_preview_link', EMIMAGE_DEFAULT_PREVIEW_LINK);
         $form['preview']['preview_link'] = array(
           '#type' => 'select',
           '#title' => t('Preview size link'),
@@ -229,8 +229,8 @@ function image_ncck_widget_settings($op, $widget) {
           '#options' => $link_options,
           '#default_value' => empty($widget['full_link']) ? $full_link : $widget['full_link'],
         );
-        $width = variable_get('image_ncck_default_thumbnail_width', IMAGE_NCCK_DEFAULT_THUMBNAIL_WIDTH);
-        $height = variable_get('image_ncck_default_thumbnail_height', IMAGE_NCCK_DEFAULT_THUMBNAIL_HEIGHT);
+        $width = variable_get('emimage_default_thumbnail_width', EMIMAGE_DEFAULT_THUMBNAIL_WIDTH);
+        $height = variable_get('emimage_default_thumbnail_height', EMIMAGE_DEFAULT_THUMBNAIL_HEIGHT);
         $form['tn'] = array(
           '#type' => 'fieldset',
           '#title' => t('Thumbnail'),
@@ -252,7 +252,7 @@ function image_ncck_widget_settings($op, $widget) {
           '#required' => true,
           '#description' => t('The height of the image thumbnail. It defaults to @height. Set it to 0 if you want to leave the image at its original aspect ratio.', array('@height' => $height)),
         );
-		$thumb_link = variable_get('image_ncck_default_thumbnail_link', IMAGE_NCCK_DEFAULT_THUMBNAIL_LINK);
+		$thumb_link = variable_get('emimage_default_thumbnail_link', EMIMAGE_DEFAULT_THUMBNAIL_LINK);
         $form['tn']['thumbnail_link'] = array(
           '#type' => 'select',
           '#title' => t('Image thumbnail link'),
@@ -264,7 +264,7 @@ function image_ncck_widget_settings($op, $widget) {
       return $form;
 
     case 'validate':
-      if ($widget['type'] == 'image_ncck_textfields') {
+      if ($widget['type'] == 'emimage_textfields') {
         if (!is_numeric($widget['full_width']) || intval($widget['full_width']) != $widget['full_width'] || $widget['full_width'] < 0) {
           form_set_error('full_width', t('"Full size width" must be an integer.'));
         }
@@ -287,9 +287,9 @@ function image_ncck_widget_settings($op, $widget) {
       break;
 
     case 'save':
-      if ($widget['widget_type'] == 'image_ncck_textfields') {
+      if ($widget['widget_type'] == 'emimage_textfields') {
         $columns = array('full_width', 'full_height', 'full_link', 'preview_width', 'preview_height', 'preview_link', 'thumbnail_width', 'thumbnail_height', 'thumbnail_link', );
-        $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'image_ncck'));
+        $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'emimage'));
 
         return $columns;
       }
@@ -297,19 +297,19 @@ function image_ncck_widget_settings($op, $widget) {
   }
 }
 
-function image_ncck_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+function emimage_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   if (module_hook('emfield', 'emfield_widget')) {
-    return emfield_emfield_widget($form, $form_state, $field, $items, $delta, 'image_ncck');
+    return emfield_emfield_widget($form, $form_state, $field, $items, $delta, 'emimage');
   }
 }
 
-function image_ncck_embed_form($field, $item, $formatter, $node) {
+function emimage_embed_form($field, $item, $formatter, $node) {
   $embed = $item['value'];
   $width = $field['widget']['full_width'];
   $height = $field['widget']['full_height'];
-  $text = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'image_full', $embed, $width, $height, $field, $item);
+  $text = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_full', $embed, $width, $height, $field, $item);
   $form = array();
-  $form['image_ncck_embed'] = array(
+  $form['emimage_embed'] = array(
     '#type' => 'textarea',
     '#title' => t('Embed Code'),
     '#description' => t('To embed this image on your own site, simply copy and paste the html code from this text area.'),
@@ -318,16 +318,16 @@ function image_ncck_embed_form($field, $item, $formatter, $node) {
   return $form;
 }
 
-function image_ncck_theme(){
+function emimage_theme(){
   return array(
-   'image_ncck_image_embed' => array(
+   'emimage_image_embed' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
       ),
-   'image_ncck_image_image' => array(
+   'emimage_image_image' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
@@ -339,28 +339,28 @@ function image_ncck_theme(){
         'title' => '',
         'link' => NULL),
       ),
-   'image_ncck_image_thumbnail' => array(
+   'emimage_image_thumbnail' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
       ),
-   'image_ncck_image_full' => array(
+   'emimage_image_full' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
       ),
-   'image_ncck_image_preview' => array(
+   'emimage_image_preview' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
       ),
-   'image_ncck_default' => array(
+   'emimage_default' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
@@ -370,15 +370,15 @@ function image_ncck_theme(){
   );
 }
 
-function theme_image_ncck_image_embed($field, $item, $formatter, $node) {
+function theme_emimage_image_embed($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
-    $output = drupal_get_form('image_ncck_embed_form', $field, $item, $formatter, $node);
+    $output = drupal_get_form('emimage_embed_form', $field, $item, $formatter, $node);
   }
   return $output;
 }
 
-function theme_image_ncck_image($field, $item, $formatter, $node, $code, $width, $height, $title = '', $link = NULL) {
-  $url = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'image_url', $code, $width, $height, $formatter, $field, $item, $node);
+function theme_emimage_image($field, $item, $formatter, $node, $code, $width, $height, $title = '', $link = NULL) {
+  $url = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_url', $code, $width, $height, $formatter, $field, $item, $node);
   $attributes = array();
   if ($width) {
     $attributes['width'] = $width;
@@ -393,69 +393,69 @@ function theme_image_ncck_image($field, $item, $formatter, $node, $code, $width,
   return $output;
 }
 
-function theme_image_ncck_image_thumbnail($field, $item, $formatter, $node) {
+function theme_emimage_image_thumbnail($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $code = $item['value'];
-    $width = $field['widget']['thumbnail_width'] === '' ? variable_get('image_ncck_default_full_width', IMAGE_NCCK_DEFAULT_FULL_WIDTH) : $field['widget']['thumbnail_width'];
-    $height = $field['widget']['thumbnail_height'] === '' ? variable_get('image_ncck_default_full_height', IMAGE_NCCK_DEFAULT_FULL_HEIGHT) : $field['widget']['thumbnail_height'];
-    $link = $field['widget']['thumbnail_link'] ? $field['widget']['thumbnail_link'] : variable_get('image_ncck_default_thumbnail_link', IMAGE_NCCK_DEFAULT_THUMBNAIL_LINK);
-    if ($link == IMAGE_NCCK_LINK_CONTENT) {
+    $width = $field['widget']['thumbnail_width'] === '' ? variable_get('emimage_default_full_width', EMIMAGE_DEFAULT_FULL_WIDTH) : $field['widget']['thumbnail_width'];
+    $height = $field['widget']['thumbnail_height'] === '' ? variable_get('emimage_default_full_height', EMIMAGE_DEFAULT_FULL_HEIGHT) : $field['widget']['thumbnail_height'];
+    $link = $field['widget']['thumbnail_link'] ? $field['widget']['thumbnail_link'] : variable_get('emimage_default_thumbnail_link', EMIMAGE_DEFAULT_THUMBNAIL_LINK);
+    if ($link == EMIMAGE_LINK_CONTENT) {
       $link = 'node/'. $node->nid;
     }
-    else if ($link == IMAGE_NCCK_LINK_PROVIDER) {
-      $link = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'embedded_link', $code, $item['data']);
+    else if ($link == EMIMAGE_LINK_PROVIDER) {
+      $link = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'embedded_link', $code, $item['data']);
     }
     else {
       $link = NULL;
     }
-    $title = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'image_title', $code, $item['data']);
-    $output = theme('image_ncck_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
+    $title = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_title', $code, $item['data']);
+    $output = theme('emimage_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
   }
   return $output;
 }
 
-function theme_image_ncck_image_full($field, $item, $formatter, $node) {
+function theme_emimage_image_full($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $code = $item['value'];
-    $width = $field['widget']['full_width'] === '' ? variable_get('image_ncck_default_full_width', IMAGE_NCCK_DEFAULT_FULL_WIDTH) : $field['widget']['full_width'];
-    $height = $field['widget']['full_height'] === '' ? variable_get('image_ncck_default_full_height', IMAGE_NCCK_DEFAULT_FULL_HEIGHT) : $field['widget']['full_height'];
-    $link = $field['widget']['full_link'] ? $field['widget']['full_link'] : variable_get('image_ncck_default_full_link', IMAGE_NCCK_DEFAULT_FULL_LINK);
-    if ($link == IMAGE_NCCK_LINK_CONTENT) {
+    $width = $field['widget']['full_width'] === '' ? variable_get('emimage_default_full_width', EMIMAGE_DEFAULT_FULL_WIDTH) : $field['widget']['full_width'];
+    $height = $field['widget']['full_height'] === '' ? variable_get('emimage_default_full_height', EMIMAGE_DEFAULT_FULL_HEIGHT) : $field['widget']['full_height'];
+    $link = $field['widget']['full_link'] ? $field['widget']['full_link'] : variable_get('emimage_default_full_link', EMIMAGE_DEFAULT_FULL_LINK);
+    if ($link == EMIMAGE_LINK_CONTENT) {
       $link = 'node/'. $node->nid;
     }
-    else if ($link == IMAGE_NCCK_LINK_PROVIDER) {
-      $link = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'embedded_link', $code, $item['data']);
+    else if ($link == EMIMAGE_LINK_PROVIDER) {
+      $link = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'embedded_link', $code, $item['data']);
     }
     else {
       $link = NULL;
     }
-    $title = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'image_title', $code, $item['data']);
-    $output = theme('image_ncck_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
+    $title = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_title', $code, $item['data']);
+    $output = theme('emimage_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
   }
   return $output;
 }
 
-function theme_image_ncck_default($field, $item, $formatter, $node) {
-  return theme('image_ncck_image_full', $field, $item, $formatter, $node);
+function theme_emimage_default($field, $item, $formatter, $node) {
+  return theme('emimage_image_full', $field, $item, $formatter, $node);
 }
 
-function theme_image_ncck_image_preview($field, $item, $formatter, $node) {
+function theme_emimage_image_preview($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $code = $item['value'];
-    $width = $field['widget']['preview_width'] === '' ? variable_get('image_ncck_default_preview_width', IMAGE_NCCK_DEFAULT_PREVIEW_WIDTH) : $field['widget']['preview_width'];
-    $height = $field['widget']['preview_height'] === '' ? variable_get('image_ncck_default_preview_height', IMAGE_NCCK_DEFAULT_PREVIEW_HEIGHT) : $field['widget']['preview_height'];
-    $link = $field['widget']['preview_link'] ? $field['widget']['preview_link'] : variable_get('image_ncck_default_preview_link', IMAGE_NCCK_DEFAULT_PREVIEW_LINK);
-    if ($link == IMAGE_NCCK_LINK_CONTENT) {
+    $width = $field['widget']['preview_width'] === '' ? variable_get('emimage_default_preview_width', EMIMAGE_DEFAULT_PREVIEW_WIDTH) : $field['widget']['preview_width'];
+    $height = $field['widget']['preview_height'] === '' ? variable_get('emimage_default_preview_height', EMIMAGE_DEFAULT_PREVIEW_HEIGHT) : $field['widget']['preview_height'];
+    $link = $field['widget']['preview_link'] ? $field['widget']['preview_link'] : variable_get('emimage_default_preview_link', EMIMAGE_DEFAULT_PREVIEW_LINK);
+    if ($link == EMIMAGE_LINK_CONTENT) {
       $link = 'node/'. $node->nid;
     }
-    else if ($link == IMAGE_NCCK_LINK_PROVIDER) {
-      $link = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'embedded_link', $code, $item['data']);
+    else if ($link == EMIMAGE_LINK_PROVIDER) {
+      $link = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'embedded_link', $code, $item['data']);
     }
     else {
       $link = NULL;
     }
-    $title = module_invoke('emfield', 'include_invoke', 'image_ncck', $item['provider'], 'image_title', $code, $item['data']);
-    $output = theme('image_ncck_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
+    $title = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_title', $code, $item['data']);
+    $output = theme('emimage_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
   }
   return $output;
 }

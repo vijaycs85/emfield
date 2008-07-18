@@ -1,5 +1,9 @@
 /* $Id$ */
 
+2008-07-18
+----------
+Name changed from video_ncck to emimage
+
 2008-07-02
 ----------
  * Simplify regex for image_ncck_flickr_extract, to eventually allow better photoset imports (a_c_m).
