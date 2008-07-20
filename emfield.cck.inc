@@ -43,7 +43,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       }
       break;
 
-    case 'submit':
+    case 'presave':
       foreach ($items as $delta => $item) {
         $list = _emfield_field_submit_id($field, $item, $module);
         $items[$delta]['provider'] = $list['provider'];
