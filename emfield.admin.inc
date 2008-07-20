@@ -10,7 +10,7 @@
  * Callback for admin/content/emfield
  */
 function emfield_settings() {
-  if (!module_exists('video_cck') && !module_exists('image_ncck') && !module_exists('emaudio')) {
+  if (!module_exists('emvideo') && !module_exists('emimage') && !module_exists('emaudio')) {
     drupal_set_message(t('The Embedded Media Field module does nothing on its own. You should also install the Embedded Video Field, Embedded Image Field, and/or Embedded Audio Field modules from the !modules. (If you do not see them listed there, under the CCK section, you may need to !download from its project page. They are all in the same package.)', array('!download' => l(t('download the module'), 'http://drupal.org/project/emfield'), '!modules' => l(t('modules administration page'), 'admin/build/modules'))), 'error');
   }
   $form = array();

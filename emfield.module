@@ -538,7 +538,7 @@ function emfield_views_handler_filter_is_not_null($op, $filter, $filterinfo, &$q
  */
 function emfield_views_handler_filter_provider_list($op) {
   $providers = array();
-  foreach (emfield_system_list('video_cck') as $provider => $info) {
+  foreach (emfield_system_list('emvideo') as $provider => $info) {
     $providers[$provider] = $info->name;
   }
   return $providers;
