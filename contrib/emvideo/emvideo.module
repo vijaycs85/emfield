@@ -40,27 +40,27 @@ function emvideo_emfield_info() {
 function emvideo_theme() {
   return array(
     'emvideo_video_embed' => array(
-      'arguments' => array($field => NULL, $item => NULL, $formatter => NULL, $node => NULL, $options = array()),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
     'emvideo_video_thumbnail' => array(
-      'arguments' => array($field => NULL, $item => NULL, $formatter => NULL, $node => NULL, $no_link = FALSE, $options = array()),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'no_link' => FALSE, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
     'emvideo_video_video' => array(
-      'arguments' => array($field => NULL, $item => NULL, $formatter => NULL, $node => NULL, $options = array()),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
     'emvideo_default' => array(
-      'arguments' => array($field => NULL, $item => NULL, $formatter => NULL, $node => NULL, $options = array()),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
     'emvideo_video_preview' => array(
-      'arguments' => array($field => NULL, $item => NULL, $formatter => NULL, $node => NULL, $options = array()),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
     'emvideo_thickbox' => array(
-      'arguments' => array($field => NULL, $item => NULL, $formatter => NULL, $node => NULL, $options = array()),
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
   );
