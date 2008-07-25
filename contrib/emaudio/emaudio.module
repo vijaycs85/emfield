@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * Embedded Audio module is a handler for mp3 and similar audio files.
+ */
+
 define('EMAUDIO_DEFAULT_AUDIO_WIDTH', 425);
 define('EMAUDIO_DEFAULT_AUDIO_HEIGHT', 350);
 define('EMAUDIO_DEFAULT_PREVIEW_WIDTH', 425);
@@ -28,8 +33,9 @@ function emaudio_emfield_settings() {
   return $form;
 }
 
-/**Implementation of hook_field_info  **/
-
+/**
+ * Implementation of hook_field_info().
+ */
 function emaudio_field_info() {
   $fields = array(
     'emaudio' => array(
@@ -40,16 +46,18 @@ function emaudio_field_info() {
       ),
     ),
   );
+
   return $fields;
 }
 
-/** Implementation of hook_field_settings **/
-
+/**
+ * Implementation of hook_field_settings().
+ */
 function emaudio_field_settings($op, $field) {
   switch ($op) {
-
     case 'database columns':
       return module_invoke('emfield', 'field_columns', $field);
+
     case 'filters':
       return array(
         'not null' => array(
@@ -71,6 +79,7 @@ function emaudio_field_settings($op, $field) {
         ),
       );
       break;
+
     case 'arguments':
       return array(
         'content: '. $field['field_name'] => array(
@@ -92,7 +101,9 @@ function emaudio_handler_arg_provider($op, &$query, $argtype, $arg = '') {
   return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'emaudio');
 }
 
-/** Implementation of hook_field **/
+/**
+ * Implementation of hook_field().
+ */
 function emaudio_field($op, &$node, $field, &$items, $teaser, $page) {
   if (module_hook('emfield', 'emfield_field')) {
     return emfield_emfield_field($op, $node, $field, $items, $teaser, $page, 'emaudio');
@@ -100,13 +111,15 @@ function emaudio_field($op, &$node, $field, &$items, $teaser, $page) {
 }
 
 /**
- *  implement hook_content_is_empty
+ * Implementation of hook_content_is_empty().
  */
 function emaudio_content_is_empty($item, $field) {
   return module_invoke('emfield', 'emfield_content_is_empty', $item, $field);
 }
 
-/** Implementation of hook_field_formatter_info **/
+/**
+ * Implementation of hook_field_formatter_info().
+ */
 function emaudio_field_formatter_info() {
   $types = array('emaudio', );
   $formats = array(
@@ -131,18 +144,22 @@ function emaudio_field_formatter_info() {
       'field types' => $types,
     ),
   );
+
   return $formats;
 }
 
-/** Implementation of hook_field_formatter **/
-
+/**
+ * Implementation of hook_field_formatter().
+ */
 function emaudio_field_formatter($field, $item, $formatter, $node) {
   return module_invoke('emfield', 'emfield_field_formatter', $field, $item, $formatter, $node, 'emaudio');
 }
 
 /** Widgets **/
 
-/** Implementation of hook_widget_info **/
+/**
+ * Implementation of hook_widget_info().
+ */
 function emaudio_widget_info() {
   return array(
     'emaudio_textfields' => array(
@@ -255,6 +272,7 @@ function emaudio_widget_settings($op, $widget) {
           '#description' => t('Path to a local default thumbnail image for cases when a thumbnail can\'t be found. For example, you might have a default thumbnail at %files.', array('%files' => 'files/thumbnail.png')) . $tn_desc,
         );
       }
+
       return $form;
 
     case 'validate':
@@ -284,14 +302,16 @@ function emaudio_widget_settings($op, $widget) {
       if ($widget['widget_type'] == 'emaudio_textfields') {
         $columns = array('audio_width', 'audio_height', 'audio_autoplay', 'preview_width', 'preview_height', 'preview_autoplay', 'thumbnail_width', 'thumbnail_height', 'thumbnail_default_path', );
         $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'emaudio'));
+
         return $columns;
       }
       break;
   }
 }
 
-/** Implementation of hook_widget **/
-
+/**
+ * Implementation of hook_widget().
+ */
 function emaudio_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   if (module_hook('emfield', 'emfield_widget')) {
     return emfield_emfield_widget($form, $form_state, $field, $items, $delta, 'emaudio');
@@ -311,13 +331,15 @@ function emaudio_embed_form($field, $item, $formatter, $node) {
     '#description' => t('To embed this audio on your own site, simply copy and paste the html code from this text area.'),
     '#default_value' => $text,
   );
+
   return $form;
 }
 
 /**
- *  providers may supply an enclosure for rss feeds. this expects something in a file format, so would be an object
- *  in the format of $file->filepath, $file->filesize, and $file->filemime.
- *  calls the providers hook emaudio_PROVIDER_rss($item, $teaser)
+ * Providers may supply an enclosure for rss feeds. This expects something in a
+ * file format, so would be an object in the format of $file->filepath,
+ * $file->filesize, and $file->filemime.
+ * Calls the providers hook emaudio_PROVIDER_rss($item, $teaser).
  */
 function emaudio_emfield_rss($node, $items = array(), $teaser = NULL) {
   $rss_data = array();
@@ -327,6 +349,7 @@ function emaudio_emfield_rss($node, $items = array(), $teaser = NULL) {
       $rss_data[] = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'rss', $item, $teaser);
     }
   }
+
   return $rss_data;
 }
 
@@ -363,24 +386,26 @@ function theme_emaudio_emaudio_embed($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
     $output = drupal_get_form('emaudio_embed_form', $field, $item, $formatter, $node);
   }
+
   return $output;
 }
 
 function theme_emaudio_emaudio_thumbnail($field, $item, $formatter, $node) {
   if ($item['value'] && $item['provider']) {
-    // if we have emthumb installed, then give it a chance to override our thumbnail
+    // If we have emthumb installed, then give it a chance to override our thumbnail.
     $thumbnail_url = module_invoke('emthumb', 'thumbnail_url', $item);
 
-    // if we don't have a custom thumbnail, then see if the provider gives us one
+    // If we don't have a custom thumbnail, then see if the provider gives us one.
     $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height);
 
-    // if we still don't have a thumbnail, then apply a default thumbnail, if it exists
+    // If we still don't have a thumbnail, then apply a default thumbnail.
     if (!$thumbnail_url) {
       $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emaudio_default_thumbnail_path', NULL);
       if ($default_thumbnail_url) {
         $thumbnail_url = base_path() . $default_thumbnail_url;
       }
     }
+
     if ($thumbnail_url) {
       $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emaudio_default_thumbnail_width', EMAUDIO_DEFAULT_THUMBNAIL_WIDTH);
       $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('emaudio_default_thumbnail_height', EMAUDIO_DEFAULT_THUMBNAIL_HEIGHT);
@@ -391,6 +416,7 @@ function theme_emaudio_emaudio_thumbnail($field, $item, $formatter, $node) {
       $output = l(t('Hear Audio'), 'node/'. $node->nid);
     }
   }
+
   return $output;
 }
 
@@ -402,6 +428,7 @@ function theme_emaudio_audio_audio($field, $item, $formatter, $node) {
     $autoplay = $field['widget']['audio_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'audio', $embed, $width, $height, $field, $item, $autoplay);
   }
+
   return $output;
 }
 
@@ -417,5 +444,6 @@ function theme_emaudio_emaudio_preview($field, $item, $formatter, $node) {
     $autoplay = $field['widget']['preview_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay);
   }
+
   return $output;
 }

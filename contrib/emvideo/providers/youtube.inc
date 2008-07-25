@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes youtube.com media files for use by emfield.module.
+ */
+
 define('EMVIDEO_YOUTUBE_MAIN_URL', 'http://www.youtube.com/');
 define('EMVIDEO_YOUTUBE_API_INFO', 'http://youtube.com/dev');
 define('EMVIDEO_YOUTUBE_API_APPLICATION_URL', 'http://www.youtube.com/my_profile_dev');
@@ -54,8 +59,8 @@ function emvideo_youtube_settings() {
     '#type' => 'fieldset',
     '#title' => t('YouTube API'),
     '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the !youtube. Note that you do not need this key to display YouTube videos or their thumbnails.', array('!youtube' => l('YouTube Developer Profile page', EMVIDEO_YOUTUBE_API_APPLICATION_URL, array('target' => '_blank')))),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['youtube']['api']['emvideo_youtube_api_key'] = array(
     '#type' => 'textfield',
@@ -73,8 +78,8 @@ function emvideo_youtube_settings() {
     '#type' => 'fieldset',
     '#title' => t('Embedded Video Player Colors'),
     '#description' => t('If allowed, these two colors, in hexidecimal form (#RRGGBB), will be used to skin the YouTube player.'),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['youtube']['colors']['emvideo_youtube_show_colors'] = array(
     '#type' => 'checkbox',
@@ -111,7 +116,7 @@ function emvideo_youtube_settings() {
       '#title' => t('Color 2 picker'),
       '#description' => t('Click in this textfield to start picking your color'),
     );
-  } 
+  }
   else {
     $form['youtube']['colors']['#description'] .= t(' The !colorpicker, if active, gives an easy way to select these colors.', array('!colorpicker' => l(t('Colorpicker module'), 'http://drupal.org/project/colorpicker')));
   }
@@ -158,7 +163,7 @@ function emvideo_youtube_rss($item, $teaser = NULL) {
     else {
       $data = emvideo_youtube_data(NULL, $item);
     }
-    
+
     $file = array();
     if (is_array($data['flash'])) {
       $file['filepath'] = $data['flash']['url'];
@@ -223,8 +228,9 @@ function emvideo_youtube_embedded_link($video_code) {
 
 function emvideo_youtube_convert_color($color = NULL) {
   if ($color{0} == '#') {
-    return substr($color, 1);
+    return drupal_substr($color, 1);
   }
+
   return $color;
 }
 
@@ -240,7 +246,7 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay) {
     if (variable_get('emvideo_youtube_show_colors', FALSE)) {
       $color1 = emvideo_youtube_convert_color(variable_get('emvideo_youtube_colors_color1', EMVIDEO_YOUTUBE_COLOR1_DEFAULT));
       $color2 = emvideo_youtube_convert_color(variable_get('emvideo_youtube_colors_color2', EMVIDEO_YOUTUBE_COLOR2_DEFAULT));
-      $colors='&amp;color1=0x'.$color1.'&amp;color2=0x'.$color2;
+      $colors='&amp;color1=0x'. $color1 .'&amp;color2=0x'. $color2;
     }
     $border = (variable_get('emvideo_youtube_show_border', FALSE) == FALSE ? '' : '&amp;border=1');
     $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" id=\"VideoPlayback\" >
@@ -270,19 +276,20 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay) {
  */
 function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $height) {
   $youtube_id = $item['value'];
-  // old code to grab thumbnail via api
-//   $request = emvideo_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
-//   $tn = $request['THUMBNAIL_URL'][0];
+  // Old code to grab thumbnail via API.
+//$request = emvideo_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
+//$tn = $request['THUMBNAIL_URL'][0];
 
   // if we have a large thumbnail size, then get the larger version available.
   if ($width > 130 || $height > 97) {
     $tn = "http://img.youtube.com/vi/$youtube_id/0.jpg";
-  } 
+  }
   else {
     // youtube offers 3 thumbnails. select one randomly.
     $rand = rand(0, 2) + 1;
     $tn = "http://img.youtube.com/vi/$youtube_id/$rand.jpg";
   }
+
   return $tn;
 }
 

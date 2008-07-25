@@ -2,6 +2,11 @@
 // $Id$
 
 /**
+ * @file
+ * This is the emaudio.module's install, configuration, and removal file.
+ */
+
+/**
  * Implementation of hook_install().
  */
 function emaudio_install() {
@@ -16,21 +21,22 @@ function emaudio_uninstall() {
 }
 
 /**
-* Implementation of hook_enable().
-*/
+ * Implementation of hook_enable().
+ */
 function emaudio_enable() {
   content_notify('enable', 'emaudio');
 }
 
 /**
-* Implementation of hook_disable().
-*/
+ * Implementation of hook_disable().
+ */
 function emaudio_disable() {
   content_notify('disable', 'emaudio');
 }
 
 function emaudio_update_1() {
   $ret = _emaudio_update_reset_cache_views();
+
   return $ret;
 }
 

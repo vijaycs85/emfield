@@ -2,6 +2,11 @@
 // $Id$
 
 /**
+ * @file
+ * Installation, configuration, and removal of the emvideo module.
+ */
+
+/**
  * Implementation of hook_install().
  */
 function emvideo_install() {
@@ -16,28 +21,28 @@ function emvideo_uninstall() {
 }
 
 /**
-* Implementation of hook_enable().
-*/
+ * Implementation of hook_enable().
+ */
 function emvideo_enable() {
   content_notify('enable', 'emvideo');
 }
 
 /**
-* Implementation of hook_disable().
-*/
+ * Implementation of hook_disable().
+ */
 function emvideo_disable() {
   content_notify('disable', 'emvideo');
 }
 
 /**
- *  we need to make sure to show our new 'embed code' filter on views
+ * We need to make sure to show our new 'embed code' filter on Views.
  */
 function emvideo_update_1() {
   return _emvideo_update_reset_cache();
 }
 
 /**
- *  we need a new data field for extra info stored by certain providers, such as blip.tv
+ * We need a new data field for extra info stored by certain providers, such as blip.tv.
  */
 function emvideo_update_2() {
   $ret = array();
@@ -52,7 +57,7 @@ function emvideo_update_2() {
     switch ($field['type']) {
       case 'emvideo':
         $columns = array(
-          'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => false),
+          'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => FALSE),
         );
         // the following line will trigger (negligible) warnings if emvideo_update_2 was run before
         // (column already exists)
@@ -62,25 +67,28 @@ function emvideo_update_2() {
   }
   $ret = _emvideo_update_reset_cache();
   $ret[] = update_sql("DELETE FROM {cache}");
+
   return $ret;
 }
 
 function _emvideo_update_reset_cache() {
   $ret = _emvideo_update_reset_cache_views();
   $ret[] = update_sql("DELETE FROM {cache_content}");
+
   return $ret;
 }
 
 /**
- *  since we made our engine dependent on emfield, we need to change some variables accordingly
+ * Since we made our engine dependent on emfield, we need to change some variables accordingly.
  */
 function emvideo_update_3() {
   $ret = array();
   foreach (emfield_system_list('emvideo') as $provider) {
     // TODO: this will need some attention when we upgrade to d6
     $test = variable_get('emvideo_allow_'. $provider->name, NULL);
+
     if (isset($test)) {
-      variable_set('emfield_'. $module .'_allow_'. $provider->name, variable_get('emvideo_allow_'. $provider->name, true));
+      variable_set('emfield_'. $module .'_allow_'. $provider->name, variable_get('emvideo_allow_'. $provider->name, TRUE));
     }
   }
   $ret[] = array(
@@ -91,12 +99,13 @@ function emvideo_update_3() {
 
   // now we need to depend on emfield's menu. remove our old admin menu path
   menu_rebuild();
+
   return $ret;
 }
 
 /**
- *  oops. cleanup from update 3 -- we don't want to accidentally reset our variables
- *  if we have to run update 3 again...
+ * Oops. Cleanup from update 3 -- we don't want to accidentally reset our
+ * variables if we have to run update 3 again.
  */
 function emvideo_update_4() {
   $ret = array();
@@ -111,28 +120,35 @@ function emvideo_update_4() {
     'query' => t('The old Embedded Video Field allowed provider variables have been cleaned up.'),
     'success' => TRUE
   );
+
   return $ret;
 }
 
 /**
- *  changed the data structure for blip.tv
- *  TODO: this doesn't work. thought data was cached? ...
+ * Changed the data structure for blip.tv
+ * 
+ * TODO: This doesn't work. Thought data was cached?
  */
 function emvideo_update_5() {
   $ret = _emvideo_update_reset_cache();
   $ret[] = update_sql("DELETE FROM {cache}");
+
   return $ret;
 }
 
 function emvideo_update_6() {
   $ret = _emvideo_update_reset_cache_views();
+
   return $ret;
 }
 
-// I'd like this to be conditional, so it only runs if they don't have views installed.
-// however, module_exists doesn't actually work in the update scripts.
+/**
+ * I'd like this to be conditional, so it only runs if they don't have Views
+ * installed. However, module_exists doesn't actually work in the update scripts.
+ */
 function _emvideo_update_reset_cache_views() {
   $ret = array();
   $ret[] = update_sql("DELETE FROM {cache_views}");
+
   return $ret;
 }

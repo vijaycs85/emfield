@@ -7,9 +7,9 @@
  */
 
 /**
- *  formatter for emvideo_video_embed
- *
- *  this will return the 'embed code', typically used to embed media in an external site or blog.
+ * Formatter for emvideo_video_embed.
+ * This will return the 'embed code', typically used to embed media in an
+ * external site or blog.
  */
 function theme_emvideo_video_embed($field, $item, $formatter, $node, $options = array()) {
   /*
@@ -25,52 +25,55 @@ function theme_emvideo_video_embed($field, $item, $formatter, $node, $options = 
   if ($item['value'] && $item['provider']) {
     $output = drupal_get_form('emvideo_embed_form', $field, $item, $formatter, $node, $options);
   }
+
   return $output;
 }
 
 /**
- *  This will return a provided thumbnail image for a video.
+ * This will return a provided thumbnail image for a video.
  *
- *  @param $field
- *    This is the field providing settings for the video thumbnail.
- *  @param $item
- *    This is the data returned by the field. It requires at the least to be an array with 'value' and 'provider'.
- *    $item['value'] will be the video code, and $item['provider'] will be the provider, such as youtube.
- *  @param $formatter
- *    This is the formatter for the view. This will nearly always be video_thumbnail.
- *  @param $node
- *    This is the node object containing the field.
- *  @param $no_link
- *    optional. if FALSE, then we provide a link to the node. (In retrospect, this should have been $link, defaulting to TRUE. TODO: fix? problem though is that this goes deeper up the tree.)
- *  @param $options
- *    optional array. this is to pass optional overrides. currently:
- *    $options['width'] and $options['height'], if provided, will override any field settings for the thumbnail w/h.
- *    $options['link_url'], if provided, will cause the thumbnail link to go to another URL other than node/nid. $no_link must be FALSE.
- *    $options['link_title'], if provided, will set the title of the link when no image is provided. otherwise, it defaults to 'See video'.
- *    $options['image_title'], if provided, will set the title attribute of the href link, defaulting to $options['link_title'].
- *    $options['image_alt'], if provided, will set the alt attribute of the href link, defaulting to $options['link_title'].
- *    $options['thumbnail_url'], if provided, will completely override the thumbnail image entirely.
+ * @param $field
+ *   This is the field providing settings for the video thumbnail.
+ * @param $item
+ *   This is the data returned by the field. It requires at the least to be an array with 'value' and 'provider'.
+ *   $item['value'] will be the video code, and $item['provider'] will be the provider, such as youtube.
+ * @param $formatter
+ *   This is the formatter for the view. This will nearly always be video_thumbnail.
+ * @param $node
+ *   This is the node object containing the field.
+ * @param $no_link
+ *   Optional. If FALSE, then we provide a link to the node.
+ *   (In retrospect, this should have been $link, defaulting to TRUE.
+ *   TODO: fix? problem though is that this goes deeper up the tree.)
+ * @param $options
+ *   Optional array. This is to pass optional overrides. currently:
+ *     $options['width'] and $options['height'], if provided, will override any field settings for the thumbnail w/h.
+ *     $options['link_url'], if provided, will cause the thumbnail link to go to another URL other than node/nid. $no_link must be FALSE.
+ *     $options['link_title'], if provided, will set the title of the link when no image is provided. otherwise, it defaults to 'See video'.
+ *     $options['image_title'], if provided, will set the title attribute of the href link, defaulting to $options['link_title'].
+ *     $options['image_alt'], if provided, will set the alt attribute of the href link, defaulting to $options['link_title'].
+ *     $options['thumbnail_url'], if provided, will completely override the thumbnail image entirely.
  */
 function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_link = FALSE, $options = array()) {
   if ($item['value'] && $item['provider']) {
-    // if we've set $options['thumbnail_url'], then we'll just use that.
-    // otherwise, if we have emthumb installed, then give it a chance to override our thumbnail
+    // If we've set $options['thumbnail_url'], then we'll just use that.
+    // Otherwise, if we have emthumb installed, then give it a chance to override our thumbnail
     $thumbnail_url = $options['thumbnail_url'] ? $options['thumbnail_url'] : module_invoke('emthumb', 'thumbnail_url', $item);
 
     // if we don't have a custom thumbnail, then see if the provider gives us a thumbnail
     $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height, $options);
 
-    // if we still don't have a thumbnail, then apply a default thumbnail, if it exists
+    // If we still don't have a thumbnail, then apply a default thumbnail, if it exists.
     if (!$thumbnail_url) {
       $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emvideo_default_thumbnail_path', NULL);
+
       if ($default_thumbnail_url) {
         $thumbnail_url = base_path() . $default_thumbnail_url;
       }
     }
   }
   else {
-    // seems to be an unknown video
-    // apply a default thumbnail, if it exists
+    // Seems to be an unknown video. Apply a default thumbnail, if it exists.
     if (!$thumbnail_url) {
       $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emvideo_default_thumbnail_path', NULL);
       if ($default_thumbnail_url) {
@@ -93,7 +96,7 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
       $output = '<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. $image_alt .'" title="'. $image_title .'" />';
     }
     else {
-      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. $image_alt .'" title="'. $image_title .'" />', $link_url, array(), NULL, NULL, false, true);
+      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. $image_alt .'" title="'. $image_title .'" />', $link_url, array(), NULL, NULL, FALSE, TRUE);
     }
   }
   else {
@@ -118,6 +121,7 @@ function theme_emvideo_video_video($field, $item, $formatter, $node, $options = 
     $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
   $output .= 'test2';
+
   return $output;
 }
 
@@ -133,23 +137,26 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
     $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['preview_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
+
   return $output;
 }
 
 function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
-  $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, true, $options);
+  $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, TRUE, $options);
 
   $destination = 'video-cck/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'];
   $options = array(
-    'attributes'=> array(
+    'attributes' => array(
       'title' => $title,
       'class' => 'thickbox',
-      'rel' => $field['type_name']),
+      'rel' => $field['type_name'],
+    ),
     'query' => NULL,
     'fragment' => NULL,
     'absolute' => FALSE,
     'html' => TRUE,
- );
- $output = l($thumbnail, $destination, $options);
- return $output;
+  );
+  $output = l($thumbnail, $destination, $options);
+
+  return $output;
 }

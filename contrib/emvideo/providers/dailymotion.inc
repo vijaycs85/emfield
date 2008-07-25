@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes dailymotion media files for use by emfield.module.
+ */
+
 define('EMVIDEO_DAILYMOTION_MAIN_URL', 'http://www.dailymotion.com/');
 
 /**

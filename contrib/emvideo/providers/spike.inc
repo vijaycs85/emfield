@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes Spike media files for use by emfield.module.
+ */
+
 define('EMVIDEO_SPIKE_MAIN_URL', 'http://www.spike.com/');
 
 function emvideo_spike_info() {
@@ -43,10 +48,11 @@ function emvideo_spike_video_link($video_code) {
 function theme_emvideo_spike_flash($embed, $width, $height, $autoplay) {
   // TODO: figure out autoplay...
   //<embed width="448" height="365" src="http://www.spike.com/efp" quality="high" bgcolor="000000" name="efp" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="flvbaseclip=2952560&"> </embed>
- if ($embed) {
+  if ($embed) {
     $autoplay = $autoplay ? ' autoplay="true"' : '';
     $output = '<embed width="'. $width .'" height="'. $height .'" src="http://www.spike.com/efp" quality="high" bgcolor="000000" name="efp" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="flvbaseclip='. $embed .'"> </embed>';
   }
+
   return $output;
 }
 
@@ -54,7 +60,8 @@ function theme_emvideo_spike_flash($embed, $width, $height, $autoplay) {
  *  TODO: Is this correct? Using ifilmpro for thumbnails.
  */
 function emvideo_spike_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  $picturelink = substr($item['value'], 0, 7);
+  $picturelink = drupal_substr($item['value'], 0, 7);
+
   return 'http://img1.ifilmpro.com/resize/image/stills/films/resize/istd/'. $picturelink .'.jpg?width='. $width;
 }
 

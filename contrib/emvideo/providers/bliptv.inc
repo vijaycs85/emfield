@@ -1,5 +1,11 @@
 <?php
 // $Id$
+
+/**
+ * @file
+ *   This include processes blip.tv media files for use by emfield.module.
+ */
+
 define('EMVIDEO_BLIPTV_MAIN_URL', 'http://blip.tv/');
 define('EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE', 'flv');
 
@@ -28,15 +34,15 @@ function emvideo_bliptv_settings() {
     '#type' => 'fieldset',
     '#title' => t('Video formats'),
     '#description' => t("Blip.TV allows users to upload videos of various formats, sizes, and qualities. These options will allow the administrator to choose the default video formats to display. Blip.TV uses 'tags' to determine this, such as 'Web' for a standard web resolution, and 'HDTV' for a high definition. If you select a tag, then the video format provided by Blip.TV for that tag will be displayed. If you select 'Override tag', then you may specify that the first available video of the given format will be displayed instead, which may or may not have your desired resolution. If a tag or format is not available for a specific video, the module will display the Flash video format instead, which is always present."),
-    '#collapsible' => true,
-    '#collapsed' => false,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
   $form['video_formats']['rss'] = array(
     '#type' => 'fieldset',
     '#title' => t('RSS'),
     '#description' => t("This will determine the preferred video format for RSS feeds."),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['video_formats']['rss']['emvideo_bliptv_rss_tag'] = array(
@@ -148,7 +154,8 @@ function emvideo_bliptv_data($field, $item) {
 function emvideo_bliptv_request($code, $cacheable = TRUE, $skin = 'rss', $show = FALSE) {
   $args = array();
   $file = $show ? "http://$code.blip.tv/file/?skin=" . $skin : "http://blip.tv/file/$code?skin=" . $skin;
-  return module_invoke('emfield', 'request_xml', 'bliptv', $file, $args, $cacheable, false, $code .':'. $skin . ($show ? ':show' : ':post'));
+
+  return module_invoke('emfield', 'request_xml', 'bliptv', $file, $args, $cacheable, FALSE, $code .':'. $skin . ($show ? ':show' : ':post'));
 }
 
 function emvideo_bliptv_extract($embed) {
@@ -187,8 +194,8 @@ function _emvideo_bliptv_get_video_info_from_preferred_tag($data, $var) {
 }
 
 /**
- *  providers may supply an enclosure for rss feeds. this expects something in a file format, so would be an object
- *  in the format of $file->filepath, $file->filesize, and $file->filemime. calls the providers hook emvideo_PROVIDER_rss
+ *  Providers may supply an enclosure for rss feeds. This expects something in a file format, so would be an object
+ *  in the format of $file->filepath, $file->filesize, and $file->filemime. calls the providers hook emvideo_PROVIDER_rss.
  */
 function emvideo_bliptv_rss($item, $teaser = NULL) {
   if ($item['value']) {
@@ -205,7 +212,7 @@ function emvideo_bliptv_rss($item, $teaser = NULL) {
 
     // grab the preferred filetype rather than tag, so .mov rather than 'web'
     if ($video_info == 'override') {
-       $var = 'emvideo_bliptv_rss_format';
+      $var = 'emvideo_bliptv_rss_format';
       $video_info = _emvideo_bliptv_get_video_info_from_preferred_tag($data, $var);
     }
 

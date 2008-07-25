@@ -2,25 +2,30 @@
 // $Id$
 
 /**
-* Implementation of hook_install().
-*/
+ * @file
+ * This is the emfield.module's install, configuration, and removal file.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
 function emfield_install() {
 }
 
 /**
-* Implementation of hook_uninstall().
-*/
+ * Implementation of hook_uninstall().
+ */
 function emfield_uninstall() {
 }
 
 /**
-* Implementation of hook_enable().
-*/
+ * Implementation of hook_enable().
+ */
 function emfield_enable() {
 }
 
 /**
-* Implementation of hook_disable().
-*/
+ * Implementation of hook_disable().
+ */
 function emfield_disable() {
 }

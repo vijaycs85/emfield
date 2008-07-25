@@ -2,12 +2,12 @@
 // $Id$
 
 /**
- *  @file
- *  Our administrative settings pages.
+ * @file
+ * The administrative settings page.
  */
 
 /**
- * Callback for admin/content/emfield
+ * Callback for admin/content/emfield.
  */
 function emfield_settings() {
   if (!module_exists('emvideo') && !module_exists('emimage') && !module_exists('emaudio')) {
@@ -21,6 +21,7 @@ function emfield_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
+
   if (module_exists('swfobject_api')) {
     $swfobject_desc = t('As you have the !swfobject_api module installed, Embedded Media Field will use those settings, assuming you\'ve configured them properly. Visit its !settings for more information.', array('!swfobject_api' => l(t('SWFObject API'), 'http://drupal.org/project/swfobject_api', array('target' => '_blank')), l(t('settings page'), 'admin/settings/swfobject_api')));
   }
@@ -39,6 +40,7 @@ function emfield_settings() {
     '#default_value' => variable_get('emfield_swfobject', FALSE),
     '#description' => t('When checked, then Embedded Media Field will use the SWFObject javascript library when it is able.'),
   );
+
   if (!module_exists('swfobject_api')) {
     $form['general']['swfobject']['emfield_swfobject_location'] = array(
       '#type' => 'textfield',
@@ -48,6 +50,7 @@ function emfield_settings() {
     );
   }
   $header = array(t('Feature'), t('Supported'), t('Notes'));
+
   foreach (module_implements('emfield_info', TRUE) as $module) {
     $emfield_info = module_invoke($module, 'emfield_info');
     $providers = emfield_system_list($module);
@@ -101,4 +104,3 @@ function emfield_settings() {
 
   return system_settings_form($form);
 }
-

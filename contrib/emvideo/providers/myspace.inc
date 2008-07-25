@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes myspace.com media files for use by emfield.module.
+ */
+
 define('EMVIDEO_MYSPACE_MAIN_URL', 'http://vids.myspace.com/index.cfm?fuseaction=vids.videos');
 
 function emvideo_myspace_info() {
@@ -32,9 +37,10 @@ function emvideo_myspace_request($code, $cacheable = TRUE) {
 /**
  *  this scrapes the thumbnail from the video page and caches it
  */
-function _emvideo_myspace_scrape_thumbnail($video, $cached = true) {
+function _emvideo_myspace_scrape_thumbnail($video, $cached = TRUE) {
   if (!$cached || !$cache = cache_get('myspace:thumbnail:'. $video, 'cache')) {
-    $vidid = substr($video, 0, 10);
+    $vidid = drupal_substr($video, 0, 10);
+
     if ($str = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=$vidid")) {
       // grab videos channel-id first
       $channel_id = preg_replace('/.*tvchanid=([0-9]+);.*/si', '\1', $str);
@@ -57,6 +63,7 @@ function _emvideo_myspace_scrape_thumbnail($video, $cached = true) {
   else {
     $thumbnail = $cache->data;
   }
+
   return $thumbnail;
 }
 

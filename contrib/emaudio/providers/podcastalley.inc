@@ -1,10 +1,19 @@
 <?php
 // $Id$
+
+/**
+ * @file
+ * This include processes Podcastalley audio files for use by emaudio.module.
+ */
+
 define('EMAUDIO_PODCASTALLEY_MAIN_URL', 'http://www.podcastalley.com');
 /**
  * Implementation of hook emaudio_podcastalley_info().
+ *
  * This returns information relevant to a specific 3rd party audio provider.
- * @return an array of strings requested by various admin and other forms.
+ *
+ * @return
+ *   An array of strings requested by various admin and other forms.
  *   'name' => The translated name of the provider.
  *   'url' => The url to the main page for the provider.
  *   'settings_description' => A description of the provider that will be posted in the admin settings form.
@@ -18,6 +27,7 @@ function emaudio_podcastalley_info() {
     array(t('RSS Attachment'), t('No'), ''),
     array(t('Thumbnails'), t('No'), t('')),
   );
+
   return array(
     'provider' => 'Podcast Alley',
     'name' => $name,
@@ -29,6 +39,7 @@ function emaudio_podcastalley_info() {
 
 /**
  * Implementation of hook emaudio_podcastalley_settings().
+ *
  * This should return a subform to be added to the emaudio_settings() admin settings page.
  * Note that a form field will already be provided, at $form['podcastalley'].
  * So if you want specific provider settings within that field, you can add the elements to that form field.
@@ -40,11 +51,17 @@ function emaudio_podcastalley_settings() {
 
 /**
  * Implementation of hook emaudio_podcastalley_extract().
+ *
  * This is called to extract the video code from a pasted URL or embed code.
- * @param $embed an optional string with the pasted URL or embed code.
- * @return either an array of regex expressions to be tested, or a string with the audio code to be used.
- *   If the hook tests the code itself, it should return either the string of the audio code (if matched), or an empty array.
- *   Otherwise, the calling function will handle testing the embed code against each regex string in the returned array.
+ *
+ * @param $embed
+ *   An optional string with the pasted URL or embed code.
+ * @return
+ *   Either an array of regex expressions to be tested, or a string with the
+ *   audio code to be used. If the hook tests the code itself, it should return
+ *   either the string of the audio code (if matched), or an empty array.
+ *   Otherwise, the calling function will handle testing the embed code against
+ *   each regex string in the returned array.
  */
 function emaudio_podcastalley_extract($embed = '') {
   // http://www.podcastalley.com/podcast_details.php?pod_id=929#
@@ -55,13 +72,16 @@ function emaudio_podcastalley_extract($embed = '') {
 
 /**
  * The embedded flash displaying the podcastalley audio.
+ *
  * Default width is 419, height is 202.
  */
 function theme_emaudio_podcastalley_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
-/*    if ($autoplay) {
+    /*
+    if ($autoplay) {
       $autoplay_value = '&autostart=1';
-    }*/
+    }
+    */
     $output .= "
         <object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,47,0\"width=\"$width\" height=\"$height\" id=\"wimpy\" align=\"center\">
       <param name=\"allowScriptAccess\" value=\"sameDomain\" />
@@ -77,16 +97,22 @@ function theme_emaudio_podcastalley_flash($embed, $width, $height, $autoplay) {
     </object>
     \n";
   }
+
   return $output;
 }
 
 /**
  * Implementation of hook emaudio_podcastalley_thumbnail.
+ *
  * Returns the external url for a thumbnail of a specific audio.
  * TODO: make the args: ($embed, $field, $item), with $field/$item provided if we need it, but otherwise simplifying things.
- *  @param $field the field of the requesting node.
- *  @param $item the actual content of the field from the requesting node.
- *  @return a URL pointing to the thumbnail.
+ *
+ * @param $field
+ *   The field of the requesting node.
+ * @param $item
+ *   The actual content of the field from the requesting node.
+ * @return
+ *   A URL pointing to the thumbnail.
  */
 function emaudio_podcastalley_thumbnail($field, $item, $formatter, $node, $width, $height) {
   return $tn;
@@ -94,31 +120,49 @@ function emaudio_podcastalley_thumbnail($field, $item, $formatter, $node, $width
 
 /**
  * Implementation of hook emaudio_podcastalley_audio().
- * This actually displays the full/normal-sized video we want, usually on the default page view.
- *  @param $embed the video code for the audio to embed.
- *  @param $width the width to display the audio.
- *  @param $height the height to display the audio.
- *  @param $field the field info from the requesting node.
- *  @param $item the actual content from the field.
- *  @return the html of the embedded audio.
+ *
+ * This actually displays the full/normal-sized video we want,
+ * usually on the default page view.
+ *
+ * @param $embed
+ *   The video code for the audio to embed.
+ * @param $width
+ *   The width to display the audio.
+ * @param $height
+ *   The height to display the audio.
+ * @param $field
+ *   The field info from the requesting node.
+ * @param $item
+ *   The actual content from the field.
+ * @return
+ *   The html of the embedded audio.
  */
 function emaudio_podcastalley_audio($embed, $width, $height, $field, $item, $autoplay) {
   $output = theme('emaudio_podcastalley_flash', $embed, $width, $height, $autoplay);
+
   return $output;
 }
 
 /**
  * Implementation of hook emaudio_podcastalley_preview().
- * This actually displays the preview-sized video we want, commonly for the teaser
- *  @param $embed the video code for the audio to embed.
- *  @param $width the width to display the audio.
- *  @param $height the height to display the audio.
- *  @param $field the field info from the requesting node.
- *  @param $item the actual content from the field.
- *  @return the html of the embedded audio.
+ *
+ * This actually displays the preview-sized video we want, commonly for the teaser.
+ *
+ * @param $embed
+ *   The video code for the audio to embed.
+ * @param $width
+ *   The width to display the audio.
+ * @param $height
+ *   The height to display the audio.
+ * @param $field
+ *   The field info from the requesting node.
+ * @param $item
+ *   The actual content from the field.
+ * @return
+ *   The html of the embedded audio.
  */
 function emaudio_podcastalley_preview($embed, $width, $height, $field, $item, $autoplay) {
   $output = theme('emaudio_podcastalley_flash', $embed, $width, $height, $autoplay);
+
   return $output;
 }
-

@@ -2,6 +2,11 @@
 // $Id$
 
 /**
+ * @file
+ * This is the emimage.module's install, configuration, and removal instructions.
+ */
+
+/**
  * Implementation of hook_install().
  */
 function emimage_install() {
@@ -16,29 +21,31 @@ function emimage_uninstall() {
 }
 
 /**
-* Implementation of hook_enable().
-*/
+ * Implementation of hook_enable().
+ */
 function emimage_enable() {
   content_notify('enable', 'emimage');
 }
 
 /**
-* Implementation of hook_disable().
-*/
+ * Implementation of hook_disable().
+ */
 function emimage_disable() {
   content_notify('disable', 'emimage');
 }
 
 function emimage_update_1() {
   $ret = _emimage_update_reset_cache_views();
+
   return $ret;
 }
 
-// I'd like this to be conditional, so it only runs if they don't have views installed.
-// however, module_exists doesn't actually work in the update scripts.
-// TODO: conditional on if table exists instead...
+// I'd like this to be conditional, so it only runs if they don't have Views installed.
+// However, module_exists doesn't actually work in the update scripts.
+// TODO: Conditional on if table exists instead...
 function _emimage_update_reset_cache_views() {
   $ret = array();
   $ret[] = update_sql("DELETE FROM {cache_views}");
+
   return $ret;
 }

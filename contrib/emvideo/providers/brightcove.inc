@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes brightcove media files for use by emfield.module.
+ */
+
 define('EMVIDEO_BRIGHTCOVE_MAIN_URL', 'http://www.brightcove.tv/');
 
 /**

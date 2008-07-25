@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * This include processes flickr.com image files for use by emfield.module.
+ */
+
 define('EMIMAGE_FLICKR_MAIN_URL', 'http://www.flickr.com/');
 define('EMIMAGE_FLICKR_API_INFO', 'http://flickr.com/services/api');
 define('EMIMAGE_FLICKR_API_APPLICATION_URL', 'http://www.flickr.com/services/api/keys');
@@ -87,7 +92,7 @@ function emimage_flickr_settings() {
     '#type' => 'fieldset',
     '#title' => t('Flickr API'),
     '#description' => t('You will first need to apply for an API Developer Key from the !flickr.', array('!flickr' => l(t('Flickr Developer Profile page'), EMIMAGE_FLICKR_API_APPLICATION_URL, array('target' => '_blank')))),
-    '#collapsible' => true,
+    '#collapsible' => TRUE,
     '#collapsed' => (variable_get('emimage_flickr_api_key', '') != ''),
   );
   $form['flickr']['api']['emimage_flickr_api_key'] = array(

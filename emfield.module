@@ -2,13 +2,18 @@
 // $Id$
 
 /**
- * Implement hook_menu
+ * @file
+ *   Embedded Media Field is a CCK-based framework for 3rd party media files.
+ */
+
+/**
+ * Implementation of hook_menu().
  */
 function emfield_menu() {
   $items['admin/content/emfield'] = array(
     'file' => 'emfield.admin.inc',
     'title' => 'Embedded Media Field configuration',
-    'description' => t('Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.'),
+    'description' => 'Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('emfield_settings'),
     'access arguments' => array('administer site configuration'),
@@ -28,11 +33,12 @@ function emfield_menu() {
 
 function emfield_field_columns($field) {
   module_load_include('inc', 'emfield', 'emfield.cck');
+
   return _emfield_field_columns($field);
 }
 
 /**
- *  This is a function to help implement hook_field, called by the various Embedded Media Field modules.
+ *  A helper function for hook_field(), called by the various sub-modules.
  */
 function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
   module_load_include('inc', 'emfield', 'emfield.cck');
@@ -54,7 +60,7 @@ function emfield_allowed_providers($field, $module) {
   $providers = array();
   $allow_all = TRUE;
   foreach ($allowed_providers as $test) {
-    if (!variable_get('emfield_' . $module . '_allow_' . $test->name, TRUE)) {
+    if (!variable_get('emfield_'. $module .'_allow_'. $test->name, TRUE)) {
       unset($allowed_providers[$test->name]);
     }
     else {
@@ -68,6 +74,7 @@ function emfield_allowed_providers($field, $module) {
       }
     }
   }
+
   return $allowed_providers;
 }
 
@@ -111,19 +118,22 @@ function emfield_implement_types($cached = TRUE) {
   }
 
   cache_set('emfield_implement_types', serialize($types), 'cache', CACHE_PERMANENT);
+
   return $types;
 }
 
 /**
- *  This will parse the url or embedded code pasted by the node submitter.
- *  @return
- *  Either an empty array (if no match), or an array of 'provider' and 'value'.
+ * This will parse the url or embedded code pasted by the node submitter.
+ *
+ * @return
+ *   Either an empty array (if no match), or an array of 'provider' and 'value'.
  */
 function emfield_parse_embed($field, $embed = '', $module) {
   $providers = emfield_allowed_providers($field, $module);
   foreach ($providers as $provider) {
     $success = emfield_include_invoke($module, $provider->name, 'extract', $embed, $field);
-    // we've been given an array of regex strings, so let's see if we can find a match
+
+    // We've been given an array of regex strings, so try to find a match.
     if (is_array($success)) {
       foreach ($success as $regex) {
         $matches = NULL;
@@ -137,6 +147,7 @@ function emfield_parse_embed($field, $embed = '', $module) {
       return array('provider' => $provider->name, 'value' => $success);
     }
   }
+
   // We found no match.
   return array();
 }
@@ -151,6 +162,7 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
   if ($item['embed'] && !$item['value']) {
     form_set_error($error_field, t('You have specified an invalid media URL or embed code.'));
   }
+
   return $item;
 }
 
@@ -161,6 +173,7 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
 function _emfield_field_submit_id($field, $item, $module) {
   $item = array_merge($item, emfield_parse_embed($field, $item['embed'], $module));
   $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item);
+
   return $item;
 }
 
@@ -192,6 +205,7 @@ function emfield_emfield_field_formatter($field, $item, $formatter, $node, $modu
 
   // The individual modules actually define the theme for the formatter.
   $output .= theme($module .'_'. $formatter, $field, $item, $formatter, $node);
+
   return $output;
 }
 
@@ -203,6 +217,7 @@ function emfield_emfield_widget_settings($op, $widget, $module) {
 
 function emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 0, $module) {
   module_load_include('inc', 'emfield', 'emfield.cck');
+
   return _emfield_emfield_widget($form, $form_state, $field, $items, $delta, $module);
 }
 
@@ -216,6 +231,7 @@ function emfield_node_operations() {
       'callback' => 'emfield_operations_reload',
     ),
   );
+
   return $operations;
 }
 
@@ -269,13 +285,13 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $return_errors = FALSE, $hash_extra = FALSE, $serialized = FALSE) {
   ksort($args);
 
-  // build an argument hash that we'll use for the cache id and api signing
+  // Build an argument hash that we'll use for the cache id and api signing.
   $arghash = $provider .':';
   foreach ($args as $k => $v) {
     $arghash .= $k . $v;
   }
 
-  // build the url
+  // Build the url.
   foreach ( $args as $k => $v) {
     $encoded_params[] = urlencode($k) .'='. urlencode($v);
   }
@@ -306,6 +322,7 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
       );
     }
     emfield_set_error(t("Could not connect to @provider, HTTP error @error", array('@error' => $result->code, '@provider' => $provider)));
+
     return array();
   }
 
@@ -320,7 +337,9 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
           'message' => 'The response was corrupted, it could not be unserialized.',
         );
       }
+
       emfield_set_error(t("The response from @provider was corrupted and could not be unserialized.", array('@provider' => $provider)));
+
       return array();
     }
   }
@@ -358,21 +377,22 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
   }
 
   cache_set($arghash, serialize($response), 'cache', time() + variable_get('emfield_cache_duration', 3600));
+
   return $response;
 }
 
 /**
- * Get the HTTP Header of media, for mime-type and length
+ * Get the HTTP Header of media, for mime-type and length.
  *
- *   @param $provider
- *     the string of the third party provider, such as 'youtube', 'flikr', or 'google'
- *   @param $url
- *     the url for the media
- *   @param $cached
- *     optional; if TRUE, the result of this xml request will be cached. good to play nice w/
- *     the third party folks so they don't stop providing service to your site...
- *   @return
- *     the header results returned as an array
+ * @param $provider
+ *   The string of the third party provider, such as 'youtube', 'flikr', or 'google'.
+ * @param $url
+ *   The url for the media.
+ * @param $cached
+ *   Optional; if TRUE, the result of this xml request will be cached. good to play nice w/
+ *   the third party folks so they don't stop providing service to your site...
+ * @return
+ *   The header results, returned as an array.
  */
 function emfield_request_header($provider, $url, $cached = TRUE, $return_errors = TRUE) {
   // if it's cacheable, try to load a cached value
@@ -388,11 +408,13 @@ function emfield_request_header($provider, $url, $cached = TRUE, $return_errors 
     }
 
     emfield_set_error(t("Could not connect to @provider, HTTP error @error", array('@error' => $result->code, '@provider' => $provider)));
+
     return array();
   }
 
   // @todo does this not want to be changing 'cache' to 'cache_emfield' or similar
   cache_set($url, serialize($result), 'cache', time() + variable_get('emfield_cache_duration', 3600));
+
   return $result;
 }
 
@@ -518,7 +540,7 @@ function emfield_include_invoke() {
 }
 
 /**
- * Custom filter for provider NOT NULL
+ * Custom filter for provider NOT NULL.
  */
 function emfield_views_handler_filter_is_not_null($op, $filter, $filterinfo, &$query) {
   if ($op == 'handler') {
@@ -545,7 +567,7 @@ function emfield_views_handler_filter_provider_list($op) {
 }
 
 /**
- *  Views handler for the provider list filter.
+ * Views handler for the provider list filter.
  */
 function emfield_views_handler_filter_provider($op, $filter, $filterinfo, &$query) {
   if ($op == 'handler') {
@@ -575,14 +597,14 @@ function emfield_views_handler_filter_provider($op, $filter, $filterinfo, &$quer
  */
 function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $module = '') {
   if ($op == 'filter') {
-    $field_name = substr($argtype['type'], 10);
+    $field_name = drupal_substr($argtype['type'], 10);
   }
   else {
-    $field_name = substr($argtype, 10);
+    $field_name = drupal_substr($argtype, 10);
   }
 
   $field = content_fields($field_name);
-  $db_info = content_database_info($field);
+  $db_info = content_database_info($field); // TODO: This hook no longer exists in D6.
   $main_column = $db_info['columns']['provider'];
 
   // The table name used here is the Views alias for the table, not the actual
@@ -616,4 +638,3 @@ function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $modul
       return $title ? $title : check_plain($query);
   }
 }
-

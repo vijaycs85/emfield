@@ -1,9 +1,14 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes Sevenload media files for use by emfield.module.
+ */
+
 define('EMVIDEO_SEVENLOAD_MAIN_URL', 'http://www.sevenload.com/');
 
-/**0
+/**
  * hook emvideo_PROVIDER_info
  * this returns information relevant to a specific 3rd party video provider
  * @return

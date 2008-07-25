@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * This include processes Podomatic audio files for use by emaudio.module.
+ */
+
 define('EMAUDIO_PODOMATIC_MAIN_URL', 'http://www.podomatic.com/');
 
 /**

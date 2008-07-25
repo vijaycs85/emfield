@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * This include processes picasa.com image files for use by emfield.module.
+ */
+
 define('EMIMAGE_PICASA_MAIN_URL', 'http://picasaweb.google.com/');
 define('EMIMAGE_PICASA_API_INFO', 'http://code.google.com/apis/picasaweb/gdata.html');
 define('EMIMAGE_PICASA_REST_ENDPOINT', 'http://picasaweb.google.com/data/feed/api/user/');
@@ -32,15 +37,13 @@ function emimage_picasa_info() {
   );
 }
 
-
-
-
 /**
- * this is a wrapper for image_cck_request_xml
+ * This is a wrapper for image_cck_request_xml.
  */
 function emimage_picasa_request($data = array(), $kind = '', $cached = TRUE) {
   $args['kind'] = $kind;
   $xml =  module_invoke('emfield', 'request_xml', 'picasa', EMIMAGE_PICASA_REST_ENDPOINT ."{$data['userid']}/album/{$data['album']}/photoid/{$data['photoid']}", $args, $cached, FALSE, ":{$data['userid']}:{$data['album']}?{$data['photoid']}");
+
   return $xml;
 }
 
@@ -64,6 +67,7 @@ function emimage_picasa_data($field, $item) {
   $data['large'] =  $xml['MEDIA:GROUP']['MEDIA:THUMBNAIL'][5][URL];
   $data['width'] = $xml['MEDIA:GROUP']['MEDIA:THUMBNAIL'][5][WIDTH];
   $data['height'] = $xml['MEDIA:GROUP']['MEDIA:THUMBNAIL'][5][HEIGHT];
+
   return $data;
 }
 
@@ -72,6 +76,7 @@ function emimage_picasa_extract($embed = '') {
   if (preg_match('!picasaweb\.google\.com/([^/]*)/([^/]*)/photo\#(.*)!i', $embed, $matches)) {
     return $matches[3];
   }
+
   return array();
 }
 
@@ -87,35 +92,36 @@ function emimage_picasa_embedded_link($code, $data) {
   $userid = $data['userid'];
   $album= $data['album'];
   $photoid= $data['photoid'];
+
   return "http://picasaweb.google.com/$userid/$album/photo#$photoid";
 }
 
 /**
- *  implement emimage_PROVIDER_image_url
+ * Implement emimage_PROVIDER_image_url.
  *
- *  @param $code
- *    the code of the image
- *  @param $data
- *    any stored data for the image, which may already have the url of the image to display
- *  @return
- *    the url directly to emfield for the image to display
+ * @param $code
+ *   the code of the image
+ * @param $data
+ *   any stored data for the image, which may already have the url of the image to display
+ * @return
+ *   the url directly to emfield for the image to display
  */
 function emimage_picasa_image_url($code, $width, $height, $formatter, $field, $item, $node) {
-    if (func_num_args() == 7) {
+  if (func_num_args() == 7) {
     $arg = func_get_arg(5);
     $code = &$arg['data']['original'];
     $data = &$arg['data'];
     $size = _emimage_picasa_guess_size($width, $height);
   }
   //http://lh5.google.com/kaos777/RwqRRgxcKrI/AAAAAAAAAB0/pl5FboT6x2M/IMG_0468.JPG
- if (preg_match ('!([^/]*)\.ggpht\.com/([^/]*)/([^/]*)/([^/]*)/([^/]*)/(.*)!i', $code, $matches)) {
+  if (preg_match ('!([^/]*)\.ggpht\.com/([^/]*)/([^/]*)/([^/]*)/([^/]*)/(.*)!i', $code, $matches)) {
     $info = array(
-      'server' => $matches[1],
+     'server' => $matches[1],
      'userid' => $matches[2],
-      's1' => $matches[3],
-      's2' => $matches[4],
-      's3' => $matches[5],
-      'image'  => $matches[6],
+     's1' => $matches[3],
+     's2' => $matches[4],
+     's3' => $matches[5],
+     'image'  => $matches[6],
     );
   }
 
@@ -123,14 +129,14 @@ function emimage_picasa_image_url($code, $width, $height, $formatter, $field, $i
 }
 
 /**
- *  implement emimage_PROVIDER_image_title
+ * Implement emimage_PROVIDER_image_title.
  *
- *  @param $code
- *    the code of the image
- *  @param $data
- *    any stored data for the image, which may already have the title
- *  @return
- *    the title as the 3rd party provider knows it, if accessible to us. otherwise, ''
+ * @param $code
+ *   The code of the image.
+ * @param $data
+ *   Any stored data for the image, which may already have the title.
+ * @return
+ *   The title as the 3rd party provider knows it, if accessible to us. otherwise, ''.
  */
 function emimage_picasa_image_title($code, $data) {
   if (func_num_args() == 7) {
@@ -139,16 +145,18 @@ function emimage_picasa_image_title($code, $data) {
     $data = &$arg['data'];
     $title = $code;
   }
+
   return "$title";
 }
 
 function _emimage_picasa_guess_size($width, $height) {
   $max = max($width, $height);
-   foreach (array('144' => 144, '288' => 288, '400' => 400, '800' => 800) as $size => $value) {
-    if ($max <= $value)  {
+  foreach (array('144' => 144, '288' => 288, '400' => 400, '800' => 800) as $size => $value) {
+    if ($max <= $value) {
       return $size;
-        }
+    }
   }
+
   // we would use the original size if we could, but we can't since google won't serve it
   return '800';
 }

@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * This include processes photobucket.com image files for use by emfield.module.
+ */
+
 define('EMIMAGE_PHOTOBUCKET_MAIN_URL', 'http://www.photobucket.com/');
 
 /**

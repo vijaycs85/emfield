@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes metacafe.com media files for use by emfield.module.
+ */
+
 define('EMVIDEO_METACAFE_MAIN_URL', 'http://www.metacafe.com/');
 
 function emvideo_metacafe_info() {
@@ -39,7 +44,8 @@ function emvideo_metacafe_extract($embed) {
   else if ($embed && preg_match('@metacafe\.com/fplayer/(.[^/]*)/(.[^\.]*)\.@i', $embed, $matches)) {
     return $matches[1] .'/'. $matches[2];
   }
-  return false;
+
+  return FALSE;
 }
 
 function emvideo_metacafe_video_link($video_code) {

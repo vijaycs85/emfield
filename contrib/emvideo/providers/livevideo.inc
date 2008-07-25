@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes livevideo media files for use by emfield.module.
+ */
+
 define('EMVIDEO_LIVEVIDEO_MAIN_URL', 'http://www.livevideo.com/');
 define('EMVIDEO_LIVEVIDEO_API_INFO', 'http://www.livevideo.com/api/default.aspx');
 define('EMVIDEO_LIVEVIDEO_API_APPLICATION_URL', 'http://www.livevideo.com/profile/admin/editdeveloperprofile.aspx');
@@ -24,6 +29,7 @@ function emvideo_livevideo_info() {
     array(t('RSS Attachment'), t('No'), ''),
     array(t('Thumbnails'), t('Yes'), ''),
   );
+
   return array(
     'provider' => 'livevideo',
     'name' => $name,
@@ -44,8 +50,8 @@ function emvideo_livevideo_settings() {
     '#type' => 'fieldset',
     '#title' => t('Live Video API'),
     '#description' => t('If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the !livevideo. Note that you do not need this key to display Live Video videos themselves.', array('!livevideo' => l('Live Video Developer Profile page', EMVIDEO_LIVEVIDEO_API_APPLICATION_URL, array('target' => '_blank')))),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['livevideo']['api']['emvideo_livevideo_api_key'] = array(
     '#type' => 'textfield',
@@ -53,16 +59,17 @@ function emvideo_livevideo_settings() {
     '#default_value' => variable_get('emvideo_livevideo_api_key', ''),
     '#description' => t('Please enter your Live Video Developer Key here.'),
   );
+
   return $form;
 }
 
 /**
  * this is a wrapper for emvideo_request_xml that includes livevideo's api key
  */
-function emvideo_livevideo_request($method, $args = array(), $cached = true) {
+function emvideo_livevideo_request($method, $args = array(), $cached = TRUE) {
   $args['developerId'] = trim(variable_get('emvideo_livevideo_api_key', ''));
-
   $request = module_invoke('emfield', 'request_xml', 'livevideo', EMVIDEO_LIVEVIDEO_REST_ENDPOINT . $method, $args, $cached);
+
   return $request;
 }
 
@@ -110,6 +117,7 @@ function theme_emvideo_livevideo_flash($embed, $width, $height, $autoplay) {
     $autostart = $autoplay ? '&autoStart=1' : '';
     $output .= '<embed src="http://www.livevideo.com/flvplayer/embed/'. $embed . $autostart .'" type="application/x-shockwave-flash" quality="high" WIDTH="'. $width .'" HEIGHT="'. $height .'" wmode="transparent"></embed>';
   }
+
   return $output;
 }
 
@@ -129,6 +137,7 @@ function emvideo_livevideo_thumbnail($field, $item, $formatter, $node, $width, $
   $args = array('videoId' => $item['value']);
   $request = emvideo_livevideo_request($method, $args);
   $tn = $request['VIDEODETAILS']['DEFAULTTHUMBNAIL'][0];
+
   return $tn;
 }
 
@@ -150,6 +159,7 @@ function emvideo_livevideo_thumbnail($field, $item, $formatter, $node, $width, $
  */
 function emvideo_livevideo_video($embed, $width, $height, $field, $item, $autoplay) {
   $output = theme('emvideo_livevideo_flash', $embed, $width, $height, $autoplay);
+
   return $output;
 }
 
@@ -171,5 +181,6 @@ function emvideo_livevideo_video($embed, $width, $height, $field, $item, $autopl
  */
 function emvideo_livevideo_preview($embed, $width, $height, $field, $item, $autoplay) {
   $output = theme('emvideo_livevideo_flash', $embed, $width, $height, $autoplay);
+
   return $output;
 }

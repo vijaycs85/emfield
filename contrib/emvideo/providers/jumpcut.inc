@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes jumpcut media files for use by emfield.module.
+ */
+
 define('EMVIDEO_JUMPCUT_MAIN_URL', 'http://jumpcut.com/');
 
 function emvideo_jumpcut_info() {

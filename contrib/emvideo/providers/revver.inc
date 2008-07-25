@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes revver.com media files for use by emfield.module.
+ */
+
 define('EMVIDEO_REVVER_MAIN_URL', 'http://one.revver.com/revver');
 define('EMVIDEO_REVVER_AFFILIATE_PROGRAM_URL', 'http://one.revver.com/revver/go/faq#makingmoney1');
 
@@ -27,8 +32,8 @@ function emvideo_revver_settings() {
     '#type' => 'fieldset',
     '#title' => t('Revver affiliate program'),
     '#description' => t('You may share ad revenue if you publish Revver videos through their !program.', array('!program' => l('Affiliate Program', EMVIDEO_REVVER_AFFILIATE_PROGRAM_URL, array('target' => '_blank')))),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['revver']['api']['emvideo_revver_affiliate_id'] = array(
     '#type' => 'textfield',

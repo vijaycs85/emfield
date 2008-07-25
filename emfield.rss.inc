@@ -1,9 +1,15 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * This is the emfield.module's RSS settings file.
+ */
+
 function _emfield_nodeapi_rss(&$node, $op, $teaser = NULL, $page = NULL) {
   $files = array();
   $type = content_types($node->type);
+
   foreach ($type['fields'] as $field) {
     if (module_hook($field['type'], 'emfield_info')) {
       $items = (array)$node->{$field['field_name']};
@@ -21,6 +27,7 @@ function _emfield_nodeapi_rss(&$node, $op, $teaser = NULL, $page = NULL) {
           }
         }
       }
+
       if (is_array($rss_encl)) {
         // by now the delta doesn't matter we have enough data in the individual arrays
         $files = array_merge($files, $rss_encl);
@@ -30,6 +37,7 @@ function _emfield_nodeapi_rss(&$node, $op, $teaser = NULL, $page = NULL) {
 
   $enclosure = array();
   $rss = array();
+
   foreach ($files as $file) {
     // RRS2 enclosure http://cyber.law.harvard.edu/rss/rss.html#ltenclosuregtSubelementOfLtitemgt
     if (
@@ -109,7 +117,7 @@ function _emfield_nodeapi_rss(&$node, $op, $teaser = NULL, $page = NULL) {
     }
   }
 
-  // work around for http://drupal.org/node/157709
+  // Workaround for http://drupal.org/node/157709.
   static $been_here = FALSE;
   if (! $been_here) {
     $rss[] = array('namespace' => array('xmlns:media="http://search.yahoo.com/mrss/"'));

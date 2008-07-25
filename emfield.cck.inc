@@ -29,13 +29,16 @@ function _emfield_field_columns($field) {
       $columns = array_merge($columns, $extra);
     }
   }
+
   return $columns;
 }
 
-/** Implementation of hook_emfield_field **/
+/**
+ * Implementation of hook_emfield_field().
+ */
 function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
   switch ($op) {
-    // TODO: nothing to validate at the moment. we need to have different provider api's have a chance to validate
+    // TODO: Nothing to validate at the moment. We need to have different provider api's have a chance to validate.
     case 'validate':
       foreach ($items as $delta => $item) {
         $error_field = $field['multiple'] ? $field['field_name'] .']['. $delta .'][embed' : $field['field_name'];
@@ -53,24 +56,25 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       break;
 
     case 'load':
-      // We need to unserialize the 'data' column manually
+      // We need to unserialize the 'data' column manually.
       $field_name = $field['field_name'];
       foreach ($items as $delta => $item) {
         $data = (array)unserialize($items[$delta]['data']);
         $items[$delta]['data'] = $data;
         $node->{$field_name}[$delta]['data'] = $data;
       }
+
       $return = array();
       $return[$field_name] = $items;
       break;
-	  
-	case 'sanitize':
-      foreach ($items as $delta => $item) {
+
+  case 'sanitize':
+    foreach ($items as $delta => $item) {
       $content =  module_invoke($module, 'field_formatter', $field, $item, 'video_video', $node);
       $items[$delta]['value'] = $content;
-              }
+    }
     break;
-	
+
     case 'delete':
       break;
   }
@@ -88,13 +92,14 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       $items[$delta]['data'] = serialize($items[$delta]['data']);
     }
   }
+
   return $return;
 }
 
 function _emfield_emfield_widget_settings($op, $widget, $module) {
   switch ($op) {
     case 'form':
-      // make sure to register the new type as supported by this module
+      // Make sure to register the new type as supported by this module.
       emfield_implement_types(FALSE);
 
       $form = array();
@@ -131,19 +136,16 @@ function _emfield_emfield_widget_settings($op, $widget, $module) {
       foreach (module_implements('emfield_widget_settings_extra') as $module) {
         $columns = array_merge($columns, module_invoke($module, 'emfield_widget_settings_extra', 'save', $widget));
       }
+
       return $columns;
   }
 }
 
-/**
- * @file
- * This defines our various field and widget settings.
- */
 
 /**
- *  This creates default widget handling for all the Embedded Media Fields.
- *  Helper modules are expected to call this function to create the widget, which will include a list of all providers,
- *  as well as handle the parsing of the data.
+ * This creates default widget handling for all the Embedded Media Fields.
+ * Helper modules are expected to call this function to create the widget,
+ * which will include a list of all providers as well as handle data parsing.
  */
 function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 0, $module) { //($op, &$node, $field, &$node_field, $module) {
   // Our form element will need to be processed as a tree, collapsing any children elements.
@@ -152,6 +154,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
   $providers = emfield_allowed_providers($field, $module);
   $urls = array();
   $additional_form_elements = array();
+
   foreach ($providers as $provider) {
     // Only list providers allowed for this field. Honor global settings first.
     if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
@@ -166,6 +169,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
       }
     }
   }
+
   // Set the widget description, but allow the field to override this.
   if (!(empty($field['widget']['description']))) {
     $textfield_description = $field['widget']['description'];
@@ -173,6 +177,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
   else {
     $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
   }
+
   // Add a list of all supported third party providers.
   $textfield_description .= '<br />'. t('The following services are provided: !urls', array('!urls' => implode(', ', $urls)));
   // Get the value of our data, if it's been set for this node.
@@ -190,11 +195,13 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
     '#type' => 'value',
     '#value' => $value,
   );
+
   if (!empty($additional_form_elements)) {
     foreach ($additional_form_elements as $key => $element) {
       $tree[$key] = $element;
     }
   }
+
   if ($value) {
     $info = emfield_include_invoke($module, $items[$delta]['provider'], 'info');
     $tree['value_markup'] = array(
@@ -202,9 +209,11 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
       '#value' => t('(@provider ID: !value)', array('@provider' => $info['provider'], '!value' => l($value, emfield_include_invoke($module, $info['provider'], 'embedded_link', $value, $items[$delta]['data']), array('target' => '_blank')))),
     );
   }
+
   // Allow other modules, such as Embedded Media Thumbnail, to add additional elements to the widget.
   foreach (module_implements('emfield_widget_extra') as $module_extra) {
     $tree[$module_extra] = module_invoke($module_extra, 'emfield_widget_extra', 'form', $form, $field, $items[$delta]);
   }
+
   return $tree;
 }

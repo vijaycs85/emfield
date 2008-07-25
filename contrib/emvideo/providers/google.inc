@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This include processes Google.com media files for use by emfield.module
+ */
+
 define('EMVIDEO_GOOGLE_MAIN_URL', 'http://video.google.com/');
 define('EMVIDEO_GOOGLE_XML', 'http://video.google.com/videofeed');
 define('EMVIDEO_GOOGLE_DOMAIN_DEFAULT', 'com');
@@ -97,8 +102,8 @@ function emvideo_google_data($field, $item) {
 
   if (
     is_array($rss['ITEM']) &&
-    is_array($rss['ITEM']['MEDIA:GROUP']) && 
-    is_array($rss['ITEM']['MEDIA:GROUP']['MEDIA:CONTENT']) && 
+    is_array($rss['ITEM']['MEDIA:GROUP']) &&
+    is_array($rss['ITEM']['MEDIA:GROUP']['MEDIA:CONTENT']) &&
     is_array($rss['ITEM']['MEDIA:GROUP']['MEDIA:CONTENT'][1])
   ) {
     $video = $rss['ITEM']['MEDIA:GROUP']['MEDIA:CONTENT'][1];
@@ -122,7 +127,7 @@ function emvideo_google_data($field, $item) {
       $data['player']['filepath'] = $rss['MEDIA:GROUP']['MEDIA:PLAYER'][1]['URL'];
     }
   }
-  
+
   if ($data['thumbnail']['filepath'] == '') {
     // for whatever reason the thumbnail failed try the old method
     // we'll parse it from the description, where it's repeated.

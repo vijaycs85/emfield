@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * This include processes imageshack.com image files for use by emfield.module.
+ */
+
 define('EMIMAGE_IMAGESHACK_MAIN_URL', 'http://www.imageshack.us/');
 
 /**
@@ -49,6 +54,7 @@ function emimage_imageshack_extract($embed = '') {
   if (preg_match('!([^/.:@]+)\.imageshack\.us/(([^/]+)/([^/]+)/|my.php\?image=)?(.+)$!i', $embed, $matches)) {
     return $matches[5];
   }
+
   return array();
 }
 

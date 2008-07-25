@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   This is an include file used by emfield.module.
+ */
+
 function _emvideo_zzz_custom_url_default_types() {
   return array('wmv', 'wma', 'swf', 'flv', 'mov', 'rm');
 }
@@ -51,7 +56,8 @@ function emvideo_zzz_custom_url_extract($embed = '') {
   if (preg_match('@\ .('. $types .')@i', $embed, $matches)) {
     return $embed;
   }
-  return false;
+
+  return FALSE;
 }
 
 function emvideo_zzz_custom_url_data($field, $item) {
@@ -104,7 +110,7 @@ function emvideo_zzz_custom_url_embedded_link($video_code) {
   return $video_code;
 }
 
-function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = false, $field = NULL, $item = NULL) {
+function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = FALSE, $field = NULL, $item = NULL) {
   if ($url) {
     switch ($type) {
       case 'wmv':
@@ -116,7 +122,7 @@ function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $heigh
         return '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" autoplay="'. $autostart .'" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"> </embed>';
       case 'rm':
         $autostart = $autoplay ? 'true' : 'false';
-        return '<embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="'. $height .'" autostart="'. $autostart .'" controls="imagewindow" nojava="true" console="c1183760810807" pluginspage="http://www.real.com/"></embed><br><embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="26" autostart="'. $autostart .'" nojava="true" controls="ControlPanel" console="c1183760810807"> </embed>';
+        return '<embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="'. $height .'" autostart="'. $autostart .'" controls="imagewindow" nojava="true" console="c1183760810807" pluginspage="http://www.real.com/"></embed><br /><embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="26" autostart="'. $autostart .'" nojava="true" controls="ControlPanel" console="c1183760810807"> </embed>';
       case 'swf':
         return '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
       case 'flv':
