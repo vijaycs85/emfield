@@ -35,6 +35,8 @@ function _emfield_field_columns($field) {
 
 /**
  * Implementation of hook_emfield_field().
+ * 
+ * This private function is returned directly by emfield_emfield_field().
  */
 function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
   switch ($op) {
