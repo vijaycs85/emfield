@@ -55,7 +55,7 @@ function _emthumb_preview() {
  *    file to be inserted, passed by reference since fid should be attached.
  *
  */
-function emthumb_file_insert($node, &$file, $field) {
+function _emthumb_file_insert($node, &$file, $field) {
   $fieldname = $field['field_name'];
   $filepath = file_create_path($field['widget']['emthumb_image_path']) .'/'. $file['filename'];
 
@@ -80,7 +80,7 @@ function emthumb_file_insert($node, &$file, $field) {
  * @param $file
  * @param $field
  */
-function emthumb_file_update($node, &$file, $field) {
+function _emthumb_file_update($node, &$file, $field) {
   $file = (array)$file;
   if ($file['flags']['delete'] == TRUE) {
     if (_emthumb_file_delete($file, $field['field_name'])) {
@@ -88,7 +88,7 @@ function emthumb_file_update($node, &$file, $field) {
     }
   }
   if ($file['fid'] == 'upload') {
-    return emthumb_file_insert($node, $file, $field);
+    return _emthumb_file_insert($node, $file, $field);
   }
   else {
     // if fid is not numeric here we should complain.
@@ -145,14 +145,14 @@ function emthumb_emfield_field_extra($op, $node, $field, &$items, $teaser, $page
     // called before content.module defaults.
     case 'insert':
       foreach ($items as  $delta => $item) {
-        $items[$delta]['data']['emthumb'] = emthumb_file_insert($node, $item['data']['emthumb'], $field);
+        $items[$delta]['data']['emthumb'] = _embthumb_file_insert($node, $item['data']['emthumb'], $field);
       }
       break;
 
     // called before content.module defaults.
     case 'update':
       foreach ($items as $delta => $item) {
-        $items[$delta]['data']['emthumb'] = emthumb_file_update($node, $item['data']['emthumb'], $field);
+        $items[$delta]['data']['emthumb'] = _emthumb_file_update($node, $item['data']['emthumb'], $field);
 /*        // Remove non-existant files from node_field
         if (empty($items[$delta])) {
           unset($items[$delta]);
