@@ -261,7 +261,7 @@ function emfield_operations_reload($nids = array()) {
 function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'rss item':
-      module_load_include('inc', 'emfield', 'rss.cck');
+      module_load_include('inc', 'emfield', 'emfield.rss');
       return _emfield_nodeapi_rss($node, $op, $teaser, $page);
   }
 }
