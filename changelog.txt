@@ -1,4 +1,13 @@
 /* $Id$ */
+2008-08-04
+#277982- reikiman fixed call to emfield.rss.inc
+#177027#comment-937384 - Senpai added more description to _emfield_emfield_field()
+#177027#comment-937410 - Senpai changed so that admin settings default to not collapsed
+#291275 - singularo fixed a conflict with filefield.
+#177027#comment-950482 - cshoney got emfield to work with Drupal 6!
+#177027#comment-936435 - Senpai submitted some Coder fixes
+#177027#comment-934851 chsoney added a case 'sanatize' to _emfield_emfield_field
+#177027#comment-929542 - bangpound resolved issue with $data array not saving
 
 2008-06-22
 ----------
