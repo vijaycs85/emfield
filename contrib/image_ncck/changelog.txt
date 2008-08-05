@@ -1,7 +1,8 @@
 /* $Id$ */
+2008-08-04 
+#281334 - a_c_m added classes to images
 
 2008-07-02
-----------
  * Simplify regex for image_ncck_flickr_extract, to eventually allow better photoset imports (a_c_m).
 
 2008-05-20
