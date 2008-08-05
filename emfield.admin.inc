@@ -19,7 +19,7 @@ function emfield_settings() {
     '#title' => t('General Settings'),
     '#description' => t('These features will be generally available for use by related modules as needed.'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   if (module_exists('swfobject_api')) {
