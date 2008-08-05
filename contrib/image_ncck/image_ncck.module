@@ -315,6 +315,12 @@ function theme_image_ncck_image($field, $item, $formatter, $node, $code, $width,
   if ($height) {
     $attributes['height'] = $height;
   }
+  if ($item['class']){
+      $attributes['class'] = $item['class'];
+  }
+  else if ($item['provider']) {
+      $attributes['class'] = $item['provider'];
+  }
   $output = theme('image', $url, $title, $title, $attributes, false);
   if ($link) {
     $output = l($output, $link, array(), NULL, NULL, true, true);
