@@ -148,3 +148,15 @@ function emvideo_brightcove_preview($embed, $width, $height, $field, $item, $aut
   $output = theme('emvideo_brightcove_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_brightcove_emfield_subtheme() {
+  return array (
+    'emvideo_brightcove_flash' => array (
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/brightcove.inc'
+    )
+  );
+}

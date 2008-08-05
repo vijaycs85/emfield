@@ -42,7 +42,7 @@ function emfield_field_columns($field) {
  */
 function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
   module_load_include('inc', 'emfield', 'emfield.cck');
-  return _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module);
+  return _emfield_emfield_field($op, $node, $field, $items, $teaser, $page, $module);
 }
 
 /**
@@ -262,7 +262,7 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'rss item':
       module_load_include('inc', 'emfield', 'rss.cck');
-      return _emfield_nodeapi_rss(&$node, $op, $teaser, $page);
+      return _emfield_nodeapi_rss($node, $op, $teaser, $page);
   }
 }
 
@@ -637,4 +637,21 @@ function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $modul
       $title = $info['name'];
       return $title ? $title : check_plain($query);
   }
+}
+
+function emfield_provider_themes($module, $provider = null) {
+  $themes = array();
+  
+  if ($provider && $subthemes = emfield_include_invoke($module, $provider, 'subtheme')) {
+    $themes = $subthemes;
+  }
+  $providers = module_invoke('emfield', 'system_list', $module);
+  
+  foreach ($providers as $provider) {
+    if ($subthemes = emfield_include_invoke($module, $provider->name, 'emfield_subtheme')) {
+        $themes += $subthemes;
+    }
+  }
+  
+  return $themes;
 }

@@ -334,3 +334,15 @@ function emvideo_youtube_preview($embed, $width, $height, $field, $item, $autopl
   $output = theme('emvideo_youtube_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_youtube_emfield_subtheme() {
+    return array(
+        'emvideo_youtube_flash'  => array (
+            'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+            'file' => 'providers/youtube.inc'
+        )
+    );
+}

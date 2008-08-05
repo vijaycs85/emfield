@@ -163,6 +163,7 @@ function emvideo_bliptv_extract($embed) {
     '@blip\.tv/rss/flash/([^"\&\?]+)@i',
     '@blip\.tv/file/view/([^"\&\?]+)@i',
     '@blip\.tv/file/([^"\&\?]+)@i',
+    '@blip\.tv/play/([^"\&\?]+)@i',
 
     // test handling for featured shows. disabled for now.
 //     '@http\://([^\.]+)\.blip\.tv/@i',
@@ -299,3 +300,14 @@ function emvideo_bliptv_preview($code, $width, $height, $field, $item, $autoplay
   return $output;
 }
 
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_bliptv_emfield_subtheme() {
+  return array (
+    'emvideo_bliptv_flash' => array (
+      'arguments' => array('code' => NULL, 'width' => NULL, 'height' => NULL, 'field' => NULL, 'item' => NULL, 'autoplay' => NULL, 'flv' => NULL, 'thumbnail' => NULL, 'options' => NULL),
+      'file' => 'providers/bliptv.inc'
+    )
+  );
+}

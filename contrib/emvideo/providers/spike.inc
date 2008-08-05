@@ -33,6 +33,7 @@ function emvideo_spike_extract($embed) {
   return array(
     // http://www.spike.com/video/2836119/collection/19459/channel/comedy
     // <embed width="448" height="365" src="http://www.spike.com/efp" quality="high" bgcolor="000000" name="efp" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="flvbaseclip=2836119&"> </embed> <h1><a href="http://www.spike.com/video/2836119">"I Lost It" with Tom Cruize and Jesus</a></h1><span>Posted Mar 25, 2007</span><p>What happens when Jesus, Abe Lincoln, Tom Cruise, Dustin Hoffman, Buddha and Einstein play a friendly game of poker?</p>
+    '@spike\.com/efp"(?:.*)flvbaseclip=([^&]+)@i',
     '@spike\.com/video/([^/&"\?]*)@i',
   );
 }
@@ -73,4 +74,16 @@ function emvideo_spike_video($embed, $width, $height, $field, $item, $autoplay) 
 function emvideo_spike_preview($embed, $width, $height, $field, $item, $autoplay) {
   $output = theme('emvideo_spike_flash', $embed, $width, $height, $autoplay);
   return $output;
+}
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_spike_emfield_subtheme() {
+  return array (
+    'emvideo_spike_flash' => array (
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/spike.inc'
+    )
+  );
 }

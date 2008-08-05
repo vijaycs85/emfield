@@ -44,7 +44,7 @@ function emvideo_emfield_info() {
  * Implementation of hook_theme().
  */
 function emvideo_theme() {
-  return array(
+  $themes = array(
     'emvideo_video_embed' => array(
       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
@@ -69,7 +69,32 @@ function emvideo_theme() {
       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
+    'emvideo_formatter_video_video' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_thumbnail' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_embed' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_preview' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_default' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
   );
+  
+  $themes += module_invoke('emfield', 'provider_themes', 'emvideo');
+  
+  return $themes;
+  
 }
 
 /**

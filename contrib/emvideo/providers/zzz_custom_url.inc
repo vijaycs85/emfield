@@ -53,11 +53,12 @@ function _emvideo_zzz_custom_url_implode_types() {
 
 function emvideo_zzz_custom_url_extract($embed = '') {
   $types = _emvideo_zzz_custom_url_implode_types();
-  if (preg_match('@\ .('. $types .')@i', $embed, $matches)) {
-    return $embed;
-  }
+  $baseurl = preg_quote(url(null, array('absolute' => true)), '@');
 
-  return FALSE;
+  return array (
+    '@' . $baseurl . '(.*' . '\.(?:' . $types . ')' . ')@i',
+    '@(.*\.(?:'. $types .'))@i'
+  );
 }
 
 function emvideo_zzz_custom_url_data($field, $item) {
@@ -146,4 +147,16 @@ function emvideo_zzz_custom_url_preview($code, $width, $height, $field, $item, $
   $type = $item['data']['type'];
   $output = theme('emvideo_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item);
   return $output;
+}
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_zzz_custom_url_emfield_subtheme() {
+  return array(
+    'emvideo_zzz_custom_url_embedded_video' => array(
+      'arguments' => array('type' => NULL, 'url' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => FALSE, 'field' => NULL, 'item' => NULL),
+      'file' => 'providers/zzz_custom_url.inc'
+    )
+  );
 }

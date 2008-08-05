@@ -61,3 +61,14 @@ function emvideo_jumpcut_preview($embed, $width, $height, $field, $item) {
   return $output;
 }
 
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_jumpcut_emfield_subtheme() {
+  return array (
+    'emvideo_jumpcut_flash' => array (
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL),
+      'file' => 'providers/jumpcut.inc'
+    )
+  );
+}

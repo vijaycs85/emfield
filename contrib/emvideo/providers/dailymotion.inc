@@ -169,3 +169,15 @@ function emvideo_dailymotion_preview($embed, $width, $height, $field, $item, $au
   $output = theme('emvideo_dailymotion_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_dailymotion_emfield_subtheme() {
+  return array (
+    'emvideo_dailymotion_flash' => array (
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/dailymotion.inc'
+    )
+  );
+}

@@ -67,14 +67,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       $return = array();
       $return[$field_name] = $items;
       break;
-
-  case 'sanitize':
-    foreach ($items as $delta => $item) {
-      $content =  module_invoke($module, 'field_formatter', $field, $item, 'video_video', $node);
-      $items[$delta]['value'] = $content;
-    }
-    break;
-
+      
     case 'delete':
       break;
   }

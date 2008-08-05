@@ -77,3 +77,15 @@ function emvideo_revver_preview($embed, $width, $height, $field, $item, $autopla
   $output = theme('emvideo_revver_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_revver_emfield_subtheme() {
+  return array (
+    'emvideo_revver_flash' => array (
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/revver.inc'
+    )
+  );
+}

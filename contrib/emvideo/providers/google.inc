@@ -185,3 +185,15 @@ function emvideo_google_preview($embed, $width, $height, $field, $item, $autopla
   $output = theme('emvideo_google_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emvideo_google_emfield_subtheme() {
+  return array (
+    'emvideo_google_flash' => array (
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/google.inc'
+    )
+  );
+}
