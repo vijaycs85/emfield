@@ -319,15 +319,28 @@ function emimage_embed_form($field, $item, $formatter, $node) {
 }
 
 function emimage_theme(){
-  return array(
-   'emimage_image_embed' => array(
+  $themes = array(
+    'emimage_image' => array(
+        'arguments' => array(
+          'field' => NULL, 
+          'item' => NULL, 
+          'formatter' => NULL, 
+          'node' => NULL, 
+          'code' => NULL, 
+          'width' => NULL, 
+          'height' => NULL, 
+          'title' => NULL, 
+          'link' => NULL
+        )
+    ),
+    'emimage_image_embed' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
-      ),
-   'emimage_image_image' => array(
+    ),
+    'emimage_image_image' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
@@ -338,36 +351,80 @@ function emimage_theme(){
         'height' => NULL,
         'title' => '',
         'link' => NULL),
-      ),
-   'emimage_image_thumbnail' => array(
+    ),
+    'emimage_image_thumbnail' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
-      ),
-   'emimage_image_full' => array(
+    ),
+    'emimage_image_full' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
-      ),
-   'emimage_image_preview' => array(
+    ),
+    'emimage_image_preview' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
-      ),
-   'emimage_default' => array(
+    ),
+    'emimage_default' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
-      ),
+    ),
+    'emimage_formatter_image_image' => array(
+        'arguments' => array('element' => NULL)
+    ),
+    'emimage_formatter_image_thumbnail' => array(
+        'arguments' => array('element' => NULL)
+    ),
+    'emimage_formatter_image_embed' => array(
+        'arguments' => array('element' => NULL)
+    ),
+    'emimage_formatter_image_preview' => array(
+        'arguments' => array('element' => NULL)
+    ),
+    'emimage_formatter_default' => array(
+        'arguments' => array('element' => NULL)
+    )
   );
+  
+  $themes += module_invoke('emfield', 'provider_themes', 'emimage');
+  
+  return $themes;
+}
+
+function theme_emimage_formatter_image_image($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+
+function theme_emimage_formatter_image_embed($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+
+function theme_emimage_formatter_default($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+
+function theme_emimage_formatter_image_preview($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+
+function theme_emimage_formatter_image_thumbnail($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
 }
 
 function theme_emimage_image_embed($field, $item, $formatter, $node) {
@@ -393,8 +450,9 @@ function theme_emimage_image($field, $item, $formatter, $node, $code, $width, $h
       $attributes['class'] = $item['provider'];
   }
   $output = theme('image', $url, $title, $title, $attributes, false);
+  
   if ($link) {
-    $output = l($output, $link, array(), NULL, NULL, true, true);
+    $output = l($output, $link, array('html' => true));
   }
   return $output;
 }
