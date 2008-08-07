@@ -235,30 +235,63 @@ function emvideo_youtube_convert_color($color = NULL) {
 }
 
 /**
- * the embedded flash displaying the youtube video
+ * The embedded flash displaying the youtube video.
  */
-function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay) {
+function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
+  static $count;
   if ($embed) {
-    if ($autoplay) {
-      $autoplay_value = '&amp;autoplay=1';
+    $related = isset($options['related']) ? $options['related'] : variable_get('video_cck_youtube_show_related_videos', 0);
+    $related = "rel=$related";
+    $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $autoplay;
+    $autoplay_value = $autoplay ? '&autoplay=1' : '';
+    $show_colors = isset($options['show_colors']) ? $options['show_colors'] : variable_get('video_cck_youtube_show_colors', FALSE);
+    if ($show_colors) {
+      $color1 = isset($options['color1']) ? $options['color1'] : variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT);
+      $color2 = isset($options['color2']) ? $options['color2'] : variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT);
+      $colors='&color1=0x'. video_cck_youtube_convert_color($color1) .'&color2=0x'. video_cck_youtube_convert_color($color2);
     }
-    $related = variable_get('emvideo_youtube_show_related_videos', 0);
-    if (variable_get('emvideo_youtube_show_colors', FALSE)) {
-      $color1 = emvideo_youtube_convert_color(variable_get('emvideo_youtube_colors_color1', EMVIDEO_YOUTUBE_COLOR1_DEFAULT));
-      $color2 = emvideo_youtube_convert_color(variable_get('emvideo_youtube_colors_color2', EMVIDEO_YOUTUBE_COLOR2_DEFAULT));
-      $colors='&amp;color1=0x'. $color1 .'&amp;color2=0x'. $color2;
+    $border = isset($options['border']) ? $options['border'] : variable_get('video_cck_youtube_show_border', FALSE);
+    $border = $border ? '&border=1' : '';
+    $enablejsapi = isset($options['enablejsapi']) ? $options['enablejsapi'] : variable_get('video_cck_youtube_enablejsapi', TRUE);
+    $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
+    $allowScriptAcess = $enablejsapi ? 'always' : 'sameDomain';
+    $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
+    $div_id = isset($options['div_id']) ? $options['div_id'] : 'video-cck-youtube-flash-wrapper-'. $count;
+    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$enablejsap";
+    if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
+      if (module_exists('swfobject_api')) {
+        $params['width'] = $width;
+        $params['height'] = $height;
+        $params['div_id'] = $id;
+        $output .= theme('swfobject_api', $url, $params, $vars, $id);
+      }
+      else {
+        drupal_add_js(variable_get('emfield_swfobject_location', ''));
+        $output .= <<<FLASH
+          <div id="$div_id">
+            Sorry, you need to install flash to see this content.
+          </div>
+          <script language="JavaScript" type="text/javascript">
+            var so = new SWFObject("$url", "$id", "$width", "$height", "7");
+            so.write("$div_id");
+          </script>
+FLASH;
+      }
     }
-    $border = (variable_get('emvideo_youtube_show_border', FALSE) == FALSE ? '' : '&amp;border=1');
-    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" id=\"VideoPlayback\" >
-      <param name=\"movie\" value=\"http://www.youtube.com/v/$embed&amp;rel=$related". $autoplay_value . $colors . $border ."\" />
-      <param name=\"allowScriptAcess\" value=\"sameDomain\"/>
-      <param name=\"quality\" value=\"best\"/>
-      <param name=\"bgcolor\" value=\"#FFFFFF\"/>
-      <param name=\"scale\" value=\"noScale\"/>
-      <param name=\"salign\" value=\"TL\"/>
-      <param name=\"FlashVars\" value=\"playerMode=embedded\" />
-      <param name=\"wmode\" value=\"transparent\" />
-    </object>\n";
+    else {
+      $output .= <<<FLASH
+        <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id">
+          <param name="movie" value="$url" />
+          <param name="allowScriptAcess" value="sameDomain"/>
+          <param name="quality" value="best"/>
+          <param name="bgcolor" value="#FFFFFF"/>
+          <param name="scale" value="noScale"/>
+          <param name="salign" value="TL"/>
+          <param name="FlashVars" value="playerMode=embedded" />
+          <param name="wmode" value="transparent" />
+        </object></div>
+FLASH;
+    }
   }
   return $output;
 }

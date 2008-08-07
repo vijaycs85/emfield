@@ -1,5 +1,9 @@
 /* $Id$ */
 
+August 2008
+-----------
+ * Add support for swfobject to youtube, taking swfobject_api into account (aaron).
+
 2008-07-18
 ----------
 Changed name from video_cck to emvideo to comply with new naming standards.
