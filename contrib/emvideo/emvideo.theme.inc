@@ -184,3 +184,8 @@ function theme_emvideo_formatter_video_thumbnail($element) {
   $field = content_fields($element['#field_name'], $element['#type_name']);
   return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
 }
+
+function theme_emvideo_formatter_video_flash($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
