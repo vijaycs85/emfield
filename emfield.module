@@ -183,7 +183,7 @@ function _emfield_field_submit_id($field, $item, $module) {
  */
 function emfield_emfield_field_formatter($field, $item, $formatter, $node, $module) {
   // If we're coming from a preview, we need to extract our new embedded value.
-  if ($node->in_preview) {
+  if (isset($node->in_preview)) {
     $item = emfield_parse_embed($field, $item['embed'], $module);
   }
 
