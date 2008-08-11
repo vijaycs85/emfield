@@ -204,6 +204,7 @@ function emfield_emfield_field_formatter($field, $item, $formatter, $node, $modu
   }
 
   // The individual modules actually define the theme for the formatter.
+  $output = '';
   $output .= theme($module .'_'. $formatter, $field, $item, $formatter, $node);
 
   return $output;

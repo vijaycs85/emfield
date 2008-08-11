@@ -409,7 +409,7 @@ function theme_emaudio_emaudio_thumbnail($field, $item, $formatter, $node) {
     if ($thumbnail_url) {
       $width = $field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emaudio_default_thumbnail_width', EMAUDIO_DEFAULT_THUMBNAIL_WIDTH);
       $height = $field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('emaudio_default_thumbnail_height', EMAUDIO_DEFAULT_THUMBNAIL_HEIGHT);
-      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('Hear Audio') .'" title="'. t('Hear Audio') .'" />', 'node/'. $node->nid, array(), NULL, NULL, false, true);
+      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. t('Hear Audio') .'" title="'. t('Hear Audio') .'" />', 'node/'. $node->nid, array('html'=> true));
     }
     else {
       // if all else fails, then just print a 'see audio' link.

@@ -87,8 +87,9 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       $items[$delta]['data'] = serialize($items[$delta]['data']);
     }
   }
-
+  if (isset($return)){
   return $return;
+  }
 }
 
 function _emfield_emfield_widget_settings($op, $widget, $module) {
