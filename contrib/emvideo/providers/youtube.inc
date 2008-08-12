@@ -237,22 +237,22 @@ function emvideo_youtube_convert_color($color = NULL) {
 /**
  * The embedded flash displaying the youtube video.
  */
-function video_cck_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
+function emvideo_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
   static $count;
   if ($embed) {
-    $related = isset($options['related']) ? $options['related'] : variable_get('video_cck_youtube_show_related_videos', 0);
+    $related = isset($options['related']) ? $options['related'] : variable_get('emvideo_youtube_show_related_videos', 0);
     $related = "rel=$related";
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $autoplay;
     $autoplay_value = $autoplay ? '&autoplay=1' : '';
-    $show_colors = isset($options['show_colors']) ? $options['show_colors'] : variable_get('video_cck_youtube_show_colors', FALSE);
+    $show_colors = isset($options['show_colors']) ? $options['show_colors'] : variable_get('emvideo_youtube_show_colors', FALSE);
     if ($show_colors) {
-      $color1 = isset($options['color1']) ? $options['color1'] : variable_get('video_cck_youtube_colors_color1', VIDEO_CCK_YOUTUBE_COLOR1_DEFAULT);
-      $color2 = isset($options['color2']) ? $options['color2'] : variable_get('video_cck_youtube_colors_color2', VIDEO_CCK_YOUTUBE_COLOR2_DEFAULT);
-      $colors='&color1=0x'. video_cck_youtube_convert_color($color1) .'&color2=0x'. video_cck_youtube_convert_color($color2);
+      $color1 = isset($options['color1']) ? $options['color1'] : variable_get('emvideo_youtube_colors_color1', emvideo_YOUTUBE_COLOR1_DEFAULT);
+      $color2 = isset($options['color2']) ? $options['color2'] : variable_get('emvideo_youtube_colors_color2', emvideo_YOUTUBE_COLOR2_DEFAULT);
+      $colors='&color1=0x'. emvideo_youtube_convert_color($color1) .'&color2=0x'. emvideo_youtube_convert_color($color2);
     }
-    $border = isset($options['border']) ? $options['border'] : variable_get('video_cck_youtube_show_border', FALSE);
+    $border = isset($options['border']) ? $options['border'] : variable_get('emvideo_youtube_show_border', FALSE);
     $border = $border ? '&border=1' : '';
-    $enablejsapi = isset($options['enablejsapi']) ? $options['enablejsapi'] : variable_get('video_cck_youtube_enablejsapi', TRUE);
+    $enablejsapi = isset($options['enablejsapi']) ? $options['enablejsapi'] : variable_get('emvideo_youtube_enablejsapi', TRUE);
     $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
     $allowScriptAcess = $enablejsapi ? 'always' : 'sameDomain';
     $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
