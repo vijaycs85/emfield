@@ -237,7 +237,7 @@ function emvideo_youtube_convert_color($color = NULL) {
 /**
  * The embedded flash displaying the youtube video.
  */
-function emvideo_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
+function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
   static $count;
   if ($embed) {
     $related = isset($options['related']) ? $options['related'] : variable_get('emvideo_youtube_show_related_videos', 0);
