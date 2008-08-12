@@ -91,7 +91,6 @@ function emvideo_bliptv_data($field, $item) {
 
   // get our thumbnail url
   $data['thumbnail']['url'] = $rss['ITEM']['MEDIA:THUMBNAIL'][1]['URL'];
-
   // this gets sent to the player
   foreach ((array)$api['MEDIA']['LINK'] as $x => $link) {
     $x--;
@@ -115,6 +114,7 @@ function emvideo_bliptv_data($field, $item) {
       $video_info['duration'] = $api['MEDIA']['DURATION'][$x];
       $video_info['size'] = $api['MEDIA']['SIZE'][$x];
       $video_info['mime'] = $link['TYPE'];
+      $video_info['embed_code'] = $rss['ITEM']['BLIP:EMBEDLOOKUP'];
 
       // we only store the last video of a particular type, for instance if two roles use .mov
       $data[$video_type] = $video_info;
@@ -142,19 +142,18 @@ function emvideo_bliptv_data($field, $item) {
   $data['blip_user']['url'] = $api['CREATEDBY']['LINKS']['LINK'][1] ? $api['CREATEDBY']['LINKS']['LINK'][1] : 'http://blip.tv/users/view/'. $data['blip_user']['username'];
 
   $data['showpage'] = $rss['ITEM']['BLIP:SHOWPAGE'][0];
+  $data['embed_code'] = $rss['ITEM']['BLIP:EMBEDLOOKUP'];
 
   // this is the code actually used by the player, even though it's different than for the page
   if ($rss['ITEM']['BLIP:POSTS_ID'][0]) {
     $data['post_id'] = $rss['ITEM']['BLIP:POSTS_ID'][0];
-  }
-
+  }	
   return $data;
 }
 
 function emvideo_bliptv_request($code, $cacheable = TRUE, $skin = 'rss', $show = FALSE) {
   $args = array();
   $file = $show ? "http://$code.blip.tv/file/?skin=" . $skin : "http://blip.tv/file/$code?skin=" . $skin;
-
   return module_invoke('emfield', 'request_xml', 'bliptv', $file, $args, $cacheable, FALSE, $code .':'. $skin . ($show ? ':show' : ':post'));
 }
 
@@ -224,6 +223,7 @@ function emvideo_bliptv_rss($item, $teaser = NULL) {
 
     if (is_array($video_info)) {
       // Begin building file object.
+
       $file = array();
       // Create temporary name/path for newly uploaded files.
       $file['filepath'] = $video_info['url'];
@@ -237,7 +237,8 @@ function emvideo_bliptv_rss($item, $teaser = NULL) {
       $file['duration'] = ($video_info['duration']) ? $video_info['duration'] : FALSE;
       // @todo media:credit role="author" ...
 
-      return $file;
+
+
     }
   }
 }
@@ -250,16 +251,19 @@ function theme_emvideo_bliptv_flash($code, $width, $height, $field, $item, $auto
     $autoplay = $autoplay ? 'autoStart=true' : 'autoStart=false';
 
     $rss = $item['data']['showpage'] ? "&feedurl={$item['data']['showpage']}/rss" : '';
-
     $post_id = $item['data']['post_id'];
     // if/when we allow featured shows to be embedded, this will handle that.
 //     $file = $item['data']['is_show'] ? "http://$code.blip.tv/rss/flash/" : 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
-
+    $embed_code = $item['data']['flv']['embed_code']['0'];
     $file = 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
     $embed_file = 'http://blip.tv/scripts/flash/showplayer.swf?enablejs=true'. $rss .'&file='. $file .'&showplayerpath=http://blip.tv/scripts/flash/showplayer.swf';
 
-    $output .= '<object type="application/x-shockwave-flash" data="'. $embed_file .'" width="'. $width .'" height="'. $height .'" allowfullscreen="true" id="'. $id .'"><param name="movie" value="'. $embed_file .'" /><param name="quality" value="best" /><embed src="'. $embed_file .'" quality="best" width="'. $width .'" height="'. $height .'" name="'. $id .'" type="application/x-shockwave-flash"></embed></object>';
+   // If you want strict html you may want to use the following  code instead of the one blip provides 
+   // $output .= '<object type="application/x-shockwave-flash" data="'. $embed_file .'" width="'. $width .'" height="'. $height .'" allowfullscreen="true" id="'. $id .'"><param name="movie" value="'. $embed_file .'" /><param name="quality" value="best" /><embed src="'. $embed_file .'" quality="best" width="'. $width .'" height="'. $height .'" name="'. $id .'" type="application/x-shockwave-flash"></embed></object>'; 
+   
+   $output .= '<embed src="http://blip.tv/play/'. $embed_code .'" type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" allowscriptaccess="always" allowfullscreen="true"></embed>';
   }
+  
   return $output;
 }
 
