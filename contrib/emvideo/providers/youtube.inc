@@ -243,17 +243,17 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $related = isset($options['related']) ? $options['related'] : variable_get('emvideo_youtube_show_related_videos', 0);
     $related = "rel=$related";
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $autoplay;
-    $autoplay_value = $autoplay ? '&autoplay=1' : '';
+    $autoplay_value = $autoplay ? '&amp;autoplay=1' : '';
     $show_colors = isset($options['show_colors']) ? $options['show_colors'] : variable_get('emvideo_youtube_show_colors', FALSE);
     if ($show_colors) {
       $color1 = isset($options['color1']) ? $options['color1'] : variable_get('emvideo_youtube_colors_color1', emvideo_YOUTUBE_COLOR1_DEFAULT);
       $color2 = isset($options['color2']) ? $options['color2'] : variable_get('emvideo_youtube_colors_color2', emvideo_YOUTUBE_COLOR2_DEFAULT);
-      $colors='&color1=0x'. emvideo_youtube_convert_color($color1) .'&color2=0x'. emvideo_youtube_convert_color($color2);
+      $colors='&amp;color1=0x'. emvideo_youtube_convert_color($color1) .'&amp;color2=0x'. emvideo_youtube_convert_color($color2);
     }
     $border = isset($options['border']) ? $options['border'] : variable_get('emvideo_youtube_show_border', FALSE);
-    $border = $border ? '&border=1' : '';
+    $border = $border ? '&amp;border=1' : '';
     $enablejsapi = isset($options['enablejsapi']) ? $options['enablejsapi'] : variable_get('emvideo_youtube_enablejsapi', TRUE);
-    $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
+    $enablejsapi = $enablejsapi ? '&amp;enablejsapi=1&amp;playerapiid=ytplayer' : '';
     $allowScriptAcess = $enablejsapi ? 'always' : 'sameDomain';
     $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
     $div_id = isset($options['div_id']) ? $options['div_id'] : 'video-cck-youtube-flash-wrapper-'. $count;
