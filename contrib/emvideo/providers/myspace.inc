@@ -31,7 +31,7 @@ function emvideo_myspace_settings() {
 
 function emvideo_myspace_request($code, $cacheable = TRUE) {
   $args = array();
-  return module_invoke('emfield', 'request_xml', 'myspace', "http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=$code", $args, $cacheable);
+  return module_invoke('emfield', 'request_xml', 'myspace', "http://vids.myspace.com/index.cfm?fuseaction=vids.individual&amp;videoid=$code", $args, $cacheable);
 }
 
 /**
@@ -41,13 +41,13 @@ function _emvideo_myspace_scrape_thumbnail($video, $cached = TRUE) {
   if (!$cached || !$cache = cache_get('myspace:thumbnail:'. $video, 'cache')) {
     $vidid = drupal_substr($video, 0, 10);
 
-    if ($str = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=$vidid")) {
+    if ($str = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.individual&amp;videoid=$vidid")) {
       // grab videos channel-id first
       $channel_id = preg_replace('/.*tvchanid=([0-9]+);.*/si', '\1', $str);
 
       if (is_numeric($channel_id)) {
         // now from channel-page grab videos thumbnail
-        $str2 = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.viewVideos&channelid=$channel_id");
+        $str2 = file_get_contents("http://vids.myspace.com/index.cfm?fuseaction=vids.viewVideos&amp;channelid=$channel_id");
 
         if ($str2) {
           $picturelink = preg_replace('@.*href="[^"]+'. $vidid .'"[^>]+><img[^>]+src="([^"]+)".*@si', '\1',  $str2);
@@ -70,15 +70,15 @@ function _emvideo_myspace_scrape_thumbnail($video, $cached = TRUE) {
 function emvideo_myspace_extract($embed) {
   // <a href="http://myspacetv.com/index.cfm?fuseaction=vids.individual&videoid=14686340">What's That Floating In The Water Part 1</a><br><embed src="http://lads.myspace.com/videos/vplayer.swf" flashvars="m=14686340&v=2&type=video" type="application/x-shockwave-flash" width="430" height="346"></embed><br><a href="http://myspacetv.com/index.cfm?fuseaction=vids.addToProfileConfirm&videoid=14686340&title=What's That Floating In The Water Part 1">Add to My Profile</a> | <a href="http://myspacetv.com/index.cfm?fuseaction=vids.home">More Videos</a>
   return array(
-    '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
-    '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
-    '@src="myspacetv\.com/index.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)"@i',
-    '@myspacetv\.com/index\.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
+    '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)@i',
+    '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)@i',
+    '@src="myspacetv\.com/index.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)"@i',
+    '@myspacetv\.com/index\.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)@i',
   );
 }
 
 function emvideo_myspace_video_link($video_code) {
-  return 'http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid='. $video_code;
+  return 'http://vids.myspace.com/index.cfm?fuseaction=vids.individual&amp;videoid='. $video_code;
 }
 
 function theme_emvideo_myspace_flash($embed, $width, $height) {
@@ -91,7 +91,7 @@ function theme_emvideo_myspace_flash($embed, $width, $height) {
       <param name=\"bgcolor\" value=\"#FFFFFF\"/>
       <param name=\"scale\" value=\"noScale\"/>
       <param name=\"salign\" value=\"TL\"/>
-      <param name=\"FlashVars\" value=\"m=$embed&type=video\" />
+      <param name=\"FlashVars\" value=\"m=$embed&amp;type=video\" />
       <param name=\"wmode\" value=\"transparent\" />
     </object>\n";
   }

@@ -4,7 +4,7 @@
 define('EMVIDEO_IMEEM_MAIN_URL', 'http://www.imeem.com/');
 define('EMVIDEO_IMEEM_API_INFO', 'http://www.imeem.com/developers/documentation/');
 define('EMVIDEO_IMEEM_API_APPLICATION_URL', 'http://www.imeem.com/developers/');
-define('EMVIDEO_IMEEM_XML', 'http://www.imeem.com/api/xml/mediaGetInfo?&mediaIds=');
+define('EMVIDEO_IMEEM_XML', 'http://www.imeem.com/api/xml/mediaGetInfo?&amp;mediaIds=');
 
 function emvideo_imeem_info() {
   $name = t('IMEEM');
@@ -48,7 +48,7 @@ function emvideo_imeem_settings() {
 
 function emvideo_imeem_request($embed, $cacheable = TRUE) {
   $args = array('docid' => $embed);
-  return module_invoke('emfield', 'request_xml', 'imeem', EMVIDEO_IMEEM_XML . $embed .'&version=1.0', $args, $cacheable);
+  return module_invoke('emfield', 'request_xml', 'imeem', EMVIDEO_IMEEM_XML . $embed .'&amp;version=1.0', $args, $cacheable);
 }
 
 function emvideo_imeem_extract($embed = '') {
@@ -63,7 +63,7 @@ function emvideo_imeem_embedded_link($video_code) {
 
 function theme_emvideo_imeem_flash($embed, $width, $height, $autoplay) {
   $autoplay = $autoplay ? '/aus=true' : '/aus=false';
-  $colors = 'backColor=666666&primaryColor=cccccc&secondaryColor=333333&linkColor=cccccc';
+  $colors = 'backColor=666666&amp;primaryColor=cccccc&amp;secondaryColor=333333&amp;linkColor=cccccc';
 
   $output .= '<object width="'. $width .'" height="'. $height .'">';
   $output .= '<param name="movie" value="http://media.imeem.com/v/'. $embed . $autoplay .'/pv=2"></param>';

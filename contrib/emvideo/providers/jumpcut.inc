@@ -42,7 +42,7 @@ function emvideo_jumpcut_video_link($video_code) {
 
 function theme_emvideo_jumpcut_flash($embed, $width, $height) {
   if ($embed) {
-    $output .= '<embed src="http://jumpcut.com/media/flash/jump.swf?id='. $embed .'&asset_type=movie&asset_id='. $embed .'&eb=1" width="'. $width .'" height="'. $height .'" type="application/x-shockwave-flash"></embed>';
+    $output .= '<embed src="http://jumpcut.com/media/flash/jump.swf?id='. $embed .'&amp;asset_type=movie&amp;asset_id='. $embed .'&eb=1" width="'. $width .'" height="'. $height .'" type="application/x-shockwave-flash"></embed>';
   }
   return $output;
 }

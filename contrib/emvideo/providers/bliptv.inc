@@ -250,13 +250,13 @@ function theme_emvideo_bliptv_flash($code, $width, $height, $field, $item, $auto
     $id = isset($options['id']) ? $options['id'] : "emfield_videocck_player_bliptv_$count";
     $autoplay = $autoplay ? 'autoStart=true' : 'autoStart=false';
 
-    $rss = $item['data']['showpage'] ? "&feedurl={$item['data']['showpage']}/rss" : '';
+    $rss = $item['data']['showpage'] ? "&amp;feedurl={$item['data']['showpage']}/rss" : '';
     $post_id = $item['data']['post_id'];
     // if/when we allow featured shows to be embedded, this will handle that.
 //     $file = $item['data']['is_show'] ? "http://$code.blip.tv/rss/flash/" : 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
     $embed_code = $item['data']['flv']['embed_code']['0'];
     $file = 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
-    $embed_file = 'http://blip.tv/scripts/flash/showplayer.swf?enablejs=true'. $rss .'&file='. $file .'&showplayerpath=http://blip.tv/scripts/flash/showplayer.swf';
+    $embed_file = 'http://blip.tv/scripts/flash/showplayer.swf?enablejs=true'. $rss .'&amp;file='. $file .'&amp;showplayerpath=http://blip.tv/scripts/flash/showplayer.swf';
 
    // If you want strict html you may want to use the following  code instead of the one blip provides 
    // $output .= '<object type="application/x-shockwave-flash" data="'. $embed_file .'" width="'. $width .'" height="'. $height .'" allowfullscreen="true" id="'. $id .'"><param name="movie" value="'. $embed_file .'" /><param name="quality" value="best" /><embed src="'. $embed_file .'" quality="best" width="'. $width .'" height="'. $height .'" name="'. $id .'" type="application/x-shockwave-flash"></embed></object>'; 

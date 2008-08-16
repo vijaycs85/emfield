@@ -63,8 +63,8 @@ function emvideo_guba_embedded_link($video_code) {
 }
 
 function theme_emvideo_guba_flash($embed, $width, $height, $autoplay) {
-  $autoplay = $autoplay ? '&autoPlay=true' : '&autoPlay=false';
-  $output .= '<embed src="http://www.guba.com/f/root.swf?video_url=http://free.guba.com/uploaditem/'. $embed .'/flash.flv&isEmbeddedPlayer=false'. $autoplay .'" quality="best" bgcolor="#FFFFFF" menu="true" width="'. $width .'" height="'. $height .'" name="root" id="root" align="middle" scaleMode="noScale" allowScriptAccess="always" allowFullScreen="true" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+  $autoplay = $autoplay ? '&amp;autoPlay=true' : '&amp;autoPlay=false';
+  $output .= '<embed src="http://www.guba.com/f/root.swf?video_url=http://free.guba.com/uploaditem/'. $embed .'/flash.flv&amp;isEmbeddedPlayer=false'. $autoplay .'" quality="best" bgcolor="#FFFFFF" menu="true" width="'. $width .'" height="'. $height .'" name="root" id="root" align="middle" scaleMode="noScale" allowScriptAccess="always" allowFullScreen="true" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
   return $output;
 }
 

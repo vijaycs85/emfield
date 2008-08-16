@@ -145,7 +145,7 @@ function emthumb_emfield_field_extra($op, $node, $field, &$items, $teaser, $page
     // called before content.module defaults.
     case 'insert':
       foreach ($items as  $delta => $item) {
-        $items[$delta]['data']['emthumb'] = _embthumb_file_insert($node, $item['data']['emthumb'], $field);
+        $items[$delta]['data']['emthumb'] = _emthumb_file_insert($node, $item['data']['emthumb'], $field);
       }
       break;
 

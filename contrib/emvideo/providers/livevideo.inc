@@ -114,7 +114,7 @@ function emvideo_livevideo_embedded_link($video_code) {
  */
 function theme_emvideo_livevideo_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
-    $autostart = $autoplay ? '&autoStart=1' : '';
+    $autostart = $autoplay ? '&amp;autoStart=1' : '';
     $output .= '<embed src="http://www.livevideo.com/flvplayer/embed/'. $embed . $autostart .'" type="application/x-shockwave-flash" quality="high" WIDTH="'. $width .'" HEIGHT="'. $height .'" wmode="transparent"></embed>';
   }
 

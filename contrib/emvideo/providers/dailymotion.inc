@@ -96,7 +96,7 @@ function emvideo_dailymotion_embedded_link($video_code) {
 function theme_emvideo_dailymotion_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
     if ($autoplay) {
-      $autoplay_value = '&autoStart=1';
+      $autoplay_value = '&amp;autoStart=1';
     }
     $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.dailymotion.com/swf/$embed". $autoplay_value ."\" id=\"VideoPlayback\">
       <param name=\"movie\" value=\"http://www.dailymotion.com/swf/$embed". $autoplay_value ."\" />

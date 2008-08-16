@@ -128,7 +128,7 @@ function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $heigh
         return '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
       case 'flv':
         $autostart = $autoplay ? 'true' : 'false';
-        return '<embed src="http://freevideocoding.com/flvplayer.swf?file='. $url .'&autoStart='. $autostart .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+        return '<embed src="http://freevideocoding.com/flvplayer.swf?file='. $url .'&amp;autoStart='. $autostart .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
     }
   }
 }

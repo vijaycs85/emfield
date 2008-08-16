@@ -65,9 +65,9 @@ function emvideo_veoh_embedded_link($video_code) {
 
 function theme_emvideo_veoh_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
-    $autoplay = $autoplay ? '&videoAutoPlay=1' : '&videoAutoPlay=0';
+    $autoplay = $autoplay ? '&amp;videoAutoPlay=1' : '&amp;videoAutoPlay=0';
 
-    $output .= '<embed src="http://www.veoh.com/videodetails2.swf?permalinkId='. $embed .'&id=9183600&player=videodetailsembedded'. $autoplay .'" allowFullScreen="true" width="'. $width .'" height="'. $height .'" bgcolor="#FFFFFF" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+    $output .= '<embed src="http://www.veoh.com/videodetails2.swf?permalinkId='. $embed .'&amp;id=9183600&amp;player=videodetailsembedded'. $autoplay .'" allowFullScreen="true" width="'. $width .'" height="'. $height .'" bgcolor="#FFFFFF" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
   }
   return $output;
 }

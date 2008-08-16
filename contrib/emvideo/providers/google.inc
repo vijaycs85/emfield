@@ -58,7 +58,7 @@ function emvideo_google_video_link($video_code) {
 
 function theme_emvideo_google_flash($embed, $width, $height, $autoplay) {
   if ($embed) {
-    $autoplay = $autoplay ? '&autoPlay=true' : '';
+    $autoplay = $autoplay ? '&amp;autoPlay=true' : '';
     // this will be executed by not Internet Explorer browsers
     $output = '<!--[if !IE]> <-->
   <object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'"
