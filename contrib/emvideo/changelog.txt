@@ -3,6 +3,7 @@
 August 2008
 -----------
  * Add support for swfobject to youtube, taking swfobject_api into account (aaron).
+#297760 - BenKewell fixed thickbox theming issues
 
 2008-07-18
 ----------

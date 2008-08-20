@@ -89,6 +89,10 @@ function emvideo_theme() {
         'arguments' => array('element' => NULL),
         'file' => 'emvideo.theme.inc'
     ),
+	'emvideo_formatter_thickbox' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
   );
   
   $themes += module_invoke('emfield', 'provider_themes', 'emvideo');

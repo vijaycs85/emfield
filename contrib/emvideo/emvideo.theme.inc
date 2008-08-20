@@ -143,7 +143,7 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
 function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
   $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, TRUE, $options);
 
-  $destination = 'video-cck/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'];
+  $destination = 'emvideo/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'];
   $options = array(
     'attributes' => array(
       'title' => $title,
@@ -188,4 +188,10 @@ function theme_emvideo_formatter_video_thumbnail($element) {
 function theme_emvideo_formatter_video_flash($element) {
   $field = content_fields($element['#field_name'], $element['#type_name']);
   return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+function theme_emvideo_formatter_thickbox($element) {
+  $field = content_fields($element['#field_name'],
+  $element['#type_name']);
+  $element['#item'], $element['#formatter'], $element['#node']);
+  return module_invoke('emvideo', 'field_formatter', $field,
 }
