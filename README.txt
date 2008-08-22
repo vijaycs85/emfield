@@ -4,37 +4,60 @@
  Embedded Media Field
 /*********************/
 
-Author: Aaron Winborn
+Author: Aaron Winborn (aaron)
+Mainanters: aaron + Alex Urevick-Ackelsberg (Alex UA)
 Development Began 2007-06-13
 
-Requires: Drupal 5, Content (CCK)
-Optional: Views
+Requires: Drupal 5 or 6, Content (CCK)
+Optional: Views, FeedAPI/FeedAPI Element Mapper (see this for instructions for importing Embedded Video Feeds: http://zivtech.com/blog/module-mashup-creating-a-feed-embedded-videos-using-emfield-feedapi-and-feedapimapper ), Media Actions, Asset, & Thickbox.
 
-This extensible module will create fields for node content types that can be used to display video, image, and audio files
-from various third party providers. When entering the content, the user will simply paste the URL or embed code
-from the third party, and the module will automatically determine which content provider is being used. When displaying
-the content, the proper embedding format will be used.
+The Embedded Media Field creates a field for nodes created with CCK to accept pasted URL's or embed code from various third party media content providers, such as YouTube and Flickr. It will then parse the URL to determine the provider, and display the media appropriately.
 
-The module is only an engine, and requires a supported module to function. These include 'Embedded Image Field', 'Embedded
-Video Field' and 'Embedded Audio Field'. These modules are included in the contrib folder of the module, so they can be easily
-activated from the module administration page.
+Currently, the module ships with Embedded Video Field, Embedded Image Field, and Embedded Audio Field. In addition, it has Embedded Media Import, to import photosets and playlists into individual nodes, when allowed by specific providers. Finally, it also ships with Embedded Media Thumbnail, which allows editors to override provider-supplied thumbnails with their own custom image thumbnails.
 
-*************************************
+The module also allows field & provider specific settings and overrides, such as autoplay, resized thumbnails or videos for teasers, RSS support, and YouTube's 'related videos'. You can turn off individual provider support on a field or global basis.
 
-The Embedded Image Field module currently only supports Flickr images. It creates a field that you can paste the url from a
-Flickr photo into, which will then display that photo in a configurable size, with a link either to the node or to the
-original page from Flickr.
+Currently supported providers:
 
-The Embedded Video Field module already supports YouTube, Google, Revver, MySpace, MetaCafe, JumpCut, BrightCove, SevenLoad,
-iFilm, Blip.TV, and Live Video video formats. More are planned to be supported soon. An api allows other third party video
-providers to be supported using simple include files and provided hooks. (Developers: examine the documentation of
-/providers/youtube.inc for help in adding support for new providers).
+Video:
 
-The Embedded Audio Field module will support third party audio content, such as Last.FM. It is still under development.
+    * Blip.TV
+    * Brightcove
+    * Daily Motion
+    * Google
+    * Guba
+    * JumpCut
+    * imeem
+    * Lastfm
+    * LiveVideo
+    * MetaCafe
+    * MySpace
+    * Revver
+    * SevenLoad
+    * Spike.TV
+    * Tudou
+    * Veoh
+    * Vimeo
+    * YouTube
+    * Local videos (when already uploaded in the files directory)
 
-The administer of a site may decide whether to allow all content providers, or only a certain number of them. They may
-further be limited when configuring the field.
+Image:
 
-Read the README.txt files in the individual contrib folders for more information.
+    * Flickr
+    * ImageShack
+    * PhotoBucket
+    * Picasa
 
-Questions can be directed to winborn at advomatic dot com
+Audio:
+
+    * Odeo
+    * Podcast Alley
+    * podOmatic
+
+You can:
+
+    * Administer emfield's general settings at administer >> content >> emfield
+    * Add embedded media fields to your content types at administer >> content >> types >> %YourType% >> add_field
+    * Manage teaser and full node display settings at administer >> content >> types >> %YourType% >> fields
+
+For the most up-to-date documentation, please see http://drupal.org/node/184346
