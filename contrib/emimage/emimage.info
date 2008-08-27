@@ -1,6 +1,6 @@
 ; $Id$
 name = Embedded Image Field
-description = Defines a field type for displaying images from third party providers, such as Flickr.
+description = Defines a field type for displaying images from third party providers, such as Flickr (Not ready for Drupal 6 yet).
 dependencies[] = emfield
 package = CCK
-core = 6.x
+core = 5.x
