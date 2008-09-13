@@ -1,5 +1,9 @@
 /* $Id$ */
 
+September 2008
+--------------
+ * Placeholder function to upgrade from video_cck (aaron).
+
 August 2008
 -----------
  * Add support for swfobject to youtube, taking swfobject_api into account (aaron).

@@ -10,7 +10,11 @@
  * Implementation of hook_install().
  */
 function emvideo_install() {
+  // Build any necessary tables.
   content_notify('install', 'emvideo');
+
+  // Fix up our mess from video_cck, if necessary.
+  _emvideo_upgrade_from_video_cck();
 }
 
 /**
@@ -32,6 +36,28 @@ function emvideo_enable() {
  */
 function emvideo_disable() {
   content_notify('disable', 'emvideo');
+}
+
+/**
+ *  Clean up our messes when migrating from video_cck.
+ */
+function _emvideo_upgrade_from_video_cck() {
+  // Do nothing if this is a new install. We know that if there are no existing fields with video_cck type. Hoorah!
+  if ($__TODO_REPLACE_WITH_PROPER_CHECK) {
+    return FALSE;
+  }
+  // First make sure the previous updates have been run. Some people may have been holding onto a really old version.
+  // On the one hand, we could tell them on the project page not to do that. But then we get to hear them complain
+  // in the issue queue. We're already half way there; I'd rather just take care of it.
+
+  // @TODO: Do really fancy hand-waving here.
+
+  // Now everyone is on a level playing field. We have to do our part now:
+  //   - Change any fields from 'video_cck' to 'emvideo' type.
+  //   - Fix up any messes we've left in views: I think that'll just be formatters.
+
+  // @TODO More hand-waving. Then take a bow.
+  return TRUE;
 }
 
 /**
@@ -126,7 +152,7 @@ function emvideo_update_4() {
 
 /**
  * Changed the data structure for blip.tv
- * 
+ *
  * TODO: This doesn't work. Thought data was cached?
  */
 function emvideo_update_5() {
