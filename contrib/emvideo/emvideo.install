@@ -11,16 +11,18 @@
  */
 function emvideo_install() {
   // Build any necessary tables.
+  drupal_load('module', 'content');
   content_notify('install', 'emvideo');
 
   // Fix up our mess from video_cck, if necessary.
-  _emvideo_upgrade_from_video_cck();
+  return _emvideo_upgrade_from_video_cck();
 }
 
 /**
  * Implementation of hook_uninstall().
  */
 function emvideo_uninstall() {
+  drupal_load('module', 'content');
   content_notify('uninstall', 'emvideo');
 }
 
@@ -28,6 +30,7 @@ function emvideo_uninstall() {
  * Implementation of hook_enable().
  */
 function emvideo_enable() {
+  drupal_load('module', 'content');
   content_notify('enable', 'emvideo');
 }
 
@@ -35,28 +38,85 @@ function emvideo_enable() {
  * Implementation of hook_disable().
  */
 function emvideo_disable() {
+  drupal_load('module', 'content');
   content_notify('disable', 'emvideo');
+}
+
+/**
+ *  Implementation of hook_requirements().
+ */
+function hook_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time
+  $t = get_t();
+
+  if ($phase == 'install') {
+    if (drupal_get_installed_schema_version('content') < 6000) {
+      drupal_set_message($t("Some updates are still pending. Please return to !update and run the remaining updates.", array('!update' => l($t(), 'update.php', array('query' => 'op=selection')))), 'warning');
+      $requirements['cck'] = array(
+        'title' => $('CCK'),
+        'description' => $t('Updates for content.module need to be run first.<br/>Please re-run the update script.'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
 }
 
 /**
  *  Clean up our messes when migrating from video_cck.
  */
-function _emvideo_upgrade_from_video_cck() {
+function _emvideo_upgrade_from_video_cck() {\
+  $ret = array();
+
   // Do nothing if this is a new install. We know that if there are no existing fields with video_cck type. Hoorah!
   if ($__TODO_REPLACE_WITH_PROPER_CHECK) {
-    return FALSE;
+    return $ret;
   }
-  // First make sure the previous updates have been run. Some people may have been holding onto a really old version.
+
+  // <Fancy Hand-Waving>
+
+  // Change any fields from 'video_cck' to 'emvideo' type.
+  db_query("UPDATE {content_node_field} SET (type='emvideo') WHERE type='video_cck'");
+
+  // Rebuild our content types.
+  content_clear_type_cache();
+
+  // Make sure the previous updates have been run. Some people may have been holding onto a really old version.
   // On the one hand, we could tell them on the project page not to do that. But then we get to hear them complain
   // in the issue queue. We're already half way there; I'd rather just take care of it.
 
-  // @TODO: Do really fancy hand-waving here.
+  // Load our existing fields.
+  $fields = content_fields();
 
-  // Now everyone is on a level playing field. We have to do our part now:
-  //   - Change any fields from 'video_cck' to 'emvideo' type.
-  //   - Fix up any messes we've left in views: I think that'll just be formatters.
+  // Some lazy folks may be upgrading from a pre-video_cck_update_2 site. Bad developer, bad!
+  foreach ($fields as $field) {
+    switch ($field['type']) {
+      case 'emvideo':
+        $columns = array(
+          'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => FALSE),
+        );
+        // The following line will actually trigger (negligible) warnings if we did things right.
+        // Thus we suppress the warnings. Good developer, good!
+        @content_alter_db_field(array(), array(), $field, $columns);
+      break;
+    }
+  }
 
-  // @TODO More hand-waving. Then take a bow.
+  // Fix any provider variables. Note that we may be updating from a pre video_cck_update_3 site,
+  // so we fix those sites too. Shame on them for not updating d5 first...
+  drupal_load('module', 'emfield');
+  foreach (emfield_system_list('emvideo') as $provider) {
+    $test = variable_get('emfield_video_cck_allow_'. $provider->name, NULL) || variable_get('video_cck_allow_'. $provider->name, NULL);
+    if (isset($test)) {
+      variable_set('emfield_emvideo_allow_'. $provider->name, $test);
+      variable_del('emfield_video_cck_allow_'. $provider->name);
+      variable_del('video_cck_allow_'. $provider->name);
+    }
+  }
+
+  // </Fancy Hand-Waving>
   return TRUE;
 }
 
