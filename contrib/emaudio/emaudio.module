@@ -357,23 +357,23 @@ function emaudio_theme() {
   return array(
     'emaudio_emaudio_embed' => array(
        'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	   'file' => 'emimage.theme.inc',
+	   'file' => 'emaudio.theme.inc',
     ),
     'emaudio_emaudio_thumbnail' => array(
 	 'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	 'file' => 'emimage.theme.inc',
+	 'file' => 'emaudio.theme.inc',
     ),
     'emaudio_audio_audio' => array(
       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	  'file' => 'emimage.theme.inc',
+	  'file' => 'emaudio.theme.inc',
     ),
     'emaudio_emaudio_preview' => array(
       'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	  'file' => 'emimage.theme.inc',
+	  'file' => 'emaudio.theme.inc',
     ),
     'emaudio_default' => array(
 	'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	'file' => 'emimage.theme.inc',
+	'file' => 'emaudio.theme.inc',
     ),
   );
 }
