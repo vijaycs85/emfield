@@ -37,6 +37,14 @@ function _emfield_nodeapi_rss(&$node, $op, $teaser = NULL, $page = NULL) {
 
   $enclosure = array();
   $rss = array();
+  
+  // Workaround for http://drupal.org/node/157709.
+  static $been_here = FALSE;
+  if (! $been_here) {
+    //$rss[] = array('namespace' => array('xmlns:media', 'http://search.yahoo.com/mrss/'));
+    $rss[] = array('namespace' => array('xmlns:media' => 'http://search.yahoo.com/mrss/'));
+    $been_here = TRUE;
+  }
 
   foreach ($files as $file) {
     // RRS2 enclosure http://cyber.law.harvard.edu/rss/rss.html#ltenclosuregtSubelementOfLtitemgt
@@ -115,13 +123,6 @@ function _emfield_nodeapi_rss(&$node, $op, $teaser = NULL, $page = NULL) {
       }
       $rss[] = array('key' => 'media:content', 'attributes' => $media, 'value' => array($mrss_thumbnail));
     }
-  }
-
-  // Workaround for http://drupal.org/node/157709.
-  static $been_here = FALSE;
-  if (! $been_here) {
-    $rss[] = array('namespace' => array('xmlns:media="http://search.yahoo.com/mrss/"'));
-    $been_here = TRUE;
   }
 
   $rss[] = $enclosure;
