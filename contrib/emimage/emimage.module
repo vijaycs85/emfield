@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * Embedded Image module is a handler for images hosted on an external site.
+ */
+
 define('EMIMAGE_LINK_NONE', 0);
 define('EMIMAGE_LINK_CONTENT', 'node');
 define('EMIMAGE_LINK_PROVIDER', 'provider');
@@ -15,7 +20,7 @@ define('EMIMAGE_DEFAULT_THUMBNAIL_HEIGHT', 180);
 define('EMIMAGE_DEFAULT_THUMBNAIL_LINK', EMIMAGE_LINK_CONTENT);
 
 /**
- *  Implement hook_ncck_info
+ *  Implement hook_emimage_info
  */
 function emimage_emfield_info() {
   return array(
@@ -25,7 +30,7 @@ function emimage_emfield_info() {
 }
 
 /**
- * Implement hook_ncck_settings
+ * Implement hook_emimage_settings
  */
 function emimage_emfield_settings() {
   $form = array();
@@ -52,41 +57,6 @@ function emimage_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
       return module_invoke('emfield', 'field_columns', $field);
-    case 'filters':
-      return array(
-        'not null' => array(
-          'name' => t('Has Embedded Image'),
-          'operator' => array('=' => t('Has Embedded Image')),
-          'list' => 'views_handler_operator_yesno',
-          'list-type' => 'select',
-          'handler' => 'emfield_views_handler_filter_is_not_null',
-          'help' => t('Selecting yes will choose only nodes with this field that successfully provide an embedded image.'),
-        ),
-        'provider' => array(
-          'name' => t('Image Provider'),
-          'list' => 'emfield_views_handler_filter_provider_list',
-          'list-type' => 'list',
-          'operator' => 'views_handler_operator_or',
-          'value-type' => 'array',
-          'handler' => 'emfield_views_handler_filter_provider',
-          'help' => t('Include or exclude images from the selected provider.'),
-        ),
-      );
-      break;
-    case 'arguments':
-      return array(
-        'content: '. $field['field_name'] => array(
-          'name' => t('Embedded Image: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
-          'handler' => 'content_views_argument_handler',
-          'help' => t('This is the default argument handler provided by CCK. It uses the original embed code or URL pasted into the field.'),
-        ),
-        'provider: '. $field['field_name'] => array(
-          'name' => t('Embedded Image Provider: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
-          'handler' => 'emimage_handler_arg_provider',
-          'help' => t('The Embedded Image Provider argument allows users to filter a view by specifying the image provider.'),
-        ),
-      );
-      break;
   }
 }
 
@@ -331,7 +301,8 @@ function emimage_theme(){
           'height' => NULL, 
           'title' => NULL, 
           'link' => NULL
-        )
+        ),
+	'file' => 'emimage.theme.inc',
     ),
     'emimage_image_embed' => array(
       'arguments' => array(
@@ -339,6 +310,7 @@ function emimage_theme(){
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
+	  'file' => 'emimage.theme.inc',
     ),
     'emimage_image_image' => array(
       'arguments' => array(
@@ -351,20 +323,23 @@ function emimage_theme(){
         'height' => NULL,
         'title' => '',
         'link' => NULL),
-    ),
+	  'file' => 'emimage.theme.inc',
+	),
     'emimage_image_thumbnail' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
-    ),
+	  'file' => 'emimage.theme.inc',    
+	),
     'emimage_image_full' => array(
       'arguments' => array(
         'field' => NULL,
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
+	  'file' => 'emimage.theme.inc',
     ),
     'emimage_image_preview' => array(
       'arguments' => array(
@@ -372,6 +347,7 @@ function emimage_theme(){
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
+	  'file' => 'emimage.theme.inc',
     ),
     'emimage_default' => array(
       'arguments' => array(
@@ -379,147 +355,32 @@ function emimage_theme(){
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
+	  'file' => 'emimage.theme.inc',
+		
     ),
     'emimage_formatter_image_image' => array(
-        'arguments' => array('element' => NULL)
+        'arguments' => array('element' => NULL),
+		'file' => 'emimage.theme.inc',
     ),
     'emimage_formatter_image_thumbnail' => array(
-        'arguments' => array('element' => NULL)
+        'arguments' => array('element' => NULL),
+		'file' => 'emimage.theme.inc',
     ),
     'emimage_formatter_image_embed' => array(
-        'arguments' => array('element' => NULL)
+        'arguments' => array('element' => NULL),
+		'file' => 'emimage.theme.inc',
     ),
     'emimage_formatter_image_preview' => array(
-        'arguments' => array('element' => NULL)
+        'arguments' => array('element' => NULL),
+		'file' => 'emimage.theme.inc',
     ),
     'emimage_formatter_default' => array(
-        'arguments' => array('element' => NULL)
+        'arguments' => array('element' => NULL),
+		'file' => 'emimage.theme.inc',
     )
   );
   
   $themes += module_invoke('emfield', 'provider_themes', 'emimage');
   
   return $themes;
-}
-
-function theme_emimage_formatter_image_image($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
-}
-
-function theme_emimage_formatter_image_embed($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
-}
-
-function theme_emimage_formatter_default($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
-}
-
-function theme_emimage_formatter_image_preview($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
-}
-
-function theme_emimage_formatter_image_thumbnail($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
-}
-
-function theme_emimage_image_embed($field, $item, $formatter, $node) {
-  if ($item['value'] && $item['provider']) {
-    $output = drupal_get_form('emimage_embed_form', $field, $item, $formatter, $node);
-  }
-  return $output;
-}
-
-function theme_emimage_image($field, $item, $formatter, $node, $code, $width, $height, $title = '', $link = NULL) {
-  $url = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_url', $code, $width, $height, $formatter, $field, $item, $node);
-  $attributes = array();
-  if ($width) {
-    $attributes['width'] = $width;
-  }
-  if ($height) {
-    $attributes['height'] = $height;
-  }
-  if ($item['class']){
-      $attributes['class'] = $item['class'];
-  }
-  else if ($item['provider']) {
-      $attributes['class'] = $item['provider'];
-  }
-  $output = theme('image', $url, $title, $title, $attributes, false);
-  
-  if ($link) {
-    $output = l($output, $link, array('html' => true));
-  }
-  return $output;
-}
-
-function theme_emimage_image_thumbnail($field, $item, $formatter, $node) {
-  if ($item['value'] && $item['provider']) {
-    $code = $item['value'];
-    $width = $field['widget']['thumbnail_width'] === '' ? variable_get('emimage_default_full_width', EMIMAGE_DEFAULT_FULL_WIDTH) : $field['widget']['thumbnail_width'];
-    $height = $field['widget']['thumbnail_height'] === '' ? variable_get('emimage_default_full_height', EMIMAGE_DEFAULT_FULL_HEIGHT) : $field['widget']['thumbnail_height'];
-    $link = $field['widget']['thumbnail_link'] ? $field['widget']['thumbnail_link'] : variable_get('emimage_default_thumbnail_link', EMIMAGE_DEFAULT_THUMBNAIL_LINK);
-    if ($link == EMIMAGE_LINK_CONTENT) {
-      $link = 'node/'. $node->nid;
-    }
-    else if ($link == EMIMAGE_LINK_PROVIDER) {
-      $link = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'embedded_link', $code, $item['data']);
-    }
-    else {
-      $link = NULL;
-    }
-    $title = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_title', $code, $item['data']);
-    $output = theme('emimage_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
-  }
-  return $output;
-}
-
-function theme_emimage_image_full($field, $item, $formatter, $node) {
-  if ($item['value'] && $item['provider']) {
-    $code = $item['value'];
-    $width = $field['widget']['full_width'] === '' ? variable_get('emimage_default_full_width', EMIMAGE_DEFAULT_FULL_WIDTH) : $field['widget']['full_width'];
-    $height = $field['widget']['full_height'] === '' ? variable_get('emimage_default_full_height', EMIMAGE_DEFAULT_FULL_HEIGHT) : $field['widget']['full_height'];
-    $link = $field['widget']['full_link'] ? $field['widget']['full_link'] : variable_get('emimage_default_full_link', EMIMAGE_DEFAULT_FULL_LINK);
-    if ($link == EMIMAGE_LINK_CONTENT) {
-      $link = 'node/'. $node->nid;
-    }
-    else if ($link == EMIMAGE_LINK_PROVIDER) {
-      $link = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'embedded_link', $code, $item['data']);
-    }
-    else {
-      $link = NULL;
-    }
-    $title = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_title', $code, $item['data']);
-    $output = theme('emimage_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
-  }
-  return $output;
-}
-
-function theme_emimage_default($field, $item, $formatter, $node) {
-  return theme('emimage_image_full', $field, $item, $formatter, $node);
-}
-
-function theme_emimage_image_preview($field, $item, $formatter, $node) {
-  if ($item['value'] && $item['provider']) {
-    $code = $item['value'];
-    $width = $field['widget']['preview_width'] === '' ? variable_get('emimage_default_preview_width', EMIMAGE_DEFAULT_PREVIEW_WIDTH) : $field['widget']['preview_width'];
-    $height = $field['widget']['preview_height'] === '' ? variable_get('emimage_default_preview_height', EMIMAGE_DEFAULT_PREVIEW_HEIGHT) : $field['widget']['preview_height'];
-    $link = $field['widget']['preview_link'] ? $field['widget']['preview_link'] : variable_get('emimage_default_preview_link', EMIMAGE_DEFAULT_PREVIEW_LINK);
-    if ($link == EMIMAGE_LINK_CONTENT) {
-      $link = 'node/'. $node->nid;
-    }
-    else if ($link == EMIMAGE_LINK_PROVIDER) {
-      $link = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'embedded_link', $code, $item['data']);
-    }
-    else {
-      $link = NULL;
-    }
-    $title = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_title', $code, $item['data']);
-    $output = theme('emimage_image', $field, $item, $formatter, $node, $code, $width, $height, $title, $link);
-  }
-  return $output;
 }
