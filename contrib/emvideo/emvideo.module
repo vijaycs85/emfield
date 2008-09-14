@@ -137,44 +137,7 @@ function emvideo_field_info() {
 function emvideo_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
-      return module_invoke('emfield', 'field_columns', $field);
-
-    case 'filters':
-      return array(
-        'not null' => array(
-          'name' => t('Has Embedded Video'),
-          'operator' => array('=' => t('Has Embedded Video')),
-          'list' => 'views_handler_operator_yesno',
-          'list-type' => 'select',
-          'handler' => 'emfield_views_handler_filter_is_not_null',
-          'help' => t('Selecting yes will choose only nodes with this field that successfully provide an embedded video.'),
-        ),
-        'provider' => array(
-          'name' => t('Video Provider'),
-          'list' => 'emfield_views_handler_filter_provider_list',
-          'list-type' => 'list',
-          'operator' => 'views_handler_operator_or',
-          'value-type' => 'array',
-          'handler' => 'emfield_views_handler_filter_provider',
-          'help' => t('Include or exclude videos from the selected provider.'),
-        ),
-      );
-      break;
-    
-    case 'arguments':
-      return array(
-        'content: '. $field['field_name'] => array(
-          'name' => t('Embedded Video: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
-          'handler' => 'content_views_argument_handler',
-          'help' => t('This is the default argument handler provided by CCK. It uses the original embed code or URL pasted into the field.'),
-        ),
-        'provider: '. $field['field_name'] => array(
-          'name' => t('Embedded Video Provider: @widget (@field)', array('@widget' => $field['widget']['label'], '@field' => $field['field_name'])),
-          'handler' => 'emvideo_handler_arg_provider',
-          'help' => t('The Embedded Video Provider argument allows users to filter a view by specifying the video provider.'),
-        ),
-      );
-      break;
+      return module_invoke('emfield', 'field_columns', $field);    
   }
 }
 
