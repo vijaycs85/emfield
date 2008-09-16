@@ -54,7 +54,7 @@ function hook_requirements($phase) {
     if (drupal_get_installed_schema_version('content') < 6000) {
       drupal_set_message($t("Some updates are still pending. Please return to !update and run the remaining updates.", array('!update' => l($t(), 'update.php', array('query' => 'op=selection')))), 'warning');
       $requirements['cck'] = array(
-        'title' => $('CCK'),
+        'title' => $t('CCK'),
         'description' => $t('Updates for content.module need to be run first.<br/>Please re-run the update script.'),
         'severity' => REQUIREMENT_ERROR,
       );
@@ -67,7 +67,7 @@ function hook_requirements($phase) {
 /**
  *  Clean up our messes when migrating from video_cck.
  */
-function _emvideo_upgrade_from_video_cck() {\
+function _emvideo_upgrade_from_video_cck() {
   $ret = array();
 
   // Do nothing if this is a new install. We know that if there are no existing fields with video_cck type. Hoorah!
