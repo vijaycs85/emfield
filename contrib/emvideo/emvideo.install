@@ -91,18 +91,19 @@ function _emvideo_upgrade_from_video_cck() {
   $fields = content_fields();
 
   // Some lazy folks may be upgrading from a pre-video_cck_update_2 site. Bad developer, bad!
-  foreach ($fields as $field) {
-    switch ($field['type']) {
-      case 'emvideo':
-        $columns = array(
-          'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => FALSE),
-        );
-        // The following line will actually trigger (negligible) warnings if we did things right.
-        // Thus we suppress the warnings. Good developer, good!
-        @content_alter_db_field(array(), array(), $field, $columns);
-      break;
-    }
-  }
+  // @TODO: decide if we want to figure this out or force people to update entirely in d5 first...
+//   foreach ($fields as $field) {
+//     switch ($field['type']) {
+//       case 'emvideo':
+//         $columns = array(
+//           'data' => array('type' => 'longtext', 'not null' => TRUE, 'default' => "''", 'sortable' => FALSE),
+//         );
+//         // The following line will actually trigger (negligible) warnings if we did things right.
+//         // Thus we suppress the warnings. Good developer, good!
+//         @content_alter_db_field(array(), array(), $field, $columns);
+//       break;
+//     }
+//   }
 
   // Fix any provider variables. Note that we may be updating from a pre video_cck_update_3 site,
   // so we fix those sites too. Shame on them for not updating d5 first...

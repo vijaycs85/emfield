@@ -2,6 +2,7 @@
 
 September 2008
 --------------
+ * Comment some code in upgrade to d6 that might cause a complaint (aaron).
  * Begin upgrade from d5 to d6 (aaron).
  * Add drupal_load('module', 'content'); to install/uninstall process (aaron).
  * Placeholder function to upgrade from video_cck (aaron).
