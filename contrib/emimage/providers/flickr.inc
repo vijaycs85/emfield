@@ -24,15 +24,14 @@ define('EMIMAGE_FLICKR_REST_ENDPOINT', 'http://api.flickr.com/services/rest/');
  */
 
 function emimage_flickr_info() {
-  $name = t('Flickr');
   $features = array(
     array(t('Import photosets'), t('Yes'), t('If you have the Embedded Media Import module activated, you may allow @name photosets to be imported into content.', array('@name' => $name))),
   );
   return array(
     'provider' => 'flickr',
-    'name' => $name,
+    'name' => t('Flickr'),
     'url' => EMIMAGE_FLICKR_MAIN_URL,
-    'settings_description' => t('These settings specifically affect images displayed from !flickr.', array('!flickr' => l($name, EMIMAGE_FLICKR_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMIMAGE_FLICKR_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect images displayed from <a href="@flickr" target="_blank">Flickr</a>.', array('@flickr' => EMIMAGE_FLICKR_MAIN_URL)),
     'supported_features' => $features,
     'import_sets_word' => t('photosets'),
   );
@@ -91,7 +90,7 @@ function emimage_flickr_settings() {
   $form['flickr']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Flickr API'),
-    '#description' => t('You will first need to apply for an API Developer Key from the !flickr.', array('!flickr' => l(t('Flickr Developer Profile page'), EMIMAGE_FLICKR_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('You will first need to apply for an API Developer Key from the <a href="@flickr" target="_blank">Flickr Developer Profile page</a>.', array('@flickr' => EMIMAGE_FLICKR_API_APPLICATION_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => (variable_get('emimage_flickr_api_key', '') != ''),
   );
@@ -155,11 +154,11 @@ function emimage_flickr_error_check() {
   static $checked;
   if (!$checked && (variable_get('emimage_flickr_api_key', '') == '')) {
     global $user;
-    $error = t('You do not yet have a Flickr API key set. You will need to !apply and enter your key at the !settings before Flickr images may be displayed.', array('!apply' => l(t('apply for a Flickr API key'), EMIMAGE_FLICKR_API_APPLICATION_URL, array('target' => '_blank')), '!settings' => l(t('settings administration page'), 'admin/content/emfield')));
+    $error = t('You do not yet have a Flickr API key set. You will need to <a href="@apply" target="_blank">apply for a Flickr API key</a> and enter your key at the <a href="@settings">settings administration page</a> before Flickr images may be displayed.', array('@apply' => EMIMAGE_FLICKR_API_APPLICATION_URL, '@settings' => url('admin/content/emfield')));
     if (user_access('administer site configuration')) {
       drupal_set_message($error, 'error');
     }
-    watchdog('Embedded Media Field', $error);
+    watchdog('Embedded Media Field', '!error', array('!error' => $error));
   }
   $checked = TRUE;
 }

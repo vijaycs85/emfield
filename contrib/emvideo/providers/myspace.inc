@@ -9,7 +9,6 @@
 define('EMVIDEO_MYSPACE_MAIN_URL', 'http://vids.myspace.com/index.cfm?fuseaction=vids.videos');
 
 function emvideo_myspace_info() {
-  $name = t('MySpace');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -17,9 +16,9 @@ function emvideo_myspace_info() {
   );
   return array(
     'provider' => 'myspace',
-    'name' => $name,
+    'name' => t('MySpace'),
     'url' => EMVIDEO_MYSPACE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_MYSPACE_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">MySpace</a>.', array('@provider' => EMVIDEO_MYSPACE_MAIN_URL)),
     'supported_features' => $features,
   );
 }

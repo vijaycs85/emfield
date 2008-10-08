@@ -10,7 +10,6 @@ define('EMVIDEO_REVVER_MAIN_URL', 'http://one.revver.com/revver');
 define('EMVIDEO_REVVER_AFFILIATE_PROGRAM_URL', 'http://one.revver.com/revver/go/faq#makingmoney1');
 
 function emvideo_revver_info() {
-  $name = t('Revver');
   $features = array(
     array(t('Affliate program'), t('Yes'), t('Not currently supported by other providers. Set affiliate ID above.')),
     array(t('Autoplay'), t('Yes'), ''),
@@ -19,9 +18,9 @@ function emvideo_revver_info() {
   );
   return array(
     'provider' => 'revver',
-    'name' => $name,
+    'name' => t('Revver'),
     'url' => EMVIDEO_REVVER_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_REVVER_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">Revver</a>.', array('@provider' => EMVIDEO_REVVER_MAIN_URL)),
     'supported_features' => $features,
   );
 }
@@ -31,7 +30,7 @@ function emvideo_revver_settings() {
   $form['revver']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Revver affiliate program'),
-    '#description' => t('You may share ad revenue if you publish Revver videos through their !program.', array('!program' => l('Affiliate Program', EMVIDEO_REVVER_AFFILIATE_PROGRAM_URL, array('target' => '_blank')))),
+    '#description' => t('You may share ad revenue if you publish Revver videos through their <a href="@program" target="_blank">Affiliate Program</a>.', array('@program' => EMVIDEO_REVVER_AFFILIATE_PROGRAM_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );

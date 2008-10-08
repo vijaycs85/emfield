@@ -309,7 +309,7 @@ function _emthumb_widget_form($node, $field, $items) {
 //   $form = array();
   $form = array(
     '#type' => 'fieldset',
-    '#title' => t($field['widget']['emthumb_label'] ? $field['widget']['emthumb_label'] :  t('@field custom thumbnail', array('@field' => $field['widget']['label']))),
+    '#title' => $field['widget']['emthumb_label'] ? $field['widget']['emthumb_label'] :  t('@field custom thumbnail', array('@field' => $field['widget']['label'])),
     '#weight' => $field['widget']['emthumb_weight'],
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
@@ -359,7 +359,7 @@ function _emthumb_widget_form($node, $field, $items) {
   //drupal_set_message('imagefield['. $fieldname .'] '. $op .' node field: <pre>'. print_r($items, true) .'</pre>');
     $form['emthumb']['description'] = array(
       '#type' => 'markup',
-      '#value' => '<strong>'. t('Filename: ') .'</strong>'. $file['filename'],
+      '#value' => '<strong>'. t('Filename:') .' </strong>'. $file['filename'],
     );
 
     $form['emthumb']['emthumb_alt'] = array(

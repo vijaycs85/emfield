@@ -291,7 +291,7 @@ function emvideo_widget_settings($op, $widget) {
         $form['tn'] = array(
           '#type' => 'fieldset',
           '#title' => t('Thumbnail'),
-          '#description' => t('When displayed as a thumbnail, these settings control the image returned. Note that not all 3rd party video content providers offer thumbnails, and others may require an API key or other requirements. More information from the !settings. The default size for thumbnails is @widthx@height.', array('!settings' => l(t('settings page'), 'admin/content/emfield'), '@width' => $width, '@height' => $height)),
+          '#description' => t('When displayed as a thumbnail, these settings control the image returned. Note that not all 3rd party video content providers offer thumbnails, and others may require an API key or other requirements. More information from the <a href="@settings">settings page</a>. The default size for thumbnails is @widthx@height.', array('@settings' => url('admin/content/emfield'), '@width' => $width, '@height' => $height)),
           '#collapsible' => true,
           '#collapsed' => false,
         );
@@ -310,14 +310,14 @@ function emvideo_widget_settings($op, $widget) {
           '#description' => t('The height of the thumbnail. It defaults to @height.', array('@height' => $height)),
         );
         if (!module_exists('emthumb')) {
-          $tn_desc = t(' You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis.');
+          $tn_desc = ' '. t('You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis.');
         }
 		$default_path = variable_get('emvideo_default_thumbnail_path', '');
         $form['tn']['thumbnail_default_path'] = array(
           '#type' => 'textfield',
           '#title' => t('Default thumbnail path'),
           '#default_value' => empty($widget['thumbnail_default_path']) ? $default_path : $widget['thumbnail_default_path'],
-          '#description' => t('Path to a local default thumbnail image for cases when a thumbnail can\'t be found. For example, you might have a default thumbnail at %files.', array('%files' => 'files/thumbnail.png')) . $tn_desc,
+          '#description' => t("Path to a local default thumbnail image for cases when a thumbnail can't be found. For example, you might have a default thumbnail at %files.", array('%files' => 'files/thumbnail.png')) . $tn_desc,
         );
       }
       return $form;

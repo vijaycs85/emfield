@@ -17,17 +17,16 @@ define('EMVIDEO_VIMEO_COLOR_DEFAULT', '#01AAEA');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emvideo_vimeo_info() {
-  $name = t('Vimeo');
   $features = array(
-    array(t('Custom player color'), t('Yes'), t('You may customize the player\'s skin by choosing your own color.')),
+    array(t('Custom player color'), t('Yes'), t("You may customize the player's skin by choosing your own color.")),
     array(t('Thumbnails'), t('Yes'), t('You may select the size of thumbnail to request from Vimeo.')),
     array(t('Full screen mode'), t('Yes'), t('You may customize the player to enable or disable full screen playback. Full screen mode is enabled by default.')),
   );
   return array(
     'provider' => 'vimeo',
-    'name' => $name,
+    'name' => t('Vimeo'),
     'url' => EMVIDEO_VIMEO_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider. You can learn more about its !api here.', array('!provider' => l($name, EMVIDEO_VIMEO_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMVIDEO_VIMEO_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">Vimeo</a>. You can learn more about its <a href="@api" target="_blank">API</a> here.', array('@provider' => EMVIDEO_VIMEO_MAIN_URL, '@api' => EMVIDEO_VIMEO_API_INFO)),
     'supported_features' => $features,
   );
 }
@@ -67,7 +66,7 @@ function emvideo_vimeo_settings() {
     '#title' => t('On-screen info'),
     '#default_value' => variable_get('emvideo_vimeo_on_screen_info', array('portrait', 'title', 'byline')),
   '#options' => array(
-      'portrait' => t('Show video author\'s portrait'),
+      'portrait' => t("Show video author's portrait"),
       'title' => t('Show video title'),
       'byline' => t('Show byline'),
     ),

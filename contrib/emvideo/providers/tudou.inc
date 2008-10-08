@@ -15,7 +15,6 @@ define('EMVIDEO_TUDOU_MAIN_URL', 'http://www.tudou.com/');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emvideo_tudou_info() {
-  $name = t('Tudou');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -23,9 +22,9 @@ function emvideo_tudou_info() {
   );
   return array(
     'provider' => 'tudou',
-    'name' => $name,
+    'name' => t('Tudou'),
     'url' => EMVIDEO_TUDOU_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !tudou.', array('!tudou' => l($name, EMVIDEO_TUDOU_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@tudou" target="_blank">Tudou</a>.', array('@tudou' => EMVIDEO_TUDOU_MAIN_URL)),
     'supported_features' => $features,
   );
 }

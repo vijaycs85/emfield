@@ -11,7 +11,6 @@ define('EMVIDEO_GOOGLE_XML', 'http://video.google.com/videofeed');
 define('EMVIDEO_GOOGLE_DOMAIN_DEFAULT', 'com');
 
 function emvideo_google_info() {
-  $name = t('Google');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('Yes'), ''),
@@ -19,9 +18,9 @@ function emvideo_google_info() {
   );
   return array(
     'provider' => 'google',
-    'name' => $name,
+    'name' => t('Google'),
     'url' => EMVIDEO_GOOGLE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !google.', array('!google' => l($name, EMVIDEO_GOOGLE_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@google" target="_blank">Google</a>.', array('@google' => EMVIDEO_GOOGLE_MAIN_URL)),
     'supported_features' => $features,
   );
 }

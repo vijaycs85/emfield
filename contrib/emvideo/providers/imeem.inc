@@ -7,7 +7,6 @@ define('EMVIDEO_IMEEM_API_APPLICATION_URL', 'http://www.imeem.com/developers/');
 define('EMVIDEO_IMEEM_XML', 'http://www.imeem.com/api/xml/mediaGetInfo?&amp;mediaIds=');
 
 function emvideo_imeem_info() {
-  $name = t('IMEEM');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -16,9 +15,9 @@ function emvideo_imeem_info() {
   );
   return array(
     'provider' => 'imeem',
-    'name' => $name,
+    'name' => t('IMEEM'),
     'url' => EMVIDEO_IMEEM_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !imeem. You can learn more about its !api here.', array('!imeem' => l($name, EMVIDEO_IMEEM_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMVIDEO_IMEEM_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@imeem" target="_blank">IMEEM</a>. You can learn more about its <a href="@api" target="_blank">API</a> here.', array('@imeem' => EMVIDEO_IMEEM_MAIN_URL, '@api' => EMVIDEO_IMEEM_API_INFO)),
     'supported_features' => $features,
   );
 }
@@ -27,7 +26,7 @@ function emvideo_imeem_settings() {
   $form['imeem']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('IMEEM API'),
-    '#description' => t('If you wish to be able to display IMEEM thumbnails automatically, you will first need to apply for an API Developer Key from the !imeem. Note that you do not need this key to display IMEEM videos themselves.', array('!imeem' => l('IMEEM Developer Profile page', EMVIDEO_IMEEM_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('If you wish to be able to display IMEEM thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@imeem" target="_blank">IMEEM Developer Profile page</a>. Note that you do not need this key to display IMEEM videos themselves.', array('@imeem' => EMVIDEO_IMEEM_API_APPLICATION_URL)),
     '#collapsible' => true,
     '#collapsed' => true,
   );

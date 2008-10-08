@@ -78,7 +78,7 @@ function _emvideo_upgrade_from_video_cck() {
   // <Fancy Hand-Waving>
 
   // Change any fields from 'video_cck' to 'emvideo' type.
-  db_query("UPDATE {content_node_field} SET (type='emvideo') WHERE type='video_cck'");
+  db_query("UPDATE {content_node_field} SET type='emvideo' WHERE type='video_cck'");
 
   // Rebuild our content types.
   content_clear_type_cache();

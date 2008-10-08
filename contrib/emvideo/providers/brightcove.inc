@@ -18,7 +18,6 @@ define('EMVIDEO_BRIGHTCOVE_MAIN_URL', 'http://www.brightcove.tv/');
  *   'settings_description' => a description of the provider that will be posted in the admin settings form
  */
 function emvideo_brightcove_info() {
-  $name = t('Brightcove');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -26,9 +25,9 @@ function emvideo_brightcove_info() {
   );
   return array(
     'provider' => 'brightcove',
-    'name' => $name,
+    'name' => t('Brightcove'),
     'url' => EMVIDEO_BRIGHTCOVE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !brightcove.', array('!brightcove' => l($name, EMVIDEO_BRIGHTCOVE_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@brightcove" target="_blank">Brightcove</a>.', array('@brightcove' => EMVIDEO_BRIGHTCOVE_MAIN_URL)),
     'supported_features' => $features,
   );
 }

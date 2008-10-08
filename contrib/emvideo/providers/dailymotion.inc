@@ -20,7 +20,6 @@ define('EMVIDEO_DAILYMOTION_MAIN_URL', 'http://www.dailymotion.com/');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emvideo_dailymotion_info() {
-  $name = t('Dailymotion');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -28,9 +27,9 @@ function emvideo_dailymotion_info() {
   );
   return array(
     'provider' => 'dailymotion',
-    'name' => $name,
+    'name' => t('Dailymotion'),
     'url' => EMVIDEO_DAILYMOTION_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !dailymotion. You can learn more about its !api here.', array('!dailymotion' => l($name, EMVIDEO_DAILYMOTION_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@dailymotion" target="_blank">Dailymotion</a>.', array('@dailymotion' => EMVIDEO_DAILYMOTION_MAIN_URL)),
     'supported_features' => $features,
   );
 }

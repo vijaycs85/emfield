@@ -18,7 +18,6 @@ define('EMVIDEO_SEVENLOAD_MAIN_URL', 'http://www.sevenload.com/');
  *   'settings_description' => a description of the provider that will be posted in the admin settings form
  */
 function emvideo_sevenload_info() {
-  $name = t('Sevenload');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -26,9 +25,9 @@ function emvideo_sevenload_info() {
   );
   return array(
     'provider' => 'sevenload',
-    'name' => $name,
+    'name' => t('Sevenload'),
     'url' => EMVIDEO_SEVENLOAD_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_SEVENLOAD_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">Sevenload</a>.', array('@provider' => EMVIDEO_SEVENLOAD_MAIN_URL)),
     'supported_features' => $features,
   );
 }

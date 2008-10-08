@@ -9,7 +9,6 @@
 define('EMVIDEO_METACAFE_MAIN_URL', 'http://www.metacafe.com/');
 
 function emvideo_metacafe_info() {
-  $name = t('MetaCafe');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -17,9 +16,9 @@ function emvideo_metacafe_info() {
   );
   return array(
     'provider' => 'metacafe',
-    'name' => $name,
+    'name' => t('MetaCafe'),
     'url' => EMVIDEO_METACAFE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_METACAFE_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">MetaCafe</a>.', array('@provider' => EMVIDEO_METACAFE_MAIN_URL)),
     'supported_features' => $features,
   );
 }

@@ -21,13 +21,12 @@ define('EMIMAGE_PHOTOBUCKET_MAIN_URL', 'http://www.photobucket.com/');
  */
 
 function emimage_photobucket_info() {
-  $name = t('Photobucket');
   $features = array();
   return array(
     'provider' => 'photobucket',
-    'name' => $name,
+    'name' => t('Photobucket'),
     'url' => EMIMAGE_PHOTOBUCKET_MAIN_URL,
-    'settings_description' => t('These settings specifically affect images displayed from !photobucket.', array('!photobucket' => l($name, EMIMAGE_PHOTOBUCKET_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect images displayed from <a href="@photobucket" target="_blank">Photobucket</a>.', array('@photobucket' => EMIMAGE_PHOTOBUCKET_MAIN_URL)),
     'supported_features' => $features,
   );
 }

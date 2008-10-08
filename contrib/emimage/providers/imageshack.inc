@@ -21,13 +21,12 @@ define('EMIMAGE_IMAGESHACK_MAIN_URL', 'http://www.imageshack.us/');
  */
 
 function emimage_imageshack_info() {
-  $name = t('ImageShack');
   $features = array();
   return array(
     'provider' => 'imageshack',
-    'name' => $name,
+    'name' => t('ImageShack'),
     'url' => EMIMAGE_IMAGESHACK_MAIN_URL,
-    'settings_description' => t('These settings specifically affect images displayed from !imageshack.', array('!imageshack' => l($name, EMIMAGE_IMAGESHACK_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect images displayed from <a href="@imageshack" target="_blank">ImageShack</a>.', array('@imageshack' => EMIMAGE_IMAGESHACK_MAIN_URL)),
     'supported_features' => $features,
   );
 }

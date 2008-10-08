@@ -15,7 +15,6 @@ define('EMVIDEO_LASTFM_MAIN_URL', 'http://www.lastfm.com/');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emvideo_lastfm_info() {
-  $name = t('Last.fm');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -23,9 +22,9 @@ function emvideo_lastfm_info() {
   );
   return array(
     'provider' => 'lastfm',
-    'name' => $name,
+    'name' => t('Last.fm'),
     'url' => EMVIDEO_LASTFM_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !lastfm.', array('!lastfm' => l($name, EMVIDEO_LASTFM_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@lastfm" target="_blank">Last.fm</a>.', array('@lastfm' => EMVIDEO_LASTFM_MAIN_URL)),
     'supported_features' => $features,
   );
 }

@@ -21,7 +21,6 @@ define('EMAUDIO_ODEO_MAIN_URL', 'http://odeo.com/');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emaudio_odeo_info() {
-  $name = t('odeo');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -29,9 +28,9 @@ function emaudio_odeo_info() {
   );
   return array(
     'provider' => 'odeo',
-    'name' => $name,
+    'name' => t('odeo'),
     'url' => EMAUDIO_ODEO_MAIN_URL,
-    'settings_description' => t('These settings specifically affect audio podcasts displayed from !odeo.', array('!odeo' => l($name, EMAUDIO_ODEO_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect audio podcasts displayed from <a href="@odeo" target="_blank">odeo</a>.', array('@odeo' => EMAUDIO_ODEO_MAIN_URL)),
     'supported_features' => $features,
   );
 }

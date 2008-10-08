@@ -163,7 +163,7 @@ function emimage_widget_settings($op, $widget) {
         $form['full']['full_link'] = array(
           '#type' => 'select',
           '#title' => t('Full size link'),
-          '#description' => t('Where the image will link when displayed in its full size. \'Content\' links to the content page, \'provider\' links to the provider\'s image page, and \'none\' displays the image with no link.'),
+          '#description' => t("Where the image will link when displayed in its full size. 'Content' links to the content page, 'provider' links to the provider's image page, and 'none' displays the image with no link."),
           '#options' => $link_options,
           '#default_value' => empty($widget['full_link']) ? $full_link : $widget['full_link'],
         );
@@ -195,7 +195,7 @@ function emimage_widget_settings($op, $widget) {
         $form['preview']['preview_link'] = array(
           '#type' => 'select',
           '#title' => t('Preview size link'),
-          '#description' => t('Where the image will link when displayed in its preview size. \'Content\' links to the content page, \'provider\' links to the provider\'s image page, and \'none\' displays the image with no link.'),
+          '#description' => t("Where the image will link when displayed in its preview size. 'Content' links to the content page, 'provider' links to the provider's image page, and 'none' displays the image with no link."),
           '#options' => $link_options,
           '#default_value' => empty($widget['full_link']) ? $full_link : $widget['full_link'],
         );
@@ -226,7 +226,7 @@ function emimage_widget_settings($op, $widget) {
         $form['tn']['thumbnail_link'] = array(
           '#type' => 'select',
           '#title' => t('Image thumbnail link'),
-          '#description' => t('Where the image will link when displayed as a thumbnail. \'Content\' links to the content page, \'provider\' links to the provider\'s image page, and \'none\' displays the image with no link.'),
+          '#description' => t("Where the image will link when displayed as a thumbnail. 'Content' links to the content page, 'provider' links to the provider's image page, and 'none' displays the image with no link."),
           '#options' => $link_options,
           '#default_value' => empty($widget['thumbnail_link']) ? $thumb_link : $widget['thumbnail_link'],
         );

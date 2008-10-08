@@ -21,7 +21,6 @@ define('EMAUDIO_PODCASTALLEY_MAIN_URL', 'http://www.podcastalley.com');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emaudio_podcastalley_info() {
-  $name = t('Podcast Alley');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -30,9 +29,9 @@ function emaudio_podcastalley_info() {
 
   return array(
     'provider' => 'Podcast Alley',
-    'name' => $name,
+    'name' => t('Podcast Alley'),
     'url' => EMAUDIO_PODCASTALLEY_MAIN_URL,
-    'settings_description' => t('These settings specifically affect audio podcasts displayed from !podcastalley.', array('!podcastalley' => l($name, EMAUDIO_PODCASTALLEY_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect audio podcasts displayed from <a href="@podcastalley" target="_blank">Podcast Alley</a>.', array('@podcastalley' => EMAUDIO_PODCASTALLEY_MAIN_URL)),
     'supported_features' => $features,
   );
 }

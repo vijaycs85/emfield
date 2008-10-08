@@ -25,19 +25,18 @@ define('EMVIDEO_YOUTUBE_COLOR2_DEFAULT', '#CCCCCC');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emvideo_youtube_info() {
-  $name = t('YouTube');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('Yes'), ''),
     array(t('Show related videos'), t('Yes'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
     array(t('Thumbnails'), t('Yes'), t('')),
-    array(t('Custom player colors'), t('Yes'), t('You may customize the player\'s skin by choosing your own colors, and/or border in that setting field set.')),
+    array(t('Custom player colors'), t('Yes'), t("You may customize the player's skin by choosing your own colors, and/or border in that setting field set.")),
   );
   return array(
     'provider' => 'youtube',
-    'name' => $name,
+    'name' => t('YouTube'),
     'url' => EMVIDEO_YOUTUBE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !youtube. You can learn more about its !api here.', array('!youtube' => l($name, EMVIDEO_YOUTUBE_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMVIDEO_YOUTUBE_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@youtube" target="_blank">YouTube</a>. You can learn more about its <a href="@api" target="_blank">API</a> here.', array('@youtube' => EMVIDEO_YOUTUBE_MAIN_URL, '@api' => EMVIDEO_YOUTUBE_API_INFO)),
     'supported_features' => $features,
   );
 }
@@ -58,7 +57,7 @@ function emvideo_youtube_settings() {
   $form['youtube']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('YouTube API'),
-    '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the !youtube. Note that you do not need this key to display YouTube videos or their thumbnails.', array('!youtube' => l('YouTube Developer Profile page', EMVIDEO_YOUTUBE_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the <a href="@youtube" target="_blank">YouTube Developer Profile page</a>. Note that you do not need this key to display YouTube videos or their thumbnails.', array('@youtube' => EMVIDEO_YOUTUBE_API_APPLICATION_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
@@ -118,7 +117,7 @@ function emvideo_youtube_settings() {
     );
   }
   else {
-    $form['youtube']['colors']['#description'] .= t(' The !colorpicker, if active, gives an easy way to select these colors.', array('!colorpicker' => l(t('Colorpicker module'), 'http://drupal.org/project/colorpicker')));
+    $form['youtube']['colors']['#description'] .= ' '. t('The <a href="@colorpicker">Colorpicker module</a>, if active, gives an easy way to select these colors.', array('@colorpicker' => 'http://drupal.org/project/colorpicker'));
   }
   return $form;
 }

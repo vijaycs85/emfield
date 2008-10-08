@@ -9,7 +9,6 @@
 define('EMVIDEO_SPIKE_MAIN_URL', 'http://www.spike.com/');
 
 function emvideo_spike_info() {
-  $name = t('Spike TV');
   $features = array(
     array(t('Autoplay'), t('No'), t('In the works...')),
     array(t('RSS Attachment'), t('No'), ''),
@@ -17,9 +16,9 @@ function emvideo_spike_info() {
   );
   return array(
     'provider' => 'spike tv',
-    'name' => $name,
+    'name' => t('Spike TV'),
     'url' => EMVIDEO_SPIKE_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !spike.', array('!spike' => l($name, EMVIDEO_SPIKE_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@spike" target="_blank">Spike TV</a>.', array('@spike' => EMVIDEO_SPIKE_MAIN_URL)),
     'supported_features' => $features,
   );
 }

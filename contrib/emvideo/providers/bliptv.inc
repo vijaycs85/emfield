@@ -10,7 +10,6 @@ define('EMVIDEO_BLIPTV_MAIN_URL', 'http://blip.tv/');
 define('EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE', 'flv');
 
 function emvideo_bliptv_info() {
-  $name = t('Blip.tv');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS attachment'), t('Yes'), t('When displaying in an RSS feed, these videos will be attached to the feed. (The feed reader or aggregator must support enclosure tags.)')),
@@ -18,9 +17,9 @@ function emvideo_bliptv_info() {
   );
   return array(
     'provider' => 'bliptv',
-    'name' => $name,
+    'name' => t('Blip.tv'),
     'url' => EMVIDEO_BLIPTV_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_BLIPTV_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">Blip.tv</a>.', array('@provider' => EMVIDEO_BLIPTV_MAIN_URL)),
     'supported_features' => $features,
   );
 }

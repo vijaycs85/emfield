@@ -23,7 +23,6 @@ define('EMVIDEO_LIVEVIDEO_REST_ENDPOINT', 'http://www.livevideo.com/api/');
  *      These will be rendered in a table, with the columns being 'Feature', 'Supported', 'Notes'.
  */
 function emvideo_livevideo_info() {
-  $name = t('Live Video');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -32,9 +31,9 @@ function emvideo_livevideo_info() {
 
   return array(
     'provider' => 'livevideo',
-    'name' => $name,
+    'name' => t('Live Video'),
     'url' => EMVIDEO_LIVEVIDEO_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !livevideo. You can learn more about its !api here.', array('!livevideo' => l($name, EMVIDEO_LIVEVIDEO_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMVIDEO_LIVEVIDEO_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@livevideo" target="_blank">Live Video</a>. You can learn more about its <a href="@api" target="_blank">API</a> here.', array('@livevideo' => EMVIDEO_LIVEVIDEO_MAIN_URL, '@api' => EMVIDEO_LIVEVIDEO_API_INFO)),
     'supported_features' => $features,
   );
 }
@@ -49,7 +48,7 @@ function emvideo_livevideo_settings() {
   $form['livevideo']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Live Video API'),
-    '#description' => t('If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the !livevideo. Note that you do not need this key to display Live Video videos themselves.', array('!livevideo' => l('Live Video Developer Profile page', EMVIDEO_LIVEVIDEO_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@livevideo" target="_blank">Live Video Developer Profile page</a>. Note that you do not need this key to display Live Video videos themselves.', array('@livevideo' => EMVIDEO_LIVEVIDEO_API_APPLICATION_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );

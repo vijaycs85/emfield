@@ -9,7 +9,6 @@
 define('EMVIDEO_JUMPCUT_MAIN_URL', 'http://jumpcut.com/');
 
 function emvideo_jumpcut_info() {
-  $name = t('JumpCut');
   $features = array(
     array(t('Autoplay'), t('No'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -17,9 +16,9 @@ function emvideo_jumpcut_info() {
   );
   return array(
     'provider' => 'jumpcut',
-    'name' => $name,
+    'name' => t('JumpCut'),
     'url' => EMVIDEO_JUMPCUT_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !provider.', array('!provider' => l($name, EMVIDEO_JUMPCUT_MAIN_URL, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">JumpCut</a>.', array('@provider' => EMVIDEO_JUMPCUT_MAIN_URL)),
     'supported_features' => $features,
   );
 }

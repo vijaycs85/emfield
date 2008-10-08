@@ -21,7 +21,7 @@ function emvideo_zzz_custom_url_info() {
     'provider' => 'zzz_custom_url',
     'name' => $name,
     'url' => '',
-    'settings_description' => t('These settings specifically affect videos displayed from custom URL\'s. When a field uses a URL it determines to be a link directly to a video file, it will embed that file into the content.'),
+    'settings_description' => t('These settings specifically affect videos displayed from custom URLs. When a field uses a URL it determines to be a link directly to a video file, it will embed that file into the content.'),
     'supported_features' => $features,
     'weight' => 9,
   );

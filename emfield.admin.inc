@@ -11,7 +11,7 @@
  */
 function emfield_settings() {
   if (!module_exists('emvideo') && !module_exists('emimage') && !module_exists('emaudio')) {
-    drupal_set_message(t('The Embedded Media Field module does nothing on its own. You should also install the Embedded Video Field, Embedded Image Field, and/or Embedded Audio Field modules from the !modules. (If you do not see them listed there, under the CCK section, you may need to !download from its project page. They are all in the same package.)', array('!download' => l(t('download the module'), 'http://drupal.org/project/emfield'), '!modules' => l(t('modules administration page'), 'admin/build/modules'))), 'error');
+    drupal_set_message(t('The Embedded Media Field module does nothing on its own. You should also install the Embedded Video Field, Embedded Image Field, and/or Embedded Audio Field modules from the <a href="@modules">modules administration page</a>. (If you do not see them listed there, under the CCK section, you may need to <a href="@download">download the module</a> from its project page. They are all in the same package.)', array('@download' => 'http://drupal.org/project/emfield', '@modules' => url('admin/build/modules'))), 'error');
   }
   $form = array();
   $form['general'] = array(
@@ -23,10 +23,10 @@ function emfield_settings() {
   );
 
   if (module_exists('swfobject_api')) {
-    $swfobject_desc = t('As you have the !swfobject_api module installed, Embedded Media Field will use those settings, assuming you\'ve configured them properly. Visit its !settings for more information.', array('!swfobject_api' => l(t('SWFObject API'), 'http://drupal.org/project/swfobject_api', array('target' => '_blank')), l(t('settings page'), 'admin/settings/swfobject_api')));
+    $swfobject_desc = t('As you have the <a href="@swfobject_api" target="_blank">SWFObject API</a> module installed, Embedded Media Field will use those settings, assuming you have configured them properly. Visit its <a href="@settings">settings page</a> for more information.', array('@swfobject_api' => 'http://drupal.org/project/swfobject_api', '@settings' => url('admin/settings/swfobject_api')));
   }
   else {
-    $swfobject_desc = t('If you have the swfobject.js file installed on your system, you can make it available to Embedded Media Field and its related modules by entering the information here. You can download and find out more about !here. You may also choose to install the !swfobject_api module, which will integrate automatically with this module..', array('!here' => l(t('SWFObject here'), 'http://code.google.com/p/swfobject/', array('target' => '_blank')), '!swfobject_api' => l(t('SWFObject API'), 'http://drupal.org/project/swfobject_api', array('target' => '_blank'))));
+    $swfobject_desc = t('If you have the swfobject.js file installed on your system, you can make it available to Embedded Media Field and its related modules by entering the information here. You can download and find out more about <a href="@here" target="_blank">SWFObject here</a>. You may also choose to install the <a href="@swfobject_api" target="_blank">SWFObject API</a> module, which will integrate automatically with this module..', array('@here' => 'http://code.google.com/p/swfobject/', '@swfobject_api' => 'http://drupal.org/project/swfobject_api'));
   }
   $form['general']['swfobject'] = array(
     '#type' => 'fieldset',

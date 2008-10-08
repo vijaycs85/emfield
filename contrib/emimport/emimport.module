@@ -35,7 +35,8 @@ function emimport_menu() {
 	  $create_type_access = 'create '. $type->type .' content';
 	  $path = 'emimport/'. $type_url_str;
         $items[$path] = array(
-          'title' => 'Import $type->name set',
+          'title' => 'Import !name set',
+          'title arguments' => array('!name' => $type->name),
           'page callback' => 'drupal_get_form',
           'page arguments' => array('emimport_import', $type->type),
           'access' => array('import media sets',$create_type_access),
@@ -183,7 +184,7 @@ function emimport_settings() {
     $form['emimport'][$module]['providers'] = array(
       '#type' => 'fieldset',
       '#title' => t('Provider settings'),
-      '#description' => t('If a provider allowed on the !media also allows importing content from sets, such as photosets or playlists, then it will be listed below. You may change specific settings for those providers here. If you don\'t see an expected provider here, first make sure that it is enabled on the !media page, and also make sure there that the provider allows that feature.', array('!media' => l(t('media settings page'), 'admin/content/emfield/media'))),
+      '#description' => t('If a provider allowed on the <a href="@media">media settings page</a> also allows importing content from sets, such as photosets or playlists, then it will be listed below. You may change specific settings for those providers here. If you do not see an expected provider here, first make sure that it is enabled on the <a href="@media">media settings page</a>, and also make sure there that the provider allows that feature.', array('@media' => url('admin/content/emfield/media'))),
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
@@ -242,7 +243,7 @@ function emimport_types_allowing_import($cached = TRUE, $rebuild_menu = TRUE) {
   if (!isset($emfield_types) || !$cached) {
     // if it's a cachable request, try to load a cached value
     if ($cached && $cache = cache_get('emimport_types_allowing_import', 'cache')) {
-      $emfield_types = unserialize($cache->data);
+      $emfield_types = $cache->data;
     }
     else {
       $system_types = _content_type_info();
@@ -279,7 +280,7 @@ function emimport_types_allowing_import($cached = TRUE, $rebuild_menu = TRUE) {
   }
 
   // save our types to cache
-  cache_set('emimport_types_allowing_import', serialize($emfield_types),  'cache', CACHE_PERMANENT);
+  cache_set('emimport_types_allowing_import', $emfield_types,  'cache', CACHE_PERMANENT);
 
   if ($rebuild_menu) {
     // make sure to register any new import types in the menu
@@ -556,7 +557,7 @@ function emimport_import_validate($form, &$form_state) {
         }
       }
       if (!$flag) {
-        form_set_error($field['field_name'], t('The @field set doesn\'t evaluate to a valid set.', array('@field' => $field['widget']['label'])));
+        form_set_error($field['field_name'], t("The @field set doesn't evaluate to a valid set.", array('@field' => $field['widget']['label'])));
       }
     }
   }

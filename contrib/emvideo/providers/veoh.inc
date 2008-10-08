@@ -7,7 +7,6 @@ define('EMVIDEO_VEOH_API_APPLICATION_URL', 'http://www.veoh.com/developers.html'
 define('EMVIDEO_VEOH_XML', 'http://www.veoh.com/rest/video/');
 
 function emvideo_veoh_info() {
-  $name = t('Veoh');
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
@@ -16,9 +15,9 @@ function emvideo_veoh_info() {
   );
   return array(
     'provider' => 'veoh',
-    'name' => $name,
+    'name' => t('Veoh'),
     'url' => EMVIDEO_VEOH_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from !veoh. You can learn more about its !api here.', array('!veoh' => l($name, EMVIDEO_VEOH_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMVIDEO_VEOH_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@veoh" target="_blank">Veoh</a>. You can learn more about its <a href="@api" target="_blank">API</a> here.', array('@veoh' => EMVIDEO_VEOH_MAIN_URL, '@api' => EMVIDEO_VEOH_API_INFO)),
     'supported_features' => $features,
   );
 }
@@ -27,7 +26,7 @@ function emvideo_veoh_settings() {
   $form['veoh']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Veoh API'),
-    '#description' => t('If you wish to be able to display Veoh thumbnails automatically, you will first need to apply for an API Developer Key from the !veoh. Note that you do not need this key to display Veoh videos themselves.', array('!veoh' => l('Veoh Developer Profile page', EMVIDEO_VEOH_API_APPLICATION_URL, array('target' => '_blank')))),
+    '#description' => t('If you wish to be able to display Veoh thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@veoh" target="_blank">Veoh Developer Profile page</a>. Note that you do not need this key to display Veoh videos themselves.', array('@veoh' => EMVIDEO_VEOH_API_APPLICATION_URL)),
     '#collapsible' => true,
     '#collapsed' => true,
   );

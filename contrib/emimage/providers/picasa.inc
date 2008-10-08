@@ -23,15 +23,14 @@ define('EMIMAGE_PICASA_REST_ENDPOINT', 'http://picasaweb.google.com/data/feed/ap
  */
 
 function emimage_picasa_info() {
-  $name = t('Picasa');
   $features = array(
     array(t('Import photosets'), t('No'), ''),
   );
   return array(
     'provider' => 'picasa',
-    'name' => $name,
+    'name' => t('Picasa'),
     'url' => EMIMAGE_PICASA_MAIN_URL,
-    'settings_description' => t('These settings specifically affect images displayed from !picasa.', array('!picasa' => l($name, EMIMAGE_PICASA_MAIN_URL, array('target' => '_blank')), '!api' => l(t('API'), EMIMAGE_PICASA_API_INFO, array('target' => '_blank')))),
+    'settings_description' => t('These settings specifically affect images displayed from <a href="@picasa" target="_blank">Picasa</a>.', array('@picasa' => EMIMAGE_PICASA_MAIN_URL)),
     'supported_features' => $features,
     'import_sets_word' => t('photosets'),
   );
