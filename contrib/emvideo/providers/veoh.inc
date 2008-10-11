@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   Provide support for the Veoh provider to the emfield.module.
+ */
+
 define('EMVIDEO_VEOH_MAIN_URL', 'http://www.veoh.com/');
 define('EMVIDEO_VEOH_API_INFO', 'http://www.veoh.com/restApiDoc/restReference.html');
 define('EMVIDEO_VEOH_API_APPLICATION_URL', 'http://www.veoh.com/developers.html');
@@ -27,8 +32,8 @@ function emvideo_veoh_settings() {
     '#type' => 'fieldset',
     '#title' => t('Veoh API'),
     '#description' => t('If you wish to be able to display Veoh thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@veoh" target="_blank">Veoh Developer Profile page</a>. Note that you do not need this key to display Veoh videos themselves.', array('@veoh' => EMVIDEO_VEOH_API_APPLICATION_URL)),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['veoh']['api']['emvideo_veoh_api_key'] = array(
     '#type' => 'textfield',
@@ -115,8 +120,8 @@ function emvideo_veoh_preview($embed, $width, $height, $field, $item, $autoplay)
   return $output;
 }
 function emvideo_veoh_emfield_subtheme() {
-  return array (
-  'emvideo_veoh_flash' => array (
+  return array(
+  'emvideo_veoh_flash' => array(
   'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
   'file' => 'providers/veoh.inc'
     )

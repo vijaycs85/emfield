@@ -173,8 +173,8 @@ function emvideo_dailymotion_preview($embed, $width, $height, $field, $item, $au
  * Implementation of hook_emfield_subtheme.
  */
 function emvideo_dailymotion_emfield_subtheme() {
-  return array (
-    'emvideo_dailymotion_flash' => array (
+  return array(
+    'emvideo_dailymotion_flash' => array(
       'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
       'file' => 'providers/dailymotion.inc'
     )

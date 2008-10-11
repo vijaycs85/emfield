@@ -35,7 +35,7 @@ function emvideo_zzz_custom_url_settings() {
     'flv' => t('Flash Video (flv)'),
     'mov' => t('Quicktime (mov)'),
     'mp4' => t('Quicktime (mp4)'),
-    'rm' => 	t('Real Media (rm)'),
+    'rm' => t('Real Media (rm)'),
   );
   $form = array();
   $form['emvideo_zzz_custom_url_supported_types'] = array(
@@ -54,10 +54,10 @@ function _emvideo_zzz_custom_url_implode_types() {
 
 function emvideo_zzz_custom_url_extract($embed = '') {
   $types = _emvideo_zzz_custom_url_implode_types();
-  $baseurl = preg_quote(url(null, array('absolute' => true)), '@');
+  $baseurl = preg_quote(url(null, array('absolute' => TRUE)), '@');
 
-  return array (
-    '@' . $baseurl . '(.*' . '\.(?:' . $types . ')' . ')@i',
+  return array(
+    '@'. $baseurl .'(.*\.(?:'. $types .'))@i',
     '@(.*\.(?:'. $types .'))@i'
   );
 }

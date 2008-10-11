@@ -640,7 +640,7 @@ function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $modul
   }
 }
 
-function emfield_provider_themes($module, $provider = null) {
+function emfield_provider_themes($module, $provider = NULL) {
   $themes = array();
   
   if ($provider && $subthemes = emfield_include_invoke($module, $provider, 'subtheme')) {

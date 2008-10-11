@@ -116,8 +116,8 @@ function emvideo_myspace_preview($embed, $width, $height, $field, $item) {
  * Implementation of hook_emfield_subtheme.
  */
 function emvideo_myspace_emfield_subtheme() {
-  return array (
-    'emvideo_myspace_flash' => array (
+  return array(
+    'emvideo_myspace_flash' => array(
       'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
       'file' => 'providers/myspace.inc'
     )

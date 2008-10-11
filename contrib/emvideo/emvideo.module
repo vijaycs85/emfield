@@ -232,21 +232,21 @@ function emvideo_widget_settings($op, $widget) {
           '#type' => 'fieldset',
           '#title' => t('Video Display Settings'),
           '#description' => t('These settings control how this video is displayed in its full size, which defaults to @widthx@height.', array('@width' => $width, '@height' => $height)),
-          '#collapsible' => true,
-          '#collapsed' => false,
+          '#collapsible' => TRUE,
+          '#collapsed' => FALSE,
         );
         $form['video']['video_width'] = array(
           '#type' => 'textfield',
           '#title' => t('Video display width'),
           '#default_value' => empty($widget['video_width']) ? $width : $widget['video_width'],
-          '#required' => true,
+          '#required' => TRUE,
           '#description' => t('The width of the video. It defaults to @width.', array('@width' => $width)),
         );
         $form['video']['video_height'] = array(
           '#type' => 'textfield',
           '#title' => t('Video display height'),
           '#default_value' => empty($widget['video_height']) ? $height : $widget['video_height'],
-          '#required' => true,
+          '#required' => TRUE,
           '#description' => t('The height of the video. It defaults to @height.', array('@height' => $height)),
         );
         $form['video']['video_autoplay'] = array(
@@ -262,21 +262,21 @@ function emvideo_widget_settings($op, $widget) {
           '#type' => 'fieldset',
           '#title' => t('Video Preview Settings'),
           '#description' => t('These settings control how this video is displayed in its preview size, which defaults to @widthx@height.', array('@width' => $width, '@height' => $height)),
-          '#collapsible' => true,
-          '#collapsed' => false,
+          '#collapsible' => TRUE,
+          '#collapsed' => FALSE,
         );
         $form['preview']['preview_width'] = array(
           '#type' => 'textfield',
           '#title' => t('Video preview width'),
           '#default_value' => empty($widget['preview_width']) ? $width : $widget['preview_width'],
-          '#required' => true,
+          '#required' => TRUE,
           '#description' => t('The width of the preview video. It defaults to @width.', array('@width' => $width)),
         );
         $form['preview']['preview_height'] = array(
           '#type' => 'textfield',
           '#title' => t('Video preview height'),
           '#default_value' => empty($widget['preview_height']) ? $height : $widget['preview_height'],
-          '#required' => true,
+          '#required' => TRUE,
           '#description' => t('The height of the preview video. It defaults to @height.', array('@height' => $height)),
         );
         $form['preview']['preview_autoplay'] = array(
@@ -292,21 +292,21 @@ function emvideo_widget_settings($op, $widget) {
           '#type' => 'fieldset',
           '#title' => t('Thumbnail'),
           '#description' => t('When displayed as a thumbnail, these settings control the image returned. Note that not all 3rd party video content providers offer thumbnails, and others may require an API key or other requirements. More information from the <a href="@settings">settings page</a>. The default size for thumbnails is @widthx@height.', array('@settings' => url('admin/content/emfield'), '@width' => $width, '@height' => $height)),
-          '#collapsible' => true,
-          '#collapsed' => false,
+          '#collapsible' => TRUE,
+          '#collapsed' => FALSE,
         );
         $form['tn']['thumbnail_width'] = array(
           '#type' => 'textfield',
           '#title' => t('Thumbnail width'),
           '#default_value' => empty($widget['thumbnail_width']) ? $width : $widget['thumbnail_width'],
-          '#required' => true,
+          '#required' => TRUE,
           '#description' => t('The width of the thumbnail. It defaults to @width.', array('@width' => $width)),
         );
         $form['tn']['thumbnail_height'] = array(
           '#type' => 'textfield',
           '#title' => t('Thumbnail height'),
           '#default_value' => empty($widget['thumbnail_height']) ? $height : $widget['thumbnail_height'],
-          '#required' => true,
+          '#required' => TRUE,
           '#description' => t('The height of the thumbnail. It defaults to @height.', array('@height' => $height)),
         );
         if (!module_exists('emthumb')) {

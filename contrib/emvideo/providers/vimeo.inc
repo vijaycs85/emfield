@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   Provide support for the Vimeo provider to the emfield.module.
+ */
+
 define('EMVIDEO_VIMEO_MAIN_URL', 'http://www.vimeo.com/');
 define('EMVIDEO_VIMEO_API_INFO', 'http://vimeo.com/api');
 define('EMVIDEO_VIMEO_COLOR_DEFAULT', '#01AAEA');
@@ -42,8 +47,8 @@ function emvideo_vimeo_settings() {
     '#type' => 'fieldset',
     '#title' => t('Embedded video player color'),
     '#description' => t('If allowed, this color, in hexidecimal form (#RRGGBB), will be used to change the skin of the Vimeo player.'),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['vimeo']['color']['emvideo_vimeo_color_override'] = array(
     '#type' => 'checkbox',
@@ -58,8 +63,8 @@ function emvideo_vimeo_settings() {
   $form['vimeo']['player_options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embedded video player options'),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['vimeo']['player_options']['emvideo_vimeo_on_screen_info'] = array(
     '#type' => 'checkboxes',
@@ -222,8 +227,8 @@ function emvideo_vimeo_thumbnail($field, $item, $formatter, $node, $width, $heig
 }
 
 function emvideo_vimeo_emfield_subtheme() {
-  return array (
-  'emvideo_vimeo_flash' => array (
+  return array(
+  'emvideo_vimeo_flash' => array(
   'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
   'file' => 'providers/brightcove.inc'
     )

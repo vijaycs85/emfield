@@ -135,8 +135,8 @@ function emvideo_sevenload_preview($embed, $width, $height, $field, $item) {
  * Implementation of hook_emfield_subtheme.
  */
 function emvideo_sevenload_emfield_subtheme() {
-  return array (
-    'emvideo_sevenload_flash' => array (
+  return array(
+    'emvideo_sevenload_flash' => array(
       'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL),
       'file' => 'providers/sevenload.inc'
     )

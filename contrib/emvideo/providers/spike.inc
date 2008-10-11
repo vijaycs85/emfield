@@ -79,8 +79,8 @@ function emvideo_spike_preview($embed, $width, $height, $field, $item, $autoplay
  * Implementation of hook_emfield_subtheme.
  */
 function emvideo_spike_emfield_subtheme() {
-  return array (
-    'emvideo_spike_flash' => array (
+  return array(
+    'emvideo_spike_flash' => array(
       'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
       'file' => 'providers/spike.inc'
     )

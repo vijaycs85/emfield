@@ -307,8 +307,8 @@ function emvideo_bliptv_preview($code, $width, $height, $field, $item, $autoplay
  * Implementation of hook_emfield_subtheme.
  */
 function emvideo_bliptv_emfield_subtheme() {
-  return array (
-    'emvideo_bliptv_flash' => array (
+  return array(
+    'emvideo_bliptv_flash' => array(
       'arguments' => array('code' => NULL, 'width' => NULL, 'height' => NULL, 'field' => NULL, 'item' => NULL, 'autoplay' => NULL, 'flv' => NULL, 'thumbnail' => NULL, 'options' => NULL),
       'file' => 'providers/bliptv.inc'
     )

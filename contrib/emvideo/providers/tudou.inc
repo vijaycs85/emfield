@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   Provide support for the Tudou provider to the emfield.module.
+ */
+
 define('EMVIDEO_TUDOU_MAIN_URL', 'http://www.tudou.com/');
 
 /**
@@ -145,10 +150,10 @@ function emvideo_tudou_preview($embed, $width, $height, $field, $item, $autoplay
 }
 
 function emvideo_tudou_emfield_subtheme() {
-  return array (
-  'emvideo_tudou_flash' => array (
-  'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
-  'file' => 'providers/tudou.inc'
+  return array(
+    'emvideo_tudou_flash' => array(
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/tudou.inc'
     )
   );
 }

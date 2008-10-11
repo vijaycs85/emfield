@@ -253,7 +253,6 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $border = $border ? '&border=1' : '';
     $enablejsapi = isset($options['enablejsapi']) ? $options['enablejsapi'] : variable_get('emvideo_youtube_enablejsapi', TRUE);
     $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
-    $allowScriptAcess = $enablejsapi ? 'always' : 'sameDomain';
     $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
     $div_id = isset($options['div_id']) ? $options['div_id'] : 'video-cck-youtube-flash-wrapper-'. $count;
     $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$enablejsap";
@@ -372,7 +371,7 @@ function emvideo_youtube_preview($embed, $width, $height, $field, $item, $autopl
  */
 function emvideo_youtube_emfield_subtheme() {
     return array(
-        'emvideo_youtube_flash'  => array (
+        'emvideo_youtube_flash'  => array(
             'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
             'file' => 'providers/youtube.inc'
         )

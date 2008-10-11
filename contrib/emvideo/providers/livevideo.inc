@@ -188,8 +188,8 @@ function emvideo_livevideo_preview($embed, $width, $height, $field, $item, $auto
  * Implementation of hook_emfield_subtheme.
  */
 function emvideo_livevideo_emfield_subtheme() {
-  return array (
-    'emvideo_livevideo_flash' => array (
+  return array(
+    'emvideo_livevideo_flash' => array(
       'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
       'file' => 'providers/livevideo.inc'
     )

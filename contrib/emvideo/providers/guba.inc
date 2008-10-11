@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   Provide support for the Guba provider to the emfield.module.
+ */
+
 define('EMVIDEO_GUBA_MAIN_URL', 'http://www.guba.com/');
 define('EMVIDEO_GUBA_API_INFO', 'http://www.guba.com/restApiDoc/restReference.html');
 define('EMVIDEO_GUBA_API_APPLICATION_URL', 'http://www.guba.com/developers.html');
@@ -26,8 +31,8 @@ function emvideo_guba_settings() {
     '#type' => 'fieldset',
     '#title' => t('GUBA API'),
     '#description' => t('If you wish to be able to display GUBA thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@guba" target="_blank">GUBA Developer Profile page</a>. Note that you do not need this key to display GUBA videos themselves.', array('@guba' => EMVIDEO_GUBA_API_APPLICATION_URL)),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['guba']['api']['emvideo_guba_api_key'] = array(
     '#type' => 'textfield',
@@ -62,8 +67,8 @@ function emvideo_guba_embedded_link($video_code) {
 }
 
 function theme_emvideo_guba_flash($embed, $width, $height, $autoplay) {
-  $autoplay = $autoplay ? '&amp;autoPlay=true' : '&amp;autoPlay=false';
-  $output .= '<embed src="http://www.guba.com/f/root.swf?video_url=http://free.guba.com/uploaditem/'. $embed .'/flash.flv&amp;isEmbeddedPlayer=false'. $autoplay .'" quality="best" bgcolor="#FFFFFF" menu="true" width="'. $width .'" height="'. $height .'" name="root" id="root" align="middle" scaleMode="noScale" allowScriptAccess="always" allowFullScreen="true" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+  $autoplay = $autoplay ? '&amp;autoPlay=TRUE' : '&amp;autoPlay=FALSE';
+  $output .= '<embed src="http://www.guba.com/f/root.swf?video_url=http://free.guba.com/uploaditem/'. $embed .'/flash.flv&amp;isEmbeddedPlayer=FALSE'. $autoplay .'" quality="best" bgcolor="#FFFFFF" menu="TRUE" width="'. $width .'" height="'. $height .'" name="root" id="root" align="middle" scaleMode="noScale" allowScriptAccess="always" allowFullScreen="TRUE" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
   return $output;
 }
 
@@ -84,10 +89,10 @@ function emvideo_guba_preview($embed, $width, $height, $field, $item, $autoplay)
 }
 
 function emvideo_guba_emfield_subtheme() {
-  return array (
-  'emvideo_guba_flash' => array (
-  'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
-  'file' => 'providers/guba.inc'
+  return array(
+    'emvideo_guba_flash' => array(
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/guba.inc'
     )
   );
 }

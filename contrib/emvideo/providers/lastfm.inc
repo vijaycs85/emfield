@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ *   Provide support for Last.fm to the emfield.module.
+ */
+
 define('EMVIDEO_LASTFM_MAIN_URL', 'http://www.lastfm.com/');
 
 /**
@@ -164,10 +169,10 @@ function emvideo_lastfm_preview($embed, $width, $height, $field, $item, $autopla
 }
 
 function emvideo_lastfm_emfield_subtheme() {
-  return array (
-  'emvideo_lastfm_flash' => array (
-  'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
-  'file' => 'providers/lastfm.inc'
+  return array(
+    'emvideo_lastfm_flash' => array(
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/lastfm.inc'
     )
   );
 }

@@ -27,8 +27,8 @@ function emvideo_imeem_settings() {
     '#type' => 'fieldset',
     '#title' => t('IMEEM API'),
     '#description' => t('If you wish to be able to display IMEEM thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@imeem" target="_blank">IMEEM Developer Profile page</a>. Note that you do not need this key to display IMEEM videos themselves.', array('@imeem' => EMVIDEO_IMEEM_API_APPLICATION_URL)),
-    '#collapsible' => true,
-    '#collapsed' => true,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['imeem']['api']['emvideo_imeem_api_key'] = array(
     '#type' => 'textfield',
@@ -94,10 +94,10 @@ function emvideo_imeem_preview($embed, $width, $height, $field, $item, $autoplay
 }
 
 function emvideo_imeem_emfield_subtheme() {
-  return array (
-  'emvideo_imeem_flash' => array (
-  'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
-  'file' => 'providers/imeem.inc'
+  return array(
+    'emvideo_imeem_flash' => array(
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/imeem.inc'
     )
   );
 }
