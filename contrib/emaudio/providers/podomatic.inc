@@ -79,9 +79,11 @@ function emaudio_podomatic_embedded_link($audio_code) {
 }
 
 /**
+ * hook theme_emaudio_PROVIDER_flash
  * the embedded flash displaying the podomatic audio
  */
-$code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail, $options = array()) {
+ 
+function theme_emaudio_podomatic_flash($code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail, $options = array()) {
   // <object width="320" height="315"><param name="movie" value="http://www.podOmatic.com/flash/flashcatcher.swf"></param><embed type="application/x-shockwave-flash" src="http://www.podOmatic.com/flash/flashcatcher.swf" width="320" height="315" flashvars="playlist_url=http://funkylondon.podOmatic.com/xspf.xspf" ></embed></object><br /><a href="http://www.podOmatic.com/podcast/embed/funkylondon" style="text-decoration: none"><font size="1" face="Verdana, Arial, Helvetica, sans-serif" color="#0033ff"><strong>Click here to get your own player.</strong></font></a><br><br>
 
   if ($code) {
@@ -163,12 +165,12 @@ function emaudio_podomatic_preview($embed, $width, $height, $field, $item, $auto
 /**
  * Implementation of hook_emfield_subtheme.
  */
-function emaudio_podomatic_emfield_subtheme() {
+function emaudio_podomatic_subtheme() {
   return array (
-    'emaudio_podomatic_flash' => array (
-      'arguments' => array('code' => NULL, 'width' => NULL, 'height' => NULL 'autoplay' => NULL, 'options' => NULL),
-      'file' => 'providers/podomatic.inc'
-    )
-  );
+    'emaudio_podomatic_flash'  => array(
+            'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+            'file' => 'providers/podomatic.inc'
+        )
+    );
 }
 
