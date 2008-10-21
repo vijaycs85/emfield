@@ -57,8 +57,8 @@ function emvideo_zzz_custom_url_extract($embed = '') {
   $baseurl = preg_quote(url(null, array('absolute' => TRUE)), '@');
 
   return array(
-    '@'. $baseurl .'(.*\.(?:'. $types .'))@i',
-    '@(.*\.(?:'. $types .'))@i'
+    '@' . $baseurl . '(.*' . '\.(?:' . $types . ')' . '(\?.*)?)@i',
+    '@(.*\.(?:'. $types .')(\?.*)?)@i'
   );
 }
 
