@@ -1,4 +1,9 @@
 /* $Id$ */
+
+November 2008
+-------------
+ * #253251/Jody Lynn - Integrate the Job Queue API for a better method for refreshing data (aaron/Jody Lynn).
+
 2008-08-04
 #277982- reikiman fixed call to emfield.rss.inc
 #177027#comment-937384 - Senpai added more description to _emfield_emfield_field()

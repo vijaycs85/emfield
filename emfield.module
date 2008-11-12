@@ -27,6 +27,18 @@ function emfield_menu() {
     'access arguments' => array('administer site configuration'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
+  
+  if (module_exists('job_queue')) {
+    $items['admin/content/emfield/reload'] = array(
+      'file' => 'emfield.admin.inc',
+      'title' => 'Reload data',
+      'description' => 'Reload emfield fields in bulk',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('emfield_settings_jobqueue'),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_LOCAL_TASK,
+    );
+  }
 
   return $items;
 }

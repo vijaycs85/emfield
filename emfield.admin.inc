@@ -104,3 +104,74 @@ function emfield_settings() {
 
   return system_settings_form($form);
 }
+
+/**
+ * Menu callback settings form.
+ * If job_queue module is installed, admins can reload embedded media data in bulk
+ */
+function emfield_settings_jobqueue() {
+	$form = array();
+  $form['job_queue'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Reload Embedded Media Data'),
+    '#description' => t('You can reload the embedded media data on all nodes on your site if necessary.  This action will be queued to run on cron via the job queue module.'),
+	  '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $types = content_types();
+  $options = array();
+  foreach ($types as $type) {
+	  foreach ($type['fields'] as $field) {
+      if (module_hook($field['type'], 'emfield_info')) {
+	      $options[$type['type']] = $type['name'];
+	    }
+	  }
+  }
+  if (count($options)) {
+    $form['job_queue']['types'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Types to reload'),
+      '#options' => $options,
+      '#description' => t('Choose the content types to reload'),
+    );	
+
+    $form['job_queue']['submit'] = array(
+	    '#type' => 'submit',
+	    '#value' => t('Submit'),
+	  );
+  }
+  
+  return $form;
+}
+
+/**
+ * For each selected content type, add all of its nodes to the job queue for reloading.
+ */
+function emfield_settings_jobqueue_submit($form, &$form_state) {
+	foreach($form_state['values']['types'] as $type => $value) {
+		if ($value) {
+	    $result = db_query("SELECT nid FROM {node} WHERE type = '%s'", $type);
+	    while ($nid = db_result($result)) {
+		    job_queue_add('emfield_reload', 'refresh emfield info', array($nid), drupal_get_path('module', 'emfield') .'/emfield.admin.inc', TRUE);
+	    }	
+			drupal_set_message(t('The %type nodes have been queued to reload emfield data upon cron.', array('%type' => $type)));
+		}
+	}
+}
+
+/**
+ *  This reloads and saves the data for a single node.
+ */
+function emfield_reload($nid) {
+  if ($node = node_load($nid)) {
+    $type = content_types($node->type);
+    foreach ($type['fields'] as $field) {
+      if (module_hook($field['type'], 'emfield_info')) {
+        $items = $node->{$field['field_name']};
+        emfield_emfield_field('submit', $node, $field, $items, FALSE, FALSE, $field['type']);
+        $node->{$field['field_name']} = $items;
+        node_save($node);
+      }
+    }
+  }
+}
