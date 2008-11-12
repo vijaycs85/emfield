@@ -1,5 +1,9 @@
 /* $Id$ */
 
+November 2008
+-------------
+ * #333365/chrono325: Allow Emvideo to play Google Video links from RSS feeds (aaron/chrono325).
+
 September 2008
 --------------
  * Comment some code in upgrade to d6 that might cause a complaint (aaron).
