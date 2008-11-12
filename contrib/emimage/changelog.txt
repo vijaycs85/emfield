@@ -1,4 +1,9 @@
 /* $Id$ */
+
+November 2008
+-------------
+ * #278957/coldice4678 Fetch correct images from Flicker (aaron/coldice4678).
+
 2008-08-04
 #177027#comment-951694 cshoney patched to work with Drupal 6
 

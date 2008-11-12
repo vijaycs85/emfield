@@ -188,34 +188,34 @@ function emimage_flickr_embedded_link($code, $data = array()) {
 }
 
 /**
- *  implement emimage_PROVIDER_image_url
+ *  Implements emimage_PROVIDER_image_url.
  *
  *  @param $code
- *    the code of the image
- *  @param $data
- *    any stored data for the image, which may already have the title
+ *    The provider code of the image.
+ *  @param $width
+ *  @param $height
+ *    The dimensions of the photo to display.
  *  @return
- *    the url directly to the image to display
+ *    The url directly to the image to display.
  */
 function emimage_flickr_image_url($code, $width, $height, $formatter = NULL, $field = NULL, $item = NULL, $node = NULL) {
   if ($code) {
-    $photo = emimage_flickr_request('flickr.photos.getInfo', array('photo_id' => $code));
-    $photo = $photo['photo'];
     $size = _emimage_flickr_guess_size($width, $height);
-    $url = _emimage_flickr_image_url($photo, $size);
+    $getsize = emimage_flickr_request('flickr.photos.getSizes', array('photo_id' => $code));
+    $url = $getsize['sizes']['size'][$size]['source'];
   }
   return $url;
 }
 
 /**
- *  implement emimage_PROVIDER_image_title
+ *  Implements emimage_PROVIDER_image_title.
  *
  *  @param $code
- *    the code of the image
+ *    The provider code of the image.
  *  @param $data
- *    any stored data for the image, which may already have the title
+ *    Any stored data for the image, which may already have the title.
  *  @return
- *    the title as the 3rd party provider knows it, if accessible to us. otherwise, ''
+ *    The title as the 3rd party provider knows it, if accessible to us. otherwise, ''.
  */
 function emimage_flickr_image_title($code, $data) {
   if ($data['title']) {
@@ -225,24 +225,16 @@ function emimage_flickr_image_title($code, $data) {
   return $photo['photo']['title']['_content'] ? $photo['photo']['title']['_content'] : '';
 }
 
-
-function _emimage_flickr_image_url($photo, $size = NULL, $format = NULL) {
-  // early images don't have a farm setting so default to 1.
-  $farm = isset($photo['farm']) ? $photo['farm'] : 1;
-  $server = $photo['server'];
-  // photoset's use primary instead of id to specify the image.
-  $id = isset($photo['primary']) ? $photo['primary'] : $photo['id'];
-  $secret = $photo['secret'];
-
-  return "http://farm{$farm}.static.flickr.com/{$server}/{$id}_{$secret}" . ($size ? "_$size." : '.') . ($size == 'o' ? $format : 'jpg');
-}
-
+/**
+ *  Helper function for emimage_flickr_image_url.
+ *  This will return the appropriate array key for the image size we wish.
+ */
 function _emimage_flickr_guess_size($width, $height) {
   $max = max($width, $height);
-  foreach (array('s' => 75, 't' => 100, 'm' => 240, '' => 500, 'b' => 1024) as $size => $value) {
+  foreach (array('0' => 75, '1' => 100, '2' => 240, '3' => 500, '4' => 1024) as $size => $value) {
     if ($max <= $value) {
       return $size;
     }
   }
-  return 'o';
+  return '5';
 }
