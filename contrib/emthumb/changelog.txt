@@ -1,4 +1,9 @@
 /* $Id$ */
+
+November 2008
+-------------
+ * Create $form['imagefield_test'] to test imagefield widget integration (aaron).
+
 2008-05-10
 #249255 - ekes added MRSS support to multiple files
 
