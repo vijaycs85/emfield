@@ -1,4 +1,5 @@
 <?php
+// $Id$
 
 /**
  * @file
@@ -22,7 +23,7 @@ function theme_emaudio_audio_embed($field, $item, $formatter, $node, $options = 
 }
 
 function theme_emaudio_audio_thumbnail($field, $item, $formatter, $node, $no_link = FALSE, $options = array()) {
-    if ($item['value'] && $item['provider']) {
+  if ($item['value'] && $item['provider']) {
     // If we've set $options['thumbnail_url'], then we'll just use that.
     // Otherwise, if we have emthumb installed, then give it a chance to override our thumbnail
     $thumbnail_url = $options['thumbnail_url'] ? $options['thumbnail_url'] : module_invoke('emthumb', 'thumbnail_url', $item);
@@ -82,9 +83,9 @@ function theme_emaudio_audio_thumbnail($field, $item, $formatter, $node, $no_lin
 function theme_emaudio_audio_audio($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
-    $width = $options['width'] ? $options['width'] : ($field['widget']['audio_width'] ? $field['widget']['audio_width'] : variable_get('emaudio_default_audio_width', EMAUDIO_DEFAULT_AUDIO_WIDTH));
-    $height = $options['height'] ? $options['height'] : ($field['widget']['audio_height'] ? $field['widget']['audio_height'] : variable_get('emaudio_default_audio_height', EMAUDIO_DEFAULT_AUDIO_HEIGHT));
-    $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['audio_autoplay'];
+    $width = isset($options['width']) ? $options['width'] : (isset($field['widget']['audio_width']) ? $field['widget']['audio_width'] : variable_get('emaudio_default_audio_width', EMAUDIO_DEFAULT_AUDIO_WIDTH));
+    $height = isset($options['height']) ? $options['height'] : (isset($field['widget']['audio_height']) ? $field['widget']['audio_height'] : variable_get('emaudio_default_audio_height', EMAUDIO_DEFAULT_AUDIO_HEIGHT));
+    $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['audio_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'audio', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
 
@@ -98,16 +99,16 @@ function theme_emaudio_default($field, $item, $formatter, $node, $options = arra
 function theme_emaudio_audio_preview($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
-    $width = $options['width'] ? $options['width'] : ($field['widget']['audio_width'] ? $field['widget']['audio_width'] : variable_get('emaudio_default_audio_width', EMAUDIO_DEFAULT_PREVIEW_WIDTH));
-    $height = $options['height'] ? $options['height'] : ($field['widget']['audio_height'] ? $field['widget']['audio_height'] : variable_get('emaudio_default_audio_height', EMAUDIO_DEFAULT_PREVIEW_HEIGHT));
-    $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['audio_autoplay'];
+    $width = isset($options['width']) ? $options['width'] : (isset($field['widget']['audio_width']) ? $field['widget']['audio_width'] : variable_get('emaudio_default_audio_width', EMAUDIO_DEFAULT_PREVIEW_WIDTH));
+    $height = isset($options['height']) ? $options['height'] : (isset($field['widget']['audio_height']) ? $field['widget']['audio_height'] : variable_get('emaudio_default_audio_height', EMAUDIO_DEFAULT_PREVIEW_HEIGHT));
+    $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['audio_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'emaudio', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
 
   return $output;
 }
 
-function theme_emaudio_formatter_audio_flash($element) {  
+function theme_emaudio_formatter_audio_flash($element) {
   $field = content_fields($element['#field_name'], $element['#type_name']);
   return module_invoke('emaudio', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
 }
