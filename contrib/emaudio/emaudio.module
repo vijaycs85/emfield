@@ -320,59 +320,61 @@ function emaudio_emfield_rss($node, $items = array(), $teaser = NULL) {
   return $rss_data;
 }
 
+/**
+ *  Impelements hook_theme().
+ */
 function emaudio_theme() {
   $themes = array(
     'emaudio_audio_embed' => array(
-       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	   'file' => 'emaudio.theme.inc'
+       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+       'file' => 'emaudio.theme.inc'
     ),
     'emaudio_audio_flash' => array(
-       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	   'file' => 'emaudio.theme.inc'
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_audio_thumbnail' => array(
-	 'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	 'file' => 'emaudio.theme.inc'
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_audio_audio' => array(
-      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	  'file' => 'emaudio.theme.inc'
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_audio_preview' => array(
-      'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	  'file' => 'emaudio.theme.inc'
+      'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_default' => array(
-	  'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL),
-	  'file' => 'emaudio.theme.inc'
+      'arguments'	=> array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_formatter_audio_embed' => array(
-       'arguments' => array('element' => NULL),
-	   'file' => 'emaudio.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_formatter_audio_thumbnail' => array(
-	 'arguments' => array('element' => NULL),
-	 'file' => 'emaudio.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_formatter_audio_audio' => array(
       'arguments' => array('element' => NULL),
-	  'file' => 'emaudio.theme.inc'
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_formatter_audio_preview' => array(
       'arguments'	=> array('element' => NULL),
-	  'file' => 'emaudio.theme.inc'
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_formatter_audio_flash' => array(
       'arguments'	=> array('element' => NULL),
-	  'file' => 'emaudio.theme.inc'
+      'file' => 'emaudio.theme.inc'
     ),
     'emaudio_formatter_default' => array(
       'arguments'	=> array('element' => NULL),
-	  'file' => 'emaudio.theme.inc'
+      'file' => 'emaudio.theme.inc'
     ),
   );
   $themes += module_invoke('emfield', 'provider_themes', 'emaudio');
-  
-  return $themes;
 
+  return $themes;
 }
