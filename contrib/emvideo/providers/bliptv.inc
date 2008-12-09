@@ -158,13 +158,10 @@ function emvideo_bliptv_request($code, $cacheable = TRUE, $skin = 'rss', $show =
 
 function emvideo_bliptv_extract($embed) {
   return array(
-    '@blip\.tv/rss/flash/([^"\&\?]+)@i',
-    '@blip\.tv/file/view/([^"\&\?]+)@i',
-    '@blip\.tv/file/([^"\&\?]+)@i',
-    '@blip\.tv/play/([^"\&\?]+)@i',
-
-    // test handling for featured shows. disabled for now.
-//     '@http\://([^\.]+)\.blip\.tv/@i',
+    '@blip\.tv/rss/flash/([^"\&\?/]+)@i',
+    '@blip\.tv/file/view/([^"\&\?/]+)@i',
+    '@blip\.tv/file/([^"\&\?/]+)@i',
+    '@blip\.tv/play/([^"\&\?/]+)@i',
   );
 }
 
