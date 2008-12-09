@@ -166,3 +166,15 @@ function emaudio_odeo_preview($embed, $width, $height, $field, $item, $autoplay)
 
   return $output;
 }
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emaudio_odeo_emfield_subtheme() {
+  return array (
+    'emaudio_odeo_flash'  => array(
+            'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+            'file' => 'providers/odeo.inc'
+        )
+    );
+}

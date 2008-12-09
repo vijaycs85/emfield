@@ -165,3 +165,15 @@ function emaudio_podcastalley_preview($embed, $width, $height, $field, $item, $a
 
   return $output;
 }
+
+/**
+ * Implementation of hook_emfield_subtheme.
+ */
+function emaudio_podcastalley_emfield_subtheme() {
+  return array (
+    'emaudio_podcastalley_flash'  => array(
+            'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+            'file' => 'providers/podcastalley.inc'
+        )
+    );
+}

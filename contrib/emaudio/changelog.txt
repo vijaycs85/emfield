@@ -1,5 +1,9 @@
 /* $Id$ */
 
+December 2008
+=============
+ * #337997 - Got emaudio up and running (alexua and moonray)
+
 November 2008
 =============
  * Make sure $options are set before using (aaron).
