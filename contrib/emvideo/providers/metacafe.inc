@@ -64,7 +64,7 @@ function emvideo_metacafe_thumbnail($field, $item, $formatter, $node, $width, $h
   return 'http://www.metacafe.com/thumb/'. $picturelink .'.jpg';
 }
 
-function emvideo_metacafe_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_metacafe_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_metacafe_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

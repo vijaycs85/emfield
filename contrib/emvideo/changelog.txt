@@ -1,5 +1,16 @@
 /* $Id$ */
 
+December 2008
+-------------
+ * 195783 - solomongifford noted that Vimeo needed transparent mode
+ * 327052 - dalin made improvements to theme_emvideo_zzz_custom_url_embedded_video()
+ * 334944 - fixed small problem with Veoh provider
+ * 334535 - Gyt added multivideo support for thickbox
+ * 307187 - grendzy added fullscreen support for YouTube
+ * 339025 - moonray changed emvideo_PROVIDER_video() hook to allow for more info being passed
+ * 332673 - Jody Lynn fixed a fatal error in the google.inc file
+ * 330176 - beeradb and arron fixed problem with trailing slashes in blip.tv urls
+
 November 2008
 -------------
  * #333365/chrono325: Allow Emvideo to play Google Video links from RSS feeds (aaron/chrono325).

@@ -142,7 +142,7 @@ function emvideo_lastfm_thumbnail($field, $item, $formatter, $node, $width, $hei
  *  @return
  *    the html of the embedded video
  */
-function emvideo_lastfm_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_lastfm_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_lastfm_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

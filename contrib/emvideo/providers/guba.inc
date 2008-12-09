@@ -78,7 +78,7 @@ function emvideo_guba_thumbnail($field, $item, $formatter, $node, $width, $heigh
   return $thm;
 }
 
-function emvideo_guba_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_guba_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_guba_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

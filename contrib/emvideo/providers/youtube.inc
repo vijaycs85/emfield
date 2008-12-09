@@ -31,6 +31,7 @@ function emvideo_youtube_info() {
     array(t('Show related videos'), t('Yes'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
     array(t('Thumbnails'), t('Yes'), t('')),
     array(t('Custom player colors'), t('Yes'), t("You may customize the player's skin by choosing your own colors, and/or border in that setting field set.")),
+    array(t('Full screen mode'), t('Yes'), t('You may customize the player to enable or disable full screen playback. Full screen mode is enabled by default.')),
   );
   return array(
     'provider' => 'youtube',
@@ -100,6 +101,19 @@ function emvideo_youtube_settings() {
     '#title' => t('Color 2'),
     '#default_value' => variable_get('emvideo_youtube_colors_color2', EMVIDEO_YOUTUBE_COLOR2_DEFAULT),
   );
+  $form['youtube']['player_options'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Embedded video player options'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['youtube']['player_options']['emvideo_youtube_full_screen'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow fullscreen'),
+    '#default_value' => variable_get('emvideo_youtube_full_screen', 1),
+    '#description' => t('Allow users to view video using the entire computer screen.'),
+  );
+
   if (module_exists('colorpicker')) {
     $form['youtube']['colors']['emvideo_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
     $form['youtube']['colors']['emvideo_youtube_colors_color1']['#colorpicker'] = 'colorpicker_1';
@@ -239,6 +253,9 @@ function emvideo_youtube_convert_color($color = NULL) {
 function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
   static $count;
   if ($embed) {
+    $fullscreen = variable_get('emvideo_youtube_full_screen', 1);
+    $fullscreen_value = $fullscreen ? "true" : "false";
+    $fs = $fullscreen ? "&amp;fs=$fullscreen" : "";
     $related = isset($options['related']) ? $options['related'] : variable_get('emvideo_youtube_show_related_videos', 0);
     $related = "rel=$related";
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $autoplay;
@@ -255,12 +272,13 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
     $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
     $div_id = isset($options['div_id']) ? $options['div_id'] : 'video-cck-youtube-flash-wrapper-'. $count;
-    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$enablejsap";
+    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$enablejsap$fs";
     if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;
         $params['height'] = $height;
         $params['div_id'] = $id;
+        $params['allowFullScreen'] = $fullscreen_value;
         $output .= theme('swfobject_api', $url, $params, $vars, $id);
       }
       else {
@@ -278,10 +296,11 @@ FLASH;
     }
     else {
       $output .= <<<FLASH
-        <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id">
+        <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id" allowFullScreen="$fullscreen_value">
           <param name="movie" value="$url" />
           <param name="allowScriptAcess" value="sameDomain"/>
           <param name="quality" value="best"/>
+          <param name="allowFullScreen" value="$fullscreen_value"/>
           <param name="bgcolor" value="#FFFFFF"/>
           <param name="scale" value="noScale"/>
           <param name="salign" value="TL"/>
@@ -340,7 +359,7 @@ function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $he
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_youtube_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_youtube_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

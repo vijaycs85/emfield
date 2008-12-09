@@ -418,6 +418,10 @@ function emvideo_thickbox($nid, $width, $height, $field_name) {
   $field['field_name'] = $field_name;
   $node = node_load($nid);
   $items = $node->$field_name;
-  $item = $items[0];
+  foreach ((array)$items as $thisitem){
+    if ($thisitem['value']==$item_value) { 
+	 $item = $thisitem;
+	 }
+    }
   print theme('emvideo_video_video', $field, $item, 'video_video', $node);
 }

@@ -123,7 +123,7 @@ function emvideo_tudou_thumbnail($field, $item, $formatter, $node, $width, $heig
  *  @return
  *    the html of the embedded video
  */
-function emvideo_tudou_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_tudou_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_tudou_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

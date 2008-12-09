@@ -10,6 +10,7 @@
  * Implementation of hook_install().
  */
 function emaudio_install() {
+  drupal_load('module', 'content');
   content_notify('install', 'emaudio');
 }
 
@@ -17,6 +18,7 @@ function emaudio_install() {
  * Implementation of hook_uninstall().
  */
 function emaudio_uninstall() {
+  drupal_load('module', 'content');
   content_notify('uninstall', 'emaudio');
 }
 
@@ -24,6 +26,7 @@ function emaudio_uninstall() {
  * Implementation of hook_enable().
  */
 function emaudio_enable() {
+  drupal_load('module', 'content');
   content_notify('enable', 'emaudio');
 }
 
@@ -31,6 +34,7 @@ function emaudio_enable() {
  * Implementation of hook_disable().
  */
 function emaudio_disable() {
+  drupal_load('module', 'content');
   content_notify('disable', 'emaudio');
 }
 

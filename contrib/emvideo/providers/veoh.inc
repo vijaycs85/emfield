@@ -99,9 +99,6 @@ function emvideo_veoh_thumbnail($field, $item, $formatter, $node, $width, $heigh
     $url = 'http://www.veoh.com/rest/video/'. $thumbid .'/details';
     $content = file_get_contents($url);
     if ($content) {
-      print '(start)<br>';
-      print $content;
-      print '(end)<br>';
       $start = strpos($content, 'fullMedResImagePath="')+21;
       $end = strpos($content, '"', $start);
       $thumbnail = substr($content, $start, $end-$start);
@@ -110,7 +107,7 @@ function emvideo_veoh_thumbnail($field, $item, $formatter, $node, $width, $heigh
   }
 }
 
-function emvideo_veoh_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_veoh_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_veoh_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

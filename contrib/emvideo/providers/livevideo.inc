@@ -156,7 +156,7 @@ function emvideo_livevideo_thumbnail($field, $item, $formatter, $node, $width, $
  *  @return
  *    the html of the embedded video
  */
-function emvideo_livevideo_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_livevideo_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_livevideo_flash', $embed, $width, $height, $autoplay);
 
   return $output;

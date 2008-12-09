@@ -155,6 +155,7 @@ function theme_emvideo_vimeo_flash($embed, $width, $height, $autoplay) {
     }
     $output = '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" data="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'">';
     $output .= '<param name="quality" value="best" />';
+	$output .= '<param name="wmode" value="transparent" />';
     $output .= '<param name="allowfullscreen" value="'. ($fullscreen ? 'true' : 'false') .'" />';
     $output .= '<param name="scale" value="showAll" />';
     $output .= '<param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'" /></object>';
@@ -178,7 +179,7 @@ function theme_emvideo_vimeo_flash($embed, $width, $height, $autoplay) {
  *  @return
  *    the html of the embedded video
  */
-function emvideo_vimeo_video($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_vimeo_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_vimeo_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

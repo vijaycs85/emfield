@@ -10,6 +10,7 @@
  * Implementation of hook_install().
  */
 function emimage_install() {
+  drupal_load('module', 'content');
   content_notify('install', 'emimage');
 }
 
@@ -17,6 +18,7 @@ function emimage_install() {
  * Implementation of hook_uninstall().
  */
 function emimage_uninstall() {
+  drupal_load('module', 'content');
   content_notify('uninstall', 'emimage');
 }
 
@@ -24,6 +26,7 @@ function emimage_uninstall() {
  * Implementation of hook_enable().
  */
 function emimage_enable() {
+  drupal_load('module', 'content');
   content_notify('enable', 'emimage');
 }
 
@@ -31,6 +34,7 @@ function emimage_enable() {
  * Implementation of hook_disable().
  */
 function emimage_disable() {
+  drupal_load('module', 'content');
   content_notify('disable', 'emimage');
 }
 
