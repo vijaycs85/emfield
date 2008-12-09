@@ -127,7 +127,7 @@ function emvideo_google_data($field, $item) {
     }
   }
 
-  if ($data['thumbnail']['filepath'] == '') {
+  if ($data['thumbnail']['filepath'] == '' && is_array($rss['ITEM'])) {
     // for whatever reason the thumbnail failed try the old method
     // we'll parse it from the description, where it's repeated.
     $desc = $rss['ITEM']['DESCRIPTION'][0];
