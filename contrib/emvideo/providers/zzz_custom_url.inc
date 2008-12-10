@@ -113,95 +113,24 @@ function emvideo_zzz_custom_url_embedded_link($video_code) {
 }
 
 function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = FALSE, $field = NULL, $item = NULL) {
-  static $count;
   if ($url) {
-    $id = 'video-cck-zzz-custom-url-'. (++$count);
-    $div_id = 'video-cck-zzz-custom-url-wrapper-'. $count;
-    $params = array();
-
-    // Default params regardless of type. 
-    $params['width'] = $width;
-    $params['height'] = $height;
-    $params['allowScriptAcess'] = 'sameDomain';
-    $params['wmode'] = 'transparent';
     switch ($type) {
       case 'wmv':
       case 'wma':
-        $type = 'application/x-mplayer2';
-        $params['autostart'] = $autoplay ? '1' : '0';
-        $params['showcontrols'] = '1';
-        $params['pluginspage'] = 'http://www.microsoft.com/windows/windowsmedia/download/';
-        break;
-		
+        $autostart = $autoplay ? '1' : '0';
+        return '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" autostart="'. $autostart .'" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"> </embed>';
       case 'mov':
       case 'mp4':
-        $type = 'video/quicktime';
-        $params['autoplay'] = $autoplay ? 'true' : 'false';
-        $params['controller'] = 'true';
-        $params['scale'] = 'tofit';
-        $params['pluginspage'] = 'http://www.apple.com/quicktime/download/';
-        break;
-
-     case 'rm':
-         $type = 'audio/x-pn-realaudio-plugin';
-        $params['autostart'] = $autoplay ? 'true' : 'false';
-        $params['controls'] = 'All';
-        $params['nojava'] = 'true';
-        $params['pluginspage'] = 'http://www.real.com/';
-        break;
-
+        $autostart = $autoplay ? 'true' : 'false';
+        return '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" autoplay="'. $autostart .'" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"> </embed>';
+      case 'rm':
+        $autostart = $autoplay ? 'true' : 'false';
+        return '<embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="'. $height .'" autostart="'. $autostart .'" controls="imagewindow" nojava="true" console="c1183760810807" pluginspage="http://www.real.com/"></embed><br /><embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="26" autostart="'. $autostart .'" nojava="true" controls="ControlPanel" console="c1183760810807"> </embed>';
       case 'swf':
-        
-        // Create the URL as appropriate for the type and autoplay.
-        if ($type == 'swf') {
-          $url .= $autoplay ? '&autoplay=1' : '';
-        }
-        else {
-          $url = 'http://freevideocoding.com/flvplayer.swf?file='. $url .'&amp;autoStart='. ($autoplay ? 'true' : 'false');
-        }
-        
-        $type = 'application/x-shockwave-flash';
-        $params['movie'] = $url;
-        $params['quality'] = 'best';
-        $params['bgcolor'] = '#fff';
-        $params['salign'] = 'TL';
-        $params['FlashVars'] = 'playerMode=embedded';
-        
-        // If we are using swfobject, then theme accordingly and return early.
-        if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
-          if (module_exists('swfobject_api')) {
-            $params['div_id'] = $div_id;
-            $output = theme('swfobject_api', $url, $params, $vars, $id);
-          }
-          else {
-            drupal_add_js(variable_get('emfield_swfobject_location', ''));
-            $output = <<<FLASH
-              <div id="$div_id">
-                Sorry, you need to install flash to see this content.
-              </div>
-              <script language="JavaScript" type="text/javascript">
-                var so = new SWFObject("$url", "$id", "$width", "$height", "7");
-                so.write("$div_id");
-              </script>
-             FLASH;
-          }
-          return $output;
-        }
-        break;
-     }
-   }
-  
-  // Build the object.
-  $output = '<div id="'. $div_id .'"><object type="'. $type .'" height="'. 
-    $height .'" width="'. $width .'" data="'. $url .'" id="'. $id .'">';
-  foreach ($params as $name => $value) {
-    $output .= "\n  <param name=\"". $name .'" value="'. $value .'" />';
-  }
-  $output .= "\n</object></div>";
-  return $output;
-
-
-   
+        return '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+      case 'flv':
+        $autostart = $autoplay ? 'true' : 'false';
+        return '<embed src="http://freevideocoding.com/flvplayer.swf?file='. $url .'&amp;autoStart='. $autostart .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
     }
   }
 }
@@ -210,13 +139,13 @@ function emvideo_zzz_custom_url_thumbnail($field, $item, $formatter, $node, $wid
   return '';
 }
 
-function emvideo_zzz_custom_url_video($code, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_zzz_custom_url_video($code, $width, $height, $field, $item, $autoplay) {
   $type = $item['data']['type'];
   $output = theme('emvideo_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item);
   return $output;
 }
 
-function emvideo_zzz_custom_url_preview($code, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_zzz_custom_url_preview($code, $width, $height, $field, $item, $autoplay) {
   $type = $item['data']['type'];
   $output = theme('emvideo_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item);
   return $output;
