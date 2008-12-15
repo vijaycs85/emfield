@@ -102,7 +102,24 @@ function emfield_settings() {
     $form[$module] = array_merge($form[$module], module_invoke($module, 'emfield_settings'));
   }
 
-  return system_settings_form($form);
+  $form = system_settings_form($form);
+
+  // Custom valiation callback so we can validate the SWFObject path.
+  $form['#validate'][] = 'emfield_settings_validate';
+
+  return $form;
+}
+
+/**
+ *  Validation for emfield_settings form, callback for /admin/content/emfield.
+ *  Ensure we have a valid SWFObject path.
+ */
+function emfield_settings_validate($form, $form_state) {
+  if ($form_state['values']['emfield_swfobject'] && $form_state['values']['emfield_swfobject_location']) {
+    if (!file_exists($form_state['values']['emfield_swfobject_location'])) {
+      form_set_error('emfield_swfobject_location', t('The SWFObject %file file was not found at that location. Please specify a valid location.', array('%file' => $form_state['values']['emfield_swfobject_location'])));
+    }
+  }
 }
 
 /**
@@ -133,14 +150,14 @@ function emfield_settings_jobqueue() {
       '#title' => t('Types to reload'),
       '#options' => $options,
       '#description' => t('Choose the content types to reload'),
-    );	
+    );
 
     $form['job_queue']['submit'] = array(
 	    '#type' => 'submit',
 	    '#value' => t('Submit'),
 	  );
   }
-  
+
   return $form;
 }
 
@@ -153,7 +170,7 @@ function emfield_settings_jobqueue_submit($form, &$form_state) {
 	    $result = db_query("SELECT nid FROM {node} WHERE type = '%s'", $type);
 	    while ($nid = db_result($result)) {
 		    job_queue_add('emfield_reload', 'refresh emfield info', array($nid), drupal_get_path('module', 'emfield') .'/emfield.admin.inc', TRUE);
-	    }	
+	    }
 			drupal_set_message(t('The %type nodes have been queued to reload emfield data upon cron.', array('%type' => $type)));
 		}
 	}

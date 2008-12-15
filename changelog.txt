@@ -1,10 +1,15 @@
 /* $Id$ */
 
+December 2008
+-------------
+ * #319989 - Sanity check the path of swfobject.js (aaron/bonobo).
+
 November 2008
 -------------
  * #253251/Jody Lynn - Integrate the Job Queue API for a better method for refreshing data (aaron/Jody Lynn).
 
-2008-08-04
+August 2008
+-----------
 #277982- reikiman fixed call to emfield.rss.inc
 #177027#comment-937384 - Senpai added more description to _emfield_emfield_field()
 #177027#comment-937410 - Senpai changed so that admin settings default to not collapsed
