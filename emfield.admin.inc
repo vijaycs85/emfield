@@ -46,7 +46,7 @@ function emfield_settings() {
       '#type' => 'textfield',
       '#title' => t('SWFObject location'),
       '#default_value' => variable_get('emfield_swfobject_location', ''),
-      '#description' => t('Enter the relative path to the swfobject.js file, without the preceding slash (/).'),
+      '#description' => t('Enter the path to the swfobject.js file, relative to the web root, without the preceding slash (/).'),
     );
   }
   $header = array(t('Feature'), t('Supported'), t('Notes'));
