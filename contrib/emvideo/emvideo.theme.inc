@@ -150,7 +150,7 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
 
 function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
   $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, TRUE, $options);
-  $destination = 'emvideo/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'] .'/'. $item['value'];
+  $destination = 'emvideo/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'] .'/'. $item['provider'] .'/'. $item['value'];
   $options = array(
     'attributes' => array(
       'title' => $title,

@@ -28,7 +28,7 @@ function emvideo_menu() {
       'type' => MENU_CALLBACK,
     );
   }
-  
+
   $items += module_invoke('emfield', 'provider_menus', 'emvideo');
 
   return $items;
@@ -420,22 +420,33 @@ function emvideo_handler_arg_provider($op, &$query, $argtype, $arg = '') {
 }
 
 /**
- * Page callback for video-cck/thickbox.
+ * Page callback for emvideo/thickbox.
  * This will display our video in a modal window defined by the thickbox module.
  * As it's a direct callback, it displays no HTML other than the video.
+ *  @param $nid
+ *    The video node's nid.
+ *  @param $width
+ *    The width, in pixels, of the video.
+ *  @param $height
+ *    The height, in pixels, of the video.
+ *  @param $field_name
+ *    The name of the field to display
+ *  @param $provider
+ *    The provider of the video.
+ *  @param $code
+ *    The video code to display.
  */
-function emvideo_thickbox($nid, $width, $height, $field_name) {
+function emvideo_thickbox($nid, $width, $height, $field_name, $provider, $code) {
   $field = array();
   $field['widget']['video_width'] = $width;
   $field['widget']['video_height'] = $height;
   $field['widget']['video_autoplay'] = 1;
   $field['field_name'] = $field_name;
   $node = node_load($nid);
-  $items = $node->$field_name;
-  foreach ((array)$items as $thisitem){
-    if ($thisitem['value']==$item_value) {
-	 $item = $thisitem;
-	 }
+  foreach ($node->{$field_name} as $video) {
+    if ($video['provider'] == $provider && $video['value'] == $code) {
+      $item = $video;
     }
+  }
   print theme('emvideo_video_video', $field, $item, 'video_video', $node);
 }
