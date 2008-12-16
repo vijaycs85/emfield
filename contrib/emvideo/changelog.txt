@@ -2,6 +2,7 @@
 
 December 2008
 -------------
+ * 345538 - Fix autoplay for youtube previews (aaron).
  * 345515 - Fix thumbnails with vimeo; remove need for API key (aaron).
  * 313973 - Fix problem with &amp;/& in URL structure for myspace (aaron).
  * 195783 - solomongifford noted that Vimeo needed transparent mode

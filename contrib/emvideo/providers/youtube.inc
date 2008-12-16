@@ -380,7 +380,7 @@ function emvideo_youtube_video($embed, $width, $height, $field, $item, &$node, $
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_youtube_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_youtube_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
