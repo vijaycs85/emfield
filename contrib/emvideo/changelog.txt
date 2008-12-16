@@ -2,7 +2,8 @@
 
 December 2008
 -------------
- * 345538 - Fix autoplay for youtube previews (aaron).
+ * Begin token support for thumbnail title (aaron).
+ * 345538/joe-b - Fix autoplay for youtube previews (aaron/joe-b).
  * 345515 - Fix thumbnails with vimeo; remove need for API key (aaron).
  * 313973 - Fix problem with &amp;/& in URL structure for myspace (aaron).
  * 195783 - solomongifford noted that Vimeo needed transparent mode

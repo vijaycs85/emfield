@@ -82,8 +82,15 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
     }
   }
 
+  // Define the thumbnail link's path.
   $link_url = isset($options['link_url']) ? $options['link_url'] : 'node/'. $node->nid;
-  $link_title = isset($options['link_title']) ? $options['link_title'] : t('See video');
+
+  // Define the title/alt to display for the link hover.
+  $link_title = isset($options['link_title']) ? $options['link_title'] : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video')));
+  if (module_exists('token')) {
+    // Allow the editor to use [title] tokens.
+    $link_title = token_replace($link_title, 'global', $node);
+  }
   $image_title = isset($options['image_title']) ? $options['image_title'] : $link_title;
   $image_alt = isset($options['image_alt']) ? $options['image_alt'] : $link_title;
 
@@ -92,7 +99,8 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
     $width = isset($width) ? $width : ($field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emvideo_default_thumbnail_width', EMVIDEO_DEFAULT_THUMBNAIL_WIDTH));
     $height = isset($options['height']) ? $options['height'] : NULL;
     $height = isset($height) ? $height : ($field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('emvideo_default_thumbnail_height', EMVIDEO_DEFAULT_THUMBNAIL_HEIGHT));
-    if ($no_link) { //thickbox requires the thumbnail returned without the link
+    if ($no_link) {
+      // Thickbox requires the thumbnail returned without the link.
       $output = '<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. $image_alt .'" title="'. $image_title .'" />';
     }
     else {
@@ -100,9 +108,9 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
     }
   }
   else {
-     // if all else fails, then just print a 'see video' link.
+    // If all else fails, then just print a 'see video' type link.
     if ($no_link) {
-      $output = ''; //thickbox won't work without a thumbnail
+      $output = ''; // Thickbox won't work without a thumbnail.
     }
     else {
       $output = l($link_title, $link_url);

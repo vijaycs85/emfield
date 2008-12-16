@@ -6,6 +6,9 @@
  * Embedded Video module is a handler for 3rd party video files.
  */
 
+/**
+ *  Define our constants and default variables.
+ */
 define('EMVIDEO_DEFAULT_VIDEO_WIDTH', 425);
 define('EMVIDEO_DEFAULT_VIDEO_HEIGHT', 350);
 define('EMVIDEO_DEFAULT_PREVIEW_WIDTH', 425);
@@ -94,11 +97,11 @@ function emvideo_theme() {
         'file' => 'emvideo.theme.inc'
     ),
   );
-  
+
   $themes += module_invoke('emfield', 'provider_themes', 'emvideo');
-  
+
   return $themes;
-  
+
 }
 
 /**
@@ -137,7 +140,7 @@ function emvideo_field_info() {
 function emvideo_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
-      return module_invoke('emfield', 'field_columns', $field);    
+      return module_invoke('emfield', 'field_columns', $field);
   }
 }
 
@@ -312,13 +315,22 @@ function emvideo_widget_settings($op, $widget) {
         if (!module_exists('emthumb')) {
           $tn_desc = ' '. t('You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis.');
         }
-		$default_path = variable_get('emvideo_default_thumbnail_path', '');
+        $default_path = variable_get('emvideo_default_thumbnail_path', '');
         $form['tn']['thumbnail_default_path'] = array(
           '#type' => 'textfield',
           '#title' => t('Default thumbnail path'),
           '#default_value' => empty($widget['thumbnail_default_path']) ? $default_path : $widget['thumbnail_default_path'],
           '#description' => t("Path to a local default thumbnail image for cases when a thumbnail can't be found. For example, you might have a default thumbnail at %files.", array('%files' => 'files/thumbnail.png')) . $tn_desc,
         );
+        $form['tn']['thumbnail_link_title'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Thumbnail title'),
+          '#default_value' => isset($widget['thumbnail_link_title']) ? $widget['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video')),
+          '#description' => t("The title/alt to display when hovering over a thumbnail, or if an image is broken."),
+        );
+        if (module_exists('token')) {
+          $form['tn']['thumbnail_link_title']['#suffix'] = theme('token_help', 'global');
+        }
       }
       return $form;
 
@@ -347,7 +359,7 @@ function emvideo_widget_settings($op, $widget) {
 
     case 'save':
       if ($widget['widget_type'] == 'emvideo_textfields') {
-        $columns = array('video_width', 'video_height', 'video_autoplay', 'preview_width', 'preview_height', 'preview_autoplay', 'thumbnail_width', 'thumbnail_height', 'thumbnail_default_path', );
+        $columns = array('video_width', 'video_height', 'video_autoplay', 'preview_width', 'preview_height', 'preview_autoplay', 'thumbnail_width', 'thumbnail_height', 'thumbnail_default_path', 'thumbnail_link_title');
         $columns = array_merge($columns, module_invoke('emfield', 'emfield_widget_settings', 'save', $widget, 'emvideo'));
         return $columns;
       }
@@ -419,7 +431,7 @@ function emvideo_thickbox($nid, $width, $height, $field_name) {
   $node = node_load($nid);
   $items = $node->$field_name;
   foreach ((array)$items as $thisitem){
-    if ($thisitem['value']==$item_value) { 
+    if ($thisitem['value']==$item_value) {
 	 $item = $thisitem;
 	 }
     }
