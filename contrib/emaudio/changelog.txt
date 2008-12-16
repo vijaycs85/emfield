@@ -2,6 +2,7 @@
 
 December 2008
 =============
+ * #339025/moonray - Provide node info to theme functions (aaron/moonray).
  * #337997 - Got emaudio up and running (alexua and moonray)
 
 November 2008

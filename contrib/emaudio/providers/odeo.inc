@@ -137,7 +137,7 @@ function emaudio_odeo_thumbnail($field, $item, $formatter, $node, $width, $heigh
  * @return
  *   The html of the embedded audio.
  */
-function emaudio_odeo_audio($embed, $width, $height, $field, $item, $autoplay) {
+function emaudio_odeo_audio($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emaudio_odeo_flash', $embed, $width, $height, $autoplay);
 
   return $output;
@@ -161,7 +161,7 @@ function emaudio_odeo_audio($embed, $width, $height, $field, $item, $autoplay) {
  * @return
  *   The html of the embedded audio.
  */
-function emaudio_odeo_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emaudio_odeo_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emaudio_odeo_flash', $embed, $width, $height, $autoplay);
 
   return $output;
