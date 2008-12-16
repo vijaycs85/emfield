@@ -31,7 +31,7 @@ function emvideo_vimeo_info() {
     'provider' => 'vimeo',
     'name' => t('Vimeo'),
     'url' => EMVIDEO_VIMEO_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">Vimeo</a>. You can learn more about its <a href="@api" target="_blank">API</a> here.', array('@provider' => EMVIDEO_VIMEO_MAIN_URL, '@api' => EMVIDEO_VIMEO_API_INFO)),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@provider" target="_blank">Vimeo</a>. You can learn more about its <a href="@api" target="_blank">API</a> here. (You no longer need a key for any current supported features.)', array('@provider' => EMVIDEO_VIMEO_MAIN_URL, '@api' => EMVIDEO_VIMEO_API_INFO)),
     'supported_features' => $features,
   );
 }
@@ -145,17 +145,17 @@ function emvideo_vimeo_convert_color($color = NULL) {
 function theme_emvideo_vimeo_flash($embed, $width, $height, $autoplay) {
   $output = '';
   if ($embed) {
-  $fullscreen = variable_get('emvideo_vimeo_full_screen', 1);
-  $on_screen_info = variable_get('emvideo_vimeo_on_screen_info', array('portrait', 'title', 'byline'));
-  $show_portrait = $on_screen_info['portrait'] ? 1 : 0;
-  $show_title = $on_screen_info['title'] ? 1 : 0;
-  $show_byline = $on_screen_info['byline'] ? 1 : 0;
+    $fullscreen = variable_get('emvideo_vimeo_full_screen', 1);
+    $on_screen_info = variable_get('emvideo_vimeo_on_screen_info', array('portrait', 'title', 'byline'));
+    $show_portrait = $on_screen_info['portrait'] ? 1 : 0;
+    $show_title = $on_screen_info['title'] ? 1 : 0;
+    $show_byline = $on_screen_info['byline'] ? 1 : 0;
     if (variable_get('emvideo_vimeo_color_override', FALSE)) {
       $color = emvideo_vimeo_convert_color(variable_get('emvideo_vimeo_color', EMVIDEO_VIMEO_COLOR_DEFAULT));
     }
     $output = '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" data="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'">';
     $output .= '<param name="quality" value="best" />';
-	$output .= '<param name="wmode" value="transparent" />';
+    $output .= '<param name="wmode" value="transparent" />';
     $output .= '<param name="allowfullscreen" value="'. ($fullscreen ? 'true' : 'false') .'" />';
     $output .= '<param name="scale" value="showAll" />';
     $output .= '<param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'" /></object>';
@@ -218,13 +218,8 @@ function emvideo_vimeo_preview($embed, $width, $height, $field, $item, $autoplay
  *    a URL pointing to the thumbnail
  */
 function emvideo_vimeo_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  $vimeo_id = (substr($item['value'], -1, 1)=='/') ? substr($item['value'], 0, -1) : $item['value'];
-  $vimeo_signature = variable_get('emvideo_vimeo_api_secret', '') .'api_key'. variable_get('emvideo_vimeo_api_key', '') .'method'.'vimeo.videos.getThumbnailUrl'.'size'. variable_get('emvideo_vimeo_thumb_size', '160') .'video_id'. $vimeo_id;
-  $vimeo_apicall = 'http://www.vimeo.com/api/rest?'.'api_key='. variable_get('emvideo_vimeo_api_key', '') .'&method='.'vimeo.videos.getThumbnailUrl'.'&size='. variable_get('emvideo_vimeo_thumb_size', '160') .'&video_id='. $vimeo_id .'&api_sig='. md5($vimeo_signature);
-  $api_file = file_get_contents($vimeo_apicall);
-  $data = array();
-  preg_match("#<thumbnail .*>(.*)</thumbnail>#i", $api_file, $data);
-  return $data[1];
+  $xml = emfield_request_xml('vimeo', 'http://vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'. $item['value'], array(), TRUE, FALSE, $item['value']);
+  return $xml['OEMBED']['THUMBNAIL_URL'][0];
 }
 
 function emvideo_vimeo_emfield_subtheme() {
