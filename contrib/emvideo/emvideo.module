@@ -28,6 +28,8 @@ function emvideo_menu() {
       'type' => MENU_CALLBACK,
     );
   }
+  
+  $items += module_invoke('emfield', 'provider_menus', 'emvideo');
 
   return $items;
 }

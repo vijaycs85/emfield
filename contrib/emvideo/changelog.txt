@@ -2,6 +2,7 @@
 
 December 2008
 -------------
+ * #345383/moonray - Allow hook_menu() in providers (aaron/moonray).
  * Begin token support for thumbnail title (aaron).
  * 345538/joe-b - Fix autoplay for youtube previews (aaron/joe-b).
  * 345515 - Fix thumbnails with vimeo; remove need for API key (aaron).

@@ -668,3 +668,20 @@ function emfield_provider_themes($module, $provider = NULL) {
   
   return $themes;
 }
+
+function emfield_provider_menus($module, $provider = NULL) {
+  $menus = array();
+  
+  if ($provider && $submenus = emfield_include_invoke($module, $provider, 'submenu')) {
+    $menus = $submenus;
+  }
+  $providers = module_invoke('emfield', 'system_list', $module);
+  
+  foreach ($providers as $provider) {
+    if ($submenus = emfield_include_invoke($module, $provider->name, 'emfield_submenu')) {
+        $menus += $submenus;
+    }
+  }
+  
+  return $menus;
+}

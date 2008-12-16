@@ -1,66 +1,64 @@
 /* $Id$ */
 
+December 2008
+-------------
+ * #345383/moonray - Allow hook_menu() in providers (aaron/moonray).
+
 November 2008
 -------------
  * #278957/coldice4678 Fetch correct images from Flicker (aaron/coldice4678).
 
-2008-08-04
-#177027#comment-951694 cshoney patched to work with Drupal 6
+August 2008
+-----------
+ * #177027#comment-951694 cshoney patched to work with Drupal 6 (cshoney).
 
-2008-07-18
-----------
-Name changed from video_ncck to emimage
-
-2008-07-02
-----------
+July 2008
+---------
+ * Name changed from video_ncck to emimage.
  * Simplify regex for image_ncck_flickr_extract, to eventually allow better photoset imports (a_c_m).
 
-2008-05-30
-widget info
-'callbacks' => array('tables' => CONTENT_CALLBACK_DEFAULT, 'arguments' => CONTENT_CALLBACK_DEFAULT, ),
-case 'database columns': return module_invoke('emfield', 'field_columns', $field);
-content_notify in .install files
+May 2008
+--------
+ * Widget info
+ * 'callbacks' => array('tables' => CONTENT_CALLBACK_DEFAULT, 'arguments' => CONTENT_CALLBACK_DEFAULT, ),
+ * Case 'database columns': return module_invoke('emfield', 'field_columns', $field);
+ * Content_notify in .install files
+ * Implement hook_content_is_empty
+ * #177027/dipen chaudhary - close parens on array
+ * #254028 - bangpound fixed regex problem with Picassa to support new address for images
 
-2008-05-29
-implement hook_content_is_empty
-#177027/dipen chaudhary - close parens on array
+February 2008
+-------------
+ * Fix error in flickr when importing (args)
+ * Add provider views handlers
 
-2008-05-20
-#254028 - bangpound fixed regex problem with Picassa to support new address for images
+December 2007
+-------------
+ * Alerts when flickr api is missing (when uploading flickr content)
 
-2008-02-19
-fix error in flickr when importing (args)
+November 2007
+-------------
+ * Add support for picasa -- thanks alexua!
 
-2008-02-17
-add provider views handlers
+October 2007
+------------
+ * Make sure xml in data knows whether an array is returned for tags
+ * Add support for importing flickr photosets
 
-2007-12-18
-alerts when flickr api is missing (when uploading flickr content)
+August 2007
+-----------
+ * #170854 Fixed image h/w 0 in IE.
+ * #167497 Fixed default h/w.
+ * Added imageshack support
+ * Added photobucket support
 
-2007-11-07
-add support for picasa -- thanks alexua!
+July 2007
+---------
+ * Ignore case when matching providers
 
-2007-10-08
-make sure xml in data knows whether an array is returned for tags
-
-2007-10-05
-add support for importing flickr photosets
-
-2007-08-31
-fixed image h/w 0 in IE: http://drupal.org/node/170854
-fixed default h/w: http://drupal.org/node/167497
-
-2007-08-18
-added imageshack support
-added photobucket support
-
-2007-07-27
-ignore case when matching providers
-
-2007-06-19
-allow w/h of 0 (for scalable photos)
-change flickr request call to unserialize data
-add $module calls to ncck hooks
-
-2007-06-13
-begin writing module
+June 2007
+---------
+ * Allow w/h of 0 (for scalable photos)
+ * Change flickr request call to unserialize data
+ * Add $module calls to ncck hooks
+ * Begin writing module (aaron).

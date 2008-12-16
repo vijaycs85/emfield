@@ -20,6 +20,17 @@ define('EMIMAGE_DEFAULT_THUMBNAIL_HEIGHT', 180);
 define('EMIMAGE_DEFAULT_THUMBNAIL_LINK', EMIMAGE_LINK_CONTENT);
 
 /**
+ * Implementation of hook_menu().
+ */
+function emimage_menu() {
+  $items = array();
+
+  $items += module_invoke('emfield', 'provider_menus', 'emimage');
+
+  return $items;
+}
+
+/**
  *  Implement hook_emimage_info
  */
 function emimage_emfield_info() {
@@ -292,14 +303,14 @@ function emimage_theme(){
   $themes = array(
     'emimage_image' => array(
         'arguments' => array(
-          'field' => NULL, 
-          'item' => NULL, 
-          'formatter' => NULL, 
-          'node' => NULL, 
-          'code' => NULL, 
-          'width' => NULL, 
-          'height' => NULL, 
-          'title' => NULL, 
+          'field' => NULL,
+          'item' => NULL,
+          'formatter' => NULL,
+          'node' => NULL,
+          'code' => NULL,
+          'width' => NULL,
+          'height' => NULL,
+          'title' => NULL,
           'link' => NULL
         ),
 	'file' => 'emimage.theme.inc',
@@ -331,7 +342,7 @@ function emimage_theme(){
         'item' => NULL,
         'formatter' => NULL,
         'node' => NULL),
-	  'file' => 'emimage.theme.inc',    
+	  'file' => 'emimage.theme.inc',
 	),
     'emimage_image_full' => array(
       'arguments' => array(
@@ -356,7 +367,7 @@ function emimage_theme(){
         'formatter' => NULL,
         'node' => NULL),
 	  'file' => 'emimage.theme.inc',
-		
+
     ),
     'emimage_formatter_image_image' => array(
         'arguments' => array('element' => NULL),
@@ -379,8 +390,8 @@ function emimage_theme(){
 		'file' => 'emimage.theme.inc',
     )
   );
-  
+
   $themes += module_invoke('emfield', 'provider_themes', 'emimage');
-  
+
   return $themes;
 }

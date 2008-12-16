@@ -15,6 +15,17 @@ define('EMAUDIO_DEFAULT_THUMBNAIL_HEIGHT', 90);
 define('EMAUDIO_DEFAULT_THUMBNAIL_PATH', '');
 
 /**
+ * Implementation of hook_menu().
+ */
+function emaudio_menu() {
+  $items = array();
+  
+  $items += module_invoke('emfield', 'provider_menus', 'emaudio');
+  
+  return $items;
+}
+
+/**
  *  Implement hook_emfield_info
  */
 function emaudio_emfield_info() {
