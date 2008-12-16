@@ -66,16 +66,25 @@ function _emvideo_myspace_scrape_thumbnail($video, $cached = TRUE) {
   return $thumbnail;
 }
 
-function emvideo_myspace_extract($embed) {
+/**
+ *  Implements emvideo_PROVIDER_extract().
+ */
+function emvideo_myspace_extract($url) {
+  // http://vids.myspace.com/index.cfm?fuseaction=vids.individual&videoid=43381231
   // <a href="http://myspacetv.com/index.cfm?fuseaction=vids.individual&videoid=14686340">What's That Floating In The Water Part 1</a><br><embed src="http://lads.myspace.com/videos/vplayer.swf" flashvars="m=14686340&v=2&type=video" type="application/x-shockwave-flash" width="430" height="346"></embed><br><a href="http://myspacetv.com/index.cfm?fuseaction=vids.addToProfileConfirm&videoid=14686340&title=What's That Floating In The Water Part 1">Add to My Profile</a> | <a href="http://myspacetv.com/index.cfm?fuseaction=vids.home">More Videos</a>
   return array(
     '@src="myspace\.com/index.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)@i',
     '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)@i',
+    '@myspace\.com/index\.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
     '@src="myspacetv\.com/index.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)"@i',
     '@myspacetv\.com/index\.cfm\?fuseaction=vids\.individual&amp;videoid=([^&"]+)@i',
+    '@myspacetv\.com/index\.cfm\?fuseaction=vids\.individual&videoid=([^&"]+)@i',
   );
 }
 
+/**
+ *  Implements emvideo_PROVIDER_link().
+ */
 function emvideo_myspace_video_link($video_code) {
   return 'http://vids.myspace.com/index.cfm?fuseaction=vids.individual&amp;videoid='. $video_code;
 }

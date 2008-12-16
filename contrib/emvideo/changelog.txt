@@ -2,6 +2,7 @@
 
 December 2008
 -------------
+ * 313973 - Fix problem with &amp;/& in URL structure for myspace (aaron).
  * 195783 - solomongifford noted that Vimeo needed transparent mode
  * 327052 - dalin made improvements to theme_emvideo_zzz_custom_url_embedded_video()
  * 334944 - fixed small problem with Veoh provider
