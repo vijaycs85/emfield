@@ -35,7 +35,8 @@ function _emfield_field_columns($field) {
 
 /**
  * Implementation of hook_emfield_field().
- * 
+ * This in turn is a callback for hook_field().
+ *
  * This private function is returned directly by emfield_emfield_field().
  */
 function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
@@ -69,7 +70,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       $return = array();
       $return[$field_name] = $items;
       break;
-      
+
     case 'delete':
       break;
   }
@@ -87,7 +88,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       $items[$delta]['data'] = serialize($items[$delta]['data']);
     }
   }
-  if (isset($return)) { 
+  if (isset($return)) {
   return $return;
   }
 }
@@ -139,6 +140,8 @@ function _emfield_emfield_widget_settings($op, $widget, $module) {
 
 
 /**
+ * Helper function for emfield_emfield_widget, which in turn is a help function
+ * for all emfields  that implement hook_widget().
  * This creates default widget handling for all the Embedded Media Fields.
  * Helper modules are expected to call this function to create the widget,
  * which will include a list of all providers as well as handle data parsing.
@@ -208,7 +211,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
 
   // Allow other modules, such as Embedded Media Thumbnail, to add additional elements to the widget.
   foreach (module_implements('emfield_widget_extra') as $module_extra) {
-    $tree[$module_extra] = module_invoke($module_extra, 'emfield_widget_extra', 'form', $form, $field, $items[$delta]);
+    $tree[$module_extra] = module_invoke($module_extra, 'emfield_widget_extra', $form, $form_state, $field, $items, $delta, $module);
   }
 
   return $tree;

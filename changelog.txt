@@ -2,6 +2,7 @@
 
 December 2008
 -------------
+ * Pass through proper arguments for hook_emfield_widget_extra from _emfield_emfield_widget (aaron).
  * #345383/moonray - Allow hook_menu() in providers (aaron/moonray).
  * #319989 - Sanity check the path of swfobject.js (aaron/bonobo).
 
