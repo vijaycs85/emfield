@@ -2,7 +2,7 @@
 
 December 2008
 -------------
- * #334535/Gyt - fix multivideo support for thickbox (aaron/Gyt).
+ * Clean up theme_emvideo_video_thumbnail a bit (aaron).
  * #345383/moonray - Allow hook_menu() in providers (aaron/moonray).
  * Begin token support for thumbnail title (aaron).
  * 345538/joe-b - Fix autoplay for youtube previews (aaron/joe-b).

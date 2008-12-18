@@ -53,32 +53,35 @@ function theme_emvideo_video_embed($field, $item, $formatter, $node, $options = 
  *     $options['image_title'], if provided, will set the title attribute of the href link, defaulting to $options['link_title'].
  *     $options['image_alt'], if provided, will set the alt attribute of the href link, defaulting to $options['link_title'].
  *     $options['thumbnail_url'], if provided, will completely override the thumbnail image entirely.
+ * @return
+ *   The thumbnail output.
  */
 function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_link = FALSE, $options = array()) {
-  if ($item['value'] && $item['provider']) {
+  // Thickbox requires some output, so make sure we have at least a blank string.
+  $output = '';
+
+  // Get a thumbnail URL. This can be an override through $options['thumbnail_url'],
+  // defined by the provider (the usual case), or a default image.
+  if ($options['thumbnail_url'] || ($item['value'] && $item['provider'])) {
     // If we've set $options['thumbnail_url'], then we'll just use that.
-    // Otherwise, if we have emthumb installed, then give it a chance to override our thumbnail
-    $thumbnail_url = $options['thumbnail_url'] ? $options['thumbnail_url'] : module_invoke('emthumb', 'thumbnail_url', $item);
+    $thumbnail_url = $options['thumbnail_url'];
 
-    // if we don't have a custom thumbnail, then see if the provider gives us a thumbnail
-    $thumbnail_url = $thumbnail_url ? $thumbnail_url : module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height, $options);
+    // Otherwise, if we have emthumb installed, then give it a chance to override our thumbnail.
+    if (!$thumbnail_url && function_exists('emthumb_thumbnail_url')) {
+      $thumbnail_url = emthumb_thumbnail_url($item);
+    }
 
-    // If we still don't have a thumbnail, then apply a default thumbnail, if it exists.
+    // If we don't have a custom thumbnail, then see if the provider gives us a thumbnail.
     if (!$thumbnail_url) {
-      $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emvideo_default_thumbnail_path', NULL);
-
-      if ($default_thumbnail_url) {
-        $thumbnail_url = base_path() . $default_thumbnail_url;
-      }
+      $thumbnail_url = emfield_include_invoke('emvideo', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height, $options);
     }
   }
-  else {
-    // Seems to be an unknown video. Apply a default thumbnail, if it exists.
-    if (!$thumbnail_url) {
-      $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emvideo_default_thumbnail_path', NULL);
-      if ($default_thumbnail_url) {
-        $thumbnail_url = base_path() . $default_thumbnail_url;
-      }
+
+  // If we still don't have a thumbnail, then apply a default thumbnail, if it exists.
+  if (!$thumbnail_url) {
+    $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emvideo_default_thumbnail_path', NULL);
+    if ($default_thumbnail_url) {
+      $thumbnail_url = base_path() . $default_thumbnail_url;
     }
   }
 
@@ -109,10 +112,7 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
   }
   else {
     // If all else fails, then just print a 'see video' type link.
-    if ($no_link) {
-      $output = ''; // Thickbox won't work without a thumbnail.
-    }
-    else {
+    if (!$no_link) {
       $output = l($link_title, $link_url);
     }
   }
