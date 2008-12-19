@@ -180,7 +180,7 @@ function emvideo_google_video($embed, $width, $height, $field, $item, &$node, $a
   return $output;
 }
 
-function emvideo_google_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_google_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_google_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

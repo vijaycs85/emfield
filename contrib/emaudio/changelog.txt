@@ -2,6 +2,7 @@
 
 December 2008
 =============
+ * #339025/moonray - Provide node info to providers take 2 (aaron/moonray).
  * #345383/moonray - Allow hook_menu() in providers (aaron/moonray).
  * #339025/moonray - Provide node info to theme functions (aaron/moonray).
  * #337997 - Got emaudio up and running (alexua and moonray)

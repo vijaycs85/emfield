@@ -2,6 +2,7 @@
 
 December 2008
 -------------
+ * #339025/moonray - Provide node info to providers take 2 (aaron/moonray).
  * Clean up theme_emvideo_video_thumbnail a bit (aaron).
  * #345383/moonray - Allow hook_menu() in providers (aaron/moonray).
  * Begin token support for thumbnail title (aaron).

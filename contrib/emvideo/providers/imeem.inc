@@ -88,7 +88,7 @@ function emvideo_imeem_video($embed, $width, $height, $field, $item, &$node, $au
   return $output;
 }
 
-function emvideo_imeem_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_imeem_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_imeem_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

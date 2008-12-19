@@ -72,7 +72,7 @@ function emvideo_revver_video($embed, $width, $height, $field, $item, &$node, $a
   return $output;
 }
 
-function emvideo_revver_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_revver_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_revver_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

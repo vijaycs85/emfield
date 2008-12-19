@@ -69,7 +69,7 @@ function emvideo_metacafe_video($embed, $width, $height, $field, $item, &$node, 
   return $output;
 }
 
-function emvideo_metacafe_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_metacafe_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_metacafe_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

@@ -111,12 +111,12 @@ function emvideo_myspace_thumbnail($field, $item, $formatter, $node, $width, $he
   return _emvideo_myspace_scrape_thumbnail($item['value']);
 }
 
-function emvideo_myspace_video($embed, $width, $height, $field, $item) {
+function emvideo_myspace_video($embed, $width, $height, $field, $item, &$node) {
   $output = theme('emvideo_myspace_flash', $embed, $width, $height);
   return $output;
 }
 
-function emvideo_myspace_preview($embed, $width, $height, $field, $item) {
+function emvideo_myspace_preview($embed, $width, $height, $field, $item, &$node) {
   $output = theme('emvideo_myspace_flash', $embed, $width, $height);
   return $output;
 }

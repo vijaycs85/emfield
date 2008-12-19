@@ -200,7 +200,7 @@ function emvideo_vimeo_video($embed, $width, $height, $field, $item, &$node, $au
  *  @return
  *    the html of the embedded video
  */
-function emvideo_vimeo_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_vimeo_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_vimeo_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

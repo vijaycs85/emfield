@@ -50,12 +50,12 @@ function emvideo_jumpcut_thumbnail($field, $item, $formatter, $node, $width, $he
   return '';
 }
 
-function emvideo_jumpcut_video($embed, $width, $height, $field, $item) {
+function emvideo_jumpcut_video($embed, $width, $height, $field, $item, &$node) {
   $output = theme('emvideo_jumpcut_flash', $embed, $width, $height);
   return $output;
 }
 
-function emvideo_jumpcut_preview($embed, $width, $height, $field, $item) {
+function emvideo_jumpcut_preview($embed, $width, $height, $field, $item, &$node) {
   $output = theme('emvideo_jumpcut_flash', $embed, $width, $height);
   return $output;
 }

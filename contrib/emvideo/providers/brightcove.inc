@@ -143,7 +143,7 @@ function emvideo_brightcove_video($embed, $width, $height, $field, $item, &$node
  *  @return
  *    the html of the embedded video
  */
-function emvideo_brightcove_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_brightcove_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_brightcove_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

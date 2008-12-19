@@ -83,7 +83,7 @@ function emvideo_guba_video($embed, $width, $height, $field, $item, &$node, $aut
   return $output;
 }
 
-function emvideo_guba_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_guba_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_guba_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

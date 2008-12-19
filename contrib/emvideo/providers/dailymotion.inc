@@ -164,7 +164,7 @@ function emvideo_dailymotion_video($embed, $width, $height, $field, $item, &$nod
  *  @return
  *    the html of the embedded video
  */
-function emvideo_dailymotion_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_dailymotion_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_dailymotion_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

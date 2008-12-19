@@ -112,7 +112,7 @@ function emvideo_veoh_video($embed, $width, $height, $field, $item, &$node, $aut
   return $output;
 }
 
-function emvideo_veoh_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_veoh_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_veoh_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

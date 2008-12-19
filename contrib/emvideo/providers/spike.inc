@@ -70,7 +70,7 @@ function emvideo_spike_video($embed, $width, $height, $field, $item, &$node, $au
   return $output;
 }
 
-function emvideo_spike_preview($embed, $width, $height, $field, $item, $autoplay) {
+function emvideo_spike_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_spike_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
