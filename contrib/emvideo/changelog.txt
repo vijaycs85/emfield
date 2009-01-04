@@ -1,5 +1,9 @@
 /* $Id$ */
 
+January 2009
+-------------
+ * #348357 - jtsnow added support for yahoo music videos
+
 December 2008
 -------------
  * #339025/moonray - Provide node info to providers take 2 (aaron/moonray).

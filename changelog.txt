@@ -1,5 +1,10 @@
 /* $Id$ */
 
+January 2009
+-------------
+ * #349214 - moonray fixed problem with multi field settings
+ * #353900 - KarenS fixed multiple problems, which removed multiple error messages
+
 December 2008
 -------------
  * Pass through proper arguments for hook_emfield_widget_extra from _emfield_emfield_widget (aaron).
