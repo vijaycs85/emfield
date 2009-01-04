@@ -69,24 +69,26 @@ function emfield_emfield_content_is_empty($item, $field) {
  */
 function emfield_allowed_providers($field, $module) {
   $allowed_providers = emfield_system_list($module);
-  $providers = array();
+  
+  // $field sometimes is the whole $field and sometimes just the $widget, 
+  // depending on where it is called from, so check which one we have.
+  $providers = isset($field['widget']['providers']) ? $field['widget']['providers'] : (isset($field['providers']) ? $field['providers'] : array());
   $allow_all = TRUE;
   foreach ($allowed_providers as $test) {
     if (!variable_get('emfield_'. $module .'_allow_'. $test->name, TRUE)) {
       unset($allowed_providers[$test->name]);
     }
     else {
-      $allow_all &= !$field['widget']['providers'][$test->name];
+      $allow_all &= empty($providers[$test->name]);
     }
   }
   if (!$allow_all) {
     foreach ($allowed_providers as $test) {
-      if (!$field['widget']['providers'][$test->name]) {
+      if (empty($providers[$test->name])) {
         unset($allowed_providers[$test->name]);
       }
     }
   }
-
   return $allowed_providers;
 }
 
@@ -183,6 +185,18 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
  *  This also allows you to grab directly from the URL to display the content from field 'provider'.
  */
 function _emfield_field_submit_id($field, $item, $module) {
+  
+  // TODO Find the right fix for this.
+  // When the embedded media field is used in the default value widget
+  // when editing field settings, the $item has no value for 'provider', 
+  // causing an error message.
+  // This is not the right way to fix this, but I don't know why that
+  // value has been left out of the form element returned by hook_widget_settings
+  // and this will at least keep the error message from being displayed.
+  
+  if (!isset($item['provider'])) {
+    $item['provider'] = '';
+  }
   $item = array_merge($item, emfield_parse_embed($field, $item['embed'], $module));
   $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item);
 

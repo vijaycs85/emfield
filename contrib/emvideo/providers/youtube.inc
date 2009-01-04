@@ -170,7 +170,7 @@ function emvideo_youtube_data($field, $item) {
  */
 function emvideo_youtube_rss($item, $teaser = NULL) {
   if ($item['value']) {
-    if ($item['data']['emvideo_youtube_data_version'] >= 1) {
+    if (!empty($item['data']['emvideo_youtube_data_version']) && $item['data']['emvideo_youtube_data_version'] >= 1) {
       $data = $item['data'];
     }
     else {
@@ -252,6 +252,7 @@ function emvideo_youtube_convert_color($color = NULL) {
  */
 function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
   static $count;
+  $output = '';
   if ($embed) {
     $fullscreen = variable_get('emvideo_youtube_full_screen', 1);
     $fullscreen_value = $fullscreen ? "true" : "false";
@@ -261,6 +262,7 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $autoplay;
     $autoplay_value = $autoplay ? '&autoplay=1' : '';
     $show_colors = isset($options['show_colors']) ? $options['show_colors'] : variable_get('emvideo_youtube_show_colors', FALSE);
+    $colors = '';
     if ($show_colors) {
       $color1 = isset($options['color1']) ? $options['color1'] : variable_get('emvideo_youtube_colors_color1', emvideo_YOUTUBE_COLOR1_DEFAULT);
       $color2 = isset($options['color2']) ? $options['color2'] : variable_get('emvideo_youtube_colors_color2', emvideo_YOUTUBE_COLOR2_DEFAULT);
@@ -272,14 +274,14 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
     $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
     $div_id = isset($options['div_id']) ? $options['div_id'] : 'video-cck-youtube-flash-wrapper-'. $count;
-    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$enablejsap$fs";
+    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$enablejsapi$fs";
     if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;
         $params['height'] = $height;
         $params['div_id'] = $id;
         $params['allowFullScreen'] = $fullscreen_value;
-        $output .= theme('swfobject_api', $url, $params, $vars, $id);
+        $output .= theme('swfobject_api', $url, $params, $options, $id);
       }
       else {
         drupal_add_js(variable_get('emfield_swfobject_location', ''));

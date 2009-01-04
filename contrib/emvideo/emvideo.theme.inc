@@ -59,26 +59,28 @@ function theme_emvideo_video_embed($field, $item, $formatter, $node, $options = 
 function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_link = FALSE, $options = array()) {
   // Thickbox requires some output, so make sure we have at least a blank string.
   $output = '';
-
+  $width = isset($options['width']) ? $options['width'] : ($field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emvideo_default_video_width', EMVIDEO_DEFAULT_THUMBNAIL_WIDTH));
+  $height = isset($options['height']) ? $options['height'] : ($field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_THUMBNAIL_HEIGHT));
+  
   // Get a thumbnail URL. This can be an override through $options['thumbnail_url'],
   // defined by the provider (the usual case), or a default image.
-  if ($options['thumbnail_url'] || ($item['value'] && $item['provider'])) {
+  if (isset($options['thumbnail_url']) || ($item['value'] && $item['provider'])) {
     // If we've set $options['thumbnail_url'], then we'll just use that.
-    $thumbnail_url = $options['thumbnail_url'];
+    $thumbnail_url = isset($options['thumbnail_url']) ? $options['thumbnail_url'] : '';
 
     // Otherwise, if we have emthumb installed, then give it a chance to override our thumbnail.
-    if (!$thumbnail_url && function_exists('emthumb_thumbnail_url')) {
+    if (empty($thumbnail_url) && function_exists('emthumb_thumbnail_url')) {
       $thumbnail_url = emthumb_thumbnail_url($item);
     }
 
     // If we don't have a custom thumbnail, then see if the provider gives us a thumbnail.
-    if (!$thumbnail_url) {
+    if (empty($thumbnail_url)) {
       $thumbnail_url = emfield_include_invoke('emvideo', $item['provider'], 'thumbnail', $field, $item, $formatter, $node, $width, $height, $options);
     }
   }
 
   // If we still don't have a thumbnail, then apply a default thumbnail, if it exists.
-  if (!$thumbnail_url) {
+  if (empty($thumbnail_url)) {
     $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emvideo_default_thumbnail_path', NULL);
     if ($default_thumbnail_url) {
       $thumbnail_url = base_path() . $default_thumbnail_url;
@@ -123,9 +125,9 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
 function theme_emvideo_video_video($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
-    $width = $options['width'] ? $options['width'] : ($field['widget']['video_width'] ? $field['widget']['video_width'] : variable_get('emvideo_default_video_width', EMVIDEO_DEFAULT_VIDEO_WIDTH));
-    $height = $options['height'] ? $options['height'] : ($field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_VIDEO_HEIGHT));
-    $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['video_autoplay'];
+    $width = isset($options['width']) ? $options['width'] : ($field['widget']['video_width'] ? $field['widget']['video_width'] : variable_get('emvideo_default_video_width', EMVIDEO_DEFAULT_VIDEO_WIDTH));
+    $height = isset($options['height']) ? $options['height'] : ($field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_VIDEO_HEIGHT));
+    $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['video_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
   }
 
@@ -149,6 +151,7 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
 }
 
 function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
+  $title = t('Thickbox'); // Is this right? Nothing is declared.
   $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, TRUE, $options);
   $destination = 'emvideo/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'] .'/'. $item['provider'] .'/'. $item['value'];
   $options = array(

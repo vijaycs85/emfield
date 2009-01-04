@@ -24,6 +24,7 @@ define('EMIMAGE_FLICKR_REST_ENDPOINT', 'http://api.flickr.com/services/rest/');
  */
 
 function emimage_flickr_info() {
+  $name = t('Flickr');
   $features = array(
     array(t('Import photosets'), t('Yes'), t('If you have the Embedded Media Import module activated, you may allow @name photosets to be imported into content.', array('@name' => $name))),
   );

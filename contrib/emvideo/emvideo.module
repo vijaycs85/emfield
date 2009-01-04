@@ -378,14 +378,14 @@ function emvideo_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   }
 }
 
-function emvideo_embed_form($field, $item, $formatter, $node, $options = array()) {
+function emvideo_embed_form($form_state = NULL, $field, $item, $formatter, $node, $options = array(), $other = array()) {
   $embed = $item['value'];
-  $width = $options['width'] ? $options['width'] : $field['widget']['video_width'];
-  $height = $options['height'] ? $options['height'] : $field['widget']['video_height'];
-  $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['video_autoplay'];
-  $title = $options['title'] ? $options['title'] : t('Embed Code');
-  $description = $options['description'] ? $options['description'] : t('To embed this video on your own site, simply copy and paste the html code from this text area.');
-  $text = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $autoplay);
+  $width = !empty($options['width']) ? $options['width'] : $field['widget']['video_width'];
+  $height = !empty($options['height']) ? $options['height'] : $field['widget']['video_height'];
+  $autoplay = !empty($options['autoplay']) ? $options['autoplay'] : $field['widget']['video_autoplay'];
+  $title = !empty($options['title']) ? $options['title'] : t('Embed Code');
+  $description = !empty($options['description']) ? $options['description'] : t('To embed this video on your own site, simply copy and paste the html code from this text area.');
+  $text = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay);
   $form = array();
   $form['emvideo_embed'] = array(
     '#type' => 'textarea',

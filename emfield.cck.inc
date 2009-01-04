@@ -103,7 +103,7 @@ function _emfield_emfield_widget_settings($op, $widget, $module) {
       $options = array();
       $providers = emfield_system_list($module);
       foreach ($providers as $provider) {
-        if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
+        if (variable_get('emfield_'. $module .'_allow_'. $provider->name, TRUE)) {
           $info = emfield_include_invoke($module, $provider->name, 'info');
           $options[$provider->name] = $info['name'];
         }
@@ -153,10 +153,9 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
   $providers = emfield_allowed_providers($field, $module);
   $urls = array();
   $additional_form_elements = array();
-
   foreach ($providers as $provider) {
     // Only list providers allowed for this field. Honor global settings first.
-    if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
+    if (variable_get('emfield_'. $module .'_allow_'. $provider->name, TRUE)) {
       // Get the provider info.
       $info = emfield_include_invoke($module, $provider->name, 'info');
       // Grab the provider's URL.
@@ -213,6 +212,5 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
   foreach (module_implements('emfield_widget_extra') as $module_extra) {
     $tree[$module_extra] = module_invoke($module_extra, 'emfield_widget_extra', $form, $form_state, $field, $items, $delta, $module);
   }
-
   return $tree;
 }
