@@ -185,7 +185,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
     '#title' => t($field['widget']['label']),
     '#description' => $textfield_description,
     '#default_value' => $value,
-    '#required' => $field['required'],
+    '#required' => $delta == 0 ? $field['required'] : FALSE,
     '#maxlength' => 2048,
   );
 
