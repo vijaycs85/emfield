@@ -7,94 +7,9 @@
  */
 
 /**
- *  Implement hook_menu().
- *  @TODO: We shouldn't need this anymore, as we'll simply be creating
- *  a file and saving it from upload.
+ *  Implements hook_emfield_field_extra().
+ *  This is called on field operations to allow us to act on emthumbs.
  */
-function emthumb_menu() {
-  $items = array(
-    'emthumb' => array(
-      'page callback' => '_emthumb_preview',
-      'access arguments' => array('TRUE'),
-      'type' => MENU_CALLBACK,
-    ),
-  );
-  return $items;
-}
-
-/**
- *  Transfer a file that is in a 'preview' state.
- */
-function _emthumb_preview() {
-  foreach ($_SESSION['emthumb'] as $fieldname => $files) {
-    foreach ($files as $delta => $file) {
-      if ('emthumb/'. $file['preview'] == $_GET['q']) {
-        file_transfer($file['filepath'], array('Content-Type: '. mime_header_encode($file['filemime']),
-                                           'Content-Length: '. $file['filesize']));
-        exit();
-      }
-    }
-  }
-}
-
-function emthumb_clear_session() {
-  if (is_array($_SESSION['emthumb']) && count($_SESSION['emthumb'])) {
-    foreach (array_keys($_SESSION['emthumb']) as $fieldname) {
-      emthumb_clear_field_session($fieldname);
-    }
-    unset($_SESSION['emthumb']);
-  }
-}
-
-function emthumb_clear_field_session($fieldname) {
-  if (is_array($_SESSION['emthumb'][$fieldname]) && count($_SESSION['emthumb'][$fieldname])) {
-    foreach ($_SESSION['emthumb'][$fieldname] as $files) {
-      if (is_file($file['filepath'])) {
-        file_delete($file['filepath']);
-      }
-    }
-    unset($_SESSION['emthumb'][$fieldname]);
-  }
-}
-
-/**
- * implementation of hook_filedownload
- * replicated from upload.module.
- *
- * conditionally included since we're just replicating the
- * work of upload.module for now.
- */
-
-if (!function_exists('upload_file_download') && !function_exists('imagecache_file_download')) {
-  function emthumb_file_download($file) {
-    $file = file_create_path($file);
-    $result = db_query("SELECT f.* FROM {files} f WHERE filepath = '%s'", $file);
-    if ($file = db_fetch_object($result)) {
-      if (user_access('view uploaded files')) {
-        $node = node_load($file->nid);
-        if (node_access('view', $node)) {
-          $name = mime_header_encode($file->filename);
-          $type = mime_header_encode($file->filemime);
-          // Serve images and text inline for the browser to display rather than download.
-          $disposition = ereg('^(text/|image/)', $file->filemime) ? 'inline' : 'attachment';
-          return array(
-            'Content-Type: '. $type .'; name='. $name,
-            'Content-Length: '. $file->filesize,
-            'Content-Disposition: '. $disposition .'; filename='. $name,
-            'Cache-Control: private'
-          );
-        }
-        else {
-          return -1;
-        }
-      }
-      else {
-        return -1;
-      }
-    }
-  }
-}
-
 function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $page, $module) {
   switch ($op) {
     case 'submit':
@@ -112,7 +27,7 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
       }
       break;
     // called after content.module loads default data.
-    case 'load'://print_r($items);
+    case 'load':
       $output = array();
       if (count($items)) {
         $values = array();
@@ -144,7 +59,6 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
         unset($items[0]['emthumb']['emthumb']['emthumb']['emthumb']);
       }
       foreach ($items as  $delta => $item) {
-        drupal_set_message('insert: '. print_r($item, TRUE));
         $items[$delta]['data']['emthumb'] = _emthumb_file_insert($node, $item['data']['emthumb'], $field);
       }
       break;
@@ -176,30 +90,19 @@ function emthumb_widget_element_process($element, $form_state) {
   $delta = $element['#delta'];
   $fieldname = $element['#fieldname'];
 
-  // clean up the session if we weren't posted.
-  if (!count($_POST)) {
-    emthumb_clear_session();
-  }
   $fieldname = $element['#fieldname'];
   $field = $element['#field'];
   // Attach new files
-  $validators = array();$filename = $_FILES['files']['name'][$fieldname .'_upload'];
+  $validators = array();
   $filename = $source = $fieldname .'_upload';
-  if ($file = file_save_upload($filename, $validators, ($field['widget']['emthumb_image_path'] ? file_directory_path() .'/'. $field['widget']['emthumb_image_path'] : file_directory_path()), FILE_EXISTS_RENAME )) {
+  drupal_set_message('filename: '.$filename);
+  if ($file = file_save_upload($filename, $validators, file_create_path($field['widget']['emthumb_image_path']), FILE_EXISTS_RENAME)) {
     $file = (array)$file;
     if (strpos($file['filemime'], 'image') !== FALSE) {
       $file = _emthumb_scale_image($file, $field['widget']['emthumb_max_resolution']);
 
       // Create the filepath for the image preview
       $filepath = file_create_filename($file['filename'], file_create_path($field['widget']['emthumb_image_path']));
-      if (variable_get('file_downloads', FILE_DOWNLOADS_PUBLIC) ==  FILE_DOWNLOADS_PRIVATE) {
-        if (strpos($filepath, file_directory_path()) !== FALSE) {
-          $filepath = trim(substr($filepath, strlen(file_directory_path())), '\\/');
-        }
-        $filepath = 'system/files/'. $filepath;
-      }
-
-      $file['preview'] = $filepath;
 
       // If a single field, mark any other images for deletion and delete files in session
       if (!$field['multiple']) {
@@ -208,22 +111,8 @@ function emthumb_widget_element_process($element, $form_state) {
               $items[$delta]['data']['emthumb']['flags']['delete'] = TRUE;
           }
         }
-        emthumb_clear_field_session($fieldname);
       }
-      // Add the file to the session
-      $file_id = count($items) + count($_SESSION['emthumb'][$fieldname]);
-      $_SESSION['emthumb'][$fieldname][$file_id] = $file;
     }
-  }
-
-  // Load files from preview state. before committing actions.
-  if (is_array($_SESSION['emthumb'][$fieldname]) && count($_SESSION['emthumb'][$fieldname])) {
-    foreach ($_SESSION['emthumb'][$fieldname] as $delta => $file) {
-      $items[$delta-1]['data']['emthumb'] = $file;
-    }
-  }
-  else {
-    $file = $file ? $file : $items[$delta]['data']['emthumb'];
   }
 
   // Seperate from tree becase of that silly things won't be
@@ -243,8 +132,9 @@ function emthumb_widget_element_process($element, $form_state) {
     '#tree' => FALSE,
     '#weight' => 10,
   );
+
   // Store the file data object to be carried on.
-  $file = $items[$delta]['data']['emthumb'];
+  $file = $file ? $file : $items[$delta]['data']['emthumb'];
   if ($file['filepath'] && !$file['flags']['delete']) {
     $element['#title'] = t('Replace');
     $element['emthumb'] = array(
@@ -583,11 +473,9 @@ function theme_emthumb_edit_image_row($element) {
  */
 function _emthumb_file_insert($node, &$file, $field) {
   $fieldname = $field['field_name'];
-drupal_set_message('passed file: '.print_r($file, TRUE));
   $filepath = file_create_path($field['widget']['emthumb_image_path']) .'/'. $file['filename'];
   $file = (object) $file;
   $status = file_set_status($file, 1);
-  drupal_set_message('file: '.print_r($file, TRUE));
   if (!$status) {
     // Include file name in upload error.
     drupal_set_message(t('Thumbnail upload (%filename) was unsuccessful.', array('%filename' => $file['filename'])), 'error');
@@ -626,9 +514,9 @@ function _emthumb_file_delete($file, $fieldname) {
   if (is_numeric($file['fid'])) {
     db_query('DELETE FROM {files} WHERE fid = %d', $file['fid']);
   }
-  else {
-    unset($_SESSION['emthumb'][$fieldname][$file['sessionid']]);
-  }
+//   else {
+// //     unset($_SESSION['emthumb'][$fieldname][$file['sessionid']]);
+//   }
   return file_delete($file['filepath']);
 }
 
