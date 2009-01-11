@@ -95,7 +95,6 @@ function emthumb_widget_element_process($element, $form_state) {
   // Attach new files
   $validators = array();
   $filename = $source = $fieldname .'_upload';
-  drupal_set_message('filename: '.$filename);
   if ($file = file_save_upload($filename, $validators, file_create_path($field['widget']['emthumb_image_path']), FILE_EXISTS_RENAME)) {
     $file = (array)$file;
     if (strpos($file['filemime'], 'image') !== FALSE) {
