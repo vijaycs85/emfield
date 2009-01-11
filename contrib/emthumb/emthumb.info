@@ -3,4 +3,4 @@ name = Embedded Media Thumbnail
 description = Allows custom thumbnails for Embedded Media Fields (Not ready for Drupal 6 yet).
 dependencies[] = emfield
 package = CCK
-core = 5.x
+core = 6.x
