@@ -2,6 +2,7 @@
 
 January 2009
 -------------
+ * In Drupal 6, we need to build multipart/form-data forms manually (aaron).
  * #349214 - moonray fixed problem with multi field settings
  * #353900 - KarenS fixed multiple problems, which removed multiple error messages
 

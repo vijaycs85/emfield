@@ -211,6 +211,13 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
   // Allow other modules, such as Embedded Media Thumbnail, to add additional elements to the widget.
   foreach (module_implements('emfield_widget_extra') as $module_extra) {
     $tree[$module_extra] = module_invoke($module_extra, 'emfield_widget_extra', $form, $form_state, $field, $items, $delta, $module);
+
+    // In Drupal 6, we need to build multipart/form-data forms manually.
+    if (function_exists($module_extra. '_emfield_widget_extra_file_included')) {
+      if (call_user_func($module_extra. '_emfield_widget_extra_file_included')) {
+        $form['#attributes'] = array('enctype' => "multipart/form-data");
+      }
+    }
   }
   return $tree;
 }
