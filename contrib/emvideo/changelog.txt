@@ -1,5 +1,9 @@
 /* $Id$ */
 
+February 2009
+-------------
+ * #237664 - Adding support for uStream videos (aaron).
+
 January 2009
 -------------
  * #348357 - jtsnow added support for yahoo music videos
