@@ -1,5 +1,9 @@
 /* $Id$ */
 
+February 2009
+-------------
+ * #237664 - Adding support for uStream videos (aaron).
+
 August 2008
 -----------
  * Add support for swfobject to youtube, taking swfobject_api into account (aaron).
