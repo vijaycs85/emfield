@@ -113,6 +113,12 @@ function emvideo_youtube_settings() {
     '#default_value' => variable_get('emvideo_youtube_full_screen', 1),
     '#description' => t('Allow users to view video using the entire computer screen.'),
   );
+  $form['youtube']['player_options']['emvideo_youtube_high_quality'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use YouTube high quality content'),
+    '#default_value' => variable_get('emvideo_youtube_high_quality', FALSE),
+    '#description' => t("If checked, then a parameter will be set to request high quality content.  Note: Not all videos from youtube are available in high quality. Those that aren't will play in normal quality."),
+  );
 
   if (module_exists('colorpicker')) {
     $form['youtube']['colors']['emvideo_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
@@ -254,7 +260,7 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
   static $count;
   $output = '';
   if ($embed) {
-    $fullscreen = variable_get('emvideo_youtube_full_screen', 1);
+    $fullscreen = isset($options['fullscreen']) ? $options['fullscreen'] : variable_get('emvideo_youtube_full_screen', 1);
     $fullscreen_value = $fullscreen ? "true" : "false";
     $fs = $fullscreen ? "&amp;fs=$fullscreen" : "";
     $related = isset($options['related']) ? $options['related'] : variable_get('emvideo_youtube_show_related_videos', 0);
@@ -272,9 +278,11 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $border = $border ? '&border=1' : '';
     $enablejsapi = isset($options['enablejsapi']) ? $options['enablejsapi'] : variable_get('emvideo_youtube_enablejsapi', TRUE);
     $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
-    $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
-    $div_id = isset($options['div_id']) ? $options['div_id'] : 'video-cck-youtube-flash-wrapper-'. $count;
-    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$enablejsapi$fs";
+    $id = isset($options['id']) ? $options['id'] : 'emvideo-youtube-flash-'. (++$count);
+    $div_id = isset($options['div_id']) ? $options['div_id'] : 'emvideo-youtube-flash-wrapper-'. $count;
+    $high_quality = isset($options['high_quality']) ? $options['high_quality'] : variable_get('emvideo_youtube_high_quality', FALSE);
+    $high_quality = $high_quality ? '&amp;ap=%2526fmt%3D18' : '';
+    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$high_quality$enablejsap$fs";
     if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;
