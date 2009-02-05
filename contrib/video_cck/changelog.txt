@@ -2,6 +2,7 @@
 
 February 2009
 -------------
+ * #303756 - High quality YouTube (benshell/jrfano/VeryMisunderstood).
  * #237664 - Adding support for uStream videos (aaron).
 
 August 2008
