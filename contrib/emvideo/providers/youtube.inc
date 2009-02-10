@@ -298,8 +298,7 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
             Sorry, you need to install flash to see this content.
           </div>
           <script language="JavaScript" type="text/javascript">
-            var so = new SWFObject("$url", "$id", "$width", "$height", "7");
-            so.write("$div_id");
+            swfobject.embedSWF("$url", "$div_id", "$width", "$height", "8");
           </script>
 FLASH;
       }

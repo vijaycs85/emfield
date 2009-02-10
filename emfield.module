@@ -122,8 +122,9 @@ function emfield_implement_types($cached = TRUE) {
         foreach ($type['fields'] as $field_type => $field) {
 
           // If this field type is defined by this module, then include it here.
-          if ($module = $modules[$field_types[$field['type']]['module']]) {
+          if (!empty($modules[$field_types[$field['type']]['module']])) {
             // Settings per content type per module.
+			$module = $modules[$field_types[$field['type']]['module']];
             $types[$module][$content_type][$field_type] = $field;
           }
         }

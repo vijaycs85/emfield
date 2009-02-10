@@ -70,15 +70,16 @@ function hook_requirements($phase) {
 function _emvideo_upgrade_from_video_cck() {
   $ret = array();
 
-  // Do nothing if this is a new install. We know that if there are no existing fields with video_cck type. Hoorah!
-  if ($__TODO_REPLACE_WITH_PROPER_CHECK) {
-    return $ret;
-  }
+  // Do nothing if this is a new install. We know that if there are no existing fields with video_cck type. 
+  // if ($__TODO_REPLACE_WITH_PROPER_CHECK) {
+  //  return $ret;
+  // }
 
-  // <Fancy Hand-Waving>
 
   // Change any fields from 'video_cck' to 'emvideo' type.
   db_query("UPDATE {content_node_field} SET type='emvideo' WHERE type='video_cck'");
+  db_query("UPDATE {content_node_field_instance} SET widget_type='emvideo_textfields' WHERE widget_type='video_cck_textfields'");
+
 
   // Rebuild our content types.
   content_clear_type_cache();

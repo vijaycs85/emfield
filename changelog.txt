@@ -1,5 +1,10 @@
 /* $Id$ */
 
+February 2009
+-------------
+ * #365223 - Drewish fixed some PHP E_ALL warnings
+ * # 
+
 January 2009
 -------------
  * In Drupal 6, we need to build multipart/form-data forms manually (aaron).
