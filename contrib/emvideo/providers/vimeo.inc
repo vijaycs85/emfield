@@ -224,9 +224,9 @@ function emvideo_vimeo_thumbnail($field, $item, $formatter, $node, $width, $heig
 
 function emvideo_vimeo_emfield_subtheme() {
   return array(
-  'emvideo_vimeo_flash' => array(
-  'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
-  'file' => 'providers/brightcove.inc'
-    )
+    'emvideo_vimeo_flash' => array(
+      'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
+      'file' => 'providers/vimeo.inc',
+    ),
   );
 }

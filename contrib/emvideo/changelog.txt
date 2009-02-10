@@ -2,6 +2,7 @@
 
 February 2009
 -------------
+ * #370021 Fix module looking for brightcove in vimeo.inc (jcmarco).
  * Add Lightbox2 support (aaron).
  * Add attributes to thumnbails; route thumbnails through theme('image') (aaron).
  * #368963 - Remove support for Brightcove.tv (aaron).
