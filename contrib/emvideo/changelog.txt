@@ -2,7 +2,7 @@
 
 February 2009
 -------------
-
+ * #370500 - Rob Loach added flowplayer support for custom url videos. 
  * #370909 - drewish fixed a conflict between swfobject and thickbox in yahoomusic.inc and youtube.inc 
  * #370021 Fix module looking for brightcove in vimeo.inc (jcmarco).
  * Add Lightbox2 support (aaron).
