@@ -164,13 +164,17 @@ function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = arr
     'attributes' => array(
       'title' => $title,
       'class' => 'thickbox',
-      'rel' => $field['type_name'],
+      'rel' => module_exists('lightbox2') ? 'lightframe['. $field['type_name'] .'|width:'. ($field['widget']['video_width'] + 16) .'; height:'. ($field['widget']['video_height'] + 16) .';]' : $field['type_name'],
     ),
     'query' => NULL,
     'fragment' => NULL,
     'absolute' => FALSE,
     'html' => TRUE,
   );
+
+  if (function_exists('lightbox2_add_files')) {
+    lightbox2_add_files();
+  }
   $output = l($thumbnail, $destination, $options);
 
   return $output;

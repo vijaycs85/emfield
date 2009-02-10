@@ -21,7 +21,7 @@ define('EMVIDEO_DEFAULT_THUMBNAIL_HEIGHT', 90);
  */
 function emvideo_menu() {
   $items = array();
-  if (module_exists('thickbox')) {
+  if (module_exists('thickbox') || module_exists('lightbox2')) {
     $items['emvideo/thickbox'] = array(
       'page callback' => 'emvideo_thickbox',
       'access arguments' => array('access content'),
@@ -94,7 +94,7 @@ function emvideo_theme() {
         'arguments' => array('element' => NULL),
         'file' => 'emvideo.theme.inc'
     ),
-	'emvideo_formatter_thickbox' => array(
+  'emvideo_formatter_thickbox' => array(
         'arguments' => array('element' => NULL),
         'file' => 'emvideo.theme.inc'
     ),
@@ -191,9 +191,9 @@ function emvideo_field_formatter_info() {
   );
 
   // Add thickbox formatter if thickbox module exists.
-  if (module_exists('thickbox')) {
+  if (module_exists('thickbox') || module_exists('lightbox2')) {
     $formats['thickbox'] = array(
-      'label' => t('Thickbox: Image Thumbnail -> Full Size Video'),
+      'label' => t('Thickbox/Lightbox2: Image Thumbnail -> Full Size Video'),
       'field types' => $types,
       );
   }

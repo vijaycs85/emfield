@@ -2,6 +2,7 @@
 
 February 2009
 -------------
+ * Add Lightbox2 support (aaron).
  * Add attributes to thumnbails; route thumbnails through theme('image') (aaron).
  * #368963 - Remove support for Brightcove.tv (aaron).
  * #303756 - High quality YouTube (benshell/jrfano/VeryMisunderstood).
