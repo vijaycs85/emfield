@@ -157,7 +157,8 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
 }
 
 function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
-  $title = t('Thickbox'); // Is this right? Nothing is declared.
+  $title = isset($options['title']) ? $options['title'] : (isset($node->title) ? $node->title : (isset($node->node_title) ? $node->node_title : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video')))));
+
   $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, TRUE, $options);
   $destination = 'emvideo/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'] .'/'. $item['provider'] .'/'. $item['value'];
   $options = array(
