@@ -49,10 +49,12 @@ function theme_emvideo_video_embed($field, $item, $formatter, $node, $options = 
  *   Optional array. This is to pass optional overrides. currently:
  *     $options['width'] and $options['height'], if provided, will override any field settings for the thumbnail w/h.
  *     $options['link_url'], if provided, will cause the thumbnail link to go to another URL other than node/nid. $no_link must be FALSE.
+ *     $options['title'], if provided, will set the title of the link and image.
  *     $options['link_title'], if provided, will set the title of the link when no image is provided. otherwise, it defaults to 'See video'.
  *     $options['image_title'], if provided, will set the title attribute of the href link, defaulting to $options['link_title'].
  *     $options['image_alt'], if provided, will set the alt attribute of the href link, defaulting to $options['link_title'].
  *     $options['thumbnail_url'], if provided, will completely override the thumbnail image entirely.
+ *     $options['attributes'], if provided, sets the attributes for the displayed image.
  * @return
  *   The thumbnail output.
  */
@@ -61,7 +63,7 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
   $output = '';
   $width = isset($options['width']) ? $options['width'] : ($field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emvideo_default_video_width', EMVIDEO_DEFAULT_THUMBNAIL_WIDTH));
   $height = isset($options['height']) ? $options['height'] : ($field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_THUMBNAIL_HEIGHT));
-  
+
   // Get a thumbnail URL. This can be an override through $options['thumbnail_url'],
   // defined by the provider (the usual case), or a default image.
   if (isset($options['thumbnail_url']) || ($item['value'] && $item['provider'])) {
@@ -91,7 +93,7 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
   $link_url = isset($options['link_url']) ? $options['link_url'] : 'node/'. $node->nid;
 
   // Define the title/alt to display for the link hover.
-  $link_title = isset($options['link_title']) ? $options['link_title'] : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video')));
+  $link_title = isset($options['link_title']) ? $options['link_title'] : (isset($options['title']) ? $options['title'] : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video'))));
   if (module_exists('token')) {
     // Allow the editor to use [title] tokens.
     $link_title = token_replace($link_title, 'global', $node);
@@ -104,12 +106,16 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
     $width = isset($width) ? $width : ($field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emvideo_default_thumbnail_width', EMVIDEO_DEFAULT_THUMBNAIL_WIDTH));
     $height = isset($options['height']) ? $options['height'] : NULL;
     $height = isset($height) ? $height : ($field['widget']['thumbnail_height'] ? $field['widget']['thumbnail_height'] : variable_get('emvideo_default_thumbnail_height', EMVIDEO_DEFAULT_THUMBNAIL_HEIGHT));
+    $attributes = isset($options['attributes']) ? $options['attributes'] : array();
+    $attributes['width'] = isset($attributes['width']) ? $attributes['width'] : $width;
+    $attributes['height'] = isset($attributes['height']) ? $attributes['height'] : $height;
+    $image = theme('image', $thumbnail_url, $image_alt, $image_title, $attributes, FALSE);
     if ($no_link) {
       // Thickbox requires the thumbnail returned without the link.
-      $output = '<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. $image_alt .'" title="'. $image_title .'" />';
+      $output = $image;
     }
     else {
-      $output = l('<img src="'. $thumbnail_url .'" width="'. $width  .'" height="'. $height  .'" alt="'. $image_alt .'" title="'. $image_title .'" />', $link_url, array('html'=> TRUE));
+      $output = l($image, $link_url, array('html'=> TRUE));
     }
   }
   else {
