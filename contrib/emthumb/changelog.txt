@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+February 2009
+-------------
+ * Fetch remote images (aaron).
+
 January 2009
 ------------
  * Upgrade to Drupal 6 (aaron).

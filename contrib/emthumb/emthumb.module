@@ -134,6 +134,9 @@ function emthumb_widget_element_process($element, $form_state) {
 
   // Store the file data object to be carried on.
   $file = $file ? $file : $items[$delta]['data']['emthumb'];
+  if (empty($file) && variable_get('emthumb_store_local_thumbnail', TRUE)) {
+    $file = emthumb_fetch_remote_thumbnail($items[$delta], $field);
+  }
   if ($file['filepath'] && !$file['flags']['delete']) {
     $element['#title'] = t('Replace');
     $element['emthumb'] = array(
@@ -543,5 +546,87 @@ function _emthumb_file_load($fid = NULL) {
 function emthumb_thumbnail_url($item) {
   if ($item['data']['emthumb']['filepath']) {
     return file_create_url($item['data']['emthumb']['filepath']);
+  }
+}
+
+function emthumb_fetch_remote_thumbnail($item, $field) {
+  if ($item['provider']) {
+    $thumbnail = emfield_include_invoke($field['module'], $item['provider'], 'thumbnail', $field, $item, 'thumbnail', NULL, $field['widget']['thumbnail_width'], $field['widget']['thumbnail_height'], array());
+    if ($thumbnail) {
+      global $user;
+
+      $image = file_get_contents($thumbnail);
+      if ($image) {
+
+        // Add in our check of the the file name length.
+        $validators['file_validate_name_length'] = array();
+
+        $basename = $field['module'] .'-'. $item['provider'] .'-'. $item['value'] .'-'. pathinfo($thumbnail, PATHINFO_BASENAME);
+        $directory = file_directory_path() .'/'. variable_get('emthumb_directory', 'emthumb');
+        $filepath = file_create_filename($basename, $directory);
+
+        // Begin building file object.
+        $file = new stdClass();
+        $file->uid = $user->uid;
+        $file->filename = $basename;
+        $file->filepath = $filepath;
+        $file->filemime = module_exists('mimedetect') ? mimedetect_mime($file) : file_get_mimetype($file->filename);
+
+        // Rename potentially executable files, to help prevent exploits.
+        if (preg_match('/\.(php|pl|py|cgi|asp|js)$/i', $file->filename) && (substr($file->filename, -4) != '.txt')) {
+          $file->filemime = 'text/plain';
+          $file->filepath .= '.txt';
+          $file->filename .= '.txt';
+        }
+
+        // If the destination is not provided, or is not writable, then use the
+        // temporary directory.
+        if (empty($dest) || file_check_path($dest) === FALSE) {
+          $dest = file_directory_temp();
+        }
+
+        $file->source = 'emthumb_fetch_remote_thumbnail';
+        $file->destination = file_destination($file->filepath, $replace);
+        $file->filesize = strlen($image);
+
+        // Call the validation functions.
+        $errors = array();
+        foreach ($validators as $function => $args) {
+          array_unshift($args, $file);
+          $errors = array_merge($errors, call_user_func_array($function, $args));
+        }
+
+        // Check for validation errors.
+        if (!empty($errors)) {
+          $message = t('The selected file %name could not be saved.', array('%name' => $file->filename));
+          if (count($errors) > 1) {
+            $message .= '<ul><li>'. implode('</li><li>', $errors) .'</li></ul>';
+          }
+          else {
+            $message .= ' '. array_pop($errors);
+          }
+          form_set_error($file->source, $message);
+          return 0;
+        }
+
+        if (!file_save_data($image, $file->filepath, FILE_EXISTS_RENAME)) {
+          form_set_error($file->source, t('Thumbnail error. Could not copy provider thumbnail.'));
+          watchdog('file', 'Upload error. Could not move file %file to destination %destination.', array('%file' => $file->filename, '%destination' => $file->destination));
+          return 0;
+        }
+        // If we made it this far it's safe to record this file in the database.
+        $file->status = FILE_STATUS_TEMPORARY;
+        $file->timestamp = time();
+        drupal_write_record('files', $file);
+
+        // Let modules add additional properties to the yet barebone file object.
+        foreach (module_implements('file_insert') as $module) {
+          $function =  $module .'_file_insert';
+          $function($file);
+        }
+
+        return (array)$file;
+      }
+    }
   }
 }
