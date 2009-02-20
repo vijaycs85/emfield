@@ -95,13 +95,13 @@ function emthumb_widget_element_process($element, $form_state) {
   // Attach new files
   $validators = array();
   $filename = $source = $fieldname .'_upload';
-  if ($file = file_save_upload($filename, $validators, file_create_path($field['widget']['emthumb_image_path']), FILE_EXISTS_RENAME)) {
+  if ($file = file_save_upload($filename, $validators, file_create_path($field['widget']['emimport_image_path']), FILE_EXISTS_RENAME)) {
     $file = (array)$file;
     if (strpos($file['filemime'], 'image') !== FALSE) {
       $file = _emthumb_scale_image($file, $field['widget']['emthumb_max_resolution']);
 
       // Create the filepath for the image preview
-      $filepath = file_create_filename($file['filename'], file_create_path($field['widget']['emthumb_image_path']));
+      $filepath = file_create_filename($file['filename'], file_create_path($field['widget']['emimport_image_path']));
 
       // If a single field, mark any other images for deletion and delete files in session
       if (!$field['multiple']) {
@@ -481,7 +481,7 @@ function theme_emthumb_edit_image_row($element) {
  */
 function _emthumb_file_insert($node, &$file, $field) {
   $fieldname = $field['field_name'];
-  $filepath = file_create_path($field['widget']['emthumb_image_path']) .'/'. $file['filename'];
+  $filepath = file_create_path($field['widget']['emimport_image_path']) .'/'. $file['filename'];
   $file = (object) $file;
   $status = file_set_status($file, 1);
   if (!$status) {
@@ -568,7 +568,7 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         $validators['file_validate_name_length'] = array();
 
         $basename = $field['module'] .'-'. $item['provider'] .'-'. $item['value'] .'-'. pathinfo($thumbnail, PATHINFO_BASENAME);
-        $directory = file_directory_path() .'/'. $field['widget']['emthumb_image_path'];
+        $directory = file_directory_path() .'/'. $field['widget']['emimport_image_path'];
         $filepath = file_create_filename($basename, $directory);
 
         // Begin building file object.
