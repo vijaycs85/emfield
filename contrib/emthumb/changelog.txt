@@ -1,4 +1,9 @@
 /* $Id$ */
+
+February 2009
+-------------
+ * #269149 - Fix thumbnail path (aaron).
+
 2008-05-10
 #249255 - ekes added MRSS support to multiple files
 
