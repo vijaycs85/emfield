@@ -213,11 +213,6 @@ function video_cck_vimeo_preview($embed, $width, $height, $field, $item, $autopl
  *    a URL pointing to the thumbnail
  */
 function video_cck_vimeo_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  $vimeo_id = (substr($item['value'], -1, 1)=='/') ? substr($item['value'], 0, -1) : $item['value'];
-  $vimeo_signature = variable_get('video_cck_vimeo_api_secret', '') .'api_key'. variable_get('video_cck_vimeo_api_key', '') .'method'.'vimeo.videos.getThumbnailUrl'.'size'. variable_get('video_cck_vimeo_thumb_size', '160') .'video_id'. $vimeo_id;
-  $vimeo_apicall = 'http://www.vimeo.com/api/rest?'.'api_key='. variable_get('video_cck_vimeo_api_key', '') .'&method='.'vimeo.videos.getThumbnailUrl'.'&size='. variable_get('video_cck_vimeo_thumb_size', '160') .'&video_id='. $vimeo_id .'&api_sig='. md5($vimeo_signature);
-  $api_file = file_get_contents($vimeo_apicall);
-  $data = array();
-  preg_match("#<thumbnail .*>(.*)</thumbnail>#i", $api_file, $data);
-  return $data[1];
+  $xml = emfield_request_xml('vimeo', 'http://vimeo.com/api/oembed.xml?url=http%3A//vimeo.com/'. $item['value'], array(), TRUE, FALSE, $item['value']);
+  return $xml['OEMBED']['THUMBNAIL_URL'][0];
 }
