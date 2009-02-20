@@ -568,7 +568,7 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         $validators['file_validate_name_length'] = array();
 
         $basename = $field['module'] .'-'. $item['provider'] .'-'. $item['value'] .'-'. pathinfo($thumbnail, PATHINFO_BASENAME);
-        $directory = file_directory_path() .'/'. $field['widget']['emthumb_image_path']);
+        $directory = file_directory_path() .'/'. $field['widget']['emthumb_image_path'];
         $filepath = file_create_filename($basename, $directory);
 
         // Begin building file object.
