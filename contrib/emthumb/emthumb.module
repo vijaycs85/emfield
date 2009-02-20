@@ -334,11 +334,17 @@ function emthumb_emfield_widget_settings_extra($op, $widget) {
         '#collapsible' => TRUE,
         '#collapsed' => FALSE,
       );
+      $form['emthumb']['emthumb_store_local_thumbnail'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Store remote thumbnails for this field'),
+        '#description' => t('If checked, then remote thumbnails will be stored locally for this field..'),
+        '#default_value' => isset($widget['emthumb_store_local_thumbnail']) ? $widget['emthumb_store_local_thumbnail'] : TRUE,
+      );
       $form['emthumb']['emthumb'] = array(
         '#type' => 'checkbox',
         '#title' => t('Allow custom thumbnails for this field'),
         '#description' => t('If checked, then editors may specify a custom thumbnail to be used, overriding any automatic thumbnails otherwise created.'),
-        '#default_value' => isset($widget['emthumb']) ? $widget['emthumb'] : 0,
+        '#default_value' => isset($widget['emthumb']) ? $widget['emthumb'] : FALSE,
       );
       $form['emthumb']['emthumb_label'] = array(
         '#type' => 'textfield',
@@ -562,7 +568,7 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         $validators['file_validate_name_length'] = array();
 
         $basename = $field['module'] .'-'. $item['provider'] .'-'. $item['value'] .'-'. pathinfo($thumbnail, PATHINFO_BASENAME);
-        $directory = file_directory_path() .'/'. variable_get('emthumb_directory', 'emthumb');
+        $directory = file_directory_path() .'/'. $field['widget']['emthumb_image_path']);
         $filepath = file_create_filename($basename, $directory);
 
         // Begin building file object.
