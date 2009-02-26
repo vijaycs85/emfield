@@ -19,21 +19,27 @@
   background: url(emvideo-play.png) no-repeat;
 
   /* This is the size of our button. */
-  height: 120px;
-  width: 120px;
+  width: 85px;
+  height: 112px;
 
   /* Absolute positioning in the relative wrapper creates the overlay. */
   position: absolute;
+/*   background-attachment:fixed; */
 }
 
-/* This is centered for the default placement of full-sized videos. */
+.emvideo-thumbnail-replacement span:hover {
+  background-position: -85px 0px;
+}
+
+/* This is centered for the default placement of full-sized videos,
+   which is 425x350. */
 .emvideo-thumbnail-replace-full .emvideo-thumbnail-replacement span {
-  top: 132px;
-  left: 180px;
+  left: 170px;
+  top: 119px;
 }
 
 /* This is centered for the default placement of full-sized videos. */
 .emvideo-thumbnail-replace-preview .emvideo-thumbnail-replacement span {
-  top: 132px;
-  left: 180px;
+  left: 170px;
+  top: 119px;
 }
