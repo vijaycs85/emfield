@@ -339,15 +339,18 @@ function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $he
 //$request = emvideo_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
 //$tn = $request['THUMBNAIL_URL'][0];
 
-  // if we have a large thumbnail size, then get the larger version available.
-  if ($width > 130 || $height > 97) {
-    $tn = "http://img.youtube.com/vi/$youtube_id/0.jpg";
-  }
-  else {
-    // youtube offers 3 thumbnails. select one randomly.
-    $rand = rand(0, 2) + 1;
-    $tn = "http://img.youtube.com/vi/$youtube_id/$rand.jpg";
-  }
+//   // if we have a large thumbnail size, then get the larger version available.
+//   if ($width > 130 || $height > 97) {
+//     $tn = "http://img.youtube.com/vi/$youtube_id/0.jpg";
+//   }
+//   else {
+//     // youtube offers 3 thumbnails. select one randomly.
+//     $rand = rand(0, 2) + 1;
+//     $tn = "http://img.youtube.com/vi/$youtube_id/$rand.jpg";
+//   }
+
+  // Always return the larger image now, since we're storing images locally.
+  $tn = "http://img.youtube.com/vi/$youtube_id/0.jpg";
 
   return $tn;
 }
