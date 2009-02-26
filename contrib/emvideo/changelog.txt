@@ -2,6 +2,7 @@
 
 February 2009
 -------------
+ * Add thumbnail -> video replacement formatters (aaron).
  * Always use YouTube's largest thumbnail (aaron).
  * #370500 - Rob Loach added flowplayer support for custom url videos.
  * #370909 - drewish fixed a conflict between swfobject and thickbox in yahoomusic.inc and youtube.inc

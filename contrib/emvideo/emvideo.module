@@ -21,13 +21,11 @@ define('EMVIDEO_DEFAULT_THUMBNAIL_HEIGHT', 90);
  */
 function emvideo_menu() {
   $items = array();
-  if (module_exists('thickbox') || module_exists('lightbox2')) {
-    $items['emvideo/thickbox'] = array(
-      'page callback' => 'emvideo_thickbox',
-      'access arguments' => array('access content'),
-      'type' => MENU_CALLBACK,
-    );
-  }
+  $items['emvideo/thickbox'] = array(
+    'page callback' => 'emvideo_thickbox',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
 
   $items += module_invoke('emfield', 'provider_menus', 'emvideo');
 
@@ -70,6 +68,14 @@ function emvideo_theme() {
       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
+    'emvideo_video_replace' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc',
+    ),
+    'emvideo_video_replace_preview' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc',
+    ),
     'emvideo_thickbox' => array(
       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
@@ -94,7 +100,15 @@ function emvideo_theme() {
         'arguments' => array('element' => NULL),
         'file' => 'emvideo.theme.inc'
     ),
-  'emvideo_formatter_thickbox' => array(
+    'emvideo_formatter_thickbox' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_replace' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_replace_preview' => array(
         'arguments' => array('element' => NULL),
         'file' => 'emvideo.theme.inc'
     ),
@@ -186,6 +200,14 @@ function emvideo_field_formatter_info() {
     ),
     'video_embed' => array(
       'label' => t('Embed Code'),
+      'field types' => $types,
+    ),
+    'video_replace' => array(
+      'label' => t('Thumbnail -> Full Size Video inline replacement'),
+      'field types' => $types,
+    ),
+    'video_replace_preview' => array(
+      'label' => t('Thumbnail -> Preview Size Video inline replacement'),
       'field types' => $types,
     ),
   );
