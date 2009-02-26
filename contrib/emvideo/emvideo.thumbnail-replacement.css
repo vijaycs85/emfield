@@ -5,9 +5,17 @@
  *  A Play button overlay for thumbnail -> video replacement.
  */
 
-/* The outer wrapper must be relative for the overlay. */
+/**
+ *  The outer wrapper must be relative for the overlay to work.
+ *  When overriding this style in your own stylesheet,
+ *  you'll probably want to add the video's height and width here,
+ *  so that you avoid the div dropping momentarily while the thumnbail
+ *  is replaced by the video.
+ */
 .emvideo-thickbox {
   position: relative;
+  /* width: 425px; */
+  /* height: 350px; */
 }
 
 /* This is the overlay of a play button on the video thumbnail. */
@@ -24,7 +32,6 @@
 
   /* Absolute positioning in the relative wrapper creates the overlay. */
   position: absolute;
-/*   background-attachment:fixed; */
 }
 
 .emvideo-thumbnail-replacement span:hover {

@@ -2,6 +2,7 @@
 
 February 2009
 -------------
+ * Documentation of css (aaron).
  * Add new play button, courtesy of BrightLoudNoise (BrightLoudNoise/aaron).
  * Add thumbnail -> video replacement formatters (aaron).
  * Always use YouTube's largest thumbnail (aaron).
