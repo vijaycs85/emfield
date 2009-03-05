@@ -158,16 +158,15 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
 
 function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
   $title = isset($options['title']) ? $options['title'] : (isset($node->title) ? $node->title : (isset($node->node_title) ? $node->node_title : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video')))));
-
   $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, TRUE, $options);
-  $destination = 'emvideo/thickbox/'. $node->nid .'/'. $field['widget']['video_width'] .'/'. $field['widget']['video_height'] .'/'. $field['field_name'] .'/'. $item['provider'] .'/'. $item['value'];
-  $width = $field['widget']['video_width'];
-  $height = $field['widget']['video_height'];
+  $width = ($formatter == 'video_replace_preview') ? $field['widget']['preview_width'] : $field['widget']['video_width'];
+  $height = ($formatter == 'video_replace_preview') ? $field['widget']['preview_height'] : $field['widget']['video_height'];
+  $destination = 'emvideo/thickbox/'. $node->nid .'/'. $width .'/'. $height .'/'. $field['field_name'] .'/'. $item['provider'] .'/'. $item['value'];
   $attributes = array(
     'attributes' => array(
       'title' => $title,
       'class' => (!isset($options['modal']) || $options['modal'] == 'thickbox') ? 'thickbox' : 'emvideo-thumbnail-replacement',
-      'rel' => module_exists('lightbox2') ? 'lightframe['. $field['type_name'] .'|width:'. ($width + 16) .'; height:'. ($height) .';]' : $field['type_name'],
+      'rel' => ((!isset($options['modal']) || $options['modal'] == 'thickbox') && module_exists('lightbox2')) ? 'lightframe['. $field['type_name'] .'|width:'. ($width + 16) .'; height:'. ($height) .';]' : $field['type_name'],
     ),
     'query' => NULL,
     'fragment' => NULL,

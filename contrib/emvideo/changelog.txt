@@ -1,5 +1,10 @@
 /* $Id$ */
 
+March 2009
+----------
+ * Fix conflict w/ inline preview & thickbox/lightbox2 (aaron).
+ * Fix inline preview size (aaron).
+
 February 2009
 -------------
  * Documentation of css (aaron).
