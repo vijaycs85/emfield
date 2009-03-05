@@ -27,7 +27,7 @@ function emfield_menu() {
     'access arguments' => array('administer site configuration'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
-  
+
   if (module_exists('job_queue')) {
     $items['admin/content/emfield/reload'] = array(
       'file' => 'emfield.admin.inc',
@@ -69,8 +69,8 @@ function emfield_emfield_content_is_empty($item, $field) {
  */
 function emfield_allowed_providers($field, $module) {
   $allowed_providers = emfield_system_list($module);
-  
-  // $field sometimes is the whole $field and sometimes just the $widget, 
+
+  // $field sometimes is the whole $field and sometimes just the $widget,
   // depending on where it is called from, so check which one we have.
   $providers = isset($field['widget']['providers']) ? $field['widget']['providers'] : (isset($field['providers']) ? $field['providers'] : array());
   $allow_all = TRUE;
@@ -186,15 +186,15 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
  *  This also allows you to grab directly from the URL to display the content from field 'provider'.
  */
 function _emfield_field_submit_id($field, $item, $module) {
-  
+
   // TODO Find the right fix for this.
   // When the embedded media field is used in the default value widget
-  // when editing field settings, the $item has no value for 'provider', 
+  // when editing field settings, the $item has no value for 'provider',
   // causing an error message.
   // This is not the right way to fix this, but I don't know why that
   // value has been left out of the form element returned by hook_widget_settings
   // and this will at least keep the error message from being displayed.
-  
+
   if (!isset($item['provider'])) {
     $item['provider'] = '';
   }
@@ -496,7 +496,7 @@ function emfield_set_error($error) {
  */
 function emfield_system_list($module, $provider = NULL, $load = TRUE) {
   $override_files = module_invoke_all('emfield_providers', $module, $provider);
-  $files = drupal_system_listing("$provider\.inc", drupal_get_path('module', $module) ."/providers", 'name', 0);
+  $files = drupal_system_listing("$provider\.inc$", drupal_get_path('module', $module) ."/providers", 'name', 0);
   $files = array_merge($files, $override_files);
 
   ksort($files);
@@ -669,34 +669,34 @@ function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $modul
 
 function emfield_provider_themes($module, $provider = NULL) {
   $themes = array();
-  
+
   if ($provider && $subthemes = emfield_include_invoke($module, $provider, 'subtheme')) {
     $themes = $subthemes;
   }
-  $providers = module_invoke('emfield', 'system_list', $module);
-  
+  $providers = emfield_system_list($module);
+
   foreach ($providers as $provider) {
     if ($subthemes = emfield_include_invoke($module, $provider->name, 'emfield_subtheme')) {
         $themes += $subthemes;
     }
   }
-  
+
   return $themes;
 }
 
 function emfield_provider_menus($module, $provider = NULL) {
   $menus = array();
-  
+
   if ($provider && $submenus = emfield_include_invoke($module, $provider, 'submenu')) {
     $menus = $submenus;
   }
   $providers = module_invoke('emfield', 'system_list', $module);
-  
+
   foreach ($providers as $provider) {
     if ($submenus = emfield_include_invoke($module, $provider->name, 'emfield_submenu')) {
         $menus += $submenus;
     }
   }
-  
+
   return $menus;
 }

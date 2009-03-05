@@ -1,9 +1,13 @@
 /* $Id$ */
 
+March 2009
+----------
+ * Fix regex for loading include files so .inc~ no longer loaded (aaron).
+
 February 2009
 -------------
  * #365223 - Drewish fixed some PHP E_ALL warnings
- * # 
+ * #
 
 January 2009
 -------------
