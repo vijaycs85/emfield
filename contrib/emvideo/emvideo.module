@@ -457,14 +457,21 @@ function emvideo_handler_arg_provider($op, &$query, $argtype, $arg = '') {
  *    The provider of the video.
  *  @param $code
  *    The video code to display.
+ *  @param $extra
+ *    Some video codes have a '/' character, so we have to accomodate in the URL.
  */
-function emvideo_thickbox($nid, $width, $height, $field_name, $provider, $code) {
+function emvideo_thickbox($nid, $width, $height, $field_name, $provider, $code, $extra = NULL) {
   $field = array();
   $field['widget']['video_width'] = $width;
   $field['widget']['video_height'] = $height;
   $field['widget']['video_autoplay'] = 1;
   $field['field_name'] = $field_name;
   $node = node_load($nid);
+
+  // If the URL has an extra bit, then append that to the video code.
+  if (isset($extra)) {
+    $code .= '/'. $extra;
+  }
   foreach ($node->{$field_name} as $video) {
     if ($video['provider'] == $provider && $video['value'] == $code) {
       $item = $video;
