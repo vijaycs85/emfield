@@ -2,6 +2,7 @@
 
 March 2009
 ----------
+ * Replace play button w/ 8bit PNG (BrightLoudNoise).
  * Fix conflict w/ inline preview & thickbox/lightbox2 (aaron).
  * Fix inline preview size (aaron).
 
