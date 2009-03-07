@@ -2,6 +2,7 @@
 
 March 2009
 ----------
+ * Pass error field when validating data element (aaron).
  * Fix regex for loading include files so .inc~ no longer loaded (aaron).
 
 February 2009

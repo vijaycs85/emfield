@@ -185,7 +185,7 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
  *  Replace embedded code with the extracted id. this goes in the field 'value'.
  *  This also allows you to grab directly from the URL to display the content from field 'provider'.
  */
-function _emfield_field_submit_id($field, $item, $module) {
+function _emfield_field_submit_id($field, $item, $module, $error_field) {
 
   // TODO Find the right fix for this.
   // When the embedded media field is used in the default value widget
@@ -199,7 +199,7 @@ function _emfield_field_submit_id($field, $item, $module) {
     $item['provider'] = '';
   }
   $item = array_merge($item, emfield_parse_embed($field, $item['embed'], $module));
-  $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item);
+  $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item, $error_field);
 
   return $item;
 }
