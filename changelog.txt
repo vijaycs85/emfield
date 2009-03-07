@@ -2,6 +2,7 @@
 
 March 2009
 ----------
+ * Documentation; default value of '' for error field (aaron).
  * Pass error field when validating data element (aaron).
  * Fix regex for loading include files so .inc~ no longer loaded (aaron).
 

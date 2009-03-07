@@ -184,10 +184,22 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
 /**
  *  Replace embedded code with the extracted id. this goes in the field 'value'.
  *  This also allows you to grab directly from the URL to display the content from field 'provider'.
+ *
+ *  @param $field
+ *    The field we're working with.
+ *  @param $item
+ *    The field item.
+ *  @param $module
+ *    The module invoking this: emvideo, emimage, emaudio.
+ *  @param $error_field
+ *    The form element id if we have any error messages, when passed by validation.
+ *
+ *  @return
+ *    The item after parsing.
  */
-function _emfield_field_submit_id($field, $item, $module, $error_field) {
+function _emfield_field_submit_id($field, $item, $module, $error_field = '') {
 
-  // TODO Find the right fix for this.
+  // TODO Find the right fix for this. (From 5. Does it still do this in 6?)
   // When the embedded media field is used in the default value widget
   // when editing field settings, the $item has no value for 'provider',
   // causing an error message.
