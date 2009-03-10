@@ -317,10 +317,12 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
  *   @param $serialized
  *     optional; Most uses of this function are expecting an XML file to be returned.  However some providers (Flickr)
  *     can instead return a serialized PHP array.  In this case set $serialized to TRUE.
+ *  @param $json
+ *    If TRUE, then the result will be a json encoded string.
  *   @return
  *     the xml results returned as an array
  */
-function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $return_errors = FALSE, $hash_extra = FALSE, $serialized = FALSE) {
+function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $return_errors = FALSE, $hash_extra = FALSE, $serialized = FALSE, $json = FALSE) {
   ksort($args);
 
   // Build an argument hash that we'll use for the cache id and api signing.
@@ -364,7 +366,10 @@ function emfield_request_xml($provider, $url, $args = array(), $cached = TRUE, $
     return array();
   }
 
-  if ($serialized) {
+  if ($json) {
+    $response = (array)json_decode($result->data);
+  }
+  else if ($serialized) {
     // Flickr gives us a serialized php array. Make sure it unserializes.
     $response = unserialize($result->data);
     if (!$response) {

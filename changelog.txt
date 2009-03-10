@@ -2,6 +2,7 @@
 
 March 2009
 ----------
+ * Add json option to request xml for brightcove support (aaron).
  * Documentation; default value of '' for error field (aaron).
  * Pass error field when validating data element (aaron).
  * Fix regex for loading include files so .inc~ no longer loaded (aaron).
@@ -9,7 +10,6 @@ March 2009
 February 2009
 -------------
  * #365223 - Drewish fixed some PHP E_ALL warnings
- * #
 
 January 2009
 -------------
