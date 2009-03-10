@@ -233,7 +233,13 @@ function emvideo_update_6() {
 function emvideo_update_6001() {
   // We added the archive.org provider file, so need to rebuild the theme.
   drupal_rebuild_theme_registry();
-  return array();
+
+  $ret[] = array(
+    'query' => t('Rebuilt the theme to accommodate new third party video providers.'),
+    'success' => TRUE
+  );
+
+  return $ret;
 }
 
 /**
