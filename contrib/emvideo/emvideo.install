@@ -70,7 +70,7 @@ function hook_requirements($phase) {
 function _emvideo_upgrade_from_video_cck() {
   $ret = array();
 
-  // Do nothing if this is a new install. We know that if there are no existing fields with video_cck type. 
+  // Do nothing if this is a new install. We know that if there are no existing fields with video_cck type.
   // if ($__TODO_REPLACE_WITH_PROPER_CHECK) {
   //  return $ret;
   // }
@@ -228,6 +228,12 @@ function emvideo_update_6() {
   $ret = _emvideo_update_reset_cache_views();
 
   return $ret;
+}
+
+function emvideo_update_6001() {
+  // We added the archive.org provider file, so need to rebuild the theme.
+  drupal_rebuild_theme_registry();
+  return array();
 }
 
 /**

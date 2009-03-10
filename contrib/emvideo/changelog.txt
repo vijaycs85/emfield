@@ -2,8 +2,9 @@
 
 March 2009
 ----------
+ * We added the archive.org provider file, so need to rebuild the theme (aaron).
  * Example provider file (aaron).
- * Some video codes have a '/' character, so we have to accomodate in the URL.
+ * Some video codes have a '/' character, so we have to accomodate in the URL (aaron).
  * Replace play button w/ 8bit PNG (BrightLoudNoise).
  * Fix conflict w/ inline preview & thickbox/lightbox2 (aaron).
  * Fix inline preview size (aaron).
