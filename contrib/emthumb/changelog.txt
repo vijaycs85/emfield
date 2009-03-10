@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+March 2008
+----------
+ * Strip out the query if provided in a thumbnail filepath (aaron).
+
 February 2009
 -------------
  * Fix image path for thumbnail storage (aaron).

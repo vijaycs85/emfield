@@ -568,14 +568,19 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         $validators['file_validate_name_length'] = array();
 
         $basename = $field['module'] .'-'. $item['provider'] .'-'. $item['value'] .'-'. pathinfo($thumbnail, PATHINFO_BASENAME);
-        $directory = file_directory_path() .'/'. $field['widget']['emimport_image_path'];
+        $directory = file_directory_path();
+        if (isset($field['widget']['emimport_image_path'])) {
+          $directory .= '/'. $field['widget']['emimport_image_path'];
+        }
         $filepath = file_create_filename($basename, $directory);
 
         // Begin building file object.
         $file = new stdClass();
         $file->uid = $user->uid;
-        $file->filename = $basename;
-        $file->filepath = $filepath;
+        // Strip out the query if provided.
+        $file->filename = parse_url($basename, PHP_URL_PATH);
+        $file->filepath = parse_url($filepath, PHP_URL_PATH);
+
         $file->filemime = module_exists('mimedetect') ? mimedetect_mime($file) : file_get_mimetype($file->filename);
 
         // Rename potentially executable files, to help prevent exploits.
