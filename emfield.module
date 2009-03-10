@@ -184,22 +184,10 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
 /**
  *  Replace embedded code with the extracted id. this goes in the field 'value'.
  *  This also allows you to grab directly from the URL to display the content from field 'provider'.
- *
- *  @param $field
- *    The field we're working with.
- *  @param $item
- *    The field item.
- *  @param $module
- *    The module invoking this: emvideo, emimage, emaudio.
- *  @param $error_field
- *    The form element id if we have any error messages, when passed by validation.
- *
- *  @return
- *    The item after parsing.
  */
-function _emfield_field_submit_id($field, $item, $module, $error_field = '') {
+function _emfield_field_submit_id($field, $item, $module) {
 
-  // TODO Find the right fix for this. (From 5. Does it still do this in 6?)
+  // TODO Find the right fix for this.
   // When the embedded media field is used in the default value widget
   // when editing field settings, the $item has no value for 'provider',
   // causing an error message.
@@ -211,7 +199,7 @@ function _emfield_field_submit_id($field, $item, $module, $error_field = '') {
     $item['provider'] = '';
   }
   $item = array_merge($item, emfield_parse_embed($field, $item['embed'], $module));
-  $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item, $error_field);
+  $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item);
 
   return $item;
 }
@@ -319,6 +307,16 @@ function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
  *   @param $cached
  *     optional; if TRUE, the result of this xml request will be cached. good to play nice w/
  *     the third party folks so they don't stop providing service to your site...
+ *   @param $return_errors
+ *     optional; if TRUE and an error is encountered, a descriptive error array will be returned with elements for
+ *     code, message and stat => 'error'
+ *   @param $hash_extra
+ *     optional; The key for caching is created from the arguments.  If your provider does not use arguments
+ *     (or uses the same arguments for each media item, you must pass a unique string as $hash_extra.  Currently
+ *     this is only used by bliptv and archive.org
+ *   @param $serialized
+ *     optional; Most uses of this function are expecting an XML file to be returned.  However some providers (Flickr)
+ *     can instead return a serialized PHP array.  In this case set $serialized to TRUE.
  *   @return
  *     the xml results returned as an array
  */
