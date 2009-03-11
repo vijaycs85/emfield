@@ -1,10 +1,13 @@
 /* $Id$ */
 
-2008-06-20
-add swfobject to general settings page
+March 2009
+----------
+ * Pass $options array through formatter (allowing for future inline functionality) (aaron).
 
-2008-06-06
-#263660 set a form error for invalid urls
+June 2008
+---------
+ * add swfobject to general settings page
+ * #263660 set a form error for invalid urls
 
 2008-05-23
 #214011 - dgtlmoon fixed variable syntax that was precenting users from choosing which providers should show up and which shouldn't on the CCK form.

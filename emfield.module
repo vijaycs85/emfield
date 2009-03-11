@@ -314,7 +314,7 @@ function _emfield_field_submit_id($field, $item, $module) {
   return $item;
 }
 
-function emfield_emfield_field_formatter($field, $item, $formatter, $node, $module) {
+function emfield_emfield_field_formatter($field, $item, $formatter, $node, $module, $options = array()) {
   // if we're coming from a preview, we need to extract our new embedded value...
   if ($node->in_preview) {
     $item = emfield_parse_embed($field, $item['embed'], $module);
@@ -338,7 +338,7 @@ function emfield_emfield_field_formatter($field, $item, $formatter, $node, $modu
 
 //  $module = $field['widget']['helper_module'];
 
-  $output .= theme($module .'_'. $formatter, $field, $item, $formatter, $node);
+  $output .= theme($module .'_'. $formatter, $field, $item, $formatter, $node, $options);
 
   return $output;
 }
