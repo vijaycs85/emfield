@@ -425,9 +425,9 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_l
 function theme_video_cck_video_video($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
-    $width = $options['width'] ? $options['width'] : ($field['widget']['video_width'] ? $field['widget']['video_width'] : variable_get('video_cck_default_video_width', VIDEO_CCK_DEFAULT_VIDEO_WIDTH));
-    $height = $options['height'] ? $options['height'] : ($field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('video_cck_default_video_height', VIDEO_CCK_DEFAULT_VIDEO_HEIGHT));
-    $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['video_autoplay'];
+    $width = isset($options['width']) ? $options['width'] : (isset($field['widget']['video_width']) ? $field['widget']['video_width'] : variable_get('video_cck_default_video_width', VIDEO_CCK_DEFAULT_VIDEO_WIDTH));
+    $height = isset($options['height']) ? $options['height'] : (isset($field['widget']['video_height']) ? $field['widget']['video_height'] : variable_get('video_cck_default_video_height', VIDEO_CCK_DEFAULT_VIDEO_HEIGHT));
+    $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['video_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'video', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
   return $output;
@@ -440,9 +440,9 @@ function theme_video_cck_default($field, $item, $formatter, $node, $options = ar
 function theme_video_cck_video_preview($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
-    $width = $options['width'] ? $options['width'] : ($field['widget']['preview_width'] ? $field['widget']['preview_width'] : variable_get('video_cck_default_preview_width', VIDEO_CCK_DEFAULT_PREVIEW_WIDTH));
-    $height = $options['height'] ? $options['height'] : ($field['widget']['preview_height'] ? $field['widget']['preview_height'] : variable_get('video_cck_default_preview_height', VIDEO_CCK_DEFAULT_PREVIEW_HEIGHT));
-    $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['preview_autoplay'];
+    $width = isset($options['width']) ? $options['width'] : (isset($field['widget']['preview_width']) ? $field['widget']['preview_width'] : variable_get('video_cck_default_preview_width', VIDEO_CCK_DEFAULT_PREVIEW_WIDTH));
+    $height = isset($options['height']) ? $options['height'] : (isset($field['widget']['preview_height']) ? $field['widget']['preview_height'] : variable_get('video_cck_default_preview_height', VIDEO_CCK_DEFAULT_PREVIEW_HEIGHT));
+    $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['preview_autoplay'];
     $output = module_invoke('emfield', 'include_invoke', 'video_cck', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $autoplay, $options);
   }
   return $output;
@@ -451,11 +451,11 @@ function theme_video_cck_video_preview($field, $item, $formatter, $node, $option
 function theme_video_cck_thickbox($field, $item, $formatter, $node, $options = array()) {
   $thumbnail = theme('video_cck_video_thumbnail', $field, $item, 'video_thumbnail', $node, true, $options);
 
-  $width = $options['width'] ? $options['width'] : ($field['widget']['video_width'] ? $field['widget']['video_width'] : variable_get('video_cck_default_video_width', VIDEO_CCK_DEFAULT_VIDEO_WIDTH));
-  $height = $options['height'] ? $options['height'] : ($field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('video_cck_default_video_height', VIDEO_CCK_DEFAULT_VIDEO_HEIGHT));
-  $field_name = $options['field_name'] ? $options['field_name'] : $field['field_name'];
-  $type_name = $options['type_name'] ? $options['type_name'] : $field['type_name'];
-  $title = $options['title'] ? $options['title'] : $node->title;
+  $width = isset($options['width']) ? $options['width'] : (isset($field['widget']['video_width']) ? $field['widget']['video_width'] : variable_get('video_cck_default_video_width', VIDEO_CCK_DEFAULT_VIDEO_WIDTH));
+  $height = isset($options['height']) ? $options['height'] : (isset($field['widget']['video_height']) ? $field['widget']['video_height'] : variable_get('video_cck_default_video_height', VIDEO_CCK_DEFAULT_VIDEO_HEIGHT));
+  $field_name = isset($options['field_name']) ? $options['field_name'] : $field['field_name'];
+  $type_name = isset($options['type_name']) ? $options['type_name'] : $field['type_name'];
+  $title = isset($options['title']) ? $options['title'] : $node->title;
 
   $destination = 'video-cck/thickbox/'. $node->nid .'/'. $width .'/'. $height .'/'. $field_name;
 

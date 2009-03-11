@@ -1,5 +1,9 @@
 /* $Id$ */
 
+March 2009
+----------
+ * Check for isset($options) (aaron).
+
 February 2009
 -------------
  * #345515 - Vimeo thumbnail feature not working (aaron).
