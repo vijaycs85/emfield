@@ -2,6 +2,7 @@
 
 March 2009
 ----------
+ * Link to proper video value in _emfield_emfield_widget (aaron).
  * Add json option to request xml for brightcove support (aaron).
  * Documentation; default value of '' for error field (aaron).
  * Pass error field when validating data element (aaron).
