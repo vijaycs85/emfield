@@ -7,6 +7,8 @@
 
 March 2008
 ----------
+ * Change filename creation for automatic thumbs (aaron).
+ * Add support for the Transliteration module (aaron).
  * Strip out the query if provided in a thumbnail filepath (aaron).
 
 February 2009

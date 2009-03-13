@@ -567,7 +567,12 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         // Add in our check of the the file name length.
         $validators['file_validate_name_length'] = array();
 
-        $basename = $field['module'] .'-'. $item['provider'] .'-'. $item['value'] .'-'. pathinfo($thumbnail, PATHINFO_BASENAME);
+        if (module_exists('transliteration')) {
+          $thumbnail = transliteration_get($thumbnail);
+        }
+
+        // We need to account for slashes in the value, such as from hulu.
+        $basename = $field['module'] .'-'. $item['provider'] .'-'. str_replace('/', '-', $item['value']) .'.'. pathinfo($thumbnail, PATHINFO_EXTENSION);
         $directory = file_directory_path();
         if (isset($field['widget']['emimport_image_path'])) {
           $directory .= '/'. $field['widget']['emimport_image_path'];
