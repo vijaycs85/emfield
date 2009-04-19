@@ -119,6 +119,12 @@ function emvideo_youtube_settings() {
     '#default_value' => variable_get('emvideo_youtube_high_quality', FALSE),
     '#description' => t("If checked, then a parameter will be set to request high quality content.  Note: Not all videos from youtube are available in high quality. Those that aren't will play in normal quality."),
   );
+   $form['youtube']['player_options']['emvideo_youtube_display_info'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Remove titles and ratings on videos'),
+    '#default_value' => variable_get('emvideo_youtube_display_info', FALSE),
+    '#description' => t("If checked, additional info, such as title and rating, will NOT be displayed on the YouTube player."),
+  );
 
   if (module_exists('colorpicker')) {
     $form['youtube']['colors']['emvideo_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
@@ -282,7 +288,9 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $div_id = isset($options['div_id']) ? $options['div_id'] : 'emvideo-youtube-flash-wrapper-'. $count;
     $high_quality = isset($options['high_quality']) ? $options['high_quality'] : variable_get('emvideo_youtube_high_quality', FALSE);
     $high_quality = $high_quality ? '&amp;ap=%2526fmt%3D18' : '';
-    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$high_quality$enablejsap$fs";
+    $display_info = isset($options['display_info']) ? $options['display_info'] : variable_get('emvideo_youtube_display_info', FALSE);
+    $display_info  = $display_info  ? '&showinfo=0' : '';
+    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$high_quality$display_info$enablejsap$fs";
     if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;

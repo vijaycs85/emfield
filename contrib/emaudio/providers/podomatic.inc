@@ -92,18 +92,10 @@ function theme_emaudio_podomatic_flash($embed, $width, $height, $autoplay) {
       $autoplay_value = '&autostart=1';
     }
 	*/
-    $output .= "
-    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.podOmatic.com/flash/flashcatcher.swf\" id=\"audioPlayback\">
-      <param name=\"movie\" value=\"http://www.podOmatic.com/flash/flashcatcher.swf\">
-      <param name=\"allowScriptAcess\" value=\"sameDomain\">
-      <param name=\"quality\" value=\"best\">
-      <param name=\"bgcolor\" value=\"#FFFFFF\">
-      <param name=\"scale\" value=\"noScale\">
-      <param name=\"salign\" value=\"TL\">
-      <param name=\"FlashVars\" value=\"playlist_url=http://". $embed .".podOmatic.com/xspf.xspf\" />
-      <param name=\"wmode\" value=\"transparent\" />
-    </object>
-	\n";
+    $output = '<embed type="application/x-shockwave-flash"
+	src="http://www.podomatic.com/swf/mediaplayer.swf" width="320" height="340"
+	allowscriptaccess="always" allowfullscreen="true"
+	flashvars="thumbsinplaylist=true&width=320&height=340&file=http://'.$embed.'.podOmatic.com/xspf_stream.xml&autoscroll=false&displayheight=240&searchbar=false" />';
   }
   return $output;
 }
