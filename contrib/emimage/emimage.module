@@ -229,7 +229,7 @@ function emimage_widget_settings($op, $widget) {
         $form['tn']['thumbnail_height'] = array(
           '#type' => 'textfield',
           '#title' => t('Image thumbnail height'),
-          '#default_value' => empty($widget['thumbnail_height']) ? $height : $widget['thumbnail_height'],
+          '#default_value' => ($widget['thumbnail_height'] == '') ? $height : $widget['thumbnail_height'],
           '#required' => true,
           '#description' => t('The height of the image thumbnail. It defaults to @height. Set it to 0 if you want to leave the image at its original aspect ratio.', array('@height' => $height)),
         );
