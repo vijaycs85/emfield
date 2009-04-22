@@ -151,7 +151,7 @@ function emthumb_widget_element_process($element, $form_state) {
     $filename = $file['filepath'];
     $element['emthumb']['preview'] = array(
       '#type' => 'markup',
-      '#value' => theme('emthumb_image', $file, $file['emthumb_alt'], $file['emthumb_title'], array('width' => '150'), FALSE),
+      '#value' => theme('emthumb_image', $file, $file['emthumb_alt'], $file['emthumb_title'], array('width' => $field['widget']['thumbnail_width'], 'height' => $field['widget']['thumbnail_height']), FALSE),
     );
 
     $element['emthumb']['description'] = array(

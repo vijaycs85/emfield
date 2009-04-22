@@ -5,7 +5,11 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
-March 2008
+April 2009
+----------
+ * Preview size same as field thumbnail (aaron).
+
+March 2009
 ----------
  * Change filename creation for automatic thumbs (aaron).
  * Add support for the Transliteration module (aaron).
