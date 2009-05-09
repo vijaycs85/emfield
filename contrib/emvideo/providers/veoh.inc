@@ -7,8 +7,7 @@
  */
 
 define('EMVIDEO_VEOH_MAIN_URL', 'http://www.veoh.com/');
-define('EMVIDEO_VEOH_API_INFO', 'http://www.veoh.com/restApiDoc/restReference.html');
-define('EMVIDEO_VEOH_API_APPLICATION_URL', 'http://www.veoh.com/developers.html');
+define('EMVIDEO_VEOH_API_INFO', 'http://www.veoh.com/rest/v2/doc.html');
 define('EMVIDEO_VEOH_XML', 'http://www.veoh.com/rest/video/');
 
 function emvideo_veoh_info() {

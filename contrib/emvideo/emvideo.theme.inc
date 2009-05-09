@@ -147,9 +147,9 @@ function theme_emvideo_default($field, $item, $formatter, $node, $options = arra
 function theme_emvideo_video_preview($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
-    $width = $options['width'] ? $options['width'] : ($field['widget']['preview_width'] ? $field['widget']['preview_width'] : variable_get('emvideo_default_preview_width', EMVIDEO_DEFAULT_PREVIEW_WIDTH));
-    $height = $options['height'] ? $options['height'] : ($field['widget']['preview_height'] ? $field['widget']['preview_height'] : variable_get('emvideo_default_preview_height', EMVIDEO_DEFAULT_PREVIEW_HEIGHT));
-    $autoplay = $options['autoplay'] ? $options['autoplay'] : $field['widget']['preview_autoplay'];
+    $width = isset($options['width']) ? $options['width'] : (isset($field['widget']['preview_width']) ? $field['widget']['preview_width'] : variable_get('emvideo_default_preview_width', EMVIDEO_DEFAULT_PREVIEW_WIDTH));
+    $height = isset($options['height']) ? $options['height'] : (isset($field['widget']['preview_height']) ? $field['widget']['preview_height'] : variable_get('emvideo_default_preview_height', EMVIDEO_DEFAULT_PREVIEW_HEIGHT));
+    $autoplay = isset($options['autoplay']) ? $options['autoplay'] : (isset($field['widget']['preview_autoplay']) ? $field['widget']['preview_autoplay'] : FALSE);
     $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
   }
 
