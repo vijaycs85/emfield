@@ -4,12 +4,29 @@
 function theme_emimage_image($field, $item, $formatter, $node, $code, $width, $height, $title = '', $link = NULL) {
   $url = module_invoke('emfield', 'include_invoke', 'emimage', $item['provider'], 'image_url', $code, $width, $height, $formatter, $field, $item, $node);
   $attributes = array();
-  if ($width) {
+  if ($width == 0) {
     $attributes['width'] = $width;
   }
-  if ($height) {
-    $attributes['height'] = $height;
-  }
+  else {
+    // Find out the size of the actual image file, and scale accordingly
+    if ( $item['data']['width'] && $item['data']['height'] ) {
+      // The image's width & height are known
+      $scale_width = $item['data']['width'] / $width ;
+      $scale_height = $item['data']['height'] / $height ;
+      if ($scale_width > $scale_height) {
+        $attributes['width'] = $width;
+      } 
+      else {
+        $attributes['height'] = $height;
+      }
+    }
+    else {
+      // We don't know the size of the image, so just make it fill the space available.
+      // It will probably be stretched in one direction, making it look odd.
+      $attributes['width'] = $width;
+      $attributes['height'] = $height;	  
+    }
+	}
   if ($item['class']){
       $attributes['class'] = $item['class'];
   }
@@ -102,6 +119,11 @@ function theme_emimage_formatter_image_embed($element) {
 }
 
 function theme_emimage_formatter_default($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+
+function theme_emimage_formatter_image_full($element) {
   $field = content_fields($element['#field_name'], $element['#type_name']);
   return module_invoke('emimage', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
 }

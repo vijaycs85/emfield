@@ -43,7 +43,6 @@ function emimage_flickr_info() {
  */
 function emimage_flickr_import($url, $limit = 0, $page = 0) {
   $codes = array();
-
   // http://www.flickr.com/photos/nikkiana/sets/72157601948647678/
   if (preg_match('@flickr\.com/photos/([^/]*)/([^/]*)/([^/]*)/@i', $url, $matches)) {
     $page++;  // flickr starts current page at 1
@@ -54,7 +53,6 @@ function emimage_flickr_import($url, $limit = 0, $page = 0) {
     }
     $args['page'] = $page;
     $xml = emimage_flickr_request('flickr.photosets.getPhotos', $args);
-//    print_r($xml);
     $codes['#pages'] = $xml['photoset']['pages'];
     $codes['#page'] = $xml['photoset']['page'] - 1;
     $codes['#total'] = $xml['photoset']['total'];
@@ -77,7 +75,6 @@ function emimage_flickr_import($url, $limit = 0, $page = 0) {
     $data['owner'] = $xml['photo']['owner']['nsid'];
     $data['title'] = $xml['photo']['title']['_content'];*/
   }
-// print_r($codes);
   return $codes;
 }
 
@@ -144,6 +141,23 @@ function emimage_flickr_data($field, $item) {
     foreach ($xml['photo']['tags']['tag'] as $tag) {
       $data['tags'][] = $tag['raw'];
     }
+  }
+  // Store the dimensions of the largest image so we can scale it correctly at display-time
+  $width = 0 ;
+  $height = 0;
+  $xml = emimage_flickr_request('flickr.photos.getSizes', array('photo_id' => $item['value']));
+  foreach( $xml["sizes"]["size"] as $size){
+    // Ignore the Square size, as that doesn't give us the true aspect ratio
+    if ($size["label"] != "Square") {
+      if ( (int)$size["width"] > $width ) {
+        $width = (int)$size["width"];
+        $height = (int)$size["height"];
+      }
+    }
+  }
+  if ($width > 0) {
+    $data['width'] = $width ;
+    $data['height'] = $height ;
   }
   return $data;
 }

@@ -385,6 +385,10 @@ function emimage_theme(){
         'arguments' => array('element' => NULL),
 		'file' => 'emimage.theme.inc',
     ),
+    'emimage_formatter_image_full' => array(
+        'arguments' => array('element' => NULL),
+		'file' => 'emimage.theme.inc',
+    ),
     'emimage_formatter_default' => array(
         'arguments' => array('element' => NULL),
 		'file' => 'emimage.theme.inc',

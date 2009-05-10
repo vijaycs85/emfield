@@ -8,7 +8,6 @@
 
 define('EMVIDEO_LIVEVIDEO_MAIN_URL', 'http://www.livevideo.com/');
 define('EMVIDEO_LIVEVIDEO_API_INFO', 'http://www.livevideo.com/api/default.aspx');
-define('EMVIDEO_LIVEVIDEO_API_APPLICATION_URL', 'http://www.livevideo.com/profile/admin/editdeveloperprofile.aspx');
 define('EMVIDEO_LIVEVIDEO_REST_ENDPOINT', 'http://www.livevideo.com/api/');
 
 /**

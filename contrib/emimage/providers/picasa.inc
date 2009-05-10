@@ -7,7 +7,7 @@
  */
 
 define('EMIMAGE_PICASA_MAIN_URL', 'http://picasaweb.google.com/');
-define('EMIMAGE_PICASA_API_INFO', 'http://code.google.com/apis/picasaweb/gdata.html');
+define('EMIMAGE_PICASA_API_INFO', 'http://code.google.com/apis/picasaweb/developers_guide_protocol.html');
 define('EMIMAGE_PICASA_REST_ENDPOINT', 'http://picasaweb.google.com/data/feed/api/user/');
 
 /**

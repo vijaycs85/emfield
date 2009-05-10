@@ -313,7 +313,7 @@ FLASH;
     }
     else {
       $output .= <<<FLASH
-        <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id" allowFullScreen="$fullscreen_value">
+        <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id">
           <param name="movie" value="$url" />
           <param name="allowScriptAcess" value="sameDomain"/>
           <param name="quality" value="best"/>

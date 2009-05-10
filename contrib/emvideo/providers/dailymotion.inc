@@ -124,7 +124,7 @@ function theme_emvideo_dailymotion_flash($embed, $width, $height, $autoplay) {
  *    a URL pointing to the thumbnail
  */
 function emvideo_dailymotion_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return 'http://www.dailymotion.com/thumbnail/160x120/video/'. $item['value'];
+  return 'http://ak.static.dailymotion.com/dyn/preview/160x120/video/'. $item['value'];
 }
 
 /**
