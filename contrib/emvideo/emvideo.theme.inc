@@ -166,7 +166,7 @@ function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = arr
     'attributes' => array(
       'title' => $title,
       'class' => (!isset($options['modal']) || $options['modal'] == 'thickbox') ? 'thickbox' : 'emvideo-thumbnail-replacement',
-      'rel' => ((!isset($options['modal']) || $options['modal'] == 'thickbox') && module_exists('lightbox2')) ? 'lightframe['. $field['type_name'] .'|width:'. ($width + 16) .'; height:'. ($height) .';]' : $field['type_name'],
+      'rel' => ((!isset($options['modal']) || $options['modal'] == 'thickbox') && module_exists('lightbox2')) ? 'lightframe['. $field['type_name'] .'|width:'. ($width + 16) .'; height:'. ($height + 16) .';]' : $field['type_name'],
     ),
     'query' => NULL,
     'fragment' => NULL,
