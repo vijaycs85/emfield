@@ -290,7 +290,7 @@ function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $option
     $high_quality = $high_quality ? '&amp;ap=%2526fmt%3D18' : '';
     $display_info = isset($options['display_info']) ? $options['display_info'] : variable_get('emvideo_youtube_display_info', FALSE);
     $display_info  = $display_info  ? '&showinfo=0' : '';
-    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$high_quality$display_info$enablejsap$fs";
+    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$high_quality$display_info$enablejsapi$fs";
     if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;

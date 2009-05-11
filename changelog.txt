@@ -1,5 +1,9 @@
 /* $Id$ */
 
+May 2009
+----------
+#452724 - winston fixed problem with caching of xml
+
 March 2009
 ----------
  * Link to proper video value in _emfield_emfield_widget (aaron).

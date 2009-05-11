@@ -1,5 +1,12 @@
 /* $Id$ */
 
+May 2009
+----------
+ * #459272 - fixed MySpace povider file with new api (junedkazi/alex).
+ * #374201 - jastraat fixed problem with $enablejsapi param.
+ * #405596 - ahem85 fixed problem with regex in zzz_custom_url.inc
+ * #363287 - q0rban fixed problem with emvideo.install
+
 March 2009
 ----------
  * We added the archive.org provider file, so need to rebuild the theme (aaron).

@@ -110,7 +110,8 @@ function _emvideo_upgrade_from_video_cck() {
   // so we fix those sites too. Shame on them for not updating d5 first...
   drupal_load('module', 'emfield');
   foreach (emfield_system_list('emvideo') as $provider) {
-    $test = variable_get('emfield_video_cck_allow_'. $provider->name, NULL) || variable_get('video_cck_allow_'. $provider->name, NULL);
+    $test = variable_get('emfield_video_cck_allow_'. $provider->name, NULL);
+    $test = (isset($test)) ? $test : variable_get('video_cck_allow_'. $provider->name, NULL);
     if (isset($test)) {
       variable_set('emfield_emvideo_allow_'. $provider->name, $test);
       variable_del('emfield_video_cck_allow_'. $provider->name);

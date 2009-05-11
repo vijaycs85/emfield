@@ -77,7 +77,7 @@ function emvideo_zzz_custom_url_data($field, $item) {
   }
   // @todo replace ['type'] with converted mime info if available
   $types = _emvideo_zzz_custom_url_implode_types();
-  $regex = '@\.('. $types .')@i';
+  $regex = '@\.('. $types .')$@i';
   if (preg_match($regex, $item['embed'], $matches)) {
     $data['type'] = $matches[1];
   }
