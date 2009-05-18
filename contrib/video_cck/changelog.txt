@@ -1,5 +1,9 @@
 /* $Id$ */
 
+May 2009
+--------
+ * Fix potential problem with missing thumbnail links (aaron).
+
 March 2009
 ----------
  * Check for isset($options) (aaron).

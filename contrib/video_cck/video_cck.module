@@ -365,6 +365,14 @@ function theme_video_cck_video_embed($field, $item, $formatter, $node, $options 
  *    $options['thumbnail_url'], if provided, will completely override the thumbnail image entirely.
  */
 function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_link = FALSE, $options = array()) {
+  // Sometime in the past, we added the $no_link argument before $options.
+  // However, emfield.module attempts to call this w/o $no_link at line 341.
+  if (is_array($no_link) && empty($options)) {
+    $options = $no_link;
+  }
+  if (is_array($no_link)) {
+    $no_link = FALSE;
+  }
   if ($item['value'] && $item['provider']) {
     // if we've set $options['thumbnail_url'], then we'll just use that.
     // otherwise, if we have emthumb installed, then give it a chance to override our thumbnail
