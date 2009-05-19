@@ -6,6 +6,7 @@ May 2009
  * #374201 - jastraat fixed problem with $enablejsapi param.
  * #405596 - ahem85 fixed problem with regex in zzz_custom_url.inc
  * #363287 - q0rban fixed problem with emvideo.install
+ * #466608 - fixed path to cck's content.admin.inc
 
 March 2009
 ----------
