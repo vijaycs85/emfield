@@ -2,6 +2,7 @@
 
 May 2009
 --------
+ * Fix youtube div id for swfobject (aaron).
  * Fix potential problem with missing thumbnail links (aaron).
 
 March 2009

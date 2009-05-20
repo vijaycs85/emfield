@@ -290,7 +290,7 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay, $opti
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;
         $params['height'] = $height;
-        $params['div_id'] = $id;
+        $params['div_id'] = $div_id;
         $output .= theme('swfobject_api', $url, $params, $vars, $id);
       }
       else {
