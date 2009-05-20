@@ -161,13 +161,7 @@ function image_ncck_flickr_error_check() {
 
 function image_ncck_flickr_extract($embed = '') {
   // http://flickr.com/photos/96898796@N00/194727976/
-  if (preg_match('@flickr\.com/photos/([^/]*)/([^/]*)/@i', $embed, $matches)) {
-    return $matches[2];
-  }
-  else if (preg_match('@flickr\.com/photos/([^/]*)/(.*)@i', $embed, $matches)) {
-    return $matches[2];
-  }
-  return array();
+  return array('@flickr\.com/photos/[^/]*/(\d+)@i');
 }
 
 /**
@@ -186,7 +180,7 @@ function image_ncck_flickr_embedded_link($code, $data = array()) {
     $xml = image_ncck_flickr_request('flickr.photos.getInfo', array('photo_id' => $code));
     $owner = $xml['photo']['owner']['nsid'];
   }
-  return 'http://www.flickr.com/photos/' . $owner . '/' .$code;
+  return 'http://www.flickr.com/photos/'. $owner .'/'. $code;
 }
 
 /**
@@ -236,7 +230,7 @@ function _image_ncck_flickr_image_url($photo, $size = NULL, $format = NULL) {
   $id = isset($photo['primary']) ? $photo['primary'] : $photo['id'];
   $secret = $photo['secret'];
 
-  return "http://farm{$farm}.static.flickr.com/{$server}/{$id}_{$secret}" .($size ? "_$size." : '.') . ($size == 'o' ? $format : 'jpg');
+  return "http://farm{$farm}.static.flickr.com/{$server}/{$id}_{$secret}" . ($size ? "_$size." : '.') . ($size == 'o' ? $format : 'jpg');
 }
 
 function _image_ncck_flickr_guess_size($width, $height) {

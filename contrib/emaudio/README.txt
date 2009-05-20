@@ -30,6 +30,6 @@ when creating or editing the specific field. Note that not all options are suppo
 of what features are currently supported by a provider at admin/content/emfield.
 
 Some providers may provide other features that are supported by Embedded Audio Field, such as affiliate programs or related
-podcasts. You can find those settings at admin/content/emaudio, in the fieldset for the specific provider.
+podcasts. You can find those settings at admin/content/emfield, in the fieldset for the specific provider.
 
 Questions can be directed to winborn at advomatic dot com

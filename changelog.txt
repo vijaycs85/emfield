@@ -1,5 +1,18 @@
 /* $Id$ */
-2008-05-10 
+
+March 2009
+----------
+ * Pass $options array through formatter (allowing for future inline functionality) (aaron).
+
+June 2008
+---------
+ * add swfobject to general settings page
+ * #263660 set a form error for invalid urls
+
+2008-05-23
+#214011 - dgtlmoon fixed variable syntax that was precenting users from choosing which providers should show up and which shouldn't on the CCK form.
+
+2008-05-10
 #228678 - vanvemden fixed problem where on node preview video was not shown
 
 2008-04-29

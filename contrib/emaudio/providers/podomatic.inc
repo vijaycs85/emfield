@@ -71,7 +71,7 @@ function emaudio_podomatic_extract($embed = '') {
  *    a string containing the URL to view the audio at the original provider's site
  */
 function emaudio_podomatic_embedded_link($audio_code) {
-  return 'http://www.podomatic.com/podcast/embed/' . $audio_code;
+  return 'http://www.podomatic.com/podcast/embed/'. $audio_code;
 }
 
 /**
@@ -92,7 +92,7 @@ function theme_emaudio_podomatic_flash($embed, $width, $height, $autoplay) {
       <param name=\"bgcolor\" value=\"#FFFFFF\">
       <param name=\"scale\" value=\"noScale\">
       <param name=\"salign\" value=\"TL\">
-      <param name=\"FlashVars\" value=\"playlist_url=http://" . $embed . ".podOmatic.com/xspf.xspf\" />
+      <param name=\"FlashVars\" value=\"playlist_url=http://". $embed .".podOmatic.com/xspf.xspf\" />
       <param name=\"wmode\" value=\"transparent\" />
     </object>\n";
   }

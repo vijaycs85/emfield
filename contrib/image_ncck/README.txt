@@ -27,6 +27,6 @@ Images may be displayed in a thumbnail, preview, or full size, each of configura
 images are not stored locally, we don't have access to the powerful features of imagecache.
 
 Some providers may provide other features that are supported by Image Neighborhood CCK. You can find those settings at
-admin/content/video_cck, in the fieldset for the specific provider.
+admin/content/emfield, in the fieldset for the specific provider.
 
 Questions can be directed to winborn at advomatic dot com

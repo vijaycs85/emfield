@@ -115,7 +115,8 @@ function video_cck_lastfm_thumbnail($field, $item, $formatter, $node, $width, $h
   // if we have a large thumbnail size, then get the larger version available.
   if ($width >= 320) {
     $tn = "http://userserve-ak.last.fm/serve/image:320/$lastfm_id.jpg";
-  } else {
+  } 
+  else {
     $tn = "http://userserve-ak.last.fm/serve/image:160/$lastfm_id.jpg";
   }
   return $tn;

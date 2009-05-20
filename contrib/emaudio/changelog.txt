@@ -1,5 +1,10 @@
 /* $Id$ */
 
+2008-05-30
+add options arrays to theme functions
+add custom urls
+add soundclick provider
+
 2008-02-17
 add provider views handlers
 

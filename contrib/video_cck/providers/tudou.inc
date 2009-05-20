@@ -69,7 +69,7 @@ function video_cck_tudou_extract($embed = '') {
  *    a string containing the URL to view the video at the original provider's site
  */
 function video_cck_tudou_embedded_link($video_code) {
-  return 'http://www.tudou.com/programs/view/' . $video_code;
+  return 'http://www.tudou.com/programs/view/'. $video_code;
 }
 
 /**
