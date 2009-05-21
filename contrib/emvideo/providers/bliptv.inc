@@ -146,7 +146,7 @@ function emvideo_bliptv_data($field, $item) {
   // this is the code actually used by the player, even though it's different than for the page
   if ($rss['ITEM']['BLIP:POSTS_ID'][0]) {
     $data['post_id'] = $rss['ITEM']['BLIP:POSTS_ID'][0];
-  }	
+  }
   return $data;
 }
 
@@ -242,6 +242,20 @@ function emvideo_bliptv_rss($item, $teaser = NULL) {
 function theme_emvideo_bliptv_flash($code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail, $options = array()) {
   static $count;
   if ($code) {
+    if ($item['data']['video_cck_bliptv_data_version'] == 1) {
+      // If this is an old version of the data, then we'll attempt to display.
+      // Use regex to extract id from http://blip.tv/file/1399795.
+      preg_match('@file/([^?/]+)@i', $item['data']['post_id'], $matches);
+      $item['data']['post_id'] = $matches[1];
+      // Now we'll resave the node so the data is saved properly in the future.
+      // @TODO: Do this in cron, or even in update?
+      // Query would be something like:
+      // SELECT nid FROM content_type_video WHERE field_video_provider = 'bliptv' AND field_video_data LIKE '%%"video_cck_bliptv_data_version";i:1;%%';
+      // except that we don't know types and fields...
+      if (($node = $options['node']) && $node->nid) {
+        emfield_operations_reload(array($options['node']->nid), FALSE);
+      }
+    }
     $count++;
     $id = isset($options['id']) ? $options['id'] : "emfield_videocck_player_bliptv_$count";
     $autoplay = $autoplay ? 'autoStart=true' : 'autoStart=false';
@@ -254,12 +268,12 @@ function theme_emvideo_bliptv_flash($code, $width, $height, $field, $item, $auto
     $file = 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
     $embed_file = 'http://blip.tv/scripts/flash/showplayer.swf?enablejs=true'. $rss .'&amp;file='. $file .'&amp;showplayerpath=http://blip.tv/scripts/flash/showplayer.swf';
 
-   // If you want strict html you may want to use the following  code instead of the one blip provides 
-   // $output .= '<object type="application/x-shockwave-flash" data="'. $embed_file .'" width="'. $width .'" height="'. $height .'" allowfullscreen="true" id="'. $id .'"><param name="movie" value="'. $embed_file .'" /><param name="quality" value="best" /><embed src="'. $embed_file .'" quality="best" width="'. $width .'" height="'. $height .'" name="'. $id .'" type="application/x-shockwave-flash"></embed></object>'; 
-   
+   // If you want strict html you may want to use the following  code instead of the one blip provides
+   // $output .= '<object type="application/x-shockwave-flash" data="'. $embed_file .'" width="'. $width .'" height="'. $height .'" allowfullscreen="true" id="'. $id .'"><param name="movie" value="'. $embed_file .'" /><param name="quality" value="best" /><embed src="'. $embed_file .'" quality="best" width="'. $width .'" height="'. $height .'" name="'. $id .'" type="application/x-shockwave-flash"></embed></object>';
+
    $output .= '<embed src="http://blip.tv/play/'. $embed_code .'" type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" allowscriptaccess="always" allowfullscreen="true"></embed>';
   }
-  
+
   return $output;
 }
 

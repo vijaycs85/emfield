@@ -1,8 +1,15 @@
 /* $Id$ */
 
+/**
+ *  @file
+ *  Changelog for Embedded Video Field (emvideo).
+ */
+
 May 2009
 ----------
  * Pass $node to $options in theme functions (aaron).
+ * Pass $options to theme_video_cck_bliptv_flash (aaron).
+ * #351145 After upgrade, blip.tv videos show: Error: Invalid Feed (aaron).
  * #459272 - fixed MySpace povider file with new api (junedkazi/alex).
  * #374201 - jastraat fixed problem with $enablejsapi param.
  * #405596 - ahem85 fixed problem with regex in zzz_custom_url.inc
