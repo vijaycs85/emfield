@@ -1,5 +1,9 @@
 /* $Id$ */
 
+May 2009
+--------
+ * Allow silent node batch operations; notice to watchdog (aaron).
+
 March 2009
 ----------
  * Pass $options array through formatter (allowing for future inline functionality) (aaron).

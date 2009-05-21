@@ -544,13 +544,17 @@ function emfield_node_operations() {
 /**
  *  This reloads and saves the data for all the nid's in the array.
  */
-function emfield_operations_reload($nids = array()) {
+function emfield_operations_reload($nids = array(), $show_message = TRUE) {
   foreach ($nids as $nid) {
     if ($node = node_load($nid)) {
       $type = content_types($node->type);
       foreach ($type['fields'] as $field) {
         if (module_hook($field['type'], 'emfield_info')) {
-          drupal_set_message(t("Reloading %node-title's %field.", array('%node-title' => $node->title, '%field' => $field['type_name'])));
+          $message = t("Reloaded %node-title's %field.", array('%node-title' => $node->title, '%field' => $field['type_name']));
+          watchdog(WATCHDOG_NOTICE, $message, l($node->title, 'node/'. $node->nid));
+          if ($show_message) {
+            drupal_set_message($message);
+          }
           $items = $node->{$field['field_name']};
           emfield_emfield_field('submit', $node, $field, $items, FALSE, FALSE, $field['type']);
           $node->{$field['field_name']} = $items;
@@ -1053,4 +1057,3 @@ function _emfield_handler_arg_provider($op, &$query, $argtype, $arg = '', $modul
       return $title ? $title : check_plain($query);
   }
 }
-
