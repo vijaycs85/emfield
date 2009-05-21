@@ -2,7 +2,8 @@
 
 May 2009
 ----------
-#452724 - winston fixed problem with caching of xml
+ * Allow silent node batch operations; notice to watchdog (aaron).
+ * #452724 - winston fixed problem with caching of xml (alexua).
 
 March 2009
 ----------
@@ -34,24 +35,22 @@ November 2008
 
 August 2008
 -----------
-#277982- reikiman fixed call to emfield.rss.inc
-#177027#comment-937384 - Senpai added more description to _emfield_emfield_field()
-#177027#comment-937410 - Senpai changed so that admin settings default to not collapsed
-#291275 - singularo fixed a conflict with filefield.
-#177027#comment-950482 - cshoney got emfield to work with Drupal 6!
-#177027#comment-936435 - Senpai submitted some Coder fixes
-#177027#comment-934851 chsoney added a case 'sanatize' to _emfield_emfield_field
-#177027#comment-929542 - bangpound resolved issue with $data array not saving
+ * #277982- reikiman fixed call to emfield.rss.inc
+ * #177027#comment-937384 - Senpai added more description to _emfield_emfield_field()
+ * #177027#comment-937410 - Senpai changed so that admin settings default to not collapsed
+ * #291275 - singularo fixed a conflict with filefield.
+ * #177027#comment-950482 - cshoney got emfield to work with Drupal 6!
+ * #177027#comment-936435 - Senpai submitted some Coder fixes
+ * #177027#comment-934851 chsoney added a case 'sanatize' to _emfield_emfield_field
+ * #177027#comment-929542 - bangpound resolved issue with $data array not saving
 
-2008-06-22
-----------
+June 2008
+---------
  * Separate rss nodeapi functionality into emfield.rss.inc (aaron).
  * Separate cck functions into emfield.cck.inc (aaron).
  * Separate admin callback into emfield.admin.inc (aaron).
-
-2008-06-20
-add swfobject to general settings page
-#263660 set a form error for invalid urls
+ * add swfobject to general settings page
+ * #263660 set a form error for invalid urls
 
 2008-05-30
 widget info
