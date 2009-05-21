@@ -551,7 +551,7 @@ function emfield_operations_reload($nids = array(), $show_message = TRUE) {
       foreach ($type['fields'] as $field) {
         if (module_hook($field['type'], 'emfield_info')) {
           $message = t("Reloaded %node-title's %field.", array('%node-title' => $node->title, '%field' => $field['type_name']));
-          watchdog(WATCHDOG_NOTICE, $message, l($node->title, 'node/'. $node->nid));
+          watchdog('emfield reload data', $message, WATCHDOG_NOTICE, l($node->title, 'node/'. $node->nid));
           if ($show_message) {
             drupal_set_message($message);
           }
