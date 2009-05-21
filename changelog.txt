@@ -1,5 +1,10 @@
 /* $Id$ */
 
+/**
+ *  @file
+ *  Changelog for Embedded Media Field (Drupal version 6).
+ */
+
 May 2009
 ----------
  * Allow silent node batch operations; notice to watchdog (aaron).
