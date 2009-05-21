@@ -2,6 +2,7 @@
 
 May 2009
 ----------
+ * Pass $node to $options in theme functions (aaron).
  * #459272 - fixed MySpace povider file with new api (junedkazi/alex).
  * #374201 - jastraat fixed problem with $enablejsapi param.
  * #405596 - ahem85 fixed problem with regex in zzz_custom_url.inc
