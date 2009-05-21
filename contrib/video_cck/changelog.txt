@@ -2,6 +2,7 @@
 
 May 2009
 --------
+ * Fix youtube div for swfobject take 2 (aaron).
  * Pass $node in $options from video theme functions (aaron).
  * Pass $options to theme_video_cck_bliptv_flash (aaron).
  * #351145 After upgrade, blip.tv videos show: Error: Invalid Feed (aaron).

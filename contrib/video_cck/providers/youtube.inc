@@ -282,7 +282,7 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay, $opti
     $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
     $allowScriptAcess = $enablejsapi ? 'always' : 'sameDomain';
     $id = isset($options['id']) ? $options['id'] : 'video-cck-youtube-flash-'. (++$count);
-    $div_id = isset($options['div_id']) ? $options['div_id'] : 'video-cck-youtube-flash-wrapper-'. $count;
+    $div_id = isset($options['div_id']) ? $options['div_id'] : 'video_cck_youtube_flash_wrapper_'. $count;
     $high_quality = isset($options['high_quality']) ? $options['high_quality'] : variable_get('emvideo_youtube_high_quality', FALSE);
     $high_quality = $high_quality ? '&amp;ap=%2526fmt%3D18' : '';
     $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$high_quality$enablejsap$fs";
@@ -291,7 +291,7 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay, $opti
         $params['width'] = $width;
         $params['height'] = $height;
         $params['div_id'] = $div_id;
-        $output .= theme('swfobject_api', $url, $params, $vars, $id);
+        $output .= theme('swfobject_api', $url, $params, $vars, $div_id);
       }
       else {
         drupal_add_js(variable_get('emfield_swfobject_location', ''));
@@ -300,7 +300,7 @@ function theme_video_cck_youtube_flash($embed, $width, $height, $autoplay, $opti
             Sorry, you need to install flash to see this content.
           </div>
           <script language="JavaScript" type="text/javascript">
-            var so = new SWFObject("$url", "$id", "$width", "$height", "7");
+            var so = new SWFObject("$url", "$div_id", "$width", "$height", "7");
             so.write("$div_id");
           </script>
 FLASH;
