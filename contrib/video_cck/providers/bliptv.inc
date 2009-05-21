@@ -237,11 +237,23 @@ function video_cck_bliptv_rss($item, $teaser = NULL) {
 function theme_video_cck_bliptv_flash($code, $width, $height, $field, $item, $autoplay, $flv, $thumbnail, $options = array()) {
   static $count;
   if ($code) {
+    $count++;
+    $id = isset($options['id']) ? $options['id'] : "emfield_videocck_player_bliptv_$count";
+    $autoplay = $autoplay ? 'autostart=true' : 'autostart=false';
+
+    $rss = $item['data']['showpage'] ? "&feedurl={$item['data']['showpage']}/rss" : '';
+
+    $post_id = $item['data']['post_id'];
+    // if/when we allow featured shows to be embedded, this will handle that.
+//     $file = $item['data']['is_show'] ? "http://$code.blip.tv/rss/flash/" : 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
+
+    $file = 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
+    $embed_file = 'http://blip.tv/scripts/flash/showplayer.swf?'. $autoplay .'&amp;enablejs=true'. $rss .'&amp;file='. $file .'&amp;showplayerpath=http://blip.tv/scripts/flash/showplayer.swf';
+
     if ($item['data']['video_cck_bliptv_data_version'] == 1) {
       // If this is an old version of the data, then we'll attempt to display.
-      // Use regex to extract id from http://blip.tv/file/1399795.
-      preg_match('@file/([^?/]+)@i', $item['data']['post_id'], $matches);
-      $item['data']['post_id'] = $matches[1];
+      $autoplay = $autoplay ? 'autoStart=true' : 'autoStart=false';
+      $embed_file = "http://blip.tv/scripts/flash/blipplayer.swf?$autoplay&amp;file=$flv%3Fsource%3D3";
       // Now we'll resave the node so the data is saved properly in the future.
       // @TODO: Do this in cron, or even in update?
       // Query would be something like:
@@ -251,18 +263,6 @@ function theme_video_cck_bliptv_flash($code, $width, $height, $field, $item, $au
         emfield_operations_reload(array($options['node']->nid), FALSE);
       }
     }
-    $count++;
-    $id = isset($options['id']) ? $options['id'] : "emfield_videocck_player_bliptv_$count";
-    $autoplay = $autoplay ? 'autoStart=true' : 'autoStart=false';
-
-    $rss = $item['data']['showpage'] ? "&feedurl={$item['data']['showpage']}/rss" : '';
-
-    $post_id = $item['data']['post_id'];
-    // if/when we allow featured shows to be embedded, this will handle that.
-//     $file = $item['data']['is_show'] ? "http://$code.blip.tv/rss/flash/" : 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
-
-    $file = 'http://blip.tv/rss/flash/'. $item['data']['post_id'];
-    $embed_file = 'http://blip.tv/scripts/flash/showplayer.swf?enablejs=true'. $rss .'&file='. $file .'&showplayerpath=http://blip.tv/scripts/flash/showplayer.swf';
 
     $output .= '<object type="application/x-shockwave-flash" data="'. $embed_file .'" width="'. $width .'" height="'. $height .'" allowfullscreen="true" id="'. $id .'"><param name="movie" value="'. $embed_file .'" /><param name="quality" value="best" /><embed src="'. $embed_file .'" quality="best" width="'. $width .'" height="'. $height .'" name="'. $id .'" type="application/x-shockwave-flash"></embed></object>';
   }

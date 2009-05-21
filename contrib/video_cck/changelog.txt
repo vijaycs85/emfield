@@ -2,6 +2,7 @@
 
 May 2009
 --------
+ * Autoplay in blip's new player, and redo #351145 (aaron).
  * Fix youtube div for swfobject take 2 (aaron).
  * Pass $node in $options from video theme functions (aaron).
  * Pass $options to theme_video_cck_bliptv_flash (aaron).
