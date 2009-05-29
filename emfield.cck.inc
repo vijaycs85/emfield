@@ -187,7 +187,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
     '#description' => $textfield_description,
     '#default_value' => $embed,
     '#required' => $delta == 0 ? $field['required'] : FALSE,
-    '#maxlength' => 2048,
+    '#maxlength' => 4096,
   );
 
   $tree['value'] = array(
