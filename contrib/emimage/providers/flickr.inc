@@ -217,11 +217,11 @@ function emimage_flickr_image_url($code, $width, $height, $formatter = NULL, $fi
   if ($code) {
     $size = _emimage_flickr_guess_size($width, $height);
     $getsize = emimage_flickr_request('flickr.photos.getSizes', array('photo_id' => $code));
-   
+
     // For small images, there may not be the sizes 0..4 that
     // _emimage_flickr_guess_size assumes, so:
     $size = min( $size, (count($getsize['sizes']['size'])-1) );
-   
+
     $url = $getsize['sizes']['size'][$size]['source'];
   }
   return $url;
@@ -251,10 +251,15 @@ function emimage_flickr_image_title($code, $data) {
  */
 function _emimage_flickr_guess_size($width, $height) {
   $max = max($width, $height);
-  foreach (array('0' => 75, '1' => 100, '2' => 240, '3' => 500, '4' => 1024) as $size => $value) {
-    if ($max <= $value) {
-      return $size;
+
+  if ($max) {
+    foreach (array('0' => 75, '1' => 100, '2' => 240, '3' => 500, '4' => 1024) as $size => $value) {
+      if ($max <= $value) {
+        return $size;
+      }
     }
   }
+
+  // If we don't have width or height set, then get the original size.
   return '5';
 }

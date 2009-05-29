@@ -2,6 +2,7 @@
 
 May 2009
 --------
+ * #383274 Fix image scaling (aaron).
  * #383274 Fix division by error (aaron).
 
 December 2008
