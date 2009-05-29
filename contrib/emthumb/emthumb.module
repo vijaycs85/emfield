@@ -119,7 +119,7 @@ function emthumb_widget_element_process($element, $form_state) {
   // displayed if they are a child of '#type' = form issue
   $element[$fieldname .'_upload'] = array(
     '#type'  => 'file',
-    '#description' => $field['widget']['emthumb_description'] ? $field['widget']['emthumb_description'] : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $field['widget']['label'])),
+    '#description' => $field['widget']['emthumb_description'] ? t('@description', array('@description' => $field['widget']['emthumb_description'])) : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $field['widget']['label'])),
     '#tree' => FALSE,
     '#weight' => 9,
   );

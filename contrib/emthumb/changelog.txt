@@ -7,6 +7,7 @@
 
 May 2009
 --------
+ * #474790: Insecure handling of $field['widget']['emthumb_description'] (aaron).
  * #474790: Insecure handling of $field['widget']['emthumb_label'] (aaron).
 
 April 2009
