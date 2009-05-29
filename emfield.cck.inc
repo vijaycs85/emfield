@@ -183,7 +183,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
   $value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
   $tree['embed'] = array(
     '#type' => 'textfield',
-    '#title' => t($field['widget']['label']),
+    '#title' => t('@label', array('@label' => $field['widget']['label'])),
     '#description' => $textfield_description,
     '#default_value' => $embed,
     '#required' => $delta == 0 ? $field['required'] : FALSE,
