@@ -170,7 +170,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
 
   // Set the widget description, but allow the field to override this.
   if (!(empty($field['widget']['description']))) {
-    $textfield_description = $field['widget']['description'];
+    $textfield_description = t('@description', array('@description' => $field['widget']['description']));
   }
   else {
     $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
