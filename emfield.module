@@ -443,7 +443,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
               '#description' => $textfield_description,
               '#default_value' => $data[$textfield],
               '#required' => ($delta == 0) ? $field['required'] : FALSE,
-              '#maxlength' => 2048,
+              '#maxlength' => 4096,
             );
             if (!empty($additional_form_elements)) {
               foreach ($additional_form_elements as $key => $element) {
