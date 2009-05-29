@@ -2,6 +2,7 @@
 
 May 2009
 --------
+ * #474790 - Insecure handling of administrator-entered text (aaron).
  * Allow silent node batch operations; notice to watchdog (aaron).
 
 March 2009

@@ -424,7 +424,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
       }
       $textfield_title = t($field['widget']['label']);
       if (!(empty($field['widget']['description']))) {
-        $textfield_description = $field['widget']['description'];
+        $textfield_description = t('@description', array('@description' => $field['widget']['description']));
       }
       else {
         $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
@@ -433,7 +433,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
 
       if ($field['multiple']) {
         $form[$field['field_name']]['#type'] = 'fieldset';
-        $form[$field['field_name']]['#title'] = t($field['widget']['label']);
+        $form[$field['field_name']]['#title'] = t('@label', array('@label' => $field['widget']['label']));
         $delta = 0;
         foreach ($node_field as $data) {
           if (isset($data[$textfield])) {
