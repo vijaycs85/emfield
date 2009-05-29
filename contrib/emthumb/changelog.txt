@@ -1,5 +1,14 @@
 /* $Id$ */
 
+/**
+ *  @file
+ *  Changelog for Embedded Media Thumbnail.
+ */
+
+May 2009
+--------
+  * #474790 - Insecure handling of administrator-entered text (aaron).
+
 February 2009
 -------------
  * #269149 - Fix thumbnail path (aaron).

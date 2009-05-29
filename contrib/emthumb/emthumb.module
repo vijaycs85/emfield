@@ -305,10 +305,9 @@ function _emthumb_widget_form($node, $field, $items) {
   $fieldname = $field['field_name'];
   drupal_add_css(drupal_get_path('module', 'emthumb') .'/emthumb.css');
 
-//   $form = array();
   $form = array(
     '#type' => 'fieldset',
-    '#title' => t($field['widget']['emthumb_label'] ? $field['widget']['emthumb_label'] :  t('@field custom thumbnail', array('@field' => $field['widget']['label']))),
+    '#title' => t($field['widget']['emthumb_label'] ? t('@label', array('@label' => $field['widget']['emthumb_label'])) :  t('@field custom thumbnail', array('@field' => $field['widget']['label']))),
     '#weight' => $field['widget']['emthumb_weight'],
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
@@ -319,7 +318,7 @@ function _emthumb_widget_form($node, $field, $items) {
   // displayed if they are a child of '#type' = form issue
   $form[$fieldname .'_upload'] = array(
     '#type'  => 'file',
-    '#description' => $field['widget']['emthumb_description'] ? $field['widget']['emthumb_description'] : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $field['widget']['label'])),
+    '#description' => $field['widget']['emthumb_description'] ? t('@description', array('@description' => $field['widget']['emthumb_description'])) : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $field['widget']['label'])),
     '#tree' => FALSE,
     '#weight' => 9,
   );
