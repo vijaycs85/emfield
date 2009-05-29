@@ -1,5 +1,9 @@
 /* $Id$ */
 
+May 2009
+--------
+ * #383274 Fix division by error (aaron).
+
 December 2008
 -------------
  * #345383/moonray - Allow hook_menu() in providers (aaron/moonray).

@@ -7,15 +7,18 @@ function theme_emimage_image($field, $item, $formatter, $node, $code, $width, $h
   if ($width == 0) {
     $attributes['width'] = $width;
   }
+  else if ($height == 0) {
+    $attributes['height'] = $height;
+  }
   else {
     // Find out the size of the actual image file, and scale accordingly
     if ( $item['data']['width'] && $item['data']['height'] ) {
       // The image's width & height are known
-      $scale_width = $item['data']['width'] / $width ;
-      $scale_height = $item['data']['height'] / $height ;
+      $scale_width = $item['data']['width'] / ($width ? $width : 1);
+      $scale_height = $item['data']['height'] / ($height ? $height : 1);
       if ($scale_width > $scale_height) {
         $attributes['width'] = $width;
-      } 
+      }
       else {
         $attributes['height'] = $height;
       }
@@ -24,17 +27,17 @@ function theme_emimage_image($field, $item, $formatter, $node, $code, $width, $h
       // We don't know the size of the image, so just make it fill the space available.
       // It will probably be stretched in one direction, making it look odd.
       $attributes['width'] = $width;
-      $attributes['height'] = $height;	  
+      $attributes['height'] = $height;
     }
 	}
-  if ($item['class']){
+  if ($item['class']) {
       $attributes['class'] = $item['class'];
   }
   else if ($item['provider']) {
       $attributes['class'] = $item['provider'];
   }
   $output = theme('image', $url, $title, $title, $attributes, false);
-  
+
   if ($link) {
     $output = l($output, $link, array('html' => true));
   }
