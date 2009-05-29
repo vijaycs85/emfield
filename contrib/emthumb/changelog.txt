@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+May 2009
+--------
+ * #474790: Insecure handling of $field['widget']['emthumb_label'] (aaron).
+
 April 2009
 ----------
  * Preview size same as field thumbnail (aaron).

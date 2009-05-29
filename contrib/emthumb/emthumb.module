@@ -304,7 +304,7 @@ function emthumb_emfield_widget_extra(&$form, &$form_state, $field, $items, $del
   $element = array();
   $element['emthumb'] = array(
     '#type' => 'fieldset',
-    '#title' => $field['widget']['emthumb_label'] ? $field['widget']['emthumb_label'] :  t('@field custom thumbnail', array('@field' => $field['widget']['label'])),
+    '#title' => $field['widget']['emthumb_label'] ? t('@label', array('@label' => $field['widget']['emthumb_label'])) :  t('@field custom thumbnail', array('@field' => $field['widget']['label'])),
     '#weight' => $field['widget']['emthumb_weight'],
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
