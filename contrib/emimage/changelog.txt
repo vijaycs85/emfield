@@ -1,5 +1,8 @@
 /* $Id$ */
 
+DRUPAL-6--1-2
+=============
+
 May 2009
 --------
  * #383274 Fix image scaling (aaron).

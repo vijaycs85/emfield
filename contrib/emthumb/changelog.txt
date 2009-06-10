@@ -5,6 +5,9 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+DRUPAL-6--1-2
+=============
+
 May 2009
 --------
  * #474790: Insecure handling of $field['widget']['emthumb_description'] (aaron).

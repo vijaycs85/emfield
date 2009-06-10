@@ -5,8 +5,15 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+June 2009
+---------
+ * #207224 Fix amphersands in HTML (aaron/seanr).
+
+DRUPAL-6--1-2
+=============
+
 May 2009
-----------
+---------
  * Redo #351145 and fix autoplay for blip in new player (aaron).
  * Pass $node to $options in theme functions (aaron).
  * Pass $options to theme_video_cck_bliptv_flash (aaron).
