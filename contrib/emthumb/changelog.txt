@@ -7,7 +7,7 @@
 
 June 2009
 ---------
- * Fetch remote thumbnail on node insertion (aaron).
+ * #463582: Fetch remote thumbnail on node insertion (aaron).
  * Better documentation of functions (aaron).
 
 DRUPAL-6--1-2
