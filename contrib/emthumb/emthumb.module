@@ -85,6 +85,9 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
   }
 }
 
+/**
+ *  Process our emthumb element.
+ */
 function emthumb_widget_element_process($element, $form_state) {
   $field = $element['#field'];
   $items = $element['#items'];
@@ -135,8 +138,18 @@ function emthumb_widget_element_process($element, $form_state) {
 
   // Store the file data object to be carried on.
   $file = $file ? $file : $items[$delta]['data']['emthumb'];
+
+  // If we have no current file, and have been told to store a local thumbnail,
+  // then fetch it now.
   if (empty($file) && variable_get('emthumb_store_local_thumbnail', TRUE)) {
-    $file = emthumb_fetch_remote_thumbnail($items[$delta], $field);
+    $item = $items[$delta];
+    if (empty($item)) {
+      // @TODO: We need to get the info somehow.
+      // Unfortunately, it's not given by the element on submission.
+    }
+    if (!empty($item)) {
+      $file = emthumb_fetch_remote_thumbnail($item, $field);
+    }
   }
   if ($file['filepath'] && !$file['flags']['delete']) {
     $element['#title'] = t('Replace');
@@ -215,6 +228,16 @@ function emthumb_widget_element_process($element, $form_state) {
   return $element;
 }
 
+/**
+ *  Scales a newly uploaded image to fit the set resolution.
+ *  @param $file
+ *    The file object representing the image.
+ *  @param $resolution
+ *    The width x height of an image, a string in the form of '[w]/[h]',
+ *    such as '640x480'.
+ *  @return
+ *    The file object with the new filesize and path to scaled image.
+ */
 function _emthumb_scale_image($file, $resolution = 0) {
   $info = image_get_info($file['filepath']);
   if ($info) {
@@ -239,42 +262,12 @@ function emthumb_widget_element_validate($element, $form_state) {
 
 /**
  * Submit callback for emthumb_widget element.
+ *  @TODO: This does nothing, and is never called.
  */
 function emthumb_widget_element_submit($form, $form_state) {
+  // @TODO: This function does not even exist.
   emthumb_save_upload($element);
 }
-
-/**
- *  Theme function for the emthumb_widget element.
- */
-function theme_emthumb_widget($element) {
-  return theme('form_element', $element, $element['#children']);
-}
-
-
-/**
- * Implementation of hook_theme().
- */
-function emthumb_theme() {
-  return array(
-    'emthumb_view_image' => array(
-      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
-     ),
-    'emthumb_edit_image_row' => array(
-      'arguments' => array('element' => NULL),
-     ),
-    'emthumb_image' => array(
-      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
-     ),
-    'emthumb_multiple' => array(
-      'arguments' => array('images' => NULL),
-     ),
-    'emthumb_widget' => array(
-      'arguments' => array('element' => NULL),
-    ),
-  );
-}
-
 
 /**
 * Implementation of hook_elements().
@@ -285,6 +278,7 @@ function emthumb_elements() {
     '#input' => TRUE,
     '#process' => array('emthumb_widget_element_process'),
     '#element_validate' => array('emthumb_widget_element_validate'),
+    // The following is extraneous.
     '#submit' => array('emthumb_widget_element_submit'),
   );
   return $elements;
@@ -300,6 +294,13 @@ function emthumb_emfield_widget_extra_file_included() {
   return TRUE;
 }
 
+/**
+ *  Implements hook_emfield_widget_extra().
+ *
+ *  This is called by _emfield_emfield_widget (in emfield.cck.inc) when
+ *  building the widget on the node form. It creates a file upload element
+ *  so the editor may upload a new thumbnail to replace the provider default.
+ */
 function emthumb_emfield_widget_extra(&$form, &$form_state, $field, $items, $delta = 0, $module) {
   $element = array();
   $element['emthumb'] = array(
@@ -323,7 +324,8 @@ function emthumb_emfield_widget_extra(&$form, &$form_state, $field, $items, $del
 
 /**
  *  This provides extra widget settings to emfields.
- *  A checkbox to allow custom thumbnails, max resolution, image path, allow custom alt tags, allow custom title tags.
+ *  A checkbox to allow custom thumbnails, max resolution, image path, allow
+ *  custom alt tags, allow custom title tags.
  */
 function emthumb_emfield_widget_settings_extra($op, $widget) {
   switch ($op) {
@@ -427,51 +429,6 @@ function emthumb_check_directory($directory, $form_element = array()) {
   return true;
 }
 
-function theme_emthumb_image($file, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
-  $file = (array)$file;
-  if (!$getsize || (is_file($file['filepath']) && (list($width, $height, $type, $image_attributes) = @getimagesize($file['filepath'])))) {
-    $attributes = drupal_attributes($attributes);
-
-    $path = file_create_url($file['filepath']);
-    $alt = empty($alt) ? $file['emthumb_alt'] : $alt;
-    $title = empty($title) ? $file['emthumb_title'] : $title;
-
-    return '<img src="'. check_url($path) .'" alt="'.
-        check_plain($alt) .'" title="'. check_plain($title) .'" '. $image_attributes . $attributes .' />';
-  }
-}
-
-/**
- * formats an array of images.
- * @param images
- *    array of individually themed images
- * @return
- *    html string
- */
-function theme_emthumb_multiple($images) {
-  return implode("\n", $images);
-}
-
-function theme_emthumb_view_image($file, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
-  return theme('emthumb_image', $file, $alt, $title, $attributes , $getsize);
-}
-
-function theme_emthumb_edit_image_row($element) {
-  $output = '<div class="emthumb-edit-preview">'. drupal_render($element['preview']) .'</div>';
-  $output .= '<div class="emthumb-edit-image-detail">';
-  $output .= '<div class="emthumb-edit-image-flags">'. drupal_render($element['flags']) .'</div>';
-  $output .= '<div class="emthumb-edit-image-description">'. drupal_render($element['description']);
-  $output .= '</div>';
-  $output .= drupal_render($element['emthumb_alt']);
-  $output .= drupal_render($element['emthumb_title']);
-  $output .= '</div>';
-  $output = '<div class="emthumb-edit-image-row clear-block">'. $output .'</div>';
-  if (isset($element['replace'])) {
-    $output .= '<div class="emthumb-edit-image-replace">'. drupal_render($element['replace']) .'</div>';
-  }
-  return $output;
-}
-
 /**
  * Insert a file into the database.
  * @param $node
@@ -492,8 +449,6 @@ function _emthumb_file_insert($node, &$file, $field) {
   }
   return (array)$file;
 }
-
-
 
 /**
  * update the file record if necessary
@@ -556,28 +511,48 @@ function emthumb_thumbnail_url($item) {
   }
 }
 
+/**
+ *  This fetches the thumbnail from the remote provider for local storage.
+ */
 function emthumb_fetch_remote_thumbnail($item, $field) {
+  // Obviously, only go forward if our item has been parsed for a provider.
   if ($item['provider']) {
+    // Get the URL to the original thumbnail.
     $thumbnail = emfield_include_invoke($field['module'], $item['provider'], 'thumbnail', $field, $item, 'thumbnail', NULL, $field['widget']['thumbnail_width'], $field['widget']['thumbnail_height'], array());
+
+    // Go forward only if we have a URL to go by.
     if ($thumbnail) {
+      // The new file will be associated with the global user.
       global $user;
 
+      // Attempt to fetch the thumbnail from the provided URL.
       $image = file_get_contents($thumbnail);
+
+      // Only go forward if we actually have an image stream.
       if ($image) {
 
         // Add in our check of the the file name length.
         $validators['file_validate_name_length'] = array();
 
+        // Allow for transliteration, which will take unicode data and convert
+        // it to US-ASCII for better file storage.
         if (module_exists('transliteration')) {
+          // Transliterate our original URL.
           $thumbnail = transliteration_get($thumbnail);
         }
 
         // We need to account for slashes in the value, such as from hulu.
+        // Thus we'll convert them to dashes.
+        // Our new filepath will be in the form of emvideo-youtube-xd3ewke.jpg.
         $basename = $field['module'] .'-'. $item['provider'] .'-'. str_replace('/', '-', $item['value']) .'.'. pathinfo($thumbnail, PATHINFO_EXTENSION);
+
+        // Get the base Drupal files path.
         $directory = file_directory_path();
         if (isset($field['widget']['emimport_image_path'])) {
+          // Add the field's image path here.
           $directory .= '/'. $field['widget']['emimport_image_path'];
         }
+        // Create a new filepath from our desired filename.
         $filepath = file_create_filename($basename, $directory);
 
         // Begin building file object.
@@ -587,6 +562,8 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         $file->filename = parse_url($basename, PHP_URL_PATH);
         $file->filepath = parse_url($filepath, PHP_URL_PATH);
 
+        // If we have mimedetect, then do so. Otherwise we make a best guess
+        // based on the filename.
         $file->filemime = module_exists('mimedetect') ? mimedetect_mime($file) : file_get_mimetype($file->filename);
 
         // Rename potentially executable files, to help prevent exploits.
@@ -637,6 +614,8 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         drupal_write_record('files', $file);
 
         // Let modules add additional properties to the yet barebone file object.
+        // This uses the future hook_file from d7's API. Not sure if anything
+        // actually uses this right now, but they might in the future.
         foreach (module_implements('file_insert') as $module) {
           $function =  $module .'_file_insert';
           $function($file);
@@ -646,4 +625,88 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
       }
     }
   }
+}
+
+/**
+ *  *********** THEME FUNCTIONS ***********
+ */
+
+/**
+ * Implementation of hook_theme().
+ */
+function emthumb_theme() {
+  return array(
+    'emthumb_view_image' => array(
+      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
+     ),
+    'emthumb_edit_image_row' => array(
+      'arguments' => array('element' => NULL),
+     ),
+    'emthumb_image' => array(
+      'arguments' => array('file' => NULL, 'alt' => '', 'title' => '', 'attributes' => NULL, 'getsize' => TRUE),
+     ),
+    'emthumb_multiple' => array(
+      'arguments' => array('images' => NULL),
+     ),
+    'emthumb_widget' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ *  Returns the HTML to display a custom thumbnail image.
+ */
+function theme_emthumb_image($file, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
+  $file = (array)$file;
+  $path = file_create_url($file['filepath']);
+  $alt = empty($alt) ? $file['emthumb_alt'] : $alt;
+  $title = empty($title) ? $file['emthumb_title'] : $title;
+  return theme('image', $path, $alt, $title, $attributes, $getsize);
+}
+
+/**
+ * formats an array of images.
+ * @param images
+ *    array of individually themed images
+ * @return
+ *    html string
+ */
+function theme_emthumb_multiple($images) {
+  return implode("\n", $images);
+}
+
+/**
+ *  Returns the image thumbnail.
+ *  @TODO: Is this even being used?
+ */
+function theme_emthumb_view_image($file, $alt = '', $title = '', $attributes = NULL, $getsize = TRUE) {
+  return theme('emthumb_image', $file, $alt, $title, $attributes , $getsize);
+}
+
+/**
+ *  Theme the emthumb element on the node edit form when there's a custom
+ *  thumbnail already in place.
+ */
+function theme_emthumb_edit_image_row($element) {
+  $output = '<div class="emthumb-edit-preview">'. drupal_render($element['preview']) .'</div>';
+  $output .= '<div class="emthumb-edit-image-detail">';
+  $output .= '<div class="emthumb-edit-image-flags">'. drupal_render($element['flags']) .'</div>';
+  $output .= '<div class="emthumb-edit-image-description">'. drupal_render($element['description']);
+  $output .= '</div>';
+  $output .= drupal_render($element['emthumb_alt']);
+  $output .= drupal_render($element['emthumb_title']);
+  $output .= '</div>';
+  $output = '<div class="emthumb-edit-image-row clear-block">'. $output .'</div>';
+  if (isset($element['replace'])) {
+    $output .= '<div class="emthumb-edit-image-replace">'. drupal_render($element['replace']) .'</div>';
+  }
+  return $output;
+}
+
+/**
+ *  Theme function for the emthumb_widget element.
+ */
+function theme_emthumb_widget($element) {
+  return theme('form_element', $element, $element['#children']);
 }
