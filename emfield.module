@@ -722,3 +722,35 @@ function emfield_provider_menus($module, $provider = NULL) {
 
   return $menus;
 }
+
+/**
+ *  Returns the URL to the registered JW Flash Media Player, if such exists.
+ */
+function emfield_flvmediaplayer_url($reset = FALSE) {
+  static $path;
+
+  if (is_null($path) || $reset) {
+    if (module_exists('flvmediaplayer')) {
+      $path = variable_get('flvmediaplayer_path', $base_path . drupal_get_path('module', 'flvmediaplayer') .'/mediaplayer.swf');
+    }
+    else if (is_null($path = variable_get('emfield_flvmediaplayer_url', NULL)) || (!$path && $reset)) {
+      global $base_path;
+      $path = '';
+      $files = drupal_system_listing('(^player\.swf$|^mediaplayer\.swf$)', 'plugins', 'basename', 0);
+      if (!empty($files)) {
+        $file = array_pop($files);
+        $path = $file->filename;
+      }
+      else {
+        $files = drupal_system_listing('(^player\.swf$|^mediaplayer\.swf$)', 'modules', 'basename', 0);
+        if (!empty($files)) {
+          $file = array_pop($files);
+          $path = $file->filename;
+        }
+      }
+      variable_set('emfield_flvmediaplayer_url', $path);
+    }
+  }
+
+  return $path;
+}

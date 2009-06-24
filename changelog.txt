@@ -5,11 +5,15 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+June 2009
+---------
+ * Add basic support and admin options for JW Flash Player (aaron).
+
 DRUPAL-6--1-2
 =============
 
 May 2009
-----------
+---------
  * #197807 - Max length of embed to 4096 (aaron).
  * #474790 - Insecure handling of administrator-entered text (aaron).
  * Allow silent node batch operations; notice to watchdog (aaron).
