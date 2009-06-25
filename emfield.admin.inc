@@ -34,9 +34,15 @@ function emfield_settings() {
       '#type' => 'textfield',
       '#title' => t('JW FLV Media Player'),
       '#default_value' => emfield_flvmediaplayer_url(TRUE),
-      '#description' => t("Some providers may support the !player, and may be configured to use that player for display of its media. In that case, please enter the path to this player here, without a leading slash. (If you are certain you have the player installed on this server, the path doesn't show up here, and you don't know the path, you can blank out this field and save the configuration, and an attempt will be made to autodiscover the player.)", array('!player' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/'))),
+      '#description' => t("Some providers may support the !player, and may be configured to use that player for display of its media. In that case, please enter the path to this player here, without a leading slash. If you are certain you have the player installed on this server, the path doesn't show up here, and you don't know the path, you can blank out this field and save the configuration, and an attempt will be made to autodiscover the player. For best success, you should put the file somewhere in the /sites/all/plugins folder.", array('!player' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/'))),
     );
   }
+  $form['general']['emfield_imagerotator_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('JW Image Rotator'),
+    '#default_value' => emfield_imagerotator_url(TRUE),
+    '#description' => t("Some providers may support the !player, and may be configured to use that player for display of its media. In that case, please enter the path to this player here, without a leading slash. If you are certain you have the player installed on this server, the path doesn't show up here, and you don't know the path, you can blank out this field and save the configuration, and an attempt will be made to autodiscover the player. For best success, you should put the file somewhere in the /sites/all/plugins folder.", array('!player' => l(t('JW Image Rotator'), 'http://www.longtailvideo.com/players/jw-image-rotator/'))),
+  );
 
   if (module_exists('swfobject_api')) {
     $swfobject_desc = t('As you have the <a href="@swfobject_api" target="_blank">SWFObject API</a> module installed, Embedded Media Field will use those settings, assuming you have configured them properly. Visit its <a href="@settings">settings page</a> for more information.', array('@swfobject_api' => 'http://drupal.org/project/swfobject_api', '@settings' => url('admin/settings/swfobject_api')));

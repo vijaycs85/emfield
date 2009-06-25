@@ -754,3 +754,32 @@ function emfield_flvmediaplayer_url($reset = FALSE) {
 
   return $path;
 }
+
+/**
+ *  Returns the URL to the registered JW Image Rotator, if such exists.
+ */
+function emfield_imagerotator_url($reset = FALSE) {
+  static $path;
+
+  if (is_null($path) || $reset) {
+    if (is_null($path = variable_get('emfield_imagerotator_url', NULL)) || (!$path && $reset)) {
+      global $base_path;
+      $path = '';
+      $files = drupal_system_listing('(^imagerotator\.swf$)', 'plugins', 'basename', 0);
+      if (!empty($files)) {
+        $file = array_pop($files);
+        $path = $file->filename;
+      }
+      else {
+        $files = drupal_system_listing('(^imagerotator\.swf$)', 'modules', 'basename', 0);
+        if (!empty($files)) {
+          $file = array_pop($files);
+          $path = $file->filename;
+        }
+      }
+      variable_set('emfield_imagerotator_url', $path);
+    }
+  }
+
+  return $path;
+}
