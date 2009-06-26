@@ -7,6 +7,7 @@
 
 June 2009
 ---------
+ * Absolute URL's for custom URL's (aaron).
  * #207224 Fix amphersands in HTML (aaron/seanr).
 
 DRUPAL-6--1-2

@@ -113,7 +113,7 @@ function emvideo_zzz_custom_url_embedded_link($video_code) {
 }
 
 function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = FALSE, $field = NULL, $item = NULL) {
-  if ($url) {
+  if ($url = url($url, array('absolute' => TRUE))) {
       if (module_exists('flowplayer')) {
       $config = array(
         'clip' => array(
