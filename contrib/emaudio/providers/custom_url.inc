@@ -115,7 +115,7 @@ function theme_emaudio_custom_url_flash($url = NULL, $width = 0, $height = 0, $f
     $config = array(
       'clip' => array(
         'autoPlay' => $autoplay,
-        'url' => $url,
+        'url' => url($url, array('absolute' => TRUE)),
       ),
     );
     $attributes = array(

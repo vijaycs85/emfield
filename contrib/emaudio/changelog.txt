@@ -1,5 +1,9 @@
 /* $Id$ */
 
+June 2009
+---------
+ * Fix custom_url url to use absolute, fixing playlist problems (aaron).
+
 DRUPAL-6--1-2
 =============
 
