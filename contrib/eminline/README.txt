@@ -1,6 +1,6 @@
 // $Id$
 
-README for Embedded Media Inline
+README for Embedded Inline Media
 
 This module provides the ability to parse URLs of third party media providers
 from a node or comment content, and display the media appropriately.

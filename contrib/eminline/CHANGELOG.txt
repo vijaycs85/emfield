@@ -1,6 +1,6 @@
 // $Id$
 
-CHANGELOG for Embedded Media Inline.
+CHANGELOG for Embedded Inline Media.
 
 July 2009
 ---------
