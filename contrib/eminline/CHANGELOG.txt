@@ -1,0 +1,7 @@
+// $Id$
+
+CHANGELOG for Embedded Media Inline.
+
+July 2009
+---------
+ * Initial d5 version of eminline (grndlvl).
