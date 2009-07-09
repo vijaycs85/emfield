@@ -4,4 +4,6 @@ CHANGELOG for Embedded Inline Media.
 
 July 2009
 ---------
+ * Fix error in settings page (aaron).
+ * Begin port to d6 (aaron).
  * Initial d5 version of eminline (grndlvl).

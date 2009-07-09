@@ -158,7 +158,7 @@ function _eminline_url_parse_full_links($format, $match) {
  */
 function _eminline_url_settings($format) {
   // Get the settings that are avaliable to the cck widget.
-  $form['eminline_'. $format] = video_cck_widget_settings('form', array('type' => 'video_cck_textfields'));
+  $form['eminline_'. $format] = emvideo_widget_settings('form', array('type' => 'emvideo_textfields'));
 
   $form['eminline_'. $format]['provider_list']['providers']['#default_value'] = variable_get('eminline_providers_' . $format, array());
   $video_default = variable_get('eminline_video_' . $format, array());
