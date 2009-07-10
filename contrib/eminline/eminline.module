@@ -4,7 +4,7 @@
 /**
  * Implemenation of hook_filter().
  */
-function eminline_filter($op, $delta = 0, $format = -1, $text = '') {
+function eminline_filter($op, $delta = 0, $format = -1, $text = '', $langcode = '', $cache_id = 0) {
   switch ($op) {
     case 'list':
       return array(0 => t('Embedded Inline Media'));
@@ -72,7 +72,8 @@ function _eminline_url($text, $format) {
 }
 
 /**
- * If one of our allowed providers knows what to do with the url let them embedd the video.
+ * If one of our allowed providers knows what to do with the url,
+ * then let it embed the video.
  *
  * @param int $format
  *  The format id.
@@ -94,7 +95,7 @@ function _eminline_url_parse_full_links($format, $match) {
   // Build a fake field, remember that emfield is well a field.
   $field = array(
     'field_name' => 'eminline',
-    'type' => 'video_cck',
+    'type' => 'emvideo',
     'video_width' => $video_default['video_width'],
     'video_height' => $video_default['video_height'],
     'video_autoplay' => $video_default['video_autoplay'],
@@ -108,11 +109,11 @@ function _eminline_url_parse_full_links($format, $match) {
   );
 
   // Build our embed item.
-  $item = emfield_parse_embed($field, $match[2], 'video_cck');
+  $item = emfield_parse_embed($field, $match[2], 'emvideo');
 
   // Check to make sure the provider that was found is an allowed provider.
   if ($field['providers'][$item['provider']]) {
-    $item['data'] = (array)emfield_include_invoke('video_cck', $item['provider'], 'data', $field, $item);
+    $item['data'] = (array)emfield_include_invoke('emvideo', $item['provider'], 'data', $field, $item);
   }
   else {
     return $match[0];
@@ -145,7 +146,7 @@ function _eminline_url_parse_full_links($format, $match) {
   }
 
   // Theme the video w00t!
-  return theme('eminline_url_wrapper', emfield_emfield_field_formatter($field, $item, $display_format, NULL, 'video_cck', $options));
+  return theme('eminline_url_wrapper', emfield_emfield_field_formatter($field, $item, $display_format, NULL, 'emvideo', $options));
 }
 
 /**
@@ -157,6 +158,11 @@ function _eminline_url_parse_full_links($format, $match) {
  * @return array
  */
 function _eminline_url_settings($format) {
+  $form['format'] = array(
+    '#type' => 'value',
+    '#value' => $format,
+  );
+
   // Get the settings that are avaliable to the cck widget.
   $form['eminline_'. $format] = emvideo_widget_settings('form', array('type' => 'emvideo_textfields'));
 
@@ -193,8 +199,8 @@ function _eminline_url_settings($format) {
   $form['eminline_'. $format]['#tree'] = TRUE;
 
   // My submit && validator plz, kthxbi.
-  $form['#validate'] = array('_eminline_url_settings_form_validate' => array($format));
-  $form['#submit'] = array('_eminline_url_settings_form_submit' => array($format));
+  $form['#validate'] = array('_eminline_url_settings_form_validate');
+  $form['#submit'] = array('_eminline_url_settings_form_submit');
   return $form;
 }
 
@@ -202,45 +208,47 @@ function _eminline_url_settings($format) {
   TODO Write validation function...
 */
 
-function _eminline_url_settings_form_validate($form_id, $form_values, $form, $format) {
-  if (!is_numeric($form_values['eminline_'. $format]['video']['video_width'])
-    || intval($form_values['eminline_'. $format]['video']['video_width']) !=  $form_values['eminline_'. $format]['video']['video_width']
-    || $form_values['eminline_'. $format]['video']['video_width'] < 1) {
+function _eminline_url_settings_form_validate($form, &$form_state) {
+  $format = $form_state['values']['format'];
+  if (!is_numeric($form_state['values']['eminline_'. $format]['video']['video_width'])
+    || intval($form_state['values']['eminline_'. $format]['video']['video_width']) !=  $form_state['values']['eminline_'. $format]['video']['video_width']
+    || $form_state['values']['eminline_'. $format]['video']['video_width'] < 1) {
       form_set_error('eminline_'. $format .'][video][video_width', t('"Video width" must be a positive integer.'));
   }
-  if (!is_numeric($form_values['eminline_'. $format]['video']['video_height'])
-    || intval($form_values['eminline_'. $format]['video']['video_height']) !=  $form_values['eminline_'. $format]['video']['video_height']
-    || $form_values['eminline_'. $format]['video']['video_height'] < 1) {
+  if (!is_numeric($form_state['values']['eminline_'. $format]['video']['video_height'])
+    || intval($form_state['values']['eminline_'. $format]['video']['video_height']) !=  $form_state['values']['eminline_'. $format]['video']['video_height']
+    || $form_state['values']['eminline_'. $format]['video']['video_height'] < 1) {
       form_set_error('eminline_'. $format .'][video][video_height', t('"Video height" must be a positive integer.'));
   }
-  if (!is_numeric($form_values['eminline_'. $format]['preview']['preview_width'])
-    || intval($form_values['eminline_'. $format]['preview']['preview_width']) !=  $form_values['eminline_'. $format]['preview']['preview_width']
-    || $form_values['eminline_'. $format]['preview']['preview_width'] < 1) {
+  if (!is_numeric($form_state['values']['eminline_'. $format]['preview']['preview_width'])
+    || intval($form_state['values']['eminline_'. $format]['preview']['preview_width']) !=  $form_state['values']['eminline_'. $format]['preview']['preview_width']
+    || $form_state['values']['eminline_'. $format]['preview']['preview_width'] < 1) {
       form_set_error('eminline_'. $format .'][preview][preview_width', t('"Preview width" must be a positive integer.'));
   }
-  if (!is_numeric(  $form_values['eminline_'. $format]['preview']['preview_height'])
-    || intval(  $form_values['eminline_'. $format]['preview']['preview_height']) !=    $form_values['eminline_'. $format]['preview']['preview_height']
-    || $form_values['eminline_'. $format]['preview']['preview_height'] < 1) {
+  if (!is_numeric(  $form_state['values']['eminline_'. $format]['preview']['preview_height'])
+    || intval(  $form_state['values']['eminline_'. $format]['preview']['preview_height']) !=    $form_state['values']['eminline_'. $format]['preview']['preview_height']
+    || $form_state['values']['eminline_'. $format]['preview']['preview_height'] < 1) {
       form_set_error('eminline_'. $format .'][preview][preview_height', t('"Preview height" must be a positive integer.'));
   }
-  if (!is_numeric($form_values['eminline_'. $format]['tn']['thumbnail_height'])
-    || intval($form_values['eminline_'. $format]['tn']['thumbnail_height']) !=  $form_values['eminline_'. $format]['tn']['thumbnail_height']
-    || $form_values['eminline_'. $format]['tn']['thumbnail_height'] < 1) {
+  if (!is_numeric($form_state['values']['eminline_'. $format]['tn']['thumbnail_height'])
+    || intval($form_state['values']['eminline_'. $format]['tn']['thumbnail_height']) !=  $form_state['values']['eminline_'. $format]['tn']['thumbnail_height']
+    || $form_state['values']['eminline_'. $format]['tn']['thumbnail_height'] < 1) {
       form_set_error('eminline_'. $format .'][tn][thumbnail_height', t('"Thumbnail height" must be a positive integer.'));
   }
-  if (!is_numeric($form_values['eminline_'. $format]['tn']['thumbnail_width'])
-    || intval($form_values['eminline_'. $format]['tn']['thumbnail_width']) !=  $form_values['eminline_'. $format]['tn']['thumbnail_width']
-    || $form_values['eminline_'. $format]['tn']['thumbnail_width'] < 1) {
+  if (!is_numeric($form_state['values']['eminline_'. $format]['tn']['thumbnail_width'])
+    || intval($form_state['values']['eminline_'. $format]['tn']['thumbnail_width']) !=  $form_state['values']['eminline_'. $format]['tn']['thumbnail_width']
+    || $form_state['values']['eminline_'. $format]['tn']['thumbnail_width'] < 1) {
       form_set_error('eminline_'. $format .'][tn][thumbnail_width', t('"Thumbnail width" must be a positive integer.'));
   }
 }
 
-function _eminline_url_settings_form_submit($form_id, $form_values, $format) {
-  variable_set('eminline_providers_' . $format, $form_values['eminline_'. $format]['provider_list']['providers']);
-  variable_set('eminline_video_' . $format, $form_values['eminline_'. $format]['video']);
-  variable_set('eminline_preview_' . $format, $form_values['eminline_'. $format]['preview']);
-  variable_set('eminline_tn_' . $format, $form_values['eminline_'. $format]['tn']);
-  variable_set('eminline_full_node_' . $format, $form_values['eminline_'. $format]['node_display']);
+function _eminline_url_settings_form_submit($form, &$form_state) {
+  $format = $form_state['values']['format'];
+  variable_set('eminline_providers_' . $format, $form_state['values']['eminline_'. $format]['provider_list']['providers']);
+  variable_set('eminline_video_' . $format, $form_state['values']['eminline_'. $format]['video']);
+  variable_set('eminline_preview_' . $format, $form_state['values']['eminline_'. $format]['preview']);
+  variable_set('eminline_tn_' . $format, $form_state['values']['eminline_'. $format]['tn']);
+  variable_set('eminline_full_node_' . $format, $form_state['values']['eminline_'. $format]['node_display']);
 }
 
 function _eminline_curry($func, $arity) {
@@ -256,6 +264,17 @@ function _eminline_curry($func, $arity) {
         return call_user_func_array(\'$func\', \$a);
     ');
   ");
+}
+
+/**
+ *  Implement hook_theme().
+ */
+function eminline_theme($existing, $type, $theme, $path) {
+  return array(
+    'eminline_url_wrapper' => array(
+      'arguments' => array('content' => NULL),
+    ),
+  );
 }
 
 /**
