@@ -208,7 +208,7 @@ function _emfield_field_submit_id($field, $item, $module) {
  *  Format our field for display. This is actually called originally by each helper module
  *  that implements hook_field_formatter, which then call this.
  */
-function emfield_emfield_field_formatter($field, $item, $formatter, $node, $module) {
+function emfield_emfield_field_formatter($field, $item, $formatter, $node, $module, $options = array()) {
   // If we're coming from a preview, we need to extract our new embedded value.
   if (isset($node->in_preview)) {
     $item = emfield_parse_embed($field, $item['embed'], $module);
@@ -232,7 +232,7 @@ function emfield_emfield_field_formatter($field, $item, $formatter, $node, $modu
 
   // The individual modules actually define the theme for the formatter.
   $output = '';
-  $output .= theme($module .'_'. $formatter, $field, $item, $formatter, $node);
+  $output .= theme($module .'_'. $formatter, $field, $item, $formatter, $node, $options);
 
   return $output;
 }

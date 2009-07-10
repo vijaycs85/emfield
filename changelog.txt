@@ -5,6 +5,10 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+July 2009
+---------
+ * Add $options array to emfield_emfield_field_formatter (aaron).
+
 June 2009
 ---------
  * Add basic support and admin options for JW Image Rotator (aaron).
