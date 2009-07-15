@@ -736,13 +736,13 @@ function emfield_flvmediaplayer_url($reset = FALSE) {
     else if (is_null($path = variable_get('emfield_flvmediaplayer_url', NULL)) || (!$path && $reset)) {
       global $base_path;
       $path = '';
-      $files = drupal_system_listing('(^player\.swf$|^mediaplayer\.swf$)', 'plugins', 'basename', 0);
+      $files = drupal_system_listing('(^player-viral\.swf$|^player\.swf$|^mediaplayer\.swf$)', 'plugins', 'basename', 0);
       if (!empty($files)) {
         $file = array_pop($files);
         $path = $file->filename;
       }
       else {
-        $files = drupal_system_listing('(^player\.swf$|^mediaplayer\.swf$)', 'modules', 'basename', 0);
+        $files = drupal_system_listing('(^player-viral\.swf$|^player\.swf$|^mediaplayer\.swf$)', 'modules', 'basename', 0);
         if (!empty($files)) {
           $file = array_pop($files);
           $path = $file->filename;
