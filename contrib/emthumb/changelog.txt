@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+July 2009
+---------
+ * Honor widget settings for storing thumbnails (aaron).
+
 June 2009
 ---------
  * #463582: Fetch remote thumbnail on node insertion (aaron).

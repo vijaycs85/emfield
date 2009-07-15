@@ -63,7 +63,7 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
       }
       unset($items[0]['emthumb']);
       foreach ($items as  $delta => $item) {
-        if (empty($item['data']['emthumb']) && variable_get('emthumb_store_local_thumbnail', TRUE)) {
+        if (empty($item['data']['emthumb']) && $field['widget']['emthumb_store_local_thumbnail']) { // was: variable_get('emthumb_store_local_thumbnail', TRUE)) {
           $file = emthumb_fetch_remote_thumbnail($item, $field);;
         }
         else {
@@ -151,7 +151,7 @@ function emthumb_widget_element_process($element, $form_state) {
 
   // If we have no current file, and have been told to store a local thumbnail,
   // then fetch it now.
-  if (empty($file) && variable_get('emthumb_store_local_thumbnail', TRUE)) {
+  if (empty($file) && $field['widget']['emthumb_store_local_thumbnail']) { // was variable_get('emthumb_store_local_thumbnail', TRUE)) {
     $item = $items[$delta];
     if (empty($item['value'])) {
       // @TODO: We need to get the info somehow.
