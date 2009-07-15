@@ -7,6 +7,8 @@
 
 July 2009
 ---------
+ * Save thumbs on update properly (aaron).
+ * Fix double slash when emthumb path is empty (aaron).
  * Honor widget settings for storing thumbnails (aaron).
 
 June 2009

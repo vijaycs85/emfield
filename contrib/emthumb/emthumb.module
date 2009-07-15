@@ -64,7 +64,7 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
       unset($items[0]['emthumb']);
       foreach ($items as  $delta => $item) {
         if (empty($item['data']['emthumb']) && $field['widget']['emthumb_store_local_thumbnail']) { // was: variable_get('emthumb_store_local_thumbnail', TRUE)) {
-          $file = emthumb_fetch_remote_thumbnail($item, $field);;
+          $file = emthumb_fetch_remote_thumbnail($item, $field);
         }
         else {
           $file = $item['data']['emthumb'];
@@ -80,7 +80,13 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
         unset($items[0]['emthumb']['emthumb']['emthumb']['emthumb']);
       }
       foreach ($items as $delta => $item) {
-        $items[$delta]['data']['emthumb'] = _emthumb_file_update($node, $item['data']['emthumb'], $field);
+        if (empty($item['data']['emthumb']) && $field['widget']['emthumb_store_local_thumbnail']) { // was: variable_get('emthumb_store_local_thumbnail', TRUE)) {
+          $file = emthumb_fetch_remote_thumbnail($item, $field);
+        }
+        else {
+          $file = $item['data']['emthumb'];
+        }
+        $items[$delta]['data']['emthumb'] = _emthumb_file_update($node, $file, $field);
       }
       // Compact deltas.
       $items = array_values($items);
@@ -278,7 +284,7 @@ function emthumb_widget_element_validate($element, $form_state) {
  */
 function emthumb_widget_element_submit($form, $form_state) {
   // @TODO: This function does not even exist.
-  emthumb_save_upload($element);
+//   emthumb_save_upload($element);
 }
 
 /**
@@ -291,7 +297,7 @@ function emthumb_elements() {
     '#process' => array('emthumb_widget_element_process'),
     '#element_validate' => array('emthumb_widget_element_validate'),
     // @TODO: The following is extraneous; remove it.
-    '#submit' => array('emthumb_widget_element_submit'),
+//     '#submit' => array('emthumb_widget_element_submit'),
   );
   return $elements;
 }
@@ -404,7 +410,7 @@ function emthumb_emfield_widget_settings_extra($op, $widget) {
       );
       return $form;
     case 'save':
-      return array('emthumb', 'emthumb_label', 'emthumb_description', 'emthumb_max_resolution', 'emimport_image_path', 'emthumb_custom_alt', 'emthumb_custom_title');
+      return array('emthumb', 'emthumb_label', 'emthumb_description', 'emthumb_max_resolution', 'emimport_image_path', 'emthumb_custom_alt', 'emthumb_custom_title', 'emthumb_store_local_thumbnail');
   }
 }
 
@@ -560,7 +566,7 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
 
         // Get the base Drupal files path.
         $directory = file_directory_path();
-        if (isset($field['widget']['emimport_image_path'])) {
+        if ($field['widget']['emimport_image_path']) {
           // Add the field's image path here.
           $directory .= '/'. $field['widget']['emimport_image_path'];
         }
