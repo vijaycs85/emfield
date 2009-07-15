@@ -243,6 +243,18 @@ function emvideo_update_6001() {
   return $ret;
 }
 
+function emvideo_update_6002() {
+  // We changed the YouTube provider theme arguments, so need to rebuild the theme.
+  drupal_rebuild_theme_registry();
+
+  $ret[] = array(
+    'query' => t('Rebuilt the theme to accommodate changes to the YouTube video provider theme.'),
+    'success' => TRUE
+  );
+
+  return $ret;
+}
+
 /**
  * I'd like this to be conditional, so it only runs if they don't have Views
  * installed. However, module_exists doesn't actually work in the update scripts.

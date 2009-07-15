@@ -55,6 +55,7 @@ function theme_emvideo_video_embed($field, $item, $formatter, $node, $options = 
  *     $options['image_alt'], if provided, will set the alt attribute of the href link, defaulting to $options['link_title'].
  *     $options['thumbnail_url'], if provided, will completely override the thumbnail image entirely.
  *     $options['attributes'], if provided, sets the attributes for the displayed image.
+ *     $options['return_url'], if provided, simply returns the URL to the thumbnail.
  * @return
  *   The thumbnail output.
  */
@@ -103,6 +104,9 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
   $image_alt = isset($options['image_alt']) ? $options['image_alt'] : $link_title;
 
   if ($thumbnail_url) {
+    if ($options['return_url']) {
+      return url($thumbnail_url);
+    }
     $width = isset($options['width']) ? $options['width'] : NULL;
     $width = isset($width) ? $width : ($field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emvideo_default_thumbnail_width', EMVIDEO_DEFAULT_THUMBNAIL_WIDTH));
     $height = isset($options['height']) ? $options['height'] : NULL;
@@ -120,6 +124,10 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
     }
   }
   else {
+    if ($options['return_url']) {
+      return url($link_url);
+    }
+
     // If all else fails, then just print a 'see video' type link.
     if (!$no_link) {
       $output = l($link_title, $link_url);

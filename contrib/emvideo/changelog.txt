@@ -5,6 +5,13 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+July 2009
+---------
+ * Add a 'return_url' option to thumbnails (aaron).
+ * Add ability to play YouTube videos with JW FLV Player (aaron).
+ * Rebuild theme in update (aaron).
+ * Add $options to YouTube theme (aaron).
+
 June 2009
 ---------
  * Absolute URL's for custom URL's (aaron).

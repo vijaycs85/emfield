@@ -32,6 +32,7 @@ function emvideo_youtube_info() {
     array(t('Thumbnails'), t('Yes'), t('')),
     array(t('Custom player colors'), t('Yes'), t("You may customize the player's skin by choosing your own colors, and/or border in that setting field set.")),
     array(t('Full screen mode'), t('Yes'), t('You may customize the player to enable or disable full screen playback. Full screen mode is enabled by default.')),
+    array(t('Use JW FLV Media Player'), t('Yes'), t("You may opt to use the !flvplayer to play YouTube videos if it's installed on your server.", array('!flvplayer' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/')))),
   );
   return array(
     'provider' => 'youtube',
@@ -49,77 +50,77 @@ function emvideo_youtube_info() {
  * so if you want specific provider settings within that field, you can add the elements to that form field.
  */
 function emvideo_youtube_settings() {
-  $form['youtube']['emvideo_youtube_show_related_videos'] = array(
+  $form['emvideo_youtube_show_related_videos'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show related videos'),
     '#default_value' => variable_get('emvideo_youtube_show_related_videos', 0),
     '#description' => t('If checked, then when playing a video from YouTube, users may hover over the video to see thumbnails & links to related videos.'),
   );
-  $form['youtube']['api'] = array(
+  $form['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('YouTube API'),
     '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the <a href="@youtube" target="_blank">YouTube Developer Profile page</a>. Note that you do not need this key to display YouTube videos or their thumbnails.', array('@youtube' => EMVIDEO_YOUTUBE_API_APPLICATION_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $form['youtube']['api']['emvideo_youtube_api_key'] = array(
+  $form['api']['emvideo_youtube_api_key'] = array(
     '#type' => 'textfield',
     '#title' => t('YouTube API Key'),
     '#default_value' => variable_get('emvideo_youtube_api_key', ''),
     '#description' => t('Please enter your YouTube Developer Key here.'),
   );
-  $form['youtube']['api']['emvideo_youtube_api_secret'] = array(
+  $form['api']['emvideo_youtube_api_secret'] = array(
     '#type' => 'textfield',
     '#title' => t('YouTube API Secret'),
     '#default_value' => variable_get('emvideo_youtube_api_secret', ''),
     '#description' => t('If you have a secret for the YouTube API, enter it here.'),
   );
-  $form['youtube']['colors'] = array(
+  $form['colors'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embedded Video Player Colors'),
     '#description' => t('If allowed, these two colors, in hexidecimal form (#RRGGBB), will be used to skin the YouTube player.'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $form['youtube']['colors']['emvideo_youtube_show_colors'] = array(
+  $form['colors']['emvideo_youtube_show_colors'] = array(
     '#type' => 'checkbox',
     '#title' => t('Override player colors'),
     '#default_value' => variable_get('emvideo_youtube_show_colors', FALSE),
   );
-  $form['youtube']['colors']['emvideo_youtube_show_border'] = array(
+  $form['colors']['emvideo_youtube_show_border'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display border around player'),
     '#default_value' => variable_get('emvideo_youtube_show_border', FALSE),
   );
-  $form['youtube']['colors']['emvideo_youtube_colors_color1'] = array(
+  $form['colors']['emvideo_youtube_colors_color1'] = array(
     '#type' => 'textfield',
     '#title' => t('Color 1'),
     '#default_value' => variable_get('emvideo_youtube_colors_color1', EMVIDEO_YOUTUBE_COLOR1_DEFAULT),
   );
-  $form['youtube']['colors']['emvideo_youtube_colors_color2'] = array(
+  $form['colors']['emvideo_youtube_colors_color2'] = array(
     '#type' => 'textfield',
     '#title' => t('Color 2'),
     '#default_value' => variable_get('emvideo_youtube_colors_color2', EMVIDEO_YOUTUBE_COLOR2_DEFAULT),
   );
-  $form['youtube']['player_options'] = array(
+  $form['player_options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embedded video player options'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $form['youtube']['player_options']['emvideo_youtube_full_screen'] = array(
+  $form['player_options']['emvideo_youtube_full_screen'] = array(
     '#type' => 'checkbox',
     '#title' => t('Allow fullscreen'),
     '#default_value' => variable_get('emvideo_youtube_full_screen', 1),
     '#description' => t('Allow users to view video using the entire computer screen.'),
   );
-  $form['youtube']['player_options']['emvideo_youtube_high_quality'] = array(
+  $form['player_options']['emvideo_youtube_high_quality'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use YouTube high quality content'),
     '#default_value' => variable_get('emvideo_youtube_high_quality', FALSE),
     '#description' => t("If checked, then a parameter will be set to request high quality content.  Note: Not all videos from youtube are available in high quality. Those that aren't will play in normal quality."),
   );
-   $form['youtube']['player_options']['emvideo_youtube_display_info'] = array(
+   $form['player_options']['emvideo_youtube_display_info'] = array(
     '#type' => 'checkbox',
     '#title' => t('Remove titles and ratings on videos'),
     '#default_value' => variable_get('emvideo_youtube_display_info', FALSE),
@@ -127,25 +128,73 @@ function emvideo_youtube_settings() {
   );
 
   if (module_exists('colorpicker')) {
-    $form['youtube']['colors']['emvideo_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
-    $form['youtube']['colors']['emvideo_youtube_colors_color1']['#colorpicker'] = 'colorpicker_1';
-    $form['youtube']['colors']['emvideo_youtube_colors_color2']['#type'] = 'colorpicker_textfield';
-    $form['youtube']['colors']['emvideo_youtube_colors_color2']['#colorpicker'] = 'colorpicker_2';
-    $form['youtube']['colors']['colorpicker_1'] = array(
+    $form['colors']['emvideo_youtube_colors_color1']['#type'] = 'colorpicker_textfield';
+    $form['colors']['emvideo_youtube_colors_color1']['#colorpicker'] = 'colorpicker_1';
+    $form['colors']['emvideo_youtube_colors_color2']['#type'] = 'colorpicker_textfield';
+    $form['colors']['emvideo_youtube_colors_color2']['#colorpicker'] = 'colorpicker_2';
+    $form['colors']['colorpicker_1'] = array(
       '#type' => 'colorpicker',
       '#title' => t('Color 1 picker'),
       '#description' => t('Click in this textfield to start picking your color'),
     );
-    $form['youtube']['colors']['colorpicker_2'] = array(
+    $form['colors']['colorpicker_2'] = array(
       '#type' => 'colorpicker',
       '#title' => t('Color 2 picker'),
       '#description' => t('Click in this textfield to start picking your color'),
     );
   }
   else {
-    $form['youtube']['colors']['#description'] .= ' '. t('The <a href="@colorpicker">Colorpicker module</a>, if active, gives an easy way to select these colors.', array('@colorpicker' => 'http://drupal.org/project/colorpicker'));
+    $form['colors']['#description'] .= ' '. t('The <a href="@colorpicker">Colorpicker module</a>, if active, gives an easy way to select these colors.', array('@colorpicker' => 'http://drupal.org/project/colorpicker'));
   }
+
+  $form['jwflv'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('JW FLV Media Player Options'),
+    '#collapsible' => TRUE,
+    '#collapsed' => !($flv_path = emfield_flvmediaplayer_url()),
+  );
+  $form['jwflv']['emvideo_youtube_use_jw_flv'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use JW FLV Media Player'),
+    '#description' => t('If checked, and the server is properly configured, YouTube videos will be played using the !flvplayer.', array('!flvplayer' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/'))),
+    '#default_value' => variable_get('emvideo_youtube_use_jw_flv', FALSE),
+  );
+  if (!$flv_path) {
+    $form['jwflv']['#description'] = t('You must first install the !flvplayer, preferably in your /sites/all/plugins folder.', array('!flvplayer' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/')));
+  }
+  if ($flv_path && !_emvideo_youtube_check_flv_player_setup()) {
+    $form['jwflv']['#description'] = t('You must have the yt.swf file installed in the same folder as your !flvplayer.', array('!flvplayer' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/')));
+  }
+  $form['jwflv']['#description'] = $form['jwflv']['#description'] ? $form['jwflv']['#description'] : t('!flvplayer is properly configured on your server, so may be used to play YouTube videos if desired.', array('!flvplayer' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/')));
   return $form;
+}
+
+/**
+ *  Ensure we're able to run YouTube videos from the JW FLV Media Player.
+ *  This requires that we both have the player installed, and the included
+ *  yt.swf file is located in the same folder.
+ *  @return boolean
+ *    Returns TRUE if both checks are TRUE.
+ */
+function _emvideo_youtube_check_flv_player_setup() {
+  static $check;
+
+  if (is_null($check)) {
+    // We set up a static cache.
+
+    // First check that the JW FLV Player is installed.
+    $flv_path = emfield_flvmediaplayer_url();
+    if (!$flv_path || !file_exists($flv_path)) {
+      // There's no player installed, so yt.swf is moot.
+      $check = FALSE;
+    }
+    else {
+      // Now check that the yt.swf file is also present in the same folder.
+      $path = dirname($flv_path);
+      $check = file_exists($path . '/yt.swf');
+    }
+  }
+  return $check;
 }
 
 /**
@@ -221,14 +270,14 @@ function emvideo_youtube_request($method, $args = array(), $cached = TRUE) {
 /**
  * hook emvideo_PROVIDER_extract
  * this is called to extract the video code from a pasted URL or embed code.
- * @param $embed
+ * @param $code
  *   an optional string with the pasted URL or embed code
  * @return
  *   either an array of regex expressions to be tested, or a string with the video code to be used
  *   if the hook tests the code itself, it should return either the string of the video code (if matched), or an empty array.
  *   otherwise, the calling function will handle testing the embed code against each regex string in the returned array.
  */
-function emvideo_youtube_extract($embed = '') {
+function emvideo_youtube_extract($code = '') {
   // src="http://www.youtube.com/v/nvbQQnvxXDk"
   // http://youtube.com/watch?v=nvbQQnvxXDk
   // http://www.youtube.com/watch?v=YzFCA-xUc8w&feature=dir
@@ -262,46 +311,94 @@ function emvideo_youtube_convert_color($color = NULL) {
 /**
  * The embedded flash displaying the youtube video.
  */
-function theme_emvideo_youtube_flash($embed, $width, $height, $autoplay, $options = array()) {
+function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options = array()) {
   static $count;
   $output = '';
-  if ($embed) {
+  if ($code = check_plain($code)) {
+    $width = intval($width);
+    $height = intval($height);
     $fullscreen = isset($options['fullscreen']) ? $options['fullscreen'] : variable_get('emvideo_youtube_full_screen', 1);
     $fullscreen_value = $fullscreen ? "true" : "false";
-    $fs = $fullscreen ? "&amp;fs=$fullscreen" : "";
+    $fs = $fullscreen ? "&fs=$fullscreen" : "";
     $related = isset($options['related']) ? $options['related'] : variable_get('emvideo_youtube_show_related_videos', 0);
     $related = "rel=$related";
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $autoplay;
-    $autoplay_value = $autoplay ? '&amp;autoplay=1' : '';
+    $autoplay_value = $autoplay ? '&autoplay=1' : '';
     $show_colors = isset($options['show_colors']) ? $options['show_colors'] : variable_get('emvideo_youtube_show_colors', FALSE);
     $colors = '';
     if ($show_colors) {
       $color1 = isset($options['color1']) ? $options['color1'] : variable_get('emvideo_youtube_colors_color1', emvideo_YOUTUBE_COLOR1_DEFAULT);
       $color2 = isset($options['color2']) ? $options['color2'] : variable_get('emvideo_youtube_colors_color2', emvideo_YOUTUBE_COLOR2_DEFAULT);
-      $colors='&amp;color1=0x'. emvideo_youtube_convert_color($color1) .'&amp;color2=0x'. emvideo_youtube_convert_color($color2);
+      $colors='&color1=0x'. emvideo_youtube_convert_color($color1) .'&color2=0x'. emvideo_youtube_convert_color($color2);
     }
     $border = isset($options['border']) ? $options['border'] : variable_get('emvideo_youtube_show_border', FALSE);
-    $border = $border ? '&amp;border=1' : '';
+    $border = $border ? '&border=1' : '';
     $enablejsapi = isset($options['enablejsapi']) ? $options['enablejsapi'] : variable_get('emvideo_youtube_enablejsapi', TRUE);
-    $enablejsapi = $enablejsapi ? '&amp;enablejsapi=1&amp;playerapiid=ytplayer' : '';
-    $id = isset($options['id']) ? $options['id'] : 'emvideo-youtube-flash-'. (++$count);
-    $div_id = isset($options['div_id']) ? $options['div_id'] : 'emvideo-youtube-flash-wrapper-'. $count;
+    $enablejsapi = $enablejsapi ? '&enablejsapi=1&playerapiid=ytplayer' : '';
+    $id = check_plain(isset($options['id']) ? $options['id'] : 'emvideo-youtube-flash-'. (++$count));
+    $div_id = check_plain(isset($options['div_id']) ? $options['div_id'] : 'emvideo-youtube-flash-wrapper-'. $count);
     $high_quality = isset($options['high_quality']) ? $options['high_quality'] : variable_get('emvideo_youtube_high_quality', FALSE);
-    $high_quality = $high_quality ? '&amp;ap=%2526fmt%3D18' : '';
+    $high_quality = $high_quality ? '&ap=%2526fmt%3D18' : '';
     $display_info = isset($options['display_info']) ? $options['display_info'] : variable_get('emvideo_youtube_display_info', FALSE);
-    $display_info  = $display_info  ? '&amp;showinfo=0' : '';
-    $url = "http://www.youtube.com/v/$embed&amp;$related$autoplay_value$colors$border$high_quality$display_info$enablejsapi$fs";
-    if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
+    $display_info  = $display_info  ? '&showinfo=0' : '';
+    $url = check_plain("http://www.youtube.com/v/$code&$related$autoplay_value$colors$border$high_quality$display_info$enablejsapi$fs");
+
+    // Find the path to the JW FLV Media Player.
+    $path = emfield_flvmediaplayer_url();
+
+    // If the JW FLV Player has been installed, the yt.swf file is in the same
+    // folder, and the server has been configured to use it for YouTube videos,
+    // then we'll do so now.
+    if (($use_flv = variable_get('emvideo_youtube_use_jw_flv', FALSE)) && ($flv_path = emfield_flvmediaplayer_url()) && _emvideo_youtube_check_flv_player_setup()) {
+      global $base_path;
+
+      // Build the Thumbnail image for the player.
+      $tn_options = array(
+        'width' => $width,
+        'height' => $height,
+        'return_url' => TRUE,
+      );
+      $tn_item = array(
+        'provider' => 'youtube',
+        'value' => $code,
+      );
+
+      // Grab the thumbnail for this video and tell JW FLV Player about it.
+      $options['image'] = theme('emvideo_video_thumbnail', NULL, $tn_item, NULL, NULL, FALSE, $tn_options);
+
+      // Tell the FLV Player we're sending a YouTube video.
+      $options['type'] = 'youtube';
+
+      // We need to set the file to the original YouTube video.
+      $options['file'] = $url;
+
+      // The JW FLV Player uses its own autoplay flashvar.
+      $options['autostart'] = $autoplay ? 'true' : 'false';
+
+      // The URL will now be the JW FLV Player.
+      $url = $base_path . $flv_path;
+    }
+    if ($use_flv && module_exists('flvmediaplayer')) {
+      // If we are using the JW FLV Player, defer to the flvmediaplayer module
+      // for display.
+      $params['width'] = $width;
+      $params['height'] = $height;
+      $params['div_id'] = $id;
+      $params['allowFullScreen'] = $fullscreen_value;
+      $output = theme('flvmediaplayer_render_player', $url, $params, $options);
+    }
+    else if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
+      // Use swfobject.js if we're allowed.
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;
         $params['height'] = $height;
         $params['div_id'] = $id;
         $params['allowFullScreen'] = $fullscreen_value;
-        $output .= theme('swfobject_api', $url, $params, $options, $id);
+        $output = theme('swfobject_api', $url, $params, $options, $id);
       }
       else {
         drupal_add_js(variable_get('emfield_swfobject_location', ''));
-        $output .= <<<FLASH
+        $output = <<<FLASH
           <div id="$div_id">
             Sorry, you need to install flash to see this content.
           </div>
@@ -312,7 +409,9 @@ FLASH;
       }
     }
     else {
-      $output .= <<<FLASH
+      $options['playerMode'] = 'embedded';
+      $flashvars = check_plain(drupal_query_string_encode($options));
+      $output = <<<FLASH
         <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id">
           <param name="movie" value="$url" />
           <param name="allowScriptAcess" value="sameDomain"/>
@@ -321,7 +420,7 @@ FLASH;
           <param name="bgcolor" value="#FFFFFF"/>
           <param name="scale" value="noScale"/>
           <param name="salign" value="TL"/>
-          <param name="FlashVars" value="playerMode=embedded" />
+          <param name="FlashVars" value="$flashvars" />
           <param name="wmode" value="transparent" />
         </object></div>
 FLASH;
@@ -333,7 +432,7 @@ FLASH;
 /**
  * hook emvideo_PROVIDER_thumbnail
  * returns the external url for a thumbnail of a specific video
- * TODO: make the args: ($embed, $field, $item), with $field/$item provided if we need it, but otherwise simplifying things
+ * TODO: make the args: ($code, $field, $item), with $field/$item provided if we need it, but otherwise simplifying things
  *  @param $field
  *    the field of the requesting node
  *  @param $item
@@ -366,7 +465,7 @@ function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $he
 /**
  * hook emvideo_PROVIDER_video
  * this actually displays the full/normal-sized video we want, usually on the default page view
- *  @param $embed
+ *  @param $code
  *    the video code for the video to embed
  *  @param $width
  *    the width to display the video
@@ -379,15 +478,15 @@ function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $he
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
-  $output = theme('emvideo_youtube_flash', $embed, $width, $height, $autoplay);
+function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $autoplay) {
+  $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay);
   return $output;
 }
 
 /**
  * hook emvideo_PROVIDER_video
  * this actually displays the preview-sized video we want, commonly for the teaser
- *  @param $embed
+ *  @param $code
  *    the video code for the video to embed
  *  @param $width
  *    the width to display the video
@@ -400,8 +499,8 @@ function emvideo_youtube_video($embed, $width, $height, $field, $item, &$node, $
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
-  $output = theme('emvideo_youtube_flash', $embed, $width, $height, $autoplay);
+function emvideo_youtube_preview($code, $width, $height, $field, $item, &$node, $autoplay) {
+  $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay);
   return $output;
 }
 
@@ -409,10 +508,10 @@ function emvideo_youtube_preview($embed, $width, $height, $field, $item, &$node,
  * Implementation of hook_emfield_subtheme.
  */
 function emvideo_youtube_emfield_subtheme() {
-    return array(
-        'emvideo_youtube_flash'  => array(
-            'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
-            'file' => 'providers/youtube.inc'
-        )
-    );
+  return array(
+      'emvideo_youtube_flash'  => array(
+          'arguments' => array('embed' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL, 'options' => array()),
+          'file' => 'providers/youtube.inc'
+      )
+  );
 }
