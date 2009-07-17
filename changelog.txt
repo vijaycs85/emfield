@@ -7,6 +7,7 @@
 
 July 2009
 ---------
+ * #516642 - Add content_filter_xss() to field help (Pete B).
  * Add player-viral.swf to JW FLV Player autosearch (aaron).
  * Add $options array to emfield_emfield_field_formatter (aaron).
 
