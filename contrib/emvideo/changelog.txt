@@ -7,6 +7,7 @@
 
 July 2009
 ---------
+ * Fix emvideo_requirements (mikey_p/Dave Reid).
  * Add a 'return_url' option to thumbnails (aaron).
  * Add ability to play YouTube videos with JW FLV Player (aaron).
  * Rebuild theme in update (aaron).

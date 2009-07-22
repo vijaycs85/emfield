@@ -45,7 +45,7 @@ function emvideo_disable() {
 /**
  *  Implementation of hook_requirements().
  */
-function hook_requirements($phase) {
+function emvideo_requirements($phase) {
   $requirements = array();
   // Ensure translations don't break at install time
   $t = get_t();
