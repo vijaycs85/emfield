@@ -40,6 +40,7 @@ function _emfield_field_columns($field) {
  * This private function is returned directly by emfield_emfield_field().
  */
 function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
+  $return = array();
   switch ($op) {
     // TODO: Nothing to validate at the moment. We need to have different provider api's have a chance to validate.
     case 'validate':
@@ -67,7 +68,6 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
         $node->{$field_name}[$delta]['data'] = $data;
       }
 
-      $return = array();
       $return[$field_name] = $items;
       break;
 
@@ -78,7 +78,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
   foreach (module_implements('emfield_field_extra') as $module) {
     $args = array($op, &$node, $field, &$items, $teaser, $page, $module);
     $ret = call_user_func_array($module .'_emfield_field_extra', $args);
-    if (is_array($return) && is_array($ret)) {
+    if (is_array($ret)) {
       $return = array_merge($return, $ret);
     }
   }
@@ -88,9 +88,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       $items[$delta]['data'] = serialize($items[$delta]['data']);
     }
   }
-  if (isset($return)) {
   return $return;
-  }
 }
 
 function _emfield_emfield_widget_settings($op, $widget, $module) {
