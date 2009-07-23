@@ -22,8 +22,9 @@ function theme_emvideo_video_embed($field, $item, $formatter, $node, $options = 
 
     or you can set $field to NULL and just use the options array
    */
-  if ($item['value'] && $item['provider']) {
-    $output = drupal_get_form('emvideo_embed_form', $field, $item, $formatter, $node, $options);
+  $output = '';
+  if (isset($item['value']) && isset($item['provider'])) {
+    $output .= drupal_get_form('emvideo_embed_form', $field, $item, $formatter, $node, $options);
   }
 
   return $output;
@@ -138,13 +139,15 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
 }
 
 function theme_emvideo_video_video($field, $item, $formatter, $node, $options = array()) {
-  if ($item['value'] && $item['provider']) {
+  $output = '';
+
+  if (isset($item['value']) && isset($item['provider'])) {
     $embed = $item['value'];
     $width = isset($options['width']) ? $options['width'] : ($field['widget']['video_width'] ? $field['widget']['video_width'] : variable_get('emvideo_default_video_width', EMVIDEO_DEFAULT_VIDEO_WIDTH));
     $height = isset($options['height']) ? $options['height'] : ($field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_VIDEO_HEIGHT));
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['video_autoplay'];
     $options['node'] = $node;
-    $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
+    $output .= module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
   }
 
   return $output;
