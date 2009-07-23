@@ -20,7 +20,7 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
         }
       }
       else {
-        if (!$items[0]['data']['emthumb'] && $items[0]['emthumb']['emthumb']['emthumb']['emthumb']) {
+        if (!isset($items[0]['data']['emthumb']) && isset($items[0]['emthumb']['emthumb']['emthumb']['emthumb'])) {
           $items[0]['data']['emthumb'] = $items[0]['emthumb']['emthumb']['emthumb']['emthumb'];
         }
         unset($items[0]['emthumb']);
@@ -114,7 +114,7 @@ function emthumb_widget_element_process($element, $form_state) {
   // Attach new files.
   $validators = array();
   $filename = $source = $fieldname .'_upload';
-  if ($file = file_save_upload($filename, $validators, file_create_path($field['widget']['emimport_image_path']), FILE_EXISTS_RENAME)) {
+  if (isset($field['widget']['emimport_image_path']) && $file = file_save_upload($filename, $validators, file_create_path($field['widget']['emimport_image_path']), FILE_EXISTS_RENAME)) {
     $file = (array)$file;
     if (strpos($file['filemime'], 'image') !== FALSE) {
       $file = _emthumb_scale_image($file, $field['widget']['emthumb_max_resolution']);
@@ -138,7 +138,7 @@ function emthumb_widget_element_process($element, $form_state) {
   // displayed if they are a child of '#type' = form issue
   $element[$fieldname .'_upload'] = array(
     '#type'  => 'file',
-    '#description' => $field['widget']['emthumb_description'] ? t('@description', array('@description' => $field['widget']['emthumb_description'])) : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $field['widget']['label'])),
+    '#description' => isset($field['widget']['emthumb_description']) ? $field['widget']['emthumb_description'] : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $field['widget']['label'])),
     '#tree' => FALSE,
     '#weight' => 9,
   );
@@ -153,11 +153,11 @@ function emthumb_widget_element_process($element, $form_state) {
   );
 
   // Store the file data object to be carried on.
-  $file = $file ? $file : $items[$delta]['data']['emthumb'];
+  $file = isset($file) ? $file : (isset($items[$delta]['data']['emthumb']) ? $items[$delta]['data']['emthumb'] : array());
 
   // If we have no current file, and have been told to store a local thumbnail,
   // then fetch it now.
-  if (empty($file) && $field['widget']['emthumb_store_local_thumbnail']) { // was variable_get('emthumb_store_local_thumbnail', TRUE)) {
+  if (empty($file) && isset($field['widget']['emthumb_store_local_thumbnail'])) { // was variable_get('emthumb_store_local_thumbnail', TRUE)) {
     $item = $items[$delta];
     if (empty($item['value'])) {
       // @TODO: We need to get the info somehow.
@@ -169,7 +169,7 @@ function emthumb_widget_element_process($element, $form_state) {
   }
 
   // If we have one, display the current thumbnail and a delete checkbox.
-  if ($file['filepath'] && !$file['flags']['delete']) {
+  if (isset($file['filepath']) && !isset($file['flags']['delete'])) {
     $element['#title'] = t('Replace');
     $element['emthumb'] = array(
       '#theme' => 'emthumb_edit_image_row',
@@ -237,7 +237,7 @@ function emthumb_widget_element_process($element, $form_state) {
       );
     }
   }
-  elseif ($file['filepath'] && $file['flags']['delete']) {
+  elseif (isset($file['filepath']) && isset($file['flags']['delete'])) {
     $element['emthumb']['flags']['delete'] = array(
       '#type' => 'hidden', // A value type will not persist here, must be hidden.
       '#value' => $file['flags']['delete'],
@@ -321,14 +321,18 @@ function emthumb_emfield_widget_extra_file_included() {
  */
 function emthumb_emfield_widget_extra(&$form, &$form_state, $field, $items, $delta = 0, $module) {
   $element = array();
+  // Construct the thumbnail fieldset with the custom label.
+  $emthumb_label = isset($field['widget']['emthumb_label']) ? $field['widget']['emthumb_label'] : (isset($field['widget']['label']) ? t('@field custom thumbnail', array('@field' => $field['widget']['label'])) : t('Custom thumbnail'));
   $element['emthumb'] = array(
     '#type' => 'fieldset',
-    '#title' => $field['widget']['emthumb_label'] ? t('@label', array('@label' => $field['widget']['emthumb_label'])) :  t('@field custom thumbnail', array('@field' => $field['widget']['label'])),
-    '#weight' => $field['widget']['emthumb_weight'],
+    '#title' => $emthumb_label,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
     '#tree' => TRUE,
   );
+  if (isset($field['widget']['emthumb_weight'])) {
+    $element['emthumb']['#weight'] = $field['widget']['emthumb_weight'];
+  }
   $element['emthumb']['emthumb'] = array(
     '#type' => 'emthumb_widget',
     '#title' => t('New upload'),
@@ -370,20 +374,20 @@ function emthumb_emfield_widget_settings_extra($op, $widget) {
       $form['emthumb']['emthumb_label'] = array(
         '#type' => 'textfield',
         '#title' => t('Custom thumbnail label'),
-        '#default_value' => $widget['emthumb_label'] ? $widget['emthumb_label'] : t('@field custom thumbnail', array('@field' => $widget['label'])),
+        '#default_value' => isset($widget['emthumb_label']) ? $widget['emthumb_label'] : t('@field custom thumbnail', array('@field' => $widget['label'])),
         '#description' => t('This label will be displayed when uploading a custom thumbnail.'),
       );
       $form['emthumb']['emthumb_description'] = array(
         '#type' => 'textfield',
         '#title' => t('Custom thumbnail description'),
-        '#default_value' => $widget['emthumb_description'] ? $widget['emthumb_description'] : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $widget['label'])),
+        '#default_value' => isset($widget['emthumb_description']) ? $widget['emthumb_description'] : t('If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers.', array('@field' => $widget['label'])),
         '#description' => t('This description will be displayed when uploading a custom thumbnail.'),
         '#maxlength' => 512,
       );
      $form['emthumb']['emthumb_max_resolution'] = array(
         '#type' => 'textfield',
         '#title' => t('Maximum resolution for Images'),
-        '#default_value' => $widget['emthumb_max_resolution'] ? $widget['emthumb_max_resolution'] : 0,
+        '#default_value' => isset($widget['emthumb_max_resolution']) ? $widget['emthumb_max_resolution'] : 0,
         '#size' => 15,
         '#maxlength' => 10,
         '#description' =>
@@ -392,20 +396,20 @@ function emthumb_emfield_widget_settings_extra($op, $widget) {
       $form['emthumb']['emimport_image_path'] = array(
         '#type' => 'textfield',
         '#title' => t('Image path'),
-        '#default_value' => $widget['emimport_image_path'] ? $widget['emimport_image_path'] : '',
+        '#default_value' => isset($widget['emimport_image_path']) ? $widget['emimport_image_path'] : '',
         '#description' => t('Optional subdirectory within the "%dir" directory where images will be stored. Do not include trailing slash.', array('%dir' => variable_get('file_directory_path', 'files'))),
         '#after_build' => array('emthumb_form_check_directory'),
       );
       $form['emthumb']['emthumb_custom_alt'] = array(
         '#type' => 'checkbox',
         '#title' => t('Enable custom alternate text'),
-        '#default_value' =>  $widget['emthumb_custom_alt'] ? $widget['emthumb_custom_alt'] : 0,
+        '#default_value' => isset($widget['emthumb_custom_alt']) ? $widget['emthumb_custom_alt'] : 0,
         '#description' => t('Enable custom alternate text for custom thumbnails. Filename will be used if not checked.'),
       );
       $form['emthumb']['emthumb_custom_title'] = array(
         '#type' => 'checkbox',
         '#title' => t('Enable custom title text'),
-        '#default_value' =>  $widget['emthumb_custom_title'] ? $widget['emthumb_custom_title'] : 0,
+        '#default_value' => isset($widget['emthumb_custom_title']) ? $widget['emthumb_custom_title'] : 0,
         '#description' => t('Enable custom title text for custom thumbnails. Filename will be used if not checked.'),
       );
       return $form;

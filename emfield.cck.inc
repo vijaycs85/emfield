@@ -161,7 +161,8 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
       // Grab the provider's URL.
       $urls[] = l($info['name'], $info['url'], array('target' => '_blank'));
       // Allow the module to add any additional elements to the form, based on individual provider needs.
-      $additional_element = emfield_include_invoke($module, $provider->name, 'form', $field, $items[$delta]);
+      $item = isset($items[$delta]) ? $items[$delta] : NULL;
+      $additional_element = emfield_include_invoke($module, $provider->name, 'form', $field, $item);
       if ($additional_element) {
         $additional_form_elements[$provider->name] = $additional_element;
       }

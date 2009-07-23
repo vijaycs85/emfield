@@ -30,7 +30,7 @@ function emvideo_veoh_settings() {
   $form['veoh']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Veoh API'),
-    '#description' => t('If you wish to be able to display Veoh thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@veoh" target="_blank">Veoh Developer Profile page</a>. Note that you do not need this key to display Veoh videos themselves.', array('@veoh' => EMVIDEO_VEOH_API_APPLICATION_URL)),
+    '#description' => t('If you wish to be able to display Veoh thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@veoh" target="_blank">Veoh Developer Profile page</a>. Note that you do not need this key to display Veoh videos themselves.', array('@veoh' => EMVIDEO_VEOH_API_INFO)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );

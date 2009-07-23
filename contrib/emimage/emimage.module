@@ -204,7 +204,7 @@ function emimage_widget_settings($op, $widget) {
           '#title' => t('Preview size link'),
           '#description' => t("Where the image will link when displayed in its preview size. 'Content' links to the content page, 'provider' links to the provider's image page, and 'none' displays the image with no link."),
           '#options' => $link_options,
-          '#default_value' => is_null($widget['preview_link']) ? $preview_link : $widget['preview_link_link'],
+          '#default_value' => isset($widget['preview_link']) ? $widget['preview_link'] : $preview_link,
         );
         $width = variable_get('emimage_default_thumbnail_width', EMIMAGE_DEFAULT_THUMBNAIL_WIDTH);
         $height = variable_get('emimage_default_thumbnail_height', EMIMAGE_DEFAULT_THUMBNAIL_HEIGHT);

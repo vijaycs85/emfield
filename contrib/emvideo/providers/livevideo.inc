@@ -47,7 +47,7 @@ function emvideo_livevideo_settings() {
   $form['livevideo']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('Live Video API'),
-    '#description' => t('If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@livevideo" target="_blank">Live Video Developer Profile page</a>. Note that you do not need this key to display Live Video videos themselves.', array('@livevideo' => EMVIDEO_LIVEVIDEO_API_APPLICATION_URL)),
+    '#description' => t('If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@livevideo" target="_blank">Live Video Developer Profile page</a>. Note that you do not need this key to display Live Video videos themselves.', array('@livevideo' => EMVIDEO_LIVEVIDEO_API_INFO)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );

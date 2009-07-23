@@ -17,7 +17,7 @@ function emvideo_guba_info() {
     'provider' => 'guba',
     'name' => t('GUBA'),
     'url' => EMVIDEO_GUBA_MAIN_URL,
-    'settings_description' => t('These settings specifically affect videos displayed from <a href="@guba" target="_blank">GUBA</a>. You can learn more about its <a href="@api" target="_blank">API</a> here.', array('@guba' => EMVIDEO_GUBA_MAIN_URL, '@api' => EMVIDEO_GUBA_API_INFO)),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@guba" target="_blank">GUBA</a>.', array('@guba' => EMVIDEO_GUBA_MAIN_URL)),
     'supported_features' => $features,
   );
 }
@@ -26,7 +26,6 @@ function emvideo_guba_settings() {
   $form['guba']['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('GUBA API'),
-    '#description' => t('If you wish to be able to display GUBA thumbnails automatically, you will first need to apply for an API Developer Key from the <a href="@guba" target="_blank">GUBA Developer Profile page</a>. Note that you do not need this key to display GUBA videos themselves.', array('@guba' => EMVIDEO_GUBA_API_APPLICATION_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );

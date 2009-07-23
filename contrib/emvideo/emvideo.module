@@ -336,15 +336,18 @@ function emvideo_widget_settings($op, $widget) {
           '#required' => TRUE,
           '#description' => t('The height of the thumbnail. It defaults to @height.', array('@height' => $height)),
         );
-        if (!module_exists('emthumb')) {
-          $tn_desc = ' '. t('You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis.');
-        }
+        // Construct the description, hinting of Embedded Media Thumbnail if it
+        // is not enabled.
         $default_path = variable_get('emvideo_default_thumbnail_path', '');
+        $description = t("Path to a local default thumbnail image for cases when a thumbnail can't be found. For example, you might have a default thumbnail at %files.", array('%files' => 'files/thumbnail.png'));
+        if (!module_exists('emthumb')) {
+          $description .= ' '. t('You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis.');
+        }
         $form['tn']['thumbnail_default_path'] = array(
           '#type' => 'textfield',
           '#title' => t('Default thumbnail path'),
           '#default_value' => empty($widget['thumbnail_default_path']) ? $default_path : $widget['thumbnail_default_path'],
-          '#description' => t("Path to a local default thumbnail image for cases when a thumbnail can't be found. For example, you might have a default thumbnail at %files.", array('%files' => 'files/thumbnail.png')) . $tn_desc,
+          '#description' => $description,
         );
         $form['tn']['thumbnail_link_title'] = array(
           '#type' => 'textfield',
