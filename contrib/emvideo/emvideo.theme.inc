@@ -104,8 +104,8 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
   $image_title = isset($options['image_title']) ? $options['image_title'] : $link_title;
   $image_alt = isset($options['image_alt']) ? $options['image_alt'] : $link_title;
 
-  if ($thumbnail_url) {
-    if ($options['return_url']) {
+  if (isset($thumbnail_url)) {
+    if (isset($options['return_url'])) {
       return url($thumbnail_url);
     }
     $width = isset($options['width']) ? $options['width'] : NULL;
@@ -206,8 +206,7 @@ function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = arr
   if ($options['wrapper-class']) {
     $class .= ' '. $options['wrapper-class'];
   }
-  $output .= '<div class="'. $class .'">'. l($thumbnail, $destination, $attributes) .'</div>';
-
+  $output = '<div class="'. $class .'">'. l($thumbnail, $destination, $attributes) .'</div>';
   return $output;
 }
 
