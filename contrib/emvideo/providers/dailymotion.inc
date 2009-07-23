@@ -23,7 +23,7 @@ function emvideo_dailymotion_info() {
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
-    array(t('Thumbnails'), t('No'), t('')),
+    array(t('Thumbnails'), t('Yes'), t('Although thumbnails are generated, they are restricted to a size of 160x120.')),
   );
   return array(
     'provider' => 'dailymotion',
@@ -93,19 +93,18 @@ function emvideo_dailymotion_embedded_link($video_code) {
  * the embedded flash displaying the dailymotion video
  */
 function theme_emvideo_dailymotion_flash($embed, $width, $height, $autoplay) {
+  $output = '';
   if ($embed) {
-    if ($autoplay) {
-      $autoplay_value = '&amp;autoStart=1';
-    }
-    $output .= "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.dailymotion.com/swf/$embed". $autoplay_value ."\" id=\"VideoPlayback\">
-      <param name=\"movie\" value=\"http://www.dailymotion.com/swf/$embed". $autoplay_value ."\" />
+    $autoplay = $autoplay ? '&amp;autoStart=1' : '';
+    $output = "    <object type=\"application/x-shockwave-flash\" height=\"$height\" width=\"$width\" data=\"http://www.dailymotion.com/swf/$embed$autoplay\" id=\"VideoPlayback\">
+      <param name=\"movie\" value=\"http://www.dailymotion.com/swf/$embed$autoplay\" />
       <param name=\"allowScriptAcess\" value=\"always\" />
       <param name=\"allowFullScreen\" value=\"true\" />
       <param name=\"quality\" value=\"best\" />
       <param name=\"bgcolor\" value=\"#FFFFFF\" />
       <param name=\"scale\" value=\"noScale\" />
       <param name=\"salign\" value=\"TL\" />
-      <param name=\"FlashVars\" value=\"playerMode=embedded$autoplay_value\" />
+      <param name=\"FlashVars\" value=\"playerMode=embedded$autoplay\" />
       <param name=\"wmode\" value=\"transparent\" />
     </object>\n";
   }
@@ -124,7 +123,7 @@ function theme_emvideo_dailymotion_flash($embed, $width, $height, $autoplay) {
  *    a URL pointing to the thumbnail
  */
 function emvideo_dailymotion_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return 'http://ak.static.dailymotion.com/dyn/preview/160x120/video/'. $item['value'];
+  return 'http://www.dailymotion.com/thumbnail/160x120/video/'. $item['value'];
 }
 
 /**
