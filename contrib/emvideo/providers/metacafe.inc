@@ -52,6 +52,7 @@ function emvideo_metacafe_video_link($video_code) {
 }
 
 function theme_emvideo_metacafe_flash($embed, $width, $height, $autoplay) {
+  $output = '';
   if ($embed) {
     $autoplay = $autoplay ? '?playerVars=autoPlay=yes' : '';
     $output .= '<embed src="http://www.metacafe.com/fplayer/'. $embed .'.swf'. $autoplay .'" width="'. $width .'" height="'. $height .'" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>';
@@ -60,8 +61,9 @@ function theme_emvideo_metacafe_flash($embed, $width, $height, $autoplay) {
 }
 
 function emvideo_metacafe_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  $picturelink=substr($item['value'], 0, 6);
-  return 'http://www.metacafe.com/thumb/'. $picturelink .'.jpg';
+  // http://www.metacafe.com/thumb/[VIDEOID].jpg
+  $values = explode('/', $item['value'], 2);
+  return 'http://www.metacafe.com/thumb/'. $values[0] .'.jpg';
 }
 
 function emvideo_metacafe_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
