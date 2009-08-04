@@ -5,6 +5,9 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+DRUPAL-6--1-3
+=============
+
 July 2009
 ---------
  * #165731 - Allow provider result of 302 (winston).
