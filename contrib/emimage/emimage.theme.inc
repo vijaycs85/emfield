@@ -10,7 +10,7 @@ function theme_emimage_image($field, $item, $formatter, $node, $code, $width, $h
   if ($height) {
     $attributes['height'] = $height;
   }
-  if (!$width || !$height) {
+  if (!isset($width) || !isset($height)) {
     // Find out the size of the actual image file, and scale accordingly
     if ( $item['data']['width'] && $item['data']['height'] ) {
       // The image's width & height are known
