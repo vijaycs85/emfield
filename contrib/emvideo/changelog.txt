@@ -5,6 +5,10 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+August 2009
+-----------
+ * Don't allow spaces in YouTube URL (aaron).
+
 DRUPAL-6--1-3
 =============
 

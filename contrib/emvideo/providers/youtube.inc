@@ -282,9 +282,9 @@ function emvideo_youtube_extract($code = '') {
   // http://youtube.com/watch?v=nvbQQnvxXDk
   // http://www.youtube.com/watch?v=YzFCA-xUc8w&feature=dir
   return array(
-    '@youtube\.com/v/([^"\&]+)@i',
-    '@youtube\.com/watch\?v=([^"\&]+)@i',
-     '@youtube\.com/\?v=([^"\&]+)@i',
+    '@youtube\.com/v/([^"\& ]+)@i',
+    '@youtube\.com/watch\?v=([^"\& ]+)@i',
+     '@youtube\.com/\?v=([^"\& ]+)@i',
   );
 }
 
