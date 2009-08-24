@@ -1,5 +1,13 @@
 /* $Id$ */
 
+August 2009
+-----------
+ * #358241 - Field help text links 'Custom URL' to site itself (joachim).
+
+===============
+ DRUPAL-5--1-7
+===============
+
 May 2009
 --------
  * #197807 - Max length of embed to 4096 (aaron).

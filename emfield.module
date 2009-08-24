@@ -415,7 +415,7 @@ function emfield_emfield_widget($op, &$node, $field, &$node_field, $module) {
         // don't check providers not allowed
         if (variable_get('emfield_allow_'. $module .'_'. $provider->name, TRUE)) {
           $info = emfield_include_invoke($module, $provider->name, 'info');
-          $urls[] = l($info['name'], $info['url'], array('target' => '_blank'));
+          $urls[] = $info['url'] ? l($info['name'], $info['url'], array('target' => '_blank')) : $info['name'];
           $additional_element = emfield_include_invoke($module, $provider->name, 'form');
           if ($additional_element) {
             $additional_form_elements[$provider->name] = $additional_element;
