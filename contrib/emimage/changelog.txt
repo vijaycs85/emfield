@@ -3,6 +3,10 @@
 DRUPAL-6--1-3
 =============
 
+August 2009
+-----------
+ * Documentation in custom_url (aaron).
+
 July 2009
 ---------
  * #506440 Add Custom URL For Image Providers (d.roldan.drupal/Rob Loach).

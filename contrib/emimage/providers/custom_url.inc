@@ -2,7 +2,7 @@
 // $Id$
 
 /**
- * This hook of the image_ncck_PROVIDER_info() returns information relevant to
+ * This hook of the emimage_PROVIDER_info() returns information relevant to
  * the Global Image Provider, and not to an specific 3rd party image provider.
  *
  * @return  An object of type array of strings requested by admin & other forms
@@ -79,7 +79,7 @@ function emimage_custom_url_extract($embed = '') {
 }
 
 /**
- * This hook of the image_ncck_PROVIDER_embedded_link($code) returns a link to
+ * This hook of the emimage_PROVIDER_embedded_link($code) returns a link to
  * view the content at the provider's site.
  *
  *  @param  $code The string containing the content to watch
@@ -91,7 +91,7 @@ function emimage_custom_url_embedded_link($code, $data) {
 }
 
 /**
- *  This function is an implementation of the image_ncck_PROVIDER_image_url()
+ *  This function is an implementation of the emimage_PROVIDER_image_url()
  *
  *  @param  $code The code of the image
  *  @param  $data Any stored data for the image, which may already have the title
@@ -102,7 +102,7 @@ function emimage_custom_url_image_url($code, $data) {
 }
 
 /**
- *  This function is an implementation of the image_ncck_PROVIDER_image_title()
+ *  This function is an implementation of the emimage_PROVIDER_image_title()
  *
  *  @param  $code The code of the image
  *  @param  $data Any stored data for the image, which may already have the title
