@@ -7,7 +7,7 @@
 
 August 2009
 -----------
- * Remove API info from Guba (aaron).
+ * #457452: Remove API info from Guba (aaron).
  * Don't allow spaces in YouTube URL (aaron).
 
 DRUPAL-6--1-3
