@@ -5,6 +5,10 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+August 2009
+-----------
+ * #358241 - Field help text links 'Custom URL' to site itself (joachim).
+
 DRUPAL-6--1-3
 =============
 
