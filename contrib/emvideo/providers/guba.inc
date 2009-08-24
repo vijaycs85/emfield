@@ -1,4 +1,5 @@
 <?php
+// $Id$
 /**
  * @file
  *   Provide support for the Guba provider to the emfield.module.
@@ -10,8 +11,7 @@ function emvideo_guba_info() {
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
     array(t('RSS Attachment'), t('No'), ''),
-    array(t('Show related videos'), t('No'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
-    array(t('Thumbnails'), t('Yes'), t('May not currently resize thumbnails. Must have an API key for thumbnails at the moment, although research is underway to determine an alternative to this. Set your API key above.')),
+    array(t('Thumbnails'), t('Yes'), t('')),
   );
   return array(
     'provider' => 'guba',
@@ -21,29 +21,6 @@ function emvideo_guba_info() {
     'supported_features' => $features,
   );
 }
-
-function emvideo_guba_settings() {
-  $form['guba']['api'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('GUBA API'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-  $form['guba']['api']['emvideo_guba_api_key'] = array(
-    '#type' => 'textfield',
-    '#title' => t('GUBA API Key'),
-    '#default_value' => variable_get('emvideo_guba_api_key', ''),
-    '#description' => t('Please enter your GUBA Developer Key here.'),
-  );
-  $form['guba']['api']['emvideo_guba_api_secret'] = array(
-    '#type' => 'textfield',
-    '#title' => t('GUBA API Secret'),
-    '#default_value' => variable_get('emvideo_guba_api_secret', ''),
-    '#description' => t('If you have a secret for the GUBA API, enter it here.'),
-  );
-  return $form;
-}
-
 
 function emvideo_guba_request($method, $args = array(), $cached = TRUE) {
   //$args = array('docid' => $embed);
