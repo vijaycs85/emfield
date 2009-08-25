@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+August 2009
+-----------
+ * #510156: Allow configuration of default display: collapsed / not collapsed (andrewsuth).
+
 DRUPAL-6--1-3
 =============
 
