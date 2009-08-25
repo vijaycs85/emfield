@@ -783,3 +783,25 @@ function emfield_imagerotator_url($reset = FALSE) {
 
   return $path;
 }
+
+/**
+ * Implementation of Devel module's hook_content_generate().
+ */
+function emvideo_content_generate($node, $field) {
+  $item = $urls = array();
+  $module = $field['module'];
+  foreach (emfield_allowed_providers($field, $module) as $provider) {
+    $provider_urls = emfield_include_invoke($module, $provider->name, 'content_generate', $node, $field);
+    if (is_array($provider_urls)) {
+      $urls[$provider->name] = $provider_urls;
+    }
+  }
+  if (!empty($urls)) {
+    $provider = array_rand($urls);
+    $item['provider'] = $provider;
+    $key = array_rand($urls[$provider]);
+    $item['embed'] = $urls[$provider][$key];
+    $item = _emfield_field_submit_id($field, $item, $module);
+  }
+  return $item;
+}

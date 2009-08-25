@@ -5,6 +5,10 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+August 2009
+-----------
+* Implement hook_content_generate for Devel module (aaron).
+
 ===============
  DRUPAL-6--1-4
 ===============

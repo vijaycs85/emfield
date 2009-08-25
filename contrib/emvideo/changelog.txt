@@ -5,6 +5,11 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+August 2009
+-----------
+ * Implement hook_emvideo_PROVIDER_content_generate: YouTube, Blip.TV,
+   and Archive.org (aaron).
+
 ===============
  DRUPAL-6--1-4
 ===============

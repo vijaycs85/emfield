@@ -515,3 +515,18 @@ function emvideo_youtube_emfield_subtheme() {
       )
   );
 }
+
+/**
+ *  Implement hook_emvideo_PROVIDER_content_generate().
+ */
+function emvideo_youtube_content_generate() {
+  return array(
+    'http://www.youtube.com/watch?v=-jubiv7QUco',
+    'http://www.youtube.com/watch?v=VG_ss5QT03Y',
+    'http://www.youtube.com/watch?v=LrUMJgyQVE8',
+    'http://www.youtube.com/watch?v=H2eI02rK9_U',
+    'http://www.youtube.com/watch?v=B3qxki6H8Fk',
+    'http://www.youtube.com/watch?v=Rsaw5NuFIto',
+    'http://www.youtube.com/watch?v=J3CaN-g5mQQ',
+  );
+}

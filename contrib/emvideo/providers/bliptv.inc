@@ -324,3 +324,15 @@ function emvideo_bliptv_emfield_subtheme() {
     )
   );
 }
+
+/**
+ *  Implement hook_emvideo_PROVIDER_content_generate().
+ */
+function emvideo_bliptv_content_generate() {
+  return array(
+    'http://blip.tv/file/836041/',
+    'http://blip.tv/file/1492835/',
+    'http://blip.tv/file/2015750/',
+    'http://blip.tv/file/2312026/',
+  );
+}
