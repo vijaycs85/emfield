@@ -5,6 +5,10 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+===============
+ DRUPAL-6--1-4
+===============
+
 August 2009
 -----------
  * #370882: Fix menu creation (jdwfly/aaron).

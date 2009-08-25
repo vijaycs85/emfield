@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+===============
+ DRUPAL-6--1-4
+===============
+
 August 2009
 -----------
  * Remove warning notice from info file (aaron).
