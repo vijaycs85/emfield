@@ -586,9 +586,12 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         // Begin building file object.
         $file = new stdClass();
         $file->uid = $user->uid;
+
         // Strip out the query if provided.
-        $file->filename = parse_url($basename, PHP_URL_PATH);
-        $file->filepath = parse_url($filepath, PHP_URL_PATH);
+        $basename_arr = parse_url($basename);
+        $filepath_arr = parse_url($filepath);
+        $file->filename = $basename_arr['path'];
+        $file->filepath = $filepath_arr['path'];
 
         // If we have mimedetect, then do so. Otherwise we make a best guess
         // based on the filename.

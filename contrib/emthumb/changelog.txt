@@ -7,6 +7,7 @@
 
 August 2009
 -----------
+ * #539940: Remove requirement of PHP 5.1.2 (Eric At NRD/Rob Loach).
  * #510156: Allow configuration of default display: collapsed / not collapsed (andrewsuth).
 
 DRUPAL-6--1-3
