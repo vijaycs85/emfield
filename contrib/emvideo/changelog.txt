@@ -7,6 +7,7 @@
 
 August 2009
 -----------
+ * #397802: blip.tv enclosures seem to not be showing up (jjkiesch).
  * #457452: Remove API info from Guba (aaron).
  * Don't allow spaces in YouTube URL (aaron).
 

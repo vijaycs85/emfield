@@ -233,8 +233,7 @@ function emvideo_bliptv_rss($item, $teaser = NULL) {
       $file['duration'] = ($video_info['duration']) ? $video_info['duration'] : FALSE;
       // @todo media:credit role="author" ...
 
-
-
+      return $file;
     }
   }
 }
