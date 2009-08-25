@@ -45,24 +45,24 @@ function emvideo_disable() {
 /**
  *  Implementation of hook_requirements().
  */
-function emvideo_requirements($phase) {
-  $requirements = array();
-  // Ensure translations don't break at install time
-  $t = get_t();
-
-  if ($phase == 'install') {
-    if (drupal_get_installed_schema_version('content') < 6000) {
-      drupal_set_message($t("Some updates are still pending. Please return to !update and run the remaining updates.", array('!update' => l($t('update.php'), 'update.php', array('query' => 'op=selection')))), 'warning');
-      $requirements['cck'] = array(
-        'title' => $t('CCK'),
-        'description' => $t('Updates for content.module need to be run first.<br/>Please re-run the update script.'),
-        'severity' => REQUIREMENT_ERROR,
-      );
-    }
-  }
-
-  return $requirements;
-}
+// function emvideo_requirements($phase) {
+//   $requirements = array();
+//   // Ensure translations don't break at install time
+//   $t = get_t();
+//
+//   if ($phase == 'install') {
+//     if (drupal_get_installed_schema_version('content') < 6000) {
+//       drupal_set_message($t("Some updates are still pending. Please return to !update and run the remaining updates.", array('!update' => l($t('update.php'), 'update.php', array('query' => 'op=selection')))), 'warning');
+//       $requirements['cck'] = array(
+//         'title' => $t('CCK'),
+//         'description' => $t('Updates for content.module need to be run first.<br/>Please re-run the update script.'),
+//         'severity' => REQUIREMENT_ERROR,
+//       );
+//     }
+//   }
+//
+//   return $requirements;
+// }
 
 /**
  *  Clean up our messes when migrating from video_cck.

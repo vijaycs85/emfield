@@ -7,6 +7,7 @@
 
 August 2009
 -----------
+ * #542994: Remove emvideo_requirements (chenba/Rob Loach).
  * #397802: blip.tv enclosures seem to not be showing up (jjkiesch).
  * #457452: Remove API info from Guba (aaron).
  * Don't allow spaces in YouTube URL (aaron).
