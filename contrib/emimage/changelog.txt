@@ -5,6 +5,7 @@ DRUPAL-6--1-3
 
 August 2009
 -----------
+ * #370882: Fix menu creation (jdwfly/aaron).
  * Documentation in custom_url (aaron).
 
 July 2009

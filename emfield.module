@@ -716,7 +716,7 @@ function emfield_provider_menus($module, $provider = NULL) {
 
   foreach ($providers as $provider) {
     if ($submenus = emfield_include_invoke($module, $provider->name, 'emfield_submenu')) {
-        $menus += $submenus;
+        $menus = array_merge($menus, (array) $submenus);
     }
   }
 

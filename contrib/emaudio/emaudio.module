@@ -18,10 +18,7 @@ define('EMAUDIO_DEFAULT_THUMBNAIL_PATH', '');
  * Implementation of hook_menu().
  */
 function emaudio_menu() {
-  $items = array();
-  
-  $items += module_invoke('emfield', 'provider_menus', 'emaudio');
-  
+  $items = module_invoke('emfield', 'provider_menus', 'emaudio');
   return $items;
 }
 

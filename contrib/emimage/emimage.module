@@ -23,9 +23,7 @@ define('EMIMAGE_DEFAULT_THUMBNAIL_LINK', EMIMAGE_LINK_CONTENT);
  * Implementation of hook_menu().
  */
 function emimage_menu() {
-  $items = array();
-
-  $items += module_invoke('emfield', 'provider_menus', 'emimage');
+  $items = module_invoke('emfield', 'provider_menus', 'emimage');
 
   return $items;
 }

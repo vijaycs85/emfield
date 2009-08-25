@@ -20,14 +20,13 @@ define('EMVIDEO_DEFAULT_THUMBNAIL_HEIGHT', 90);
  * Implementation of hook_menu().
  */
 function emvideo_menu() {
-  $items = array();
+  $items = module_invoke('emfield', 'provider_menus', 'emvideo');
+
   $items['emvideo/thickbox'] = array(
     'page callback' => 'emvideo_thickbox',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-
-  $items += module_invoke('emfield', 'provider_menus', 'emvideo');
 
   return $items;
 }

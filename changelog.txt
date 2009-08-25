@@ -7,6 +7,7 @@
 
 August 2009
 -----------
+ * #370882: Fix menu creation (jdwfly/aaron).
  * #358241 - Field help text links 'Custom URL' to site itself (joachim).
 
 DRUPAL-6--1-3

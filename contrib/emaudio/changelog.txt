@@ -1,5 +1,9 @@
 /* $Id$ */
 
+August 2009
+-----------
+ * #370882: Fix menu creation (jdwfly/aaron).
+
 DRUPAL-6--1-3
 =============
 
