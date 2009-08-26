@@ -7,8 +7,9 @@
 
 August 2009
 -----------
- * Implement hook_emvideo_PROVIDER_content_generate: YouTube, Blip.TV,
-   and Archive.org (aaron).
+* #457608: Remove Veoh provider (brianbrown/Manuel Garcia).
+* Implement hook_emvideo_PROVIDER_content_generate: YouTube, Blip.TV,
+  and Archive.org (aaron).
 
 ===============
  DRUPAL-6--1-4
