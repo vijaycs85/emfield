@@ -143,7 +143,7 @@ function emvideo_theme() {
  * Implementation of hook_emfield_settings().
  *
  * This would be to add any extra settings (besides providers) to the emfield
- * settings configuration page. Video CCK doesn't require anything at the moment.
+ * settings configuration page.
  */
 function emvideo_emfield_settings() {
   $form = array();

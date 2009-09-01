@@ -203,7 +203,7 @@ function theme_emvideo_modal_generic($field, $item, $formatter, $node, $options 
   static $added_js;
   if (!isset($added_js)) {
     // Add the play button image overlay.
-    drupal_add_js(array('emvideo' => array('thumbnail_overlay' => variable_get('emvideo_thumbnail_overlay', TRUE))), 'setting');
+    drupal_add_js(array('emvideo' => array('thumbnail_overlay' => variable_get('emfield_thumbnail_overlay', TRUE))), 'setting');
     drupal_add_js(drupal_get_path('module', 'emvideo') . '/emvideo.thumbnail-replacement.js');
     drupal_add_css(drupal_get_path('module', 'emvideo') . '/emvideo.thumbnail-replacement.css');
     $added_js = TRUE;

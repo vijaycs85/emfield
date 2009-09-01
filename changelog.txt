@@ -7,6 +7,7 @@
 
 August 2009
 -----------
+* Add option for thumbnail play button overlay (aaron).
 * Implement hook_content_generate for Devel module (aaron).
 
 ===============

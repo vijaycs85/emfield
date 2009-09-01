@@ -71,6 +71,14 @@ function emfield_settings() {
       '#description' => t('Enter the path to the swfobject.js file, relative to the web root, without the preceding slash (/).'),
     );
   }
+
+  $form['general']['emfield_thumbnail_overlay'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Thumbnail play button overlay'),
+    '#description' => t('If a thumbnail replacement or modal display formatter (such as Shadowbox) is selected, then a play button will be overlayed on the image if this box is checked.'),
+    '#default_value' => variable_get('emfield_thumbnail_overlay', TRUE),
+  );
+
   $header = array(t('Feature'), t('Supported'), t('Notes'));
 
   foreach (module_implements('emfield_info', TRUE) as $module) {
@@ -83,6 +91,7 @@ function emfield_settings() {
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
     );
+    $form[$module] = array_merge($form[$module], module_invoke($module, 'emfield_settings'));
     $form[$module]['providers'] = array(
       '#type' => 'fieldset',
       '#title' => t('Providers'),
@@ -121,7 +130,6 @@ function emfield_settings() {
       );
       $form[$module]['providers'][$provider->name][] = emfield_include_invoke($module, $provider->name, 'settings');
     }
-    $form[$module] = array_merge($form[$module], module_invoke($module, 'emfield_settings'));
   }
 
   $form = system_settings_form($form);
