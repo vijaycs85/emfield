@@ -160,13 +160,6 @@ function emvideo_update_2() {
   return $ret;
 }
 
-function _emvideo_update_reset_cache() {
-  $ret = _emvideo_update_reset_cache_views();
-  $ret[] = update_sql("DELETE FROM {cache_content}");
-
-  return $ret;
-}
-
 /**
  * Since we made our engine dependent on emfield, we need to change some variables accordingly.
  */
@@ -255,6 +248,24 @@ function emvideo_update_6002() {
   return $ret;
 }
 
+function emvideo_update_6003() {
+  // We added a Lightbox2 & Shadowbox formatter, so need to rebuild the theme.
+  drupal_rebuild_theme_registry();
+
+  // Change the menu callback for emvideo/modal.
+  menu_rebuild();
+
+  // Also need to make sure we grab the new formatters.
+  $ret = _emvideo_update_reset_cache();
+
+  $ret[] = array(
+    'query' => t('Rebuilt the theme and menu to accommodate new formatters.'),
+    'success' => TRUE
+  );
+
+  return $ret;
+}
+
 /**
  * I'd like this to be conditional, so it only runs if they don't have Views
  * installed. However, module_exists doesn't actually work in the update scripts.
@@ -262,6 +273,14 @@ function emvideo_update_6002() {
 function _emvideo_update_reset_cache_views() {
   $ret = array();
   $ret[] = update_sql("DELETE FROM {cache_views}");
+
+  return $ret;
+}
+
+
+function _emvideo_update_reset_cache() {
+  $ret = _emvideo_update_reset_cache_views();
+  $ret[] = update_sql("DELETE FROM {cache_content}");
 
   return $ret;
 }

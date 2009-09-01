@@ -170,39 +170,45 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
   return $output;
 }
 
-function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
+function theme_emvideo_modal_generic($field, $item, $formatter, $node, $options = array()) {
   $title = isset($options['title']) ? $options['title'] : (isset($node->title) ? $node->title : (isset($node->node_title) ? $node->node_title : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video')))));
   $thumbnail = theme('emvideo_video_thumbnail', $field, $item, 'video_thumbnail', $node, TRUE, $options);
   $width = ($formatter == 'video_replace_preview') ? $field['widget']['preview_width'] : $field['widget']['video_width'];
   $height = ($formatter == 'video_replace_preview') ? $field['widget']['preview_height'] : $field['widget']['video_height'];
-  $destination = 'emvideo/thickbox/'. $node->nid .'/'. $width .'/'. $height .'/'. $field['field_name'] .'/'. $item['provider'] .'/'. $item['value'];
+  $destination = 'emvideo/modal/'. $node->nid .'/'. $width .'/'. $height .'/'. $field['field_name'] .'/'. $item['provider'] .'/'. $item['value'];
+  $link_class = 'emvideo-thumbnail-replacement emvideo-modal-' . $options['modal'] .' '. $options['modal'];
   $attributes = array(
     'attributes' => array(
       'title' => $title,
-      'class' => (!isset($options['modal']) || $options['modal'] == 'thickbox') ? 'thickbox' : 'emvideo-thumbnail-replacement',
-      'rel' => ((!isset($options['modal']) || $options['modal'] == 'thickbox') && module_exists('lightbox2')) ? 'lightframe['. $field['type_name'] .'|width:'. ($width + 16) .'; height:'. ($height + 16) .';]' : $field['type_name'],
+      'class' => $link_class,
     ),
     'query' => NULL,
     'fragment' => NULL,
     'absolute' => FALSE,
     'html' => TRUE,
   );
+  if ($options['modal'] == 'lightbox2') {
+    $attributes['attributes']['rel'] = 'lightframe['. $field['type_name'] .'|width:'. ($width + 16) .'; height:'. ($height + 16) .';]';
+  }
+  else if ($options['modal'] == 'shadowbox') {
+    $attributes['attributes']['rel'] = 'shadowbox['. $field['type_name'] .'];width='. ($width) .';height='. ($height);
+    // Shadowbox needs a .php extension so it knows to open as an iFrame.
+    $destination .= '/index.php';
+  }
 
-  if ((!isset($options['modal']) || $options['modal'] == 'lightbox2') && function_exists('lightbox2_add_files')) {
+  if (($options['modal'] == 'lightbox2') && function_exists('lightbox2_add_files')) {
     lightbox2_add_files();
   }
-  else if ($options['modal'] == 'emvideo' || (!module_exists('lightbox2') && !module_exists('thickbox'))) {
-    static $called;
 
-    // Add JS settings for the overlay, if they haven't already been added.
-    if (!$called) {
-      $called = TRUE;
-      drupal_add_js(array('emvideo' => array('thumbnail_overlay' => variable_get('emvideo_thumbnail_overlay', TRUE))), 'setting');
-      drupal_add_js(drupal_get_path('module', 'emvideo') . '/emvideo.thumbnail-replacement.js');
-      drupal_add_css(drupal_get_path('module', 'emvideo') . '/emvideo.thumbnail-replacement.css');
-    }
+  static $added_js;
+  if (!isset($added_js)) {
+    // Add the play button image overlay.
+    drupal_add_js(array('emvideo' => array('thumbnail_overlay' => variable_get('emvideo_thumbnail_overlay', TRUE))), 'setting');
+    drupal_add_js(drupal_get_path('module', 'emvideo') . '/emvideo.thumbnail-replacement.js');
+    drupal_add_css(drupal_get_path('module', 'emvideo') . '/emvideo.thumbnail-replacement.css');
+    $added_js = TRUE;
   }
-  $class = 'emvideo-thickbox';
+  $class = 'emvideo-modal emvideo-'. $options['modal'];
   if ($options['wrapper-class']) {
     $class .= ' '. $options['wrapper-class'];
   }
@@ -210,19 +216,34 @@ function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = arr
   return $output;
 }
 
+function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
+  $options['modal'] = 'thickbox';
+  return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
+}
+
+function theme_emvideo_lightbox2($field, $item, $formatter, $node, $options = array()) {
+  $options['modal'] = 'lightbox2';
+  return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
+}
+
+function theme_emvideo_shadowbox($field, $item, $formatter, $node, $options = array()) {
+  $options['modal'] = 'shadowbox';
+  return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
+}
+
 function theme_emvideo_video_replace($field, $item, $formatter, $node, $options = array()) {
   $options['modal'] = 'emvideo';
   $options['width'] = isset($options['width']) ? $options['width'] : $field['widget']['video_width'];
   $options['height'] = isset($options['height']) ? $options['height'] : $field['widget']['video_height'];
   $options['wrapper-class'] = isset($options['wrapper-class']) ? $options['wrapper-class'] . ' emvideo-thumbnail-replace-full' : 'emvideo-thumbnail-replace-full';
-  return theme('emvideo_thickbox', $field, $item, $formatter, $node, $options);
+  return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
 }
 function theme_emvideo_video_replace_preview($field, $item, $formatter, $node, $options = array()) {
   $options['modal'] = 'emvideo';
   $options['width'] = isset($options['width']) ? $options['width'] : $field['widget']['preview_width'];
   $options['height'] = isset($options['height']) ? $options['height'] : $field['widget']['preview_height'];
   $options['wrapper-class'] = isset($options['wrapper-class']) ? $options['wrapper-class'] . ' emvideo-thumbnail-replace-preview' : 'emvideo-thumbnail-replace-preview';
-  return theme('emvideo_thickbox', $field, $item, $formatter, $node, $options);
+  return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
 }
 
 function theme_emvideo_formatter_video_video($element) {
@@ -255,6 +276,14 @@ function theme_emvideo_formatter_video_flash($element) {
   return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
 }
 function theme_emvideo_formatter_thickbox($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+function theme_emvideo_formatter_lightbox2($element) {
+  $field = content_fields($element['#field_name'], $element['#type_name']);
+  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+}
+function theme_emvideo_formatter_shadowbox($element) {
   $field = content_fields($element['#field_name'], $element['#type_name']);
   return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
 }

@@ -7,6 +7,8 @@
 
 August 2009
 -----------
+* #462170: Add support for Shadowbox (aaron).
+* #445742: Separate formatters for thickbox/lightbox (aaron).
 * #457608: Remove Veoh provider (brianbrown/Manuel Garcia).
 * Implement hook_emvideo_PROVIDER_content_generate: YouTube, Blip.TV,
   and Archive.org (aaron).

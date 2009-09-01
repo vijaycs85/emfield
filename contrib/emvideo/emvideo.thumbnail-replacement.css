@@ -12,8 +12,8 @@
  *  so that you avoid the div dropping momentarily while the thumnbail
  *  is replaced by the video.
  */
-.emvideo-thickbox {
-  position: relative;
+.emvideo-thumbnail-replacement {
+  position: absolute;
   /* width: 425px; */
   /* height: 350px; */
 }
@@ -26,7 +26,7 @@
   /* This is the overlay image for use as a play button. */
   background: url(emvideo-play.png) no-repeat;
 
-  /* This is the size of our button. */
+  /* This is the size of our button. DOES NOT WORK WITH DEFAULT THUMB SIZE! */
   width: 85px;
   height: 112px;
 
@@ -36,6 +36,16 @@
 
 .emvideo-thumbnail-replacement span:hover {
   background-position: -85px 0px;
+}
+
+/* This is centered for the default placement of video thumbnails,
+   which is 120x90. Note that this button image doesn't work for those,
+   because it's too big. We try anyway...
+   Subtract half of the width of the thumbnail by half of the width of the play
+   button, and again for the height, to get these numbers, and the next. */
+.emvideo-thumbnail-replacement span {
+  left: 17px;
+  top: 0px;
 }
 
 /* This is centered for the default placement of full-sized videos,
