@@ -315,7 +315,7 @@ function emvideo_youtube_duration($item) {
   if ($item['data']['emvideo_youtube_version'] < 3) {
     $item['data'] = emvideo_youtube_data(NULL, $item);
   }
-  return $item['duration'];
+  return $item['data']['duration'];
 }
 
 function emvideo_youtube_convert_color($color = NULL) {
