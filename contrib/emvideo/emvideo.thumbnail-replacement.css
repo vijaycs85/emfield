@@ -13,7 +13,7 @@
  *  is replaced by the video.
  */
 .emvideo-thumbnail-replacement {
-  position: absolute;
+  position: relative;
   /* width: 425px; */
   /* height: 350px; */
 }
