@@ -269,7 +269,7 @@ function emvideo_update_6004() {
 /**
  *  Redo for new formatters for link and duration.
  */
-function emvideo_update_6004() {
+function emvideo_update_6005() {
   $ret = _emvideo_update_add_new_formatters();
 
   // We no longer need the YouTube API secret key, which no longer exists.

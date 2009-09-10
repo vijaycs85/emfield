@@ -243,12 +243,15 @@ function emvideo_field_formatter_info() {
     ),
     'video_link' => array(
       'label' => t('Link to original video'),
+      'field types' => $types,
     ),
     'video_url' => array(
       'label' => t('URL to original video'),
+      'field types' => $types,
     ),
     'video_duration' => array(
       'label' => t('Video duration'),
+      'field types' => $types,
     ),
     'video_embed' => array(
       'label' => t('Embed Code'),
