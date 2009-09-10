@@ -200,13 +200,13 @@ function emvideo_youtube_data($field, $item) {
   $data = array();
 
   // Create some 'field' version control.
-  $data['emvideo_youtube_version'] = 2;
+  $data['emvideo_youtube_version'] = 3;
 
   // Store the raw data from YouTube's API.
   $data['raw'] = emvideo_youtube_request($item['value']);
 
   // Store the video's duration.
-  $data['duration'] = intval($data['raw']['MEDIA_GROUP']['YT:DURATION'][1]['SECONDS']);
+  $data['duration'] = intval($data['raw']['MEDIA:GROUP']['YT:DURATION'][1]['SECONDS']);
 
   // Get the large thumbnail.
   $data['thumbnail']['url'] = 'http://img.youtube.com/vi/'. $item['value'] .'/0.jpg';
@@ -312,7 +312,7 @@ function emvideo_youtube_embedded_link($video_code) {
  *    The duration of the video in seconds.
  */
 function emvideo_youtube_duration($item) {
-  if ($item['data']['emvideo_youtube_version'] < 2) {
+  if ($item['data']['emvideo_youtube_version'] < 3) {
     $item['data'] = emvideo_youtube_data(NULL, $item);
   }
   return $item['duration'];

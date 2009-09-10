@@ -167,7 +167,7 @@ function theme_emvideo_video_url($field, $item, $formatter, $node, $options = ar
   return url($url);
 }
 function theme_emvideo_video_duration($field, $item, $formatter, $node, $options = array()) {
-  $duration = emfield_include_invoke('emvideo', $item['provider'], 'duration', $node, $field);
+  $duration = emfield_include_invoke('emvideo', $item['provider'], 'duration', $item);
   return '<div class="emvideo-duration">'. _emvideo_seconds_to_time($duration) .'</div>';
 }
 
