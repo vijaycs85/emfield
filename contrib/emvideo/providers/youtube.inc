@@ -59,7 +59,7 @@ function emvideo_youtube_settings() {
   $form['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('YouTube API'),
-    '#description' => t('You will need to apply for an API Developer Key from the <a href="@youtube" target="_blank">YouTube Developer Profile page</a>. Note that you do not need this key to display YouTube videos or their thumbnails, but this is required for some optional data, such as duration.', array('@youtube' => EMVIDEO_YOUTUBE_API_APPLICATION_URL)),
+    '#description' => t('This is not currently required. At some point, you may need to apply for an API Developer Key from the <a href="@youtube" target="_blank">YouTube Developer Profile page</a>. Note that you do not need this key to display YouTube videos or their thumbnails.', array('@youtube' => EMVIDEO_YOUTUBE_API_APPLICATION_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
@@ -198,20 +198,27 @@ function _emvideo_youtube_check_flv_player_setup() {
  */
 function emvideo_youtube_data($field, $item) {
   $data = array();
-  // create some 'field' version control
-  $data['emvideo_youtube_version'] = 1;
 
-  // be nice to make this an array for changing media:thumbnail?
+  // Create some 'field' version control.
+  $data['emvideo_youtube_version'] = 2;
+
+  // Store the raw data from YouTube's API.
+  $data['raw'] = emvideo_youtube_request($item['value']);
+
+  // Store the video's duration.
+  $data['duration'] = intval($data['raw']['MEDIA_GROUP']['YT:DURATION'][1]['SECONDS']);
+
+  // Get the large thumbnail.
   $data['thumbnail']['url'] = 'http://img.youtube.com/vi/'. $item['value'] .'/0.jpg';
 
-  // gather info about the item
-  // RSS / MRSS feeds with the item would have enough info
-  // alternative try getting the minimum from an http get
+  // Gather info about the item's raw flash video.
+  // RSS / MRSS feeds with the item would have enough info.
+  // Alternatively try getting the minimum from an HTTP get.
   $url = 'http://youtube.com/v/'. $item['value'];
   $response = emfield_request_header('youtube', $url);
 
   if ($response->code == 200) {
-    // probably shouldn't give the 303 path
+    // Don't give the 303 path.
     $data['flash']['url'] = $url;
     $data['flash']['size'] = $response->headers['Content-Length'];
     $data['flash']['mime'] = $response->headers['Content-Type'];
@@ -249,7 +256,7 @@ function emvideo_youtube_rss($item, $teaser = NULL) {
 /**
  * this is a wrapper for emvideo_request_xml that includes youtube's api key
  */
-function emvideo_youtube_request($method, $args = array(), $cached = TRUE) {
+function emvideo_youtube_request($code, $cached = TRUE) {
   $args['dev_id'] = trim(variable_get('emvideo_youtube_api_key', ''));
   $args['method'] = $method;
 
@@ -259,7 +266,7 @@ function emvideo_youtube_request($method, $args = array(), $cached = TRUE) {
 //    $args['api_sig'] = md5($secret . $arghash);
 //  }
 
-  $request = module_invoke('emfield', 'request_xml', 'youtube', EMVIDEO_YOUTUBE_REST_ENDPOINT, $args, $cached);
+  $request = module_invoke('emfield', 'request_xml', 'youtube', EMVIDEO_YOUTUBE_REST_ENDPOINT .'/'. $code, array('video' => $code), $cached);
   return $request;
 }
 
@@ -294,6 +301,21 @@ function emvideo_youtube_extract($code = '') {
  */
 function emvideo_youtube_embedded_link($video_code) {
   return 'http://www.youtube.com/watch?v='. $video_code;
+}
+
+/**
+ * hook emvideo_PROVIDER_duration($item)
+ * Returns the duration of the video in seconds.
+ *  @param $item
+ *    The video item itself, which needs the $data array.
+ *  @return
+ *    The duration of the video in seconds.
+ */
+function emvideo_youtube_duration($item) {
+  if ($item['data']['emvideo_youtube_version'] < 2) {
+    $item['data'] = emvideo_youtube_data(NULL, $item);
+  }
+  return $item['duration'];
 }
 
 function emvideo_youtube_convert_color($color = NULL) {
