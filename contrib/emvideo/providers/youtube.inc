@@ -6,10 +6,10 @@
  *   This include processes youtube.com media files for use by emfield.module.
  */
 
-define('EMVIDEO_YOUTUBE_MAIN_URL', 'http://www.youtube.com/');
-define('EMVIDEO_YOUTUBE_API_INFO', 'http://youtube.com/dev');
-define('EMVIDEO_YOUTUBE_API_APPLICATION_URL', 'http://www.youtube.com/my_profile_dev');
-define('EMVIDEO_YOUTUBE_REST_ENDPOINT', 'http://www.youtube.com/api2_rest');
+define('EMVIDEO_YOUTUBE_MAIN_URL', 'http://youtube.com/');
+define('EMVIDEO_YOUTUBE_API_INFO', 'http://code.google.com/apis/youtube/getting_started.html');
+define('EMVIDEO_YOUTUBE_API_APPLICATION_URL', 'http://code.google.com/apis/youtube/dashboard/');
+define('EMVIDEO_YOUTUBE_REST_ENDPOINT', 'http://gdata.youtube.com/feeds/api/videos');
 define('EMVIDEO_YOUTUBE_COLOR1_DEFAULT', '#FFFFFF');
 define('EMVIDEO_YOUTUBE_COLOR2_DEFAULT', '#CCCCCC');
 
@@ -59,21 +59,15 @@ function emvideo_youtube_settings() {
   $form['api'] = array(
     '#type' => 'fieldset',
     '#title' => t('YouTube API'),
-    '#description' => t('The API is no longer required. However, there may be future features requiring it (such as the ability to display otherwise private videos). You will first need to apply for an API Developer Key from the <a href="@youtube" target="_blank">YouTube Developer Profile page</a>. Note that you do not need this key to display YouTube videos or their thumbnails.', array('@youtube' => EMVIDEO_YOUTUBE_API_APPLICATION_URL)),
+    '#description' => t('You will need to apply for an API Developer Key from the <a href="@youtube" target="_blank">YouTube Developer Profile page</a>. Note that you do not need this key to display YouTube videos or their thumbnails, but this is required for some optional data, such as duration.', array('@youtube' => EMVIDEO_YOUTUBE_API_APPLICATION_URL)),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
   $form['api']['emvideo_youtube_api_key'] = array(
     '#type' => 'textfield',
-    '#title' => t('YouTube API Key'),
+    '#title' => t('YouTube Developer Key'),
     '#default_value' => variable_get('emvideo_youtube_api_key', ''),
     '#description' => t('Please enter your YouTube Developer Key here.'),
-  );
-  $form['api']['emvideo_youtube_api_secret'] = array(
-    '#type' => 'textfield',
-    '#title' => t('YouTube API Secret'),
-    '#default_value' => variable_get('emvideo_youtube_api_secret', ''),
-    '#description' => t('If you have a secret for the YouTube API, enter it here.'),
   );
   $form['colors'] = array(
     '#type' => 'fieldset',
@@ -227,7 +221,9 @@ function emvideo_youtube_data($field, $item) {
 }
 
 /**
+ *  hook emfield_PROVIDER_rss
  *
+ *  Embeds the video in the RSS feed.
  */
 function emvideo_youtube_rss($item, $teaser = NULL) {
   if ($item['value']) {

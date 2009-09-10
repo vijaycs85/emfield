@@ -157,6 +157,20 @@ function theme_emvideo_default($field, $item, $formatter, $node, $options = arra
   return theme('emvideo_video_video', $field, $item, $formatter, $node, $options);
 }
 
+function theme_emvideo_link($field, $item, $formatter, $node, $options = array()) {
+  $link_title = isset($options['link_title']) ? $options['link_title'] : (isset($options['title']) ? $options['title'] : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video'))));
+  $url = emfield_include_invoke('emvideo', $item['provider'], 'embedded_link', $node, $field);
+  return l($title, $url);
+}
+function theme_emvideo_url($field, $item, $formatter, $node, $options = array()) {
+  $url = emfield_include_invoke('emvideo', $item['provider'], 'embedded_link', $node, $field);
+  return url($url);
+}
+function theme_emvideo_duration($field, $item, $formatter, $node, $options = array()) {
+  $duration = emfield_include_invoke('emvideo', $item['provider'], 'duration', $node, $field);
+  return '<div class="emvideo-duration">'. _emvideo_seconds_to_time($duration) .'</div>';
+}
+
 function theme_emvideo_video_preview($field, $item, $formatter, $node, $options = array()) {
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
@@ -216,16 +230,25 @@ function theme_emvideo_modal_generic($field, $item, $formatter, $node, $options 
   return $output;
 }
 
+/**
+ *  Display the video as a Thickbox modal popup. Requires the Thickbox module.
+ */
 function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = array()) {
   $options['modal'] = 'thickbox';
   return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
 }
 
+/**
+ *  Display the video as a Lightbox2 modal popup. Requires the Lightbox2 module.
+ */
 function theme_emvideo_lightbox2($field, $item, $formatter, $node, $options = array()) {
   $options['modal'] = 'lightbox2';
   return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
 }
 
+/**
+ *  Display the video as a Shadowbox modal popup. Requires the Shadowbox module.
+ */
 function theme_emvideo_shadowbox($field, $item, $formatter, $node, $options = array()) {
   $options['modal'] = 'shadowbox';
   return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
@@ -246,52 +269,124 @@ function theme_emvideo_video_replace_preview($field, $item, $formatter, $node, $
   return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
 }
 
+/**
+ *  Formatter theme functions.
+ */
 function theme_emvideo_formatter_video_video($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
-
 function theme_emvideo_formatter_video_embed($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
-
+function theme_emvideo_formatter_video_link($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
+function theme_emvideo_formatter_video_url($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
+function theme_emvideo_formatter_video_duration($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
 function theme_emvideo_formatter_default($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
-
 function theme_emvideo_formatter_video_preview($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
-
 function theme_emvideo_formatter_video_thumbnail($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
-
 function theme_emvideo_formatter_video_flash($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
 function theme_emvideo_formatter_thickbox($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
 function theme_emvideo_formatter_lightbox2($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
 function theme_emvideo_formatter_shadowbox($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return _emvideo_formatter_theme_helper($element);
 }
 function theme_emvideo_formatter_video_replace($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
+function theme_emvideo_formatter_video_replace_preview($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
+
+/**
+ *  This ultimately calls theme('emvideo_[formatter]').
+ */
+function _emvideo_formatter_theme_helper($element) {
   $field = content_fields($element['#field_name'], $element['#type_name']);
   return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
 }
-function theme_emvideo_formatter_video_replace_preview($element) {
-  $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+
+/**
+ * Convert time from field into seconds.
+ *
+ * @param $time
+ *    Raw timemarker input from field.
+ */
+function _emvideo_convert_to_seconds($time) {
+  $time_in_seconds = 0;
+  $time_split = split(':', $time);
+  $count = count($time_split);
+
+  // If it is already in seconds then don't do anything.
+  if ($count == 1) return -1;
+
+  foreach ($time_split as $unit) {
+    $count--;
+    // If hours or minutes multiply by appropriate amount.
+    if ($count > 0) {
+      // If it is hours multiply by 36000 if minutes multiply by 60.
+      $time_in_seconds += $unit*(pow(60, $count));
+    }
+    else {
+      // If we are on the seconds unit then we do not need to do anything.
+      $time_in_seconds += $unit;
+    }
+  }
+
+  return $time_in_seconds;
+}
+
+/**
+ *  Display seconds as HH:MM:SS, with leading 0's.
+ *
+ *  @param $seconds
+ *    The number of seconds to display.
+ */
+function _emvideo_seconds_to_time($seconds) {
+  // Number of seconds in an hour.
+  $unith =3600;
+  // Number of seconds in a minute.
+  $unitm =60;
+
+  // '/' given value by num sec in hour... output = HOURS
+  $hh = intval($seconds / $unith);
+
+  // Multiply number of hours by seconds, then subtract from given value.
+  // Output = REMAINING seconds.
+  $ss_remaining = ($seconds - ($hh * 3600));
+
+  // Take remaining seconds and divide by seconds in a min... output = MINS.
+  $mm = intval($ss_remaining / $unitm);
+  // Multiply number of mins by seconds, then subtract from remaining seconds.
+  // Output = REMAINING seconds.
+  $ss = ($ss_remaining - ($mm * 60));
+
+  $output = '';
+
+  // If we have any hours, then prepend that to our output.
+  if ($hh) {
+    $output .= "$hh:";
+  }
+
+  // Create a safe-for-output MM:SS.
+  $output .= check_plain(sprintf("%02d:%02d", $mm, $ss));
+
+  return $output;
 }

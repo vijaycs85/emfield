@@ -248,26 +248,48 @@ function emvideo_update_6002() {
   return $ret;
 }
 
+/**
+ *  Add new formatters for Lightbox2 & Shadowbox, and new menu callback.
+ */
 function emvideo_update_6003() {
-  // We added a Lightbox2 & Shadowbox formatter, so need to rebuild the theme.
-  drupal_rebuild_theme_registry();
-
   // Change the menu callback for emvideo/modal.
   menu_rebuild();
 
-  // Also need to make sure we grab the new formatters.
+  return _emvideo_update_add_new_formatters();
+}
+
+/**
+ *  Add new formatters for link and duration.
+ */
+function emvideo_update_6004() {
+  // We no longer need the YouTube API secret key, which no longer exists.
+  variable_delete('emvideo_youtube_api_secret');
+
+  return _emvideo_update_add_new_formatters();
+}
+
+/**
+ *  Rebuild the theme for new formatters.
+ */
+function _emvideo_update_add_new_formatters() {
+  // Adding new formatters, so need to rebuild the theme.
+  drupal_rebuild_theme_registry();
+
+  // Also need to make sure we grab the new formatters themselves.
   $ret = _emvideo_update_reset_cache();
 
   $ret[] = array(
-    'query' => t('Rebuilt the theme and menu to accommodate new formatters.'),
-    'success' => TRUE
+    'query' => t('Rebuilt the theme to accommodate new formatters.'),
+    'success' => TRUE,
   );
 
   return $ret;
 }
 
 /**
- * I'd like this to be conditional, so it only runs if they don't have Views
+ * Clear the Views cache.
+ *
+ * @TODO I'd like this to be conditional, so it only runs if they don't have Views
  * installed. However, module_exists doesn't actually work in the update scripts.
  */
 function _emvideo_update_reset_cache_views() {
@@ -277,7 +299,9 @@ function _emvideo_update_reset_cache_views() {
   return $ret;
 }
 
-
+/**
+ *  Clear the content and views caches.
+ */
 function _emvideo_update_reset_cache() {
   $ret = _emvideo_update_reset_cache_views();
   $ret[] = update_sql("DELETE FROM {cache_content}");

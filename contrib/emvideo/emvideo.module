@@ -75,6 +75,18 @@ function emvideo_theme() {
       'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
       'file' => 'emvideo.theme.inc',
     ),
+    'emvideo_video_link' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc',
+    ),
+    'emvideo_video_url' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc',
+    ),
+    'emvideo_video_duration' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc',
+    ),
     'emvideo_modal_generic' => array(
         'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
         'file' => 'emvideo.theme.inc'
@@ -96,6 +108,18 @@ function emvideo_theme() {
         'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_thumbnail' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_link' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_url' => array(
+        'arguments' => array('element' => NULL),
+        'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_video_duration' => array(
         'arguments' => array('element' => NULL),
         'file' => 'emvideo.theme.inc'
     ),
@@ -216,6 +240,15 @@ function emvideo_field_formatter_info() {
     'video_thumbnail' => array(
       'label' => t('Image Thumbnail'),
       'field types' => $types,
+    ),
+    'video_link' => array(
+      'label' => t('Link to original video'),
+    ),
+    'video_url' => array(
+      'label' => t('URL to original video'),
+    ),
+    'video_duration' => array(
+      'label' => t('Video duration'),
     ),
     'video_embed' => array(
       'label' => t('Embed Code'),

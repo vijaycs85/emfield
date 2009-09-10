@@ -5,6 +5,11 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+September 2009
+--------------
+* Change API info for YouTube (aaron).
+* Add formatters for link & duration (aaron).
+
 August 2009
 -----------
 * Honor emfield option for thumbnail play button overlay.
