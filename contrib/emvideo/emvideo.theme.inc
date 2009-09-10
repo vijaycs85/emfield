@@ -157,16 +157,16 @@ function theme_emvideo_default($field, $item, $formatter, $node, $options = arra
   return theme('emvideo_video_video', $field, $item, $formatter, $node, $options);
 }
 
-function theme_emvideo_link($field, $item, $formatter, $node, $options = array()) {
+function theme_emvideo_video_link($field, $item, $formatter, $node, $options = array()) {
   $link_title = isset($options['link_title']) ? $options['link_title'] : (isset($options['title']) ? $options['title'] : (isset($field['widget']['thumbnail_link_title']) ? $field['widget']['thumbnail_link_title'] : variable_get('emvideo_default_thumbnail_link_title', t('See video'))));
   $url = emfield_include_invoke('emvideo', $item['provider'], 'embedded_link', $node, $field);
   return l($title, $url);
 }
-function theme_emvideo_url($field, $item, $formatter, $node, $options = array()) {
+function theme_emvideo_video_url($field, $item, $formatter, $node, $options = array()) {
   $url = emfield_include_invoke('emvideo', $item['provider'], 'embedded_link', $node, $field);
   return url($url);
 }
-function theme_emvideo_duration($field, $item, $formatter, $node, $options = array()) {
+function theme_emvideo_video_duration($field, $item, $formatter, $node, $options = array()) {
   $duration = emfield_include_invoke('emvideo', $item['provider'], 'duration', $node, $field);
   return '<div class="emvideo-duration">'. _emvideo_seconds_to_time($duration) .'</div>';
 }
