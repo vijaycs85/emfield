@@ -7,6 +7,7 @@
 
 September 2009
 --------------
+* Add wrapper div w/ classes to video & preview (aaron).
 * Change modal thumbnail position: relative (aaron).
 * Fix YouTube duration and display of such (aaron).
 * Fix new theme function names (aaron).

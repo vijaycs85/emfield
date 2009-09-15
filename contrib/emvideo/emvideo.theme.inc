@@ -147,7 +147,8 @@ function theme_emvideo_video_video($field, $item, $formatter, $node, $options = 
     $height = isset($options['height']) ? $options['height'] : ($field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_VIDEO_HEIGHT));
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['video_autoplay'];
     $options['node'] = $node;
-    $output .= module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
+    $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
+    $output = '<div class="emvideo emvideo-video emvideo-'. check_plain($item['provider']) .'">'. $output .'</div>';
   }
 
   return $output;
@@ -172,6 +173,7 @@ function theme_emvideo_video_duration($field, $item, $formatter, $node, $options
 }
 
 function theme_emvideo_video_preview($field, $item, $formatter, $node, $options = array()) {
+  $output = '';
   if ($item['value'] && $item['provider']) {
     $embed = $item['value'];
     $width = isset($options['width']) ? $options['width'] : (isset($field['widget']['preview_width']) ? $field['widget']['preview_width'] : variable_get('emvideo_default_preview_width', EMVIDEO_DEFAULT_PREVIEW_WIDTH));
@@ -179,7 +181,8 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : (isset($field['widget']['preview_autoplay']) ? $field['widget']['preview_autoplay'] : FALSE);
     $options['node'] = $node;
     $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
-  }
+    $output = '<div class="emvideo emvideo-preview emvideo-'. check_plain($item['provider']) .'">'. $output .'</div>';
+}
 
   return $output;
 }
