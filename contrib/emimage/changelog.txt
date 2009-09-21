@@ -1,5 +1,9 @@
 /* $Id$ */
 
+September 2009
+--------------
+* Fix conflict w/ local hijacking non image URLS (aaron).
+
 ===============
  DRUPAL-6--1-4
 ===============

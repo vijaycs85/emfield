@@ -155,11 +155,11 @@ function _emimage_custom_url_validate_image_helper($_filename) {
   if($_filedata['mime'] != 'image/jpeg' && $_filedata['mime'] != 'image/gif'
       && $_filedata['mime'] != 'image/png'
       && $_filedata['mime'] != 'image/bmp') {
-    form_set_error(
-      'name',
-      t('There were problems encountered while processing this image.',
-      array('%name' => ''))
-    );
+//     form_set_error(
+//       'name',
+//       t('There were problems encountered while processing this image.',
+//       array('%name' => ''))
+//     );
     return false;
   }
 
