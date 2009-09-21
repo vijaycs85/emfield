@@ -174,8 +174,11 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
   // Load the provider info.
   $item = _emfield_field_submit_id($field, $item, $module, $error_field);
   // Ensure we have proper provider info.
-  if ($item['embed'] && !$item['value']) {
+  if ($item['embed'] && !$item['provider']) {
     form_set_error($error_field, t('You have specified an invalid media URL or embed code.'));
+  }
+  else {
+    emfield_include_invoke($module, $item['provider'], 'validate', $item['value'], $error_field);
   }
 
   return $item;

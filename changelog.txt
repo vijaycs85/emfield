@@ -7,12 +7,13 @@
 
 September 2009
 --------------
-* #264264 by aaron: Sanitize item for preview.
+by aaron: Allow providers to validate URLs.
+#264264 by aaron: Sanitize item for preview.
 
 August 2009
 -----------
-* Add option for thumbnail play button overlay (aaron).
-* Implement hook_content_generate for Devel module (aaron).
+by aaron: Add option for thumbnail play button overlay.
+by aaron: Implement hook_content_generate for Devel module.
 
 ===============
  DRUPAL-6--1-4
@@ -20,8 +21,8 @@ August 2009
 
 August 2009
 -----------
- * #370882: Fix menu creation (jdwfly/aaron).
- * #358241 - Field help text links 'Custom URL' to site itself (joachim).
+#370882 by jdwfly | aaron: Fix menu creation.
+#358241 by joachim: Field help text links 'Custom URL' to site itself.
 
 DRUPAL-6--1-3
 =============
