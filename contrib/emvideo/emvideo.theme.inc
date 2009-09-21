@@ -88,7 +88,7 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
   if (empty($thumbnail_url)) {
     $default_thumbnail_url = $field['widget']['thumbnail_default_path'] ? $field['widget']['thumbnail_default_path'] : variable_get('emvideo_default_thumbnail_path', NULL);
     if ($default_thumbnail_url) {
-      $thumbnail_url = base_path() . $default_thumbnail_url;
+      $thumbnail_url = $default_thumbnail_url;
     }
   }
 

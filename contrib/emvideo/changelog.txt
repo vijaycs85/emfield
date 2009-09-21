@@ -7,24 +7,25 @@
 
 September 2009
 --------------
-* Add wrapper div w/ classes to video & preview (aaron).
-* Change modal thumbnail position: relative (aaron).
-* Fix YouTube duration and display of such (aaron).
-* Fix new theme function names (aaron).
-* Fix new formatters (aaron).
-* Fetch YouTube duration (aaron).
-* Remove the YouTube API secret key, which no longer exists (aaron).
-* Change API info for YouTube (aaron).
-* Add formatters for link & duration (aaron).
+#552388 by nick_robillard | srobert72: Fixed Default thumbnail doesn't appear.
+by aaron: Add wrapper div w/ classes to video & preview.
+by aaron: Change modal thumbnail position: relative.
+by aaron: Fix YouTube duration and display of such.
+by aaron: Fix new theme function names.
+by aaron: Fix new formatters.
+by aaron: Fetch YouTube duration.
+by aaron: Remove the YouTube API secret key, which no longer exists.
+by aaron: Change API info for YouTube.
+by aaron: Add formatters for link & duration.
 
 August 2009
 -----------
-* Honor emfield option for thumbnail play button overlay.
-* #462170: Add support for Shadowbox (aaron).
-* #445742: Separate formatters for thickbox/lightbox (aaron).
-* #457608: Remove Veoh provider (brianbrown/Manuel Garcia).
-* Implement hook_emvideo_PROVIDER_content_generate: YouTube, Blip.TV,
-  and Archive.org (aaron).
+by aaron: Honor emfield option for thumbnail play button overlay.
+#462170 by aaron: Add support for Shadowbox.
+#445742 by aaron: Separate formatters for thickbox/lightbox.
+#457608 by brianbrown | Manuel Garcia: Remove Veoh provider.
+by aaron: Implement hook_emvideo_PROVIDER_content_generate: YouTube, Blip.TV,
+and Archive.org.
 
 ===============
  DRUPAL-6--1-4
