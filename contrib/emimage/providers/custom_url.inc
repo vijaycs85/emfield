@@ -44,17 +44,33 @@ function emimage_custom_url_info() {
 function emimage_custom_url_data($field, $item) {
   $data = array();
 
-  if (_emimage_custom_url_validate_image_helper($item['embed'])) { // Validate source.
-  $data = array(
-    'server' => $item['embed'],
-    'album' => $item['embed'],
-    'owner' => $item['embed'],
-    'file' => $item['embed'],
+  // Validate the source.
+  if (_emimage_custom_url_validate_image_helper($item['embed'])) {
+    $data = array(
+      'emimage_custom_url_data_version' => 1,
+      'server' => _emimage_custom_url_get_domain_server($item['embed']),
+      'file' => _emimage_custom_url_get_domain_file($item['embed']),
+      'album' => _emimage_custom_url_get_domain_album($item['embed'], $data['server']),
+      'owner' => $item['embed'],
     );
     $data['title'] = emimage_custom_url_image_title($data['file'], $data);
   }
 
   return $data;
+}
+
+function _emimage_custom_url_get_domain_server($url){
+  return _emimage_custom_url_get_domain_helper($url);
+}
+
+function _emimage_custom_url_get_domain_file($url){
+  return substr(strrchr($url, '/'), 1);
+}
+
+function _emimage_custom_url_get_domain_album($url, $server){
+  $albumBegin = strpos($url, $server) + strlen($server);
+  $albumEnd = strrpos($url, '/')+1;
+  return substr($url, $albumBegin, ($albumEnd-$albumBegin));
 }
 
 /**
@@ -184,7 +200,7 @@ function _emimage_custom_url_get_domain_helper($url) {
     \.org\.au|\.edu\.au|\.gov\.au|\.csiro\.au';
 
     preg_match (
-        "/^(http:\/\/|https:\/\/|)[a-zA-Z-]([^\/]+)/i",
+        "/^(http:\/\/|https:\/\/)([^\/]+)/i",
         $url, $matches
     );
 

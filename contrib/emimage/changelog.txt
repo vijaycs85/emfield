@@ -2,8 +2,9 @@
 
 September 2009
 --------------
-* Add w/h options to theme functions (aaron).
-* Fix conflict w/ local hijacking non image URLS (aaron).
+by plong0: Parse URL for server/album/title.
+by aaron: Add w/h options to theme functions.
+by aaron: Fix conflict w/ local hijacking non image URLS.
 
 ===============
  DRUPAL-6--1-4
@@ -11,12 +12,12 @@ September 2009
 
 August 2009
 -----------
- * #370882: Fix menu creation (jdwfly/aaron).
- * Documentation in custom_url (aaron).
+#370882 by jdwfly | aaron: Fix menu creation.
+by aaron: Documentation in custom_url.
 
 July 2009
 ---------
- * #506440 Add Custom URL For Image Providers (d.roldan.drupal/Rob Loach).
+#506440 by d.roldan.drupal | Rob Loach: Add Custom URL For Image Providers.
 
 DRUPAL-6--1-2
 =============
