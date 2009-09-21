@@ -5,6 +5,10 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+September 2009
+--------------
+* #264264 by aaron: Sanitize item for preview.
+
 August 2009
 -----------
 * Add option for thumbnail play button overlay (aaron).
