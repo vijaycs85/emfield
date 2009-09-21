@@ -61,6 +61,15 @@ function emvideo_bliptv_settings() {
   return $form;
 }
 
+/**
+ *  Implements emvideo_PROVIDER_validate hook.
+ */
+function emvideo_bliptv_validate($value, $error_field) {
+  if ($value == 'BLIP_TV_ERROR_EMBED') {
+    form_set_error($error_field, t('Please do not use the Embed Code from Blip.TV. You must instead paste the URL from the video page.'));
+  }
+}
+
 function emvideo_bliptv_data($field, $item) {
   $data = array();
 
@@ -157,11 +166,15 @@ function emvideo_bliptv_request($code, $cacheable = TRUE, $skin = 'rss', $show =
 }
 
 function emvideo_bliptv_extract($embed) {
+  // @TODO: Until #293153 is resolved, don't allow pasting embed code from Blip.TV.
+  preg_match('@blip\.tv/play/([^"\&\?/]+)@i', $embed, $matches);
+  if ($matches[1]) {
+    return 'BLIP_TV_ERROR_EMBED';
+  }
   return array(
     '@blip\.tv/rss/flash/([^"\&\?/]+)@i',
     '@blip\.tv/file/view/([^"\&\?/]+)@i',
     '@blip\.tv/file/([^"\&\?/]+)@i',
-    '@blip\.tv/play/([^"\&\?/]+)@i',
   );
 }
 
