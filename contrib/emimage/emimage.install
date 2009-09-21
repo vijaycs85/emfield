@@ -12,7 +12,7 @@
 function emimage_install() {
   drupal_load('module', 'content');
   content_notify('install', 'emimage');
-  
+
   // Fix up our mess from image_ncck, if necessary.
   return _emimage_upgrade_from_image_ncck();
 }
@@ -72,7 +72,17 @@ function emimage_update_1() {
   return $ret;
 }
 
+function emimage_update_6001() {
+  // We added options to themes, so need to rebuild the theme registry.
+  drupal_rebuild_theme_registry();
 
+  $ret[] = array(
+    'query' => t('Rebuilt the theme to accommodate new options.'),
+    'success' => TRUE
+  );
+
+  return $ret;
+}
 
 // I'd like this to be conditional, so it only runs if they don't have Views installed.
 // However, module_exists doesn't actually work in the update scripts.

@@ -2,6 +2,7 @@
 
 September 2009
 --------------
+* Add w/h options to theme functions (aaron).
 * Fix conflict w/ local hijacking non image URLS (aaron).
 
 ===============
