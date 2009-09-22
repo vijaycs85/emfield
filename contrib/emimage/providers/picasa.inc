@@ -55,7 +55,7 @@ function emimage_picasa_data($field, $item) {
       'photoid' => $matches[3],
     );
   }
-  elseif (preg_match('@picasaweb\.google\.com/([^/]+)/([^/]+).*?#([^\&]+)@i', $item['embed'], $matches)) {
+  elseif (preg_match('@picasaweb\.google\.com/([^/]+)/([^/\?]+).*?#([^\&]+)@i', $item['embed'], $matches)) {
     $data = array(
       'userid' => $matches[1],
       'album' => $matches[2],
@@ -93,6 +93,7 @@ function emimage_picasa_extract($embed = '') {
 
   // http://picasaweb.google.com/kaos777/YearlyKos/photo#5119063656501095090
   // http://picasaweb.google.com/irina1005/qdihmG#5298825003004278162
+  // http://picasaweb.google.com/eugene.martov/1508?feat=featured#5381754383516490642
   return array(
     '@picasaweb\.google\.com/[^/]+/[^/]+/photo.*?#([^\&]+)@i',
     '@picasaweb\.google\.com/[^/]+/[^/\?]+.*?#([^\&]+)@i',
