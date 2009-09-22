@@ -199,7 +199,20 @@ function emvideo_field_info() {
 function emvideo_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
-      return module_invoke('emfield', 'field_columns', $field);
+      $columns = module_invoke('emfield', 'field_columns', $field);
+      // @TODO: Store duration in its own column for views.
+//       $columns = array_merge(
+//         $columns,
+//         array('duration' =>
+//           array(
+//             'description' => t('Store the duration of a video in seconds.'),
+//             'type' => 'int',
+//             'unsigned' => TRUE,
+//             'not null' => TRUE,
+//             'default' => 0),
+//           )
+//       );
+      return $columns;
   }
 }
 
