@@ -5,6 +5,10 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+===============
+ DRUPAL-6--1-5
+===============
+
 September 2009
 --------------
 by aaron: Sanitize only before preview.

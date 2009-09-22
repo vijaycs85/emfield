@@ -5,6 +5,10 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+===============
+ DRUPAL-6--1-5
+===============
+
 September 2009
 --------------
 #293153 by aaron: Work-around for not being able to paste Blip.tv embed codes.
@@ -34,11 +38,11 @@ and Archive.org.
 
 August 2009
 -----------
- * #370882: Fix menu creation (jdwfly/aaron).
- * #542994: Remove emvideo_requirements (chenba/Rob Loach).
- * #397802: blip.tv enclosures seem to not be showing up (jjkiesch).
- * #457452: Remove API info from Guba (aaron).
- * Don't allow spaces in YouTube URL (aaron).
+#370882 by jdwfly | aaron: Fix menu creation.
+#542994 by chenba | Rob Loach: Remove emvideo_requirements.
+#397802 by jjkiesch: blip.tv enclosures seem to not be showing up.
+#457452 by aaron: Remove API info from Guba.
+by aaron: Don't allow spaces in YouTube URL.
 
 DRUPAL-6--1-3
 =============
