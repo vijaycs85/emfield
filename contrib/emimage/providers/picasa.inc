@@ -77,15 +77,25 @@ function emimage_picasa_data($field, $item) {
   return $data;
 }
 
+function emimage_picasa_validate($value, $error_field) {
+  if ($value == 'PICASA_ERROR_USER') {
+    form_set_error($error_field, t("This URL does not contain enough information to access Picasa's current API. Please find the photo through this user's gallery and link its URL here."));
+  }
+}
+
 function emimage_picasa_extract($embed = '') {
-  // http://picasaweb.google.com/kaos777/YearlyKos/photo#5119063656501095090
+  // Note that the API doesn't seem to support calls that don't include at
+  // least the User (though the Album seems to be optional).
   // http://picasaweb.google.com/lh/photo/oVr_uf6LoEhUWOMOujA_lQ?feat=directlink
+  if (preg_match('@picasaweb\.google\.com/lh/photo(.+)@i', $embed, $matches)) {
+    return 'PICASA_ERROR_USER';
+  }
+
+  // http://picasaweb.google.com/kaos777/YearlyKos/photo#5119063656501095090
   // http://picasaweb.google.com/irina1005/qdihmG#5298825003004278162
   return array(
     '@picasaweb\.google\.com/[^/]+/[^/]+/photo.*?#([^\&]+)@i',
     '@picasaweb\.google\.com/[^/]+/[^/\?]+.*?#([^\&]+)@i',
-    // @TODO: Allow the second type of URL.
-//     '!picasaweb\.google\.com/[^/]+/photo/([^?"\&# ]+)!i',
   );
 }
 

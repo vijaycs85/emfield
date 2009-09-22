@@ -2,6 +2,7 @@
 
 September 2009
 --------------
+by aaron: Error message for bad picasa urls.
 by aaron: Ignore additional queries in picasa regex.
 by aaron: Clean up regex for picasa and get it working.
 by plong0: Parse URL for server/album/title.
