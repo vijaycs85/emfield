@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+September 2009
+--------------
+by aaron: Display saved thumbnail.
+
 ===============
  DRUPAL-6--1-4
 ===============
