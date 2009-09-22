@@ -48,7 +48,14 @@ function emimage_picasa_request($data = array(), $kind = '', $cached = TRUE) {
 
 function emimage_picasa_data($field, $item) {
   $data = array();
-  if (preg_match('!picasaweb\.google\.com/([^/]*)/([^/]*)/photo\#(.*)!i', $item['embed'], $matches)) {
+  if (preg_match('@picasaweb\.google\.com/([^/]+)/([^/]+)/photo\#(.*)@i', $item['embed'], $matches)) {
+    $data = array(
+      'userid' => $matches[1],
+      'album' => $matches[2],
+      'photoid' => $matches[3],
+    );
+  }
+  elseif (preg_match('@picasaweb\.google\.com/([^/]+)/([^/]+)#([^\&]+)@i', $item['embed'], $matches)) {
     $data = array(
       'userid' => $matches[1],
       'album' => $matches[2],
@@ -72,11 +79,14 @@ function emimage_picasa_data($field, $item) {
 
 function emimage_picasa_extract($embed = '') {
   // http://picasaweb.google.com/kaos777/YearlyKos/photo#5119063656501095090
-  if (preg_match('!picasaweb\.google\.com/([^/]*)/([^/]*)/photo\#(.*)!i', $embed, $matches)) {
-    return $matches[3];
-  }
-
-  return array();
+  // http://picasaweb.google.com/lh/photo/oVr_uf6LoEhUWOMOujA_lQ?feat=directlink
+  // http://picasaweb.google.com/irina1005/qdihmG#5298825003004278162
+  return array(
+    '@picasaweb\.google\.com/[^/]+/[^/]+/photo\#([^\&]+)@i',
+    '@picasaweb\.google\.com/[^/]+/[^/]+#([^\&]+)@i',
+    // @TODO: Allow the second type of URL.
+//     '!picasaweb\.google\.com/[^/]+/photo/([^?"\&# ]+)!i',
+  );
 }
 
 /**
