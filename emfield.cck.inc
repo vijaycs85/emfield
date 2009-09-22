@@ -20,15 +20,9 @@ function _emfield_field_columns($field) {
     // an array for any extra data required by this media, such as unique thumbnail requirements or rss feed data
     'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
   );
-  // allow other modules to add new columns
-  // TODO: couldn't we just use module_invoke_all here? also make sure those modules do their magic on enable/disable
-  // finally, is this actually used? seems extraneous with the data array (unless we're using views magic for them)
-  foreach (module_implements('emfield_field_columns_extra') as $module) {
-    $extra = module_invoke($module, 'emfield_field_columns_extra', $field);
-    if (is_array($extra) && !empty($extra)) {
-      $columns = array_merge($columns, $extra);
-    }
-  }
+
+  // Allow other modules to add new columns.
+  $columns = array_merge($columns, module_invoke_all('emfield_field_columns_extra', $field));
 
   return $columns;
 }
