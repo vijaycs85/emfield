@@ -3,21 +3,25 @@
 
 /**
  * @file
- * Helper functions to implement our various cck-required functions, such as hook_field and hook_widget.
+ * Helper functions to implement our various cck-required functions,
+ * such as hook_field and hook_widget.
  */
 
 /**
- *  helper function to consistently define field columns
+ *  Helper function to consistantly define field columns.
  */
 function _emfield_field_columns($field) {
   $columns = array(
-    // poorly named. but this contains the original URL or embed code pre-parsing, as entered by the user/editor.
+    // This contains the original URL or embed code pre-parsing,
+    // as entered by the user/editor.
     'embed' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
-    // this contains the code used by the provider to identify the media
+    // This contains the code used by the provider to identify the media.
     'value' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
-    // this is the actual provider used; matches up with the specific provider.inc file
+    // This is the actual provider used;
+    // matches up with the specific provider.inc file.
     'provider' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'not null' => FALSE, 'sortable' => TRUE),
-    // an array for any extra data required by this media, such as unique thumbnail requirements or rss feed data
+    // An array for any extra data required by this media,
+    // such as unique thumbnail requirements or rss feed data.
     'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
   );
 
@@ -36,7 +40,6 @@ function _emfield_field_columns($field) {
 function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $module) {
   $return = array();
   switch ($op) {
-    // TODO: Nothing to validate at the moment. We need to have different provider api's have a chance to validate.
     case 'validate':
       foreach ($items as $delta => $item) {
         $error_field = $field['multiple'] ? $field['field_name'] .']['. $delta .'][embed' : $field['field_name'];
@@ -84,7 +87,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
     }
   }
   if (in_array($op, array('insert', 'update'))) {
-    // we need to manually serialize the 'data' array
+    // We need to manually serialize the 'data' array.
     foreach ($items as $delta => $item) {
       $items[$delta]['data'] = serialize($items[$delta]['data']);
     }
@@ -145,8 +148,9 @@ function _emfield_emfield_widget_settings($op, $widget, $module) {
  * Helper modules are expected to call this function to create the widget,
  * which will include a list of all providers as well as handle data parsing.
  */
-function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 0, $module) { //($op, &$node, $field, &$node_field, $module) {
-  // Our form element will need to be processed as a tree, collapsing any children elements.
+function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 0, $module) {
+  // Our form element will need to be processed as a tree,
+  // collapsing any children elements.
   $tree = array('#tree' => TRUE);
 
   $providers = emfield_allowed_providers($field, $module);
@@ -159,7 +163,8 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
       $info = emfield_include_invoke($module, $provider->name, 'info');
       // Grab the provider's URL.
       $urls[] = $info['url'] ? l($info['name'], $info['url'], array('attributes' => array('target' => '_blank'))) : $info['name'];
-      // Allow the module to add any additional elements to the form, based on individual provider needs.
+      // Allow the module to add any additional elements to the form,
+      // based on individual provider needs.
       $item = isset($items[$delta]) ? $items[$delta] : NULL;
       $additional_element = emfield_include_invoke($module, $provider->name, 'form', $field, $item);
       if ($additional_element) {
@@ -209,7 +214,8 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
     );
   }
 
-  // Allow other modules, such as Embedded Media Thumbnail, to add additional elements to the widget.
+  // Allow other modules, such as Embedded Media Thumbnail,
+  // to add additional elements to the widget.
   foreach (module_implements('emfield_widget_extra') as $module_extra) {
     $tree[$module_extra] = module_invoke($module_extra, 'emfield_widget_extra', $form, $form_state, $field, $items, $delta, $module);
 
