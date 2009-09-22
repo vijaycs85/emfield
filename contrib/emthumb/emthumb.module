@@ -136,7 +136,7 @@ function emthumb_widget_element_process($element, $form_state) {
     }
   }
 
-  // Seperate from tree becase of that silly things won't be
+  // Separate from tree becase of that silly things won't be
   // displayed if they are a child of '#type' = form issue
   $element[$fieldname .'_upload'] = array(
     '#type'  => 'file',
@@ -159,12 +159,8 @@ function emthumb_widget_element_process($element, $form_state) {
 
   // If we have no current file, and have been told to store a local thumbnail,
   // then fetch it now.
-  if (empty($file) && isset($field['widget']['emthumb_store_local_thumbnail'])) { // was variable_get('emthumb_store_local_thumbnail', TRUE)) {
+  if (empty($file) && !empty($field['widget']['emthumb_store_local_thumbnail'])) {
     $item = $items[$delta];
-    if (empty($item['value'])) {
-      // @TODO: We need to get the info somehow.
-      // Unfortunately, it's not given by the element on submission.
-    }
     if (!empty($item['value'])) {
       $file = emthumb_fetch_remote_thumbnail($item, $field);
     }
