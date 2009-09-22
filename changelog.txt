@@ -7,6 +7,7 @@
 
 September 2009
 --------------
+by aaron: Sanitize only before preview.
 by aaron: Clean up extra columns invocation.
 by aaron: Allow providers to validate URLs.
 #264264 by aaron: Sanitize item for preview.

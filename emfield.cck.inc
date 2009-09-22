@@ -49,8 +49,10 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
 
     case 'sanitize':
       // Get the field ready for Previews.
-      foreach ($items as $delta => $item) {
-        $items[$delta] = _emfield_field_submit_id($field, $item, $module);
+      if (!empty($node->preview)) {
+        foreach ($items as $delta => $item) {
+          $items[$delta] = _emfield_field_submit_id($field, $item, $module);
+        }
       }
       break;
 
