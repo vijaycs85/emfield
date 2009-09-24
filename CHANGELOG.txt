@@ -5,6 +5,10 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+September 2009
+--------------
+by aaron: Add support for flv media player profiles.
+
 ===============
  DRUPAL-6--1-5
 ===============

@@ -7,7 +7,7 @@
 
 September 2009
 --------------
-by aaron: Begin support for flvmediaplayer profiles.
+by aaron: Add support for flvmediaplayer profiles.
 by aaron: Suppress admin_menu from modal iframe.
 #491930 by aaron: Place html/head/body tags around modal iframe; add scripts.
 #491930 by aaron: Don't load swfobject.api when using YouTube in modal.

@@ -22,22 +22,35 @@ function emfield_settings() {
     '#collapsed' => FALSE,
   );
 
+  $form['general']['flvmediaplayer'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('JW FLV Media Player options'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
   if (module_exists('flvmediaplayer')) {
-    $form['general']['emfield_flvmediaplayer_url'] = array(
+    $form['general']['flvmediaplayer']['emfield_flvmediaplayer_url'] = array(
       '#type' => 'item',
       '#title' => t('JW FLV Media Player'),
       '#description' => t('Some providers may support the !player, and may be configured to use that player for display of its media. You may set that path at the !settings.', array('!settings' => l(t('FLV Media Player settings page'), 'admin/settings/flvmediaplayer'), '!player' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/'))),
     );
+    $form['general']['flvmediaplayer']['emfield_flv_profile'] = array(
+      '#type' => 'select',
+      '#title' => t('FLV Media Player Profile'),
+      '#options' => array('' => '') + flvmediaplayer_profile_get_configs(),
+      '#description' => t('You may choose to display the FLV Media Player with a !profile, if configured.', array('!profile' => l(t('profile'), 'admin/settings/flvmediaplayer/profiles'))),
+      '#default_value' => variable_get('emfield_flv_profile', ''),
+    );
   }
   else {
-    $form['general']['emfield_flvmediaplayer_url'] = array(
+    $form['general']['flvmediaplayer']['emfield_flvmediaplayer_url'] = array(
       '#type' => 'textfield',
       '#title' => t('JW FLV Media Player'),
       '#default_value' => emfield_flvmediaplayer_url(TRUE),
       '#description' => t("Some providers may support the !player, and may be configured to use that player for display of its media. In that case, please enter the path to this player here, without a leading slash. If you are certain you have the player installed on this server, the path doesn't show up here, and you don't know the path, you can blank out this field and save the configuration, and an attempt will be made to autodiscover the player. For best success, you should put the file somewhere in the /sites/all/plugins folder.", array('!player' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/'))),
     );
   }
-  $form['general']['emfield_imagerotator_url'] = array(
+  $form['general']['flvmediaplayer']['emfield_imagerotator_url'] = array(
     '#type' => 'textfield',
     '#title' => t('JW Image Rotator'),
     '#default_value' => emfield_imagerotator_url(TRUE),

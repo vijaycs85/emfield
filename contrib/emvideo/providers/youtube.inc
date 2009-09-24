@@ -379,17 +379,19 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
         'return_url' => TRUE,
       );
 
+      $flashvars = array();
+
       // Grab the thumbnail for this video and tell JW FLV Player about it.
-      $options['image'] = theme('emvideo_video_thumbnail', NULL, $options['item'], 'emvideo_thumbnail', $options['node'], FALSE, $tn_options);
+      $flashvars['image'] = theme('emvideo_video_thumbnail', NULL, $options['item'], 'emvideo_thumbnail', $options['node'], FALSE, $tn_options);
 
       // Tell the FLV Player we're sending a YouTube video.
-      $options['type'] = 'youtube';
+      $flashvars['type'] = 'youtube';
 
       // We need to set the file to the original YouTube video.
-      $options['file'] = $url;
+      $flashvars['file'] = $url;
 
       // The JW FLV Player uses its own autoplay flashvar.
-      $options['autostart'] = $autoplay ? 'true' : 'false';
+      $flashvars['autostart'] = $autoplay ? 'true' : 'false';
 
       // The URL will now be the JW FLV Player.
       $url = $base_path . $flv_path;
@@ -407,20 +409,19 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       $params['div_id'] = $id;
       $params['allowFullScreen'] = $fullscreen_value;
 
-      $flv_profile = isset($options['flv_profile']) ? $options['flv_profile'] : variable_get('emvideo_flv_profile', 'flickr');
-      if (isset($flv_profile)) {
+      $flv_profile = isset($options['flv_profile']) ? $options['flv_profile'] : variable_get('emfield_flv_profile', '');
+      if ($flv_profile) {
         // get the configuration data for this node
-        $data = flvmediaplayer_build_player_data($node, $flv_profile, array('file' => $options['file']));
-        $params = array_merge($params, $data['params']);
-        $flashvars = array_merge($options, $data['flashvars']);
+        $data = flvmediaplayer_build_player_data($options['node'], 'flickr', array('file' => $flashvars['file']));
         $data['params']['width'] = $width;
         $data['params']['height'] = $height;
-        $data['flashvars']['autostart'] = $options['autostart'];
-        $data['flashvars']['image'] = $options['image'];
+        $data['flashvars']['autostart'] = $flashvars['autostart'];
+        $data['params']['allowFullScreen'] = $fullscreen_value;
+        $data['flashvars']['image'] = $flashvars['image'];
         $output = theme('flvmediaplayer_render_player', $data['player_path'], $data['params'], $data['flashvars']);
       }
       else {
-        $output = theme('flvmediaplayer_render_player', $url, $params, $options);
+        $output = theme('flvmediaplayer_render_player', $url, $params, $flashvars);
       }
     }
     else if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
