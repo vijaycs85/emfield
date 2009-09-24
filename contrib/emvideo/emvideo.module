@@ -529,7 +529,6 @@ function emvideo_handler_arg_provider($op, &$query, $argtype, $arg = '') {
  * This will display our video in a modal window defined by the corresponding
  * modal module.
  * As it's a direct callback, it displays no HTML other than the video.
- * @TODO: What about swfobject for YouTube and others?
  *  @param $nid
  *    The video node's nid.
  *  @param $width
@@ -563,5 +562,5 @@ function emvideo_modal($nid, $width, $height, $field_name, $provider, $code, $ex
       $item = $video;
     }
   }
-  print theme('emvideo_video_video', $field, $item, 'video_video', $node);
+  print theme('emvideo_video_video', $field, $item, 'video_video', $node, array('iframe' => TRUE));
 }

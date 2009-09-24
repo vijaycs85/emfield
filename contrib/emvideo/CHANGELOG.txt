@@ -5,6 +5,10 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+September 2009
+--------------
+#491930 by aaron: Don't load swfobject.api when using YouTube in modal.
+
 ===============
  DRUPAL-6--1-5
 ===============

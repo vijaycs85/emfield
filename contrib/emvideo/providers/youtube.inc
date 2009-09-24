@@ -405,7 +405,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       $params['allowFullScreen'] = $fullscreen_value;
       $output = theme('flvmediaplayer_render_player', $url, $params, $options);
     }
-    else if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
+    else if (!(isset($options['iframe']) && $options['iframe']) && variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       // Use swfobject.js if we're allowed.
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;
@@ -427,8 +427,7 @@ FLASH;
       }
     }
     else {
-      $options['playerMode'] = 'embedded';
-      $flashvars = check_plain(drupal_query_string_encode($options));
+      $flashvars = check_plain(drupal_query_string_encode(array('playerMode' => 'embedded')));
       $output = <<<FLASH
         <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id">
           <param name="movie" value="$url" />
@@ -458,7 +457,7 @@ FLASH;
  *  @return
  *    a URL pointing to the thumbnail
  */
-function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $height) {
+function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $height, $options = array()) {
   $youtube_id = $item['value'];
   // Old code to grab thumbnail via API.
 //$request = emvideo_youtube_request('youtube.videos.get_details', array('video_id' => $youtube_id));
@@ -496,8 +495,8 @@ function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $he
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $autoplay) {
-  $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay);
+function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+  $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay, $options);
   return $output;
 }
 
@@ -517,8 +516,8 @@ function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $a
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_preview($code, $width, $height, $field, $item, &$node, $autoplay) {
-  $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay);
+function emvideo_youtube_preview($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+  $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay, $options);
   return $output;
 }
 
