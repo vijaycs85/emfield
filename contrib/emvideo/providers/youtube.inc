@@ -367,7 +367,9 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
     // If the JW FLV Player has been installed, the yt.swf file is in the same
     // folder, and the server has been configured to use it for YouTube videos,
     // then we'll do so now.
-    if (($use_flv = variable_get('emvideo_youtube_use_jw_flv', FALSE)) && ($flv_path = emfield_flvmediaplayer_url()) && _emvideo_youtube_check_flv_player_setup()) {
+    $use_flv = isset($options['use_flv']) ? $options['use_flv'] : variable_get('emvideo_youtube_use_jw_flv', FALSE);
+
+    if ($use_flv && ($flv_path = emfield_flvmediaplayer_url()) && _emvideo_youtube_check_flv_player_setup()) {
       global $base_path;
 
       // Build the Thumbnail image for the player.
@@ -376,13 +378,9 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
         'height' => $height,
         'return_url' => TRUE,
       );
-      $tn_item = array(
-        'provider' => 'youtube',
-        'value' => $code,
-      );
 
       // Grab the thumbnail for this video and tell JW FLV Player about it.
-      $options['image'] = theme('emvideo_video_thumbnail', NULL, $tn_item, NULL, NULL, FALSE, $tn_options);
+      $options['image'] = theme('emvideo_video_thumbnail', NULL, $options['item'], 'emvideo_thumbnail', $options['node'], FALSE, $tn_options);
 
       // Tell the FLV Player we're sending a YouTube video.
       $options['type'] = 'youtube';
@@ -396,6 +394,11 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       // The URL will now be the JW FLV Player.
       $url = $base_path . $flv_path;
     }
+    else {
+      // We don't have access to FLV Media Player, so reset the option.
+      $use_flv = FALSE;
+    }
+
     if ($use_flv && module_exists('flvmediaplayer')) {
       // If we are using the JW FLV Player, defer to the flvmediaplayer module
       // for display.
@@ -403,7 +406,22 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       $params['height'] = $height;
       $params['div_id'] = $id;
       $params['allowFullScreen'] = $fullscreen_value;
-      $output = theme('flvmediaplayer_render_player', $url, $params, $options);
+
+      $flv_profile = isset($options['flv_profile']) ? $options['flv_profile'] : variable_get('emvideo_flv_profile', 'flickr');
+      if (isset($flv_profile)) {
+        // get the configuration data for this node
+        $data = flvmediaplayer_build_player_data($node, $flv_profile, array('file' => $options['file']));
+        $params = array_merge($params, $data['params']);
+        $flashvars = array_merge($options, $data['flashvars']);
+        $data['params']['width'] = $width;
+        $data['params']['height'] = $height;
+        $data['flashvars']['autostart'] = $options['autostart'];
+        $data['flashvars']['image'] = $options['image'];
+        $output = theme('flvmediaplayer_render_player', $data['player_path'], $data['params'], $data['flashvars']);
+      }
+      else {
+        $output = theme('flvmediaplayer_render_player', $url, $params, $options);
+      }
     }
     else if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       // Use swfobject.js if we're allowed.
@@ -496,6 +514,8 @@ function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $he
  *    the html of the embedded video
  */
 function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+  $options['item'] = $item;
+  $options['node'] = $node;
   $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay, $options);
   return $output;
 }
@@ -517,6 +537,8 @@ function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $a
  *    the html of the embedded video
  */
 function emvideo_youtube_preview($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+  $options['item'] = $item;
+  $options['node'] = $node;
   $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay, $options);
   return $output;
 }
