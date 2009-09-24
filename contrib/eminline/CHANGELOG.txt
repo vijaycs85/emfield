@@ -2,6 +2,14 @@
 
 CHANGELOG for Embedded Inline Media.
 
+September 2009
+--------------
+by aaron: Document instructions in README.txt.
+
+===============
+ DRUPAL-5--1-8
+===============
+
 July 2009
 ---------
- * Initial d5 version of eminline (grndlvl).
+by grndlvl: Initial d5 version of eminline.
