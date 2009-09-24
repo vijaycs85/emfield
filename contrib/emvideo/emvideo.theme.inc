@@ -208,7 +208,7 @@ function theme_emvideo_modal_generic($field, $item, $formatter, $node, $options 
     $attributes['attributes']['rel'] = 'lightframe['. $field['type_name'] .'|width:'. ($width + 16) .'; height:'. ($height + 16) .';]';
   }
   else if ($options['modal'] == 'shadowbox') {
-    $attributes['attributes']['rel'] = 'shadowbox['. $field['type_name'] .'];width='. ($width) .';height='. ($height);
+    $attributes['attributes']['rel'] = 'shadowbox['. $field['type_name'] .'];width='. ($width + 5) .';height='. ($height + 5);
     // Shadowbox needs a .php extension so it knows to open as an iFrame.
     $destination .= '/index.php';
   }
@@ -391,5 +391,58 @@ function _emvideo_seconds_to_time($seconds) {
   // Create a safe-for-output MM:SS.
   $output .= check_plain(sprintf("%02d:%02d", $mm, $ss));
 
+  return $output;
+}
+
+/**
+ *  Display the video in an iFrame.
+ *
+ *  @param $content
+ *    The video to display.
+ *  @return
+ *    The output to print directly, including HTML/Head/Body tags.
+ */
+function theme_emvideo_modal_iframe($content = '') {
+  $language          = $GLOBALS['language'];
+  $language->dir     = $GLOBALS['language']->direction ? 'rtl' : 'ltr';
+  // Construct page title
+  if (drupal_get_title()) {
+    $head_title = array(strip_tags(drupal_get_title()), variable_get('site_name', 'Drupal'));
+  }
+  else {
+    $head_title = array(variable_get('site_name', 'Drupal'));
+    if (variable_get('site_slogan', '')) {
+      $head_title[] = variable_get('site_slogan', '');
+    }
+  }
+  $head_title        = implode(' | ', $head_title);
+  $head              = drupal_get_html_head();
+  $css               = drupal_add_css();
+  $styles            = drupal_get_css();
+  $scripts           = drupal_get_js();
+  $closure           = theme('closure');
+  $ie                = phptemplate_get_ie_styles();
+
+  $output = <<<BODY
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$language->language}" lang="{$language->language}" dir="{$language->dir}">
+  <head>
+    <title>$head_title</title>
+    $head
+    $styles
+    $scripts
+    <!--[if lt IE 7]>
+      $ie
+    <![endif]-->
+  </head>
+  <body class="emvideo-modal-iframe">
+    <div class="content">
+      $content
+    </div>
+    $closure
+  </body>
+</html>
+BODY;
   return $output;
 }

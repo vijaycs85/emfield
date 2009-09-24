@@ -155,6 +155,10 @@ function emvideo_theme() {
         'arguments' => array('element' => NULL),
         'file' => 'emvideo.theme.inc'
     ),
+    'emvideo_modal_iframe' => array(
+        'arguments' => array('output' => ''),
+        'file' => 'emvideo.theme.inc',
+    ),
   );
 
   $themes += module_invoke('emfield', 'provider_themes', 'emvideo');
@@ -201,17 +205,17 @@ function emvideo_field_settings($op, $field) {
     case 'database columns':
       $columns = module_invoke('emfield', 'field_columns', $field);
       // @TODO: Store duration in its own column for views.
-//       $columns = array_merge(
-//         $columns,
-//         array('duration' =>
-//           array(
-//             'description' => t('Store the duration of a video in seconds.'),
-//             'type' => 'int',
-//             'unsigned' => TRUE,
-//             'not null' => TRUE,
-//             'default' => 0),
-//           )
-//       );
+/*      $columns = array_merge(
+        $columns,
+        array('duration' =>
+          array(
+            'description' => t('Store the duration of a video in seconds.'),
+            'type' => 'int',
+            'unsigned' => TRUE,
+            'not null' => TRUE,
+            'default' => 0),
+          )
+      );*/
       return $columns;
   }
 }
@@ -562,5 +566,12 @@ function emvideo_modal($nid, $width, $height, $field_name, $provider, $code, $ex
       $item = $video;
     }
   }
-  print theme('emvideo_video_video', $field, $item, 'video_video', $node, array('iframe' => TRUE));
+
+  // Suppress the Admin Menu, if that module/fuction exists.
+  if (function_exists('admin_menu_suppress')) {
+    admin_menu_suppress();
+  }
+
+  $output = theme('emvideo_video_video', $field, $item, 'video_video', $node, array('iframe' => TRUE));
+  print theme('emvideo_modal_iframe', $output);
 }

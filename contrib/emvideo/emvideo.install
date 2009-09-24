@@ -279,9 +279,21 @@ function emvideo_update_6005() {
 }
 
 /**
+ *  Add new formatters for link and duration.
+ */
+function emvideo_update_6006() {
+  $ret = _emvideo_update_add_new_formatters(t('Rebuilt the theme for modal iframes.'));
+  return $ret;
+}
+
+/**
  *  Rebuild the theme for new formatters.
  */
-function _emvideo_update_add_new_formatters() {
+function _emvideo_update_add_new_formatters($message = NULL) {
+  if (!isset($output)) {
+    $output = t('Rebuilt the theme to accommodate new formatters.');
+  }
+
   // Adding new formatters, so need to rebuild the theme.
   drupal_rebuild_theme_registry();
 
@@ -289,7 +301,7 @@ function _emvideo_update_add_new_formatters() {
   $ret = _emvideo_update_reset_cache();
 
   $ret[] = array(
-    'query' => t('Rebuilt the theme to accommodate new formatters.'),
+    'query' => $message,
     'success' => TRUE,
   );
 

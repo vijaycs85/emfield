@@ -405,7 +405,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       $params['allowFullScreen'] = $fullscreen_value;
       $output = theme('flvmediaplayer_render_player', $url, $params, $options);
     }
-    else if (!(isset($options['iframe']) && $options['iframe']) && variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
+    else if (variable_get('emfield_swfobject', FALSE) && (module_exists('swfobject_api') || variable_get('emfield_swfobject_location', ''))) {
       // Use swfobject.js if we're allowed.
       if (module_exists('swfobject_api')) {
         $params['width'] = $width;
