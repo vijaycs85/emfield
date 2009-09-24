@@ -2,12 +2,16 @@
 
 CHANGELOG for Embedded Inline Media.
 
+September 2009
+--------------
+by aaron: Add instructions to the README.txt file.
+
 ===============
- DRUPAL-6--1-4
+ DRUPAL-6--1-5
 ===============
 
 July 2009
 ---------
- * Fix format settings for new FAPI (aaron).
- * Port to d6 (aaron).
- * Initial d5 version of eminline (grndlvl).
+by aaron: Fix format settings for new FAPI.
+by aaron: Port to d6.
+by grndlvl: Initial d5 version of eminline.
