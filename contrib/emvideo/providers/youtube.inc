@@ -418,7 +418,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
         $data['flashvars']['autostart'] = $flashvars['autostart'];
         $data['params']['allowFullScreen'] = $fullscreen_value;
         $data['flashvars']['image'] = $flashvars['image'];
-        $output = theme('flvmediaplayer_render_player', $data['player_path'], $data['params'], $data['flashvars']);
+        $output = theme('flvmediaplayer_render_player', $url, $data['params'], $data['flashvars']);
       }
       else {
         $output = theme('flvmediaplayer_render_player', $url, $params, $flashvars);

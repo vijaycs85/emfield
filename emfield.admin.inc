@@ -29,10 +29,11 @@ function emfield_settings() {
     '#collapsed' => FALSE,
   );
   if (module_exists('flvmediaplayer')) {
+    $url = emfield_flvmediaplayer_url(TRUE);
     $form['general']['flvmediaplayer']['emfield_flvmediaplayer_url'] = array(
       '#type' => 'item',
       '#title' => t('JW FLV Media Player'),
-      '#description' => t('Some providers may support the !player, and may be configured to use that player for display of its media. You may set that path at the !settings.', array('!settings' => l(t('FLV Media Player settings page'), 'admin/settings/flvmediaplayer'), '!player' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/'))),
+      '#description' => t('Some providers may support the !player, and may be configured to use that player for display of its media. You may set that path (%path) at the !settings.', array('%path' => url($url), '!settings' => l(t('FLV Media Player settings page'), 'admin/settings/flvmediaplayer'), '!player' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/'))),
     );
     $form['general']['flvmediaplayer']['emfield_flv_profile'] = array(
       '#type' => 'select',
