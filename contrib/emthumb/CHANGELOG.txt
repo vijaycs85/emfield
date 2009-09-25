@@ -5,6 +5,10 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+September 2009
+--------------
+by aaron: Set thumbnails to FILE_STATUS_PERMANENT.
+
 ===============
  DRUPAL-6--1-5
 ===============

@@ -626,7 +626,7 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
           return 0;
         }
         // If we made it this far it's safe to record this file in the database.
-        $file->status = FILE_STATUS_TEMPORARY;
+        $file->status = FILE_STATUS_PERMANENT;
         $file->timestamp = time();
         drupal_write_record('files', $file);
 
