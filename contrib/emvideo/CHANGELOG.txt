@@ -7,6 +7,14 @@
 
 September 2009
 --------------
+#588452 by Benjamin Melançon | swevel: Fixed phptemplate_get_ie_styles().
+
+===============
+ DRUPAL-6--1-6
+===============
+
+September 2009
+--------------
 by aaron: Add support for flvmediaplayer profiles.
 by aaron: Suppress admin_menu from modal iframe.
 #491930 by aaron: Place html/head/body tags around modal iframe; add scripts.

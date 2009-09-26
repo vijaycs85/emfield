@@ -421,7 +421,6 @@ function theme_emvideo_modal_iframe($content = '') {
   $styles            = drupal_get_css();
   $scripts           = drupal_get_js();
   $closure           = theme('closure');
-  $ie                = phptemplate_get_ie_styles();
 
   $output = <<<BODY
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -432,9 +431,6 @@ function theme_emvideo_modal_iframe($content = '') {
     $head
     $styles
     $scripts
-    <!--[if lt IE 7]>
-      $ie
-    <![endif]-->
   </head>
   <body class="emvideo-modal-iframe">
     <div class="content">
