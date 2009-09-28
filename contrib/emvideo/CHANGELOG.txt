@@ -5,6 +5,9 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Refactor theme to supply field duration column data.
+by aaron: Add hook for provider data version.
+by aaron: Add duration column to Archive.org.
 by aaron: Add duration column to fields.
 
 ===============

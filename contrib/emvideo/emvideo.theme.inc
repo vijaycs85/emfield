@@ -168,8 +168,7 @@ function theme_emvideo_video_url($field, $item, $formatter, $node, $options = ar
   return url($url);
 }
 function theme_emvideo_video_duration($field, $item, $formatter, $node, $options = array()) {
-  $duration = emfield_include_invoke('emvideo', $item['provider'], 'duration', $item);
-  return '<div class="emvideo-duration">'. _emvideo_seconds_to_time($duration) .'</div>';
+  return '<div class="emvideo-duration">'. _emvideo_seconds_to_time($item['duration']) .'</div>';
 }
 
 function theme_emvideo_video_preview($field, $item, $formatter, $node, $options = array()) {
@@ -338,7 +337,7 @@ function _emvideo_convert_to_seconds($time) {
   $count = count($time_split);
 
   // If it is already in seconds then don't do anything.
-  if ($count == 1) return -1;
+  if ($count == 1) return intval($time);
 
   foreach ($time_split as $unit) {
     $count--;

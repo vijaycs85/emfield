@@ -224,16 +224,21 @@ function emvideo_field_settings($op, $field) {
  * Implementation of hook_content_is_empty().
  */
 function emvideo_content_is_empty($item, $field) {
-  return module_invoke('emfield', 'emfield_content_is_empty', $item, $field);
+  return emfield_emfield_content_is_empty($item, $field);
 }
 
 /**
  * Implementation of hook_field().
  */
 function emvideo_field($op, &$node, $field, &$items, $teaser, $page) {
-  if (module_hook('emfield', 'emfield_field')) {
-    return emfield_emfield_field($op, $node, $field, $items, $teaser, $page, 'emvideo');
+  $ret = emfield_emfield_field($op, $node, $field, $items, $teaser, $page, 'emvideo');
+  if ($op == 'presave') {
+    foreach ($items as $delta => $item) {
+      $duration = emfield_include_invoke('emvideo', $item['provider'], 'duration', $item);
+      $items[$delta]['duration'] = $duration ? $duration : 0;
+    }
   }
+  return $ret;
 }
 
 /**
@@ -574,4 +579,9 @@ function emvideo_modal($nid, $width, $height, $field_name, $provider, $code, $ex
 
   $output = theme('emvideo_video_video', $field, $item, 'video_video', $node, array('iframe' => TRUE));
   print theme('emvideo_modal_iframe', $output);
+}
+
+function emvideo_convert_to_seconds($time) {
+  module_load_include('inc', 'emvideo', 'emvideo.theme');
+  return _emvideo_convert_to_seconds($time);
 }

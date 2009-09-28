@@ -12,6 +12,7 @@ define('EMVIDEO_YOUTUBE_API_APPLICATION_URL', 'http://code.google.com/apis/youtu
 define('EMVIDEO_YOUTUBE_REST_ENDPOINT', 'http://gdata.youtube.com/feeds/api/videos');
 define('EMVIDEO_YOUTUBE_COLOR1_DEFAULT', '#FFFFFF');
 define('EMVIDEO_YOUTUBE_COLOR2_DEFAULT', '#CCCCCC');
+define('EMVIDEO_YOUTUBE_DATA_VERSION', 3);
 
 /**
  * hook emvideo_PROVIDER_info
@@ -192,6 +193,13 @@ function _emvideo_youtube_check_flv_player_setup() {
 }
 
 /**
+ *  Implement hook emvideo_PROVIDER_data_version().
+ */
+function emvideo_youtube_data_version() {
+  return EMVIDEO_YOUTUBE_DATA_VERSION;
+}
+
+/**
  * hook emfield_PROVIDER_data
  *
  * provides an array to be serialised and made available with $item elsewhere
@@ -200,7 +208,7 @@ function emvideo_youtube_data($field, $item) {
   $data = array();
 
   // Create some 'field' version control.
-  $data['emvideo_youtube_version'] = 3;
+  $data['emvideo_youtube_version'] = $data['emvideo_data_version'] = EMVIDEO_YOUTUBE_DATA_VERSION;
 
   // Store the raw data from YouTube's API.
   $data['raw'] = emvideo_youtube_request($item['value']);

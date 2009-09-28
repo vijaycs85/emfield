@@ -143,6 +143,13 @@ function emvideo_archive_extract($parse = '') {
 }
 
 /**
+ *  Implement hook emvideo_PROVIDER_data_version().
+ */
+function emvideo_archive_data_version() {
+  return EMVIDEO_ARCHIVE_DATA_VERSION;
+}
+
+/**
  *  hook emvideo_PROVIDER_data
  *
  *  Provides an array to be serialised and made available with $item elsewhere.
@@ -159,7 +166,7 @@ function emvideo_archive_data($field, $item, $error_field = '') {
   // down the road, we can respect older content. If allowed by Embedded Media
   // Field, any older content will automatically update this array as needed.
   // In any case, you should account for the version if you increment it.
-  $data['emvideo_archive_version'] = EMVIDEO_ARCHIVE_DATA_VERSION;
+  $data['emvideo_archive_version'] = $data['emvideo_data_version'] = EMVIDEO_ARCHIVE_DATA_VERSION;
 
   // Add the thumbnail data.
   $data['thumbnail'] = 'http://www.archive.org/download/'. $item['value'] .'/format=Thumbnail?.jpg';
@@ -220,6 +227,21 @@ function emvideo_archive_data($field, $item, $error_field = '') {
   }
 
   return $data;
+}
+
+/**
+ * hook emvideo_PROVIDER_duration($item)
+ * Returns the duration of the video in seconds.
+ *  @param $item
+ *    The video item itself, which needs the $data array.
+ *  @return
+ *    The duration of the video in seconds.
+ */
+function emvideo_archive_duration($item) {
+  if (!isset($item['data']['emvideo_archive_version'])) {
+    $item['data'] = emvideo_archive_data(NULL, $item);
+  }
+  return emvideo_convert_to_seconds($item['data']['metadata']['RUNTIME'][0]);
 }
 
 /**
