@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Update all existing field duration data.
 by aaron: Add devel content generate to Vimeo video.
 by aaron: Add duration and devel content generate to UStream video.
 by aaron: Add duration and devel content generate to MySpace video.
