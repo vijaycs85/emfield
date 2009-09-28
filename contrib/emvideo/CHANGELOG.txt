@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Add duration and devel content generate to Google video.
 by aaron: Implement hook_emvideo_PROVIDER_content_generate for Daily Motion.
 by aaron: Add duration data to Blip.tv.
 by aaron: Refactor theme to supply field duration column data.
