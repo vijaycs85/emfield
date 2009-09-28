@@ -401,43 +401,23 @@ function _emvideo_seconds_to_time($seconds) {
  *  @return
  *    The output to print directly, including HTML/Head/Body tags.
  */
-function theme_emvideo_modal_iframe($content = '') {
-  $language          = $GLOBALS['language'];
-  $language->dir     = $GLOBALS['language']->direction ? 'rtl' : 'ltr';
+function template_preprocess_emvideo_modal_iframe(&$variables) {
+  $variables['language']          = $GLOBALS['language'];
+  $variables['language']->dir     = $GLOBALS['language']->direction ? 'rtl' : 'ltr';
   // Construct page title
   if (drupal_get_title()) {
-    $head_title = array(strip_tags(drupal_get_title()), variable_get('site_name', 'Drupal'));
+    $variables['head_title'] = array(strip_tags(drupal_get_title()), variable_get('site_name', 'Drupal'));
   }
   else {
-    $head_title = array(variable_get('site_name', 'Drupal'));
+    $variables['head_title'] = array(variable_get('site_name', 'Drupal'));
     if (variable_get('site_slogan', '')) {
-      $head_title[] = variable_get('site_slogan', '');
+      $variables['head_title'][] = variable_get('site_slogan', '');
     }
   }
-  $head_title        = implode(' | ', $head_title);
-  $head              = drupal_get_html_head();
-  $css               = drupal_add_css();
-  $styles            = drupal_get_css();
-  $scripts           = drupal_get_js();
-  $closure           = theme('closure');
-
-  $output = <<<BODY
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$language->language}" lang="{$language->language}" dir="{$language->dir}">
-  <head>
-    <title>$head_title</title>
-    $head
-    $styles
-    $scripts
-  </head>
-  <body class="emvideo-modal-iframe">
-    <div class="content">
-      $content
-    </div>
-    $closure
-  </body>
-</html>
-BODY;
-  return $output;
+  $variables['head_title']        = implode(' | ', $variables['head_title']);
+  $variables['head']              = drupal_get_html_head();
+  $variables['css']               = drupal_add_css();
+  $variables['styles']            = drupal_get_css();
+  $variables['scripts']           = drupal_get_js();
+  $variables['closure']           = theme('closure');
 }

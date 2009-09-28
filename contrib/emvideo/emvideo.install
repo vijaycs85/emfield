@@ -433,6 +433,14 @@ function _emvideo_update_6008_get_duration($field, &$context) {
 }
 
 /**
+ *  Add new formatters for link and duration.
+ */
+function emvideo_update_6009() {
+  $ret = _emvideo_update_add_new_formatters(t('Rebuilt the theme for modal iframes.'));
+  return $ret;
+}
+
+/**
  *  Rebuild the theme for new formatters.
  */
 function _emvideo_update_add_new_formatters($message = NULL) {

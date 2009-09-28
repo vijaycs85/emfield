@@ -156,8 +156,9 @@ function emvideo_theme() {
         'file' => 'emvideo.theme.inc'
     ),
     'emvideo_modal_iframe' => array(
-        'arguments' => array('output' => ''),
+        'arguments' => array('content' => ''),
         'file' => 'emvideo.theme.inc',
+        'template' => 'emvideo_modal_iframe',
     ),
   );
 
