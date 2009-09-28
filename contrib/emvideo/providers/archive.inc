@@ -3,7 +3,7 @@
 
 /**
  * @file
- *  This is an archive.orh provider include file for Embedded Media Video.
+ *  This is an archive.org provider include file for Embedded Media Video.
  */
 
 /**
@@ -241,7 +241,7 @@ function emvideo_archive_duration($item) {
   if (!isset($item['data']['emvideo_archive_version'])) {
     $item['data'] = emvideo_archive_data(NULL, $item);
   }
-  return emvideo_convert_to_seconds($item['data']['metadata']['RUNTIME'][0]);
+  return isset($item['data']['metadata']['RUNTIME'][0]) ? emvideo_convert_to_seconds($item['data']['metadata']['RUNTIME'][0]) : 0;
 }
 
 /**

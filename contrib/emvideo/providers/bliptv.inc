@@ -9,6 +9,14 @@
 define('EMVIDEO_BLIPTV_MAIN_URL', 'http://blip.tv/');
 define('EMVIDEO_BLIPTV_DEFAULT_RSS_TYPE', 'flv');
 
+/**
+ *  This defines the version of the content data array that we serialize
+ *  in emvideo_bliptv_data(). If we change the expected keys of that array,
+ *  we must increment this value, which will allow older content to be updated
+ *  to the new version automatically.
+ */
+define('EMVIDEO_BLIPTV_DATA_VERSION', 2);
+
 function emvideo_bliptv_info() {
   $features = array(
     array(t('Autoplay'), t('Yes'), ''),
@@ -76,7 +84,7 @@ function emvideo_bliptv_data($field, $item) {
   // we added new data fields to keep from having to reload the api/rss
   // because the data is only stored on update/insert, however, we have to know which data type we're using
   // this will just be an integer, increased when we make a change to data
-  $data['emvideo_bliptv_data_version'] = 2;
+  $data['emvideo_bliptv_data_version'] = $data['emvideo_data_version'] = EMVIDEO_BLIPTV_DATA_VERSION;
 
   // use the page id, since we'll have that in most cases (except in embed pastes, which gets parsed during extraction)
   // we use this to get an rss feed w/ all the info for the video. interesting reading ;)
@@ -176,6 +184,21 @@ function emvideo_bliptv_extract($embed) {
     '@blip\.tv/file/view/([^"\&\?/]+)@i',
     '@blip\.tv/file/([^"\&\?/]+)@i',
   );
+}
+
+/**
+ * hook emvideo_PROVIDER_duration($item)
+ * Returns the duration of the video in seconds.
+ *  @param $item
+ *    The video item itself, which needs the $data array.
+ *  @return
+ *    The duration of the video in seconds.
+ */
+function emvideo_bliptv_duration($item) {
+  if (!isset($item['data']['emvideo_bliptv_data_version']) || $item['data']['emvideo_bliptv_data_version'] < 2) {
+    $item['data'] = emvideo_bliptv_data(NULL, $item);
+  }
+  return isset($item['data']['flv']['duration']) ? $item['data']['flv']['duration'] : 0;
 }
 
 function emvideo_bliptv_video_link($video_code) {
