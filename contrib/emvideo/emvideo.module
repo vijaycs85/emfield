@@ -204,8 +204,8 @@ function emvideo_field_settings($op, $field) {
   switch ($op) {
     case 'database columns':
       $columns = module_invoke('emfield', 'field_columns', $field);
-      // @TODO: Store duration in its own column for views.
-/*      $columns = array_merge(
+      // Store duration in its own column for views.
+      $columns = array_merge(
         $columns,
         array('duration' =>
           array(
@@ -215,7 +215,7 @@ function emvideo_field_settings($op, $field) {
             'not null' => TRUE,
             'default' => 0),
           )
-      );*/
+      );
       return $columns;
   }
 }
