@@ -179,3 +179,14 @@ function emvideo_dailymotion_emfield_subtheme() {
     )
   );
 }
+
+/**
+ *  Implement hook_emvideo_PROVIDER_content_generate().
+ */
+function emvideo_dailymotion_content_generate() {
+  return array(
+    'http://www.dailymotion.com/relevance/search/drupal/video/x4gfqu_introduction-to-drupal_tech',
+    'http://www.dailymotion.com/relevance/search/drupal/video/x57pyj_drupal-6-hot-new-themes_tech',
+    'http://www.dailymotion.com/relevance/search/drupal/video/x76hya_host-color-we-like-drupal_tech',
+  );
+}
