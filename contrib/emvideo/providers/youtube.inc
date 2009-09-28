@@ -31,6 +31,7 @@ function emvideo_youtube_info() {
     array(t('RSS Attachment'), t('Yes'), ''),
     array(t('Show related videos'), t('Yes'), t('This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above.')),
     array(t('Thumbnails'), t('Yes'), t('')),
+    array(t('Duration'), t('Yes'), ''),
     array(t('Custom player colors'), t('Yes'), t("You may customize the player's skin by choosing your own colors, and/or border in that setting field set.")),
     array(t('Full screen mode'), t('Yes'), t('You may customize the player to enable or disable full screen playback. Full screen mode is enabled by default.')),
     array(t('Use JW FLV Media Player'), t('Yes'), t("You may opt to use the !flvplayer to play YouTube videos if it's installed on your server.", array('!flvplayer' => l(t('JW FLV Media Player'), 'http://www.longtailvideo.com/players/jw-flv-player/')))),
@@ -320,10 +321,10 @@ function emvideo_youtube_embedded_link($video_code) {
  *    The duration of the video in seconds.
  */
 function emvideo_youtube_duration($item) {
-  if ($item['data']['emvideo_youtube_version'] < 3) {
+  if (!isset($item['data']['emvideo_youtube_version']) || $item['data']['emvideo_youtube_version'] < 3) {
     $item['data'] = emvideo_youtube_data(NULL, $item);
   }
-  return $item['data']['duration'];
+  return isset($item['data']['duration']) ? $item['data']['duration'] : 0;
 }
 
 function emvideo_youtube_convert_color($color = NULL) {

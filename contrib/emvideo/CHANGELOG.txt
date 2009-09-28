@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Add duration and devel content generate to UStream video.
 by aaron: Add duration and devel content generate to MySpace video.
 by aaron: Remove jumpcut provider, as they are now dead.
 by aaron: Add duration and devel content generate to Google video.
