@@ -78,6 +78,13 @@ function emvideo_bliptv_validate($value, $error_field) {
   }
 }
 
+/**
+ *  Implement hook emvideo_PROVIDER_data_version().
+ */
+function emvideo_bliptv_data_version() {
+  return EMVIDEO_BLIPTV_DATA_VERSION;
+}
+
 function emvideo_bliptv_data($field, $item) {
   $data = array();
 

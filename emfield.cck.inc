@@ -23,6 +23,11 @@ function _emfield_field_columns($field) {
     // An array for any extra data required by this media,
     // such as unique thumbnail requirements or rss feed data.
     'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
+    // The version of the provider's data, as an integer. In general, this
+    // number will be increased incrementally as changes to the API are
+    // introduced, or the module introduces or requires new data.
+    // Emfield uses this periodically in its updates.
+    'version' => array('description' => t("The version of the provider's data."), 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
   );
 
   // Allow other modules to add new columns.
@@ -58,10 +63,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
 
     case 'presave':
       foreach ($items as $delta => $item) {
-        $list = _emfield_field_submit_id($field, $item, $module);
-        $items[$delta]['provider'] = $list['provider'];
-        $items[$delta]['value'] = $list['value'];
-        $items[$delta]['data'] = $list['data'];
+        $items[$delta] = _emfield_field_submit_id($field, $item, $module);
       }
       break;
 

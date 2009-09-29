@@ -10,6 +10,8 @@ define('EMIMAGE_PICASA_MAIN_URL', 'http://picasaweb.google.com/');
 define('EMIMAGE_PICASA_API_INFO', 'http://code.google.com/apis/picasaweb/developers_guide_protocol.html');
 define('EMIMAGE_PICASA_REST_ENDPOINT', 'http://picasaweb.google.com/data/feed/api/user/');
 
+define('EMIMAGE_PICASA_DATA_VERSION', 1);
+
 /**
  * hook emimage_PROVIDER_info
  * this returns information relevant to a specific 3rd party image provider
@@ -46,6 +48,13 @@ function emimage_picasa_request($data = array(), $kind = '', $cached = TRUE) {
   return $xml;
 }
 
+/**
+ *  Implement hook emvideo_PROVIDER_data_version().
+ */
+function emimage_picasa_data_version() {
+  return EMIMAGE_PICASA_DATA_VERSION;
+}
+
 function emimage_picasa_data($field, $item) {
   $data = array();
   if (preg_match('@picasaweb\.google\.com/([^/]+)/([^/]+)/photo.*?#(.*)@i', $item['embed'], $matches)) {
@@ -73,6 +82,8 @@ function emimage_picasa_data($field, $item) {
   $data['large'] =  $xml['MEDIA:GROUP']['MEDIA:THUMBNAIL'][5][URL];
   $data['width'] = $xml['MEDIA:GROUP']['MEDIA:THUMBNAIL'][5][WIDTH];
   $data['height'] = $xml['MEDIA:GROUP']['MEDIA:THUMBNAIL'][5][HEIGHT];
+
+  $data['emimage_data_version'] = EMIMAGE_PICASA_DATA_VERSION;
 
   return $data;
 }

@@ -7,6 +7,7 @@
  */
 
 define('EMIMAGE_IMAGESHACK_MAIN_URL', 'http://www.imageshack.us/');
+define('EMIMAGE_IMAGESHACK_DATA_VERSION', 1);
 
 /**
  * hook emimage_PROVIDER_info
@@ -31,6 +32,13 @@ function emimage_imageshack_info() {
   );
 }
 
+/**
+ *  Implement hook emvideo_PROVIDER_data_version().
+ */
+function emimage_imageshack_data_version() {
+  return EMIMAGE_IMAGESHACK_DATA_VERSION;
+}
+
 function emimage_imageshack_data($field, $item) {
   $data = array();
 
@@ -43,6 +51,7 @@ function emimage_imageshack_data($field, $item) {
       'file' => $matches[4],
       'title' => '',
     );
+    $data['emimage_data_version'] = EMIMAGE_IMAGESHACK_DATA_VERSION;
   }
   return $data;
 }

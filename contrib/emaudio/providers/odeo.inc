@@ -105,7 +105,7 @@ function theme_emaudio_odeo_flash($embed, $width, $height, $autoplay) {
  *   A URL pointing to the thumbnail.
  */
 function emaudio_odeo_thumbnail($field, $item, $formatter, $node, $width, $height) {
-  return $tn;
+  return '';
 }
 
 /**

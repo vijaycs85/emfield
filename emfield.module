@@ -190,7 +190,7 @@ function _emfield_field_validate_id($field, $item, $error_field, $module, $delta
  */
 function _emfield_field_submit_id($field, $item, $module) {
 
-  // TODO Find the right fix for this.
+  // @TODO Find the right fix for this.
   // When the embedded media field is used in the default value widget
   // when editing field settings, the $item has no value for 'provider',
   // causing an error message.
@@ -203,6 +203,7 @@ function _emfield_field_submit_id($field, $item, $module) {
   }
   $item = array_merge($item, emfield_parse_embed($field, $item['embed'], $module));
   $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item);
+  $item['version'] = intval(emfield_include_invoke($module, $item['provider'], 'data_version', $field, $item));
 
   return $item;
 }
