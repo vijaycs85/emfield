@@ -791,7 +791,7 @@ function emfield_imagerotator_url($reset = FALSE) {
 /**
  * Implementation of Devel module's hook_content_generate().
  */
-function emvideo_content_generate($node, $field) {
+function emfield_content_generate($node, $field) {
   $item = $urls = array();
   $module = $field['module'];
   foreach (emfield_allowed_providers($field, $module) as $provider) {
@@ -808,4 +808,33 @@ function emvideo_content_generate($node, $field) {
     $item = _emfield_field_submit_id($field, $item, $module);
   }
   return $item;
+}
+
+/**
+ *  Helper function for hook_field_settings().
+ */
+function emfield_emfield_field_settings($op, $field) {
+  module_load_include('inc', 'emfield', 'emfield.cck');
+  return _emfield_emfield_field_settings($op, $field);
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function emfield_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'emfield') . '/includes/views',
+  );
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function emfield_theme() {
+  return array(
+    'emfield_handler_field_provider' => array(
+      'arguments' => array('item' => NULL, 'field' => NULL, 'node' => NULL, 'values' => NULL, 'format' => NULL),
+    ),
+  );
 }

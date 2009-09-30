@@ -232,3 +232,26 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
   }
   return $tree;
 }
+
+function _emfield_emfield_field_settings($op, $field) {
+  switch ($op) {
+    case 'views data':
+      $table_alias = content_views_tablename($field);
+      $data = content_views_field_views_data($field);
+      $field_provider = $field['field_name'] .'_provider';
+      $data[$table_alias][$field_provider] = $data[$table_alias][$field['field_name'] .'_embed'];
+      $data[$table_alias][$field_provider]['title'] .= t(' - Provider');
+      $data[$table_alias][$field_provider]['field']['title'] = $data[$table_alias][$field_provider]['title'];
+      $data[$table_alias][$field_provider]['title short'] = t('Provider');
+      $data[$table_alias][$field_provider]['field']['title short'] = $data[$table_alias][$field_provider]['title short'];
+      $data[$table_alias][$field_provider]['field']['field'] = $field_provider;
+      $data[$table_alias][$field_provider]['field']['handler'] = 'emfield_handler_field_provider';
+      $data[$table_alias][$field_provider]['argument']['field'] = $field_provider;
+      $data[$table_alias][$field_provider]['argument']['handler'] = 'emfield_handler_argument_provider';
+      $data[$table_alias][$field_provider]['filter']['field'] = $field_provider;
+      $data[$table_alias][$field_provider]['sort']['field'] = $field_provider;
+      return $data;
+    case 'database columns':
+      return emfield_field_columns($field);
+  }
+}

@@ -31,7 +31,7 @@ function emfield_disable() {
 }
 
 /**
- *  Add a duration column to existing fields.
+ *  Add a data version column to existing fields.
  */
 function emfield_update_6001() {
   $ret = array();
@@ -92,6 +92,21 @@ function emfield_update_6001() {
   // Clear caches.
   cache_clear_all('*', content_cache_tablename(), TRUE);
   cache_clear_all('*', 'cache', TRUE);
+
+  return $ret;
+}
+
+/**
+ *  Rebuild themes and views.
+ */
+function emfield_update_6002() {
+  drupal_rebuild_theme_registry();
+
+  $ret = array();
+
+  if (module_exists('views')) {
+    $ret[] = update_sql("DELETE FROM {cache_views}");
+  }
 
   return $ret;
 }
