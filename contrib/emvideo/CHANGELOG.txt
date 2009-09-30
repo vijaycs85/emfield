@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Fix display of youtube w/ flvmediaplayer.
 #592284 by aaron: Fix botched update for duration import.
 
 ===============
