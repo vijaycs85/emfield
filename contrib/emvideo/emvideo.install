@@ -315,20 +315,66 @@ function emvideo_update_6009() {
 }
 
 /**
- *  Fix possibly botched update_6007.
+ *  Botched update_6007, redo at 6013.
  */
 function emvideo_update_6010() {
+  $ret = array();
+  return $ret;
+}
+
+/**
+ *  Botched update, redo at 6014.
+ */
+function emvideo_update_6011() {
+  $ret = array();
+  return $ret;
+}
+
+/**
+ *  Rebuild themes and views.
+ */
+function emvideo_update_6012() {
+  drupal_rebuild_theme_registry();
+  return _emvideo_update_reset_cache_views();
+}
+
+/**
+ *  Add a duration column to existing fields.
+ */
+function emvideo_update_6013() {
   $ret = _emvideo_update_reset_cache();
 
   include_once(drupal_get_path('module', 'content') .'/includes/content.admin.inc');
 
   content_clear_type_cache(TRUE);
+
+  // Build a list of fields that need data updating.
+  $fields = array();
+  foreach (content_types_install() as $type_name => $type_fields) {
+    foreach ($type_fields as $field) {
+      if ($field['module'] == 'emvideo') {
+        // We only process a given field once.
+        $fields[$field['field_name']] = $field;
+      }
+    }
+  }
+
+  // Update database storage (add data column, remove description, set NOT NULL).
+  foreach ($fields as $field) {
+    $new_field = $field;
+
+    unset($field['duration']);
+    content_alter_db($field, $new_field);
+
+    $ret[] = array(
+      'query' => t('Added duration to the %field field.', array('%field' => $field['field_name'])),
+      'success' => TRUE,
+    );
+  }
+
   content_associate_fields('emvideo');
 
-  $ret[] = array(
-    'query' => t('Added duration and rebuilt Embedded Video fields.'),
-    'success' => TRUE,
-  );
+  $ret[] = update_sql("DELETE FROM {cache}");
 
   return $ret;
 }
@@ -336,7 +382,7 @@ function emvideo_update_6010() {
 /**
  *  Add a duration column to existing fields.
  */
-function emvideo_update_6011() {
+function emvideo_update_6014() {
   $ret = array();
 
   // Build a list of fields that need data updating.
@@ -371,13 +417,6 @@ function emvideo_update_6011() {
   return $ret;
 }
 
-/**
- *  Rebuild themes and views.
- */
-function emvideo_update_6012() {
-  drupal_rebuild_theme_registry();
-  return _emvideo_update_reset_cache_views();
-}
 /**
  *  Batch function to grab the duration for each video field.
  */

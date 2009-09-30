@@ -5,6 +5,12 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#592284 by aaron: Fix botched update for duration import.
+
+===============
+ DRUPAL-6--1-8
+===============
+
 by aaron: Add views handlers for duration.
 by aaron: Fix malformed updates.
 by aaron: Add data hook to Blip.tv.
