@@ -372,6 +372,13 @@ function emvideo_update_6011() {
 }
 
 /**
+ *  Rebuild themes and views.
+ */
+function emvideo_update_6012() {
+  drupal_rebuild_theme_registry();
+  return _emvideo_update_reset_cache_views();
+}
+/**
  *  Batch function to grab the duration for each video field.
  */
 function _emvideo_update_get_duration($field, &$context) {
@@ -445,13 +452,12 @@ function _emvideo_update_add_new_formatters($message = NULL) {
 
 /**
  * Clear the Views cache.
- *
- * @TODO I'd like this to be conditional, so it only runs if they don't have Views
- * installed. However, module_exists doesn't actually work in the update scripts.
  */
 function _emvideo_update_reset_cache_views() {
   $ret = array();
-  $ret[] = update_sql("DELETE FROM {cache_views}");
+  if (module_exists('views')) {
+    $ret[] = update_sql("DELETE FROM {cache_views}");
+  }
 
   return $ret;
 }

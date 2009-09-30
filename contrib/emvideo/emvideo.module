@@ -160,6 +160,9 @@ function emvideo_theme() {
         'file' => 'emvideo.theme.inc',
         'template' => 'emvideo_modal_iframe',
     ),
+    'emvideo_handler_field_duration' => array(
+      'arguments' => array('item' => NULL, 'field' => NULL, 'node' => NULL, 'values' => NULL, 'format' => NULL),
+    ),
   );
 
   $themes += module_invoke('emfield', 'provider_themes', 'emvideo');
@@ -199,12 +202,29 @@ function emvideo_field_info() {
 }
 
 /**
- *  Implementation of hook_field_settings
+ *  Implementation of hook_field_settings().
  */
 function emvideo_field_settings($op, $field) {
   switch ($op) {
+    case 'views data':
+      $data = emfield_emfield_field_settings($op, $field);
+      $table_alias = content_views_tablename($field);
+      $field_duration = $field['field_name'] .'_duration';
+      $data[$table_alias][$field_duration] = $data[$table_alias][$field['field_name'] .'_embed'];
+      $data[$table_alias][$field_duration]['title'] .= t(' - Duration');
+      $data[$table_alias][$field_duration]['field']['title'] = $data[$table_alias][$field_duration]['title'];
+      $data[$table_alias][$field_duration]['title short'] = t('Duration');
+      $data[$table_alias][$field_duration]['field']['title short'] = $data[$table_alias][$field_duration]['title short'];
+      $data[$table_alias][$field_duration]['field']['field'] = $field_duration;
+      $data[$table_alias][$field_duration]['field']['handler'] = 'emvideo_handler_field_duration';
+      $data[$table_alias][$field_duration]['argument']['field'] = $field_duration;
+      $data[$table_alias][$field_duration]['argument']['handler'] = 'emvideo_handler_argument_duration';
+      $data[$table_alias][$field_duration]['filter']['field'] = $field_duration;
+      $data[$table_alias][$field_duration]['filter']['handler'] = 'content_handler_filter_numeric';
+      $data[$table_alias][$field_duration]['sort']['field'] = $field_duration;
+      return $data;
     case 'database columns':
-      $columns = module_invoke('emfield', 'field_columns', $field);
+      $columns = emfield_emfield_field_settings($op, $field);
       // Store duration in its own column for views.
       $columns = array_merge(
         $columns,
@@ -218,6 +238,8 @@ function emvideo_field_settings($op, $field) {
           )
       );
       return $columns;
+    default:
+      return emfield_emfield_field_settings($op, $field);
   }
 }
 
@@ -531,7 +553,8 @@ function emvideo_emfield_rss($node, $items = array(), $teaser = NULL) {
 }
 
 function emvideo_handler_arg_provider($op, &$query, $argtype, $arg = '') {
-  return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'emvideo');
+  $ret = _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'emvideo');
+  return $ret;
 }
 
 /**
@@ -586,3 +609,19 @@ function emvideo_convert_to_seconds($time) {
   module_load_include('inc', 'emvideo', 'emvideo.theme');
   return _emvideo_convert_to_seconds($time);
 }
+
+function emvideo_seconds_to_time($time) {
+  module_load_include('inc', 'emvideo', 'emvideo.theme');
+  return _emvideo_seconds_to_time($time);
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function emvideo_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'emvideo') . '/includes/views',
+  );
+}
+

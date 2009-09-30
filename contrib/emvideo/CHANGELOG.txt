@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Add views handlers for duration.
 by aaron: Fix malformed updates.
 by aaron: Add data hook to Blip.tv.
 by aaron: Move modal iframe to template file.
