@@ -421,7 +421,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       $flv_profile = isset($options['flv_profile']) ? $options['flv_profile'] : variable_get('emfield_flv_profile', '');
       if ($flv_profile) {
         // get the configuration data for this node
-        $data = flvmediaplayer_build_player_data($options['node'], 'flickr', array('file' => $flashvars['file']));
+        $data = flvmediaplayer_build_player_data($options['node'], $flv_profile, array('file' => $flashvars['file']));
         $data['params']['width'] = $width;
         $data['params']['height'] = $height;
         $data['flashvars']['autostart'] = $flashvars['autostart'];
@@ -453,6 +453,11 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
           </script>
 FLASH;
       }
+    }
+    else if ($use_flv) {
+      $output = <<<FLV
+        <embed src="$url" width="$width" height="$height" allowscriptaccess="always" allowfullscreen="$fullscreen_value" flashvars="file={$flashvars['file']}&autostart={$flashvars['autostart']}" />
+FLV;
     }
     else {
       $flashvars = check_plain(drupal_query_string_encode(array('playerMode' => 'embedded')));
