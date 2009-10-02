@@ -455,8 +455,9 @@ FLASH;
       }
     }
     else if ($use_flv) {
+      $flashvars = drupal_query_string_encode($flashvars);
       $output = <<<FLV
-        <embed src="$url" width="$width" height="$height" allowscriptaccess="always" allowfullscreen="$fullscreen_value" flashvars="file={$flashvars['file']}&autostart={$flashvars['autostart']}" />
+        <embed src="$url" width="$width" height="$height" allowscriptaccess="always" allowfullscreen="$fullscreen_value" flashvars="$flashvars" />
 FLV;
     }
     else {

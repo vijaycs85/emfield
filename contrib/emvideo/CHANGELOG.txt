@@ -5,6 +5,12 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Use all flashvars w/ flvmediaplayer fallback.
+
+================
+ DRUPAL-6--1-10
+================
+
 by aaron: Fix display of youtube w/ flvmediaplayer.
 #592284 by aaron: Fix botched update for duration import.
 
