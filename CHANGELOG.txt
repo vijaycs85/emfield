@@ -5,6 +5,7 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+by aaron: Add generic theme for swfobject when that module not included.
 #592284 by aaron: Fix botched update for provider data import.
 
 ===============

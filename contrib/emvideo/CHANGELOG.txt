@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Clean up youtube to send through emfield's swfobject theme by default.
 by aaron: Use all flashvars w/ flvmediaplayer fallback.
 
 ================

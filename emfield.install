@@ -133,6 +133,14 @@ function emfield_update_6003() {
 }
 
 /**
+ *  Rebuild themes.
+ */
+function emfield_update_6004() {
+  drupal_rebuild_theme_registry();
+  return array();
+}
+
+/**
  *  Batch function to retrieve the most recent data from providers.
  *
  *  @param $field
