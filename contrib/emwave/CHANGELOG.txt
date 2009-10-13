@@ -1,0 +1,5 @@
+// $Id$
+
+CHANGELOG for Embedded Wave Field
+
+#530526 by noahb: Add a new contrib project for emwave.
