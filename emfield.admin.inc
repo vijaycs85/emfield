@@ -30,6 +30,8 @@ function emfield_settings() {
   );
   if (module_exists('flvmediaplayer')) {
     $url = emfield_flvmediaplayer_url(TRUE);
+    $flvmediaplayer_configs = flvmediaplayer_profile_get_configs();
+    $flvmediaplayer_configs = (!empty($flvmediaplayer_configs)) ? $flvmediaplayer_configs : array();
     $form['general']['flvmediaplayer']['emfield_flvmediaplayer_url'] = array(
       '#type' => 'item',
       '#title' => t('JW FLV Media Player'),
@@ -38,7 +40,7 @@ function emfield_settings() {
     $form['general']['flvmediaplayer']['emfield_flv_profile'] = array(
       '#type' => 'select',
       '#title' => t('FLV Media Player Profile'),
-      '#options' => array('' => '') + flvmediaplayer_profile_get_configs(),
+      '#options' => array('' => t('-----')) + $flvmediaplayer_configs,
       '#description' => t('You may choose to display the FLV Media Player with a !profile, if configured.', array('!profile' => l(t('profile'), 'admin/settings/flvmediaplayer/profiles'))),
       '#default_value' => variable_get('emfield_flv_profile', ''),
     );
