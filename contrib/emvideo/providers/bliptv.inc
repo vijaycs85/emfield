@@ -208,7 +208,15 @@ function emvideo_bliptv_duration($item) {
   return isset($item['data']['flv']['duration']) ? $item['data']['flv']['duration'] : 0;
 }
 
-function emvideo_bliptv_video_link($video_code) {
+/**
+ * hook emvideo_PROVIDER_embedded_link($video_code)
+ * returns a link to view the video at the provider's site.
+ *  @param $video_code
+ *    The string containing the video to watch.
+ *  @return
+ *    A string containing the URL to view the video at the original provider's site.
+ */
+function emvideo_bliptv_embedded_link($video_code) {
   return 'http://blip.tv/file/'. $video_code;
 }
 
