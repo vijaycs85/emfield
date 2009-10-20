@@ -111,8 +111,9 @@ function video_cck_vimeo_settings() {
 function video_cck_vimeo_extract($embed = '') {
   // http://vimeo.com/123456
   // http://www.vimeo.com/123456
+  // http://vimeo.com/channels/hd#6912147
   return array(
-    '@vimeo\.com/([^\"\&]+)@i',
+    '@vimeo\.com/[^\"\&\d]*([^\"\&]+)@i',
   );
 }
 
