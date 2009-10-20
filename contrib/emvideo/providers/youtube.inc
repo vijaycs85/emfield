@@ -471,8 +471,9 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
     }
     else if ($use_flv) {
       $flashvars = drupal_query_string_encode($flashvars);
+      $noembed = theme('image', $flashvars['image']);
       $output = <<<FLV
-        <div id="$div_id"><embed src="$url" width="$width" height="$height" allowscriptaccess="always" allowfullscreen="$fullscreen_value" flashvars="$flashvars" /></div>
+        <div id="$div_id"><embed src="$url" width="$width" height="$height" allowscriptaccess="always" allowfullscreen="$fullscreen_value" flashvars="$flashvars" /><NOEMBED>$noembed</NOEMBED></div>
 FLV;
     }
     else {

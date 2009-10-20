@@ -5,8 +5,14 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Add NOEMBED tag to default flv media player output for youtube.
 by aaron: Fix blip.tv link.
 by aaron: Add FLV Media Player support to custom url videos.
+
+================
+ DRUPAL-6--1-11
+================
+
 by aaron: Clean up youtube to send through emfield's swfobject theme by default.
 by aaron: Use all flashvars w/ flvmediaplayer fallback.
 
