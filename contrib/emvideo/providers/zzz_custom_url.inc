@@ -7,7 +7,7 @@
  */
 
 function _emvideo_zzz_custom_url_default_types() {
-  return array('wmv', 'wma', 'swf', 'flv', 'mov', 'rm', 'mp4');
+  return array('wmv', 'wma', 'swf', 'flv', 'mov', 'rm', 'mp4', 'm4v');
 }
 
 function emvideo_zzz_custom_url_info() {
@@ -35,6 +35,7 @@ function emvideo_zzz_custom_url_settings() {
     'flv' => t('Flash Video (flv)'),
     'mov' => t('Quicktime (mov)'),
     'mp4' => t('Quicktime (mp4)'),
+    'm4v' => t('Quicktime (m4v)'),
     'rm' => t('Real Media (rm)'),
   );
   $form = array();
@@ -217,6 +218,7 @@ FLV;
           $output = '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" autostart="'. $autostart .'" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"> </embed>';
         case 'mov':
         case 'mp4':
+        case 'm4v':
           $autostart = $autoplay ? 'true' : 'false';
           $output = '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" autoplay="'. $autostart .'" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"> </embed>';
         case 'rm':
