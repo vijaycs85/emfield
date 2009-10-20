@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#280466 by cogapp_alx | pribeh: Fixed MY Vimeo Not Worky.
 by aaron: Add NOEMBED tag to default flv media player output for youtube.
 by aaron: Fix blip.tv link.
 by aaron: Add FLV Media Player support to custom url videos.
