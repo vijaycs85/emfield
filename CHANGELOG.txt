@@ -5,7 +5,7 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
-by aaron: Create new hook_emfield_data_alter(&$data).
+#604524 by aaron | DamienMcKenna : Create new hook_emfield_data_alter(&$data).
 by aaron: Fix error/WSOD on admin screen if FLV Media Player module installed,
   but no profiles have been created.
 
