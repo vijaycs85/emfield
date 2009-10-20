@@ -91,8 +91,12 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
     }
   }
   if (in_array($op, array('insert', 'update'))) {
-    // We need to manually serialize the 'data' array.
     foreach ($items as $delta => $item) {
+      // Allow other modules to modify the data before storing.
+      // The need to implement hook_emfield_data_alter(&$data) to do so,
+      // with the following parameters also sent.
+      drupal_alter('emfield_data', $items[$delta]['data'], $module, $node, $field, $items, $delta);
+      // We need to manually serialize the 'data' array.
       $items[$delta]['data'] = serialize($items[$delta]['data']);
     }
   }
