@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#289722 by marcp | bonobo: Added Voicethread support.
 #600310 by apb1991: Added m4v Custom Videos.
 #280466 by cogapp_alx | pribeh: Fixed MY Vimeo Not Worky.
 by aaron: Add NOEMBED tag to default flv media player output for youtube.
