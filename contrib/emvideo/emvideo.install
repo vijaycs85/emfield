@@ -418,6 +418,13 @@ function emvideo_update_6014() {
 }
 
 /**
+ *  New formatters and theme functions.
+ */
+function emvideo_update_6015() {
+  return _emvideo_update_add_new_formatters();
+}
+
+/**
  *  Batch function to grab the duration for each video field.
  */
 function _emvideo_update_get_duration($field, &$context) {

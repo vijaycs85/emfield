@@ -5,6 +5,12 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#591700 by aaron: Add new formatters for thumbnails.
+
+================
+ DRUPAL-6--1-12
+================
+
 #289722 by marcp | bonobo: Added Voicethread support.
 #600310 by apb1991: Added m4v Custom Videos.
 #280466 by cogapp_alx | pribeh: Fixed MY Vimeo Not Worky.
