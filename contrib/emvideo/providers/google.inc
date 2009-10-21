@@ -53,7 +53,7 @@ function emvideo_google_request($embed, $cacheable = TRUE) {
   return module_invoke('emfield', 'request_xml', 'google', EMVIDEO_GOOGLE_XML, $args, $cacheable);
 }
 
-function emvideo_google_video_link($video_code) {
+function emvideo_google_embedded_link($video_code) {
   return 'http://video.google.'. variable_get('emvideo_google_domain', EMVIDEO_GOOGLE_DOMAIN_DEFAULT) .'/videoplay?docid='. $video_code;
 }
 
