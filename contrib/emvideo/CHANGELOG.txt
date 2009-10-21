@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Remove thumbnail support from uStream.
 by aaron: Fix google embedded links.
 #591700 by aaron: Add new formatters for thumbnails.
 

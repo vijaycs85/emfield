@@ -161,13 +161,13 @@ function emvideo_ustream_thumbnail($field, $item, $formatter, $node, $width, $he
 //   $tn = $request['THUMBNAIL_URL'][0];
 
   // if we have a large thumbnail size, then get the larger version available.
-  if ($width > 130 || $height > 97) {
-    $tn = "http://img.ustream.tv/vi/$ustream_id/0.jpg";
-  } else {
-    // ustream offers 3 thumbnails. select one randomly.
-    $rand = rand(0, 2) + 1;
-    $tn = "http://img.ustream.tv/vi/$ustream_id/$rand.jpg";
-  }
+//   if ($width > 130 || $height > 97) {
+//     $tn = "http://img.ustream.tv/vi/$ustream_id/0.jpg";
+//   } else {
+//     // ustream offers 3 thumbnails. select one randomly.
+//     $rand = rand(0, 2) + 1;
+//     $tn = "http://img.ustream.tv/vi/$ustream_id/$rand.jpg";
+//   }
   return $tn;
 }
 
