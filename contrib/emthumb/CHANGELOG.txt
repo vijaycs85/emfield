@@ -5,6 +5,12 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+#356511 | #593760 by aaron: Add imagecache support.
+
+================
+ DRUPAL-6--1-12
+================
+
 September 2009
 --------------
 by aaron: Set thumbnails to FILE_STATUS_PERMANENT.
