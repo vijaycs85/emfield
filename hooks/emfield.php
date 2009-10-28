@@ -81,8 +81,8 @@ function EMMODULE_PROVIDER_form($field, $item) {
  */
 function EMMODULE_PROVIDER_extract($embed, $field) {
   return array(
-    '@example\.com/video/(*+)@i'
-    '@example\.com/rss/video/(*+)@i'
+    '@example\.com/video/(*+)@i',
+    '@example\.com/rss/video/(*+)@i',
   );
 }
 
