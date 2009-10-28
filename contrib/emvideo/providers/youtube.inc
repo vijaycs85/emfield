@@ -451,6 +451,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
         $data['params']['height'] = $height;
         $data['flashvars']['autostart'] = $flashvars['autostart'];
         $data['params']['allowFullScreen'] = $fullscreen_value;
+        $data['params']['wmode'] = 'transparent';
         $data['flashvars']['image'] = $flashvars['image'];
         $output = theme('flvmediaplayer_render_player', $url, $data['params'], $data['flashvars']);
       }
@@ -467,6 +468,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       $params['height'] = $height;
       $params['div_id'] = $id;
       $params['allowFullScreen'] = $fullscreen_value;
+      $params['wmode'] = 'transparent';
       $output = theme('emfield_swfobject', $url, $params, $flashvars, $id);
     }
     else if ($use_flv) {
@@ -478,7 +480,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
 
       $flashvars = drupal_query_string_encode($flashvars);
       $output = <<<FLV
-        <div id="$div_id"><embed src="$url" width="$width" height="$height" allowscriptaccess="always" allowfullscreen="$fullscreen_value" flashvars="$flashvars" /><NOEMBED>$noembed</NOEMBED></div>
+        <div id="$div_id"><embed src="$url" width="$width" height="$height" allowscriptaccess="always" wmode="transparent" allowfullscreen="$fullscreen_value" flashvars="$flashvars" /><NOEMBED>$noembed</NOEMBED></div>
 FLV;
     }
     else {
