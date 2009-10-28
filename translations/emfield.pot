@@ -1,0 +1,2260 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  emfield.admin.inc,v 1.1.2.16 2009/10/19 15:02:19 aaron
+#  youtube.inc,v 1.1.2.42 2009/10/20 13:35:43 aaron
+#  emfield.php,v 1.1.2.1 2009/10/20 17:12:16 aaron
+#  emfield.cck.inc,v 1.1.2.30 2009/10/20 17:10:46 aaron
+#  emfield.module,v 1.12.4.45 2009/10/20 17:11:48 aaron
+#  flickr.inc,v 1.1.2.10 2009/09/29 19:52:05 aaron
+#  emfield.install,v 1.1.6.12 2009/10/05 19:05:10 aaron
+#  emfield.info,v 1.1.6.5 2008/07/25 11:45:51 alexua
+#  emaudio.info,v 1.1.4.7 2008/12/09 22:13:48 alexua
+#  emimage.info,v 1.1.2.3 2008/09/14 20:07:59 alexua
+#  emthumb.info,v 1.1.4.6 2009/08/25 03:00:44 aaron
+#  emvideo.info,v 1.1.2.2 2008/07/25 11:45:51 alexua
+#  emwave.info,v 1.1.2.1 2009/10/13 13:26:44 aaron
+#  emaudio.theme.inc,v 1.1.2.6 2008/12/19 18:17:14 aaron
+#  emaudio.module,v 1.1.4.22 2009/08/25 02:45:50 aaron
+#  emvideo.module,v 1.1.2.29 2009/09/30 15:56:48 aaron
+#  emimage.module,v 1.1.2.14 2009/09/21 16:20:09 aaron
+#  emwave.module,v 1.1.2.1 2009/10/13 13:26:44 aaron
+#  custom_url.inc,v 1.1.2.2 2009/06/26 18:31:00 aaron
+#  odeo.inc,v 1.1.4.9 2009/09/29 19:52:05 aaron
+#  podcastalley.inc,v 1.1.4.8 2009/09/29 19:52:05 aaron
+#  podomatic.inc,v 1.1.4.11 2009/09/29 19:52:05 aaron
+#  custom_url.inc,v 1.1.2.4 2009/09/21 20:54:47 aaron
+#  archive.inc,v 1.1.2.4 2009/09/28 22:02:40 aaron
+#  bliptv.inc,v 1.1.2.18 2009/10/19 19:45:15 aaron
+#  dailymotion.inc,v 1.1.2.12 2009/09/28 22:11:27 aaron
+#  google.inc,v 1.1.2.12 2009/09/28 22:29:27 aaron
+#  guba.inc,v 1.1.2.9 2009/08/24 20:46:15 aaron
+#  imeem.inc,v 1.1.2.6 2008/12/19 18:17:14 aaron
+#  lastfm.inc,v 1.1.2.6 2008/12/19 18:17:14 aaron
+#  livevideo.inc,v 1.1.2.11 2009/07/23 18:55:41 robloach
+#  metacafe.inc,v 1.1.2.9 2009/07/24 16:18:23 robloach
+#  myspace.inc,v 1.1.2.11 2009/09/28 22:47:12 aaron
+#  revver.inc,v 1.1.2.8 2008/12/19 18:17:14 aaron
+#  sevenload.inc,v 1.1.2.7 2008/12/19 18:17:14 aaron
+#  spike.inc,v 1.1.2.8 2008/12/19 18:17:14 aaron
+#  tudou.inc,v 1.1.2.5 2008/12/19 18:17:14 aaron
+#  twistage.inc,v 1.1.2.1 2009/07/23 19:08:10 robloach
+#  ustream.inc,v 1.1.2.2 2009/09/28 23:05:47 aaron
+#  ustreamlive.inc,v 1.1.2.2 2009/09/29 19:52:05 aaron
+#  voicethread.inc,v 1.1.2.1 2009/10/20 18:36:34 aaron
+#  yahoomusic.inc,v 1.1.2.3 2009/09/28 23:23:21 aaron
+#  zzz_custom_url.inc,v 1.1.2.17 2009/10/20 18:33:41 aaron
+#  eminline.module,v 1.1.4.4 2009/07/10 15:28:13 aaron
+#  vimeo.inc,v 1.1.2.10 2009/10/20 18:19:15 aaron
+#  picasa.inc,v 1.1.2.11 2009/09/29 19:52:05 aaron
+#  emfield_handler_field_provider.inc,v 1.1.2.1 2009/09/30 15:11:01 aaron
+#  emimage.install,v 1.1.2.6 2009/09/21 16:20:09 aaron
+#  imageshack.inc,v 1.1.2.5 2009/09/29 19:52:05 aaron
+#  photobucket.inc,v 1.1.2.6 2009/09/29 19:52:05 aaron
+#  eminline.info,v 1.1.4.2 2009/07/09 21:00:51 aaron
+#  emthumb.module,v 1.7.2.30 2009/09/25 17:07:21 aaron
+#  emvideo.theme.inc,v 1.1.2.37 2009/09/28 23:38:30 aaron
+#  emvideo.install,v 1.1.2.29 2009/09/30 21:05:09 aaron
+#  emvideo_handler_field_duration.inc,v 1.1.2.1 2009/09/30 15:56:48 aaron
+#  google.inc,v 1.1.2.1 2009/10/13 13:26:44 aaron
+#  emfield.themes.inc,v 1.1.2.1 2009/10/05 19:05:11 aaron
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-10-26 14:05+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: emfield.admin.inc:14
+msgid "The Embedded Media Field module does nothing on its own. You should also install the Embedded Video Field, Embedded Image Field, and/or Embedded Audio Field modules from the <a href=\"@modules\">modules administration page</a>. (If you do not see them listed there, under the CCK section, you may need to <a href=\"@download\">download the module</a> from its project page. They are all in the same package.)"
+msgstr ""
+
+#: emfield.admin.inc:19
+msgid "General Settings"
+msgstr ""
+
+#: emfield.admin.inc:20
+msgid "These features will be generally available for use by related modules as needed."
+msgstr ""
+
+#: emfield.admin.inc:27
+msgid "JW FLV Media Player options"
+msgstr ""
+
+#: emfield.admin.inc:37;38;51;53 contrib/emvideo/providers/youtube.inc:37;155;159;162;164 hooks/emfield.php:51
+msgid "JW FLV Media Player"
+msgstr ""
+
+#: emfield.admin.inc:38
+msgid "Some providers may support the !player, and may be configured to use that player for display of its media. You may set that path (%path) at the !settings."
+msgstr ""
+
+#: emfield.admin.inc:38
+msgid "FLV Media Player settings page"
+msgstr ""
+
+#: emfield.admin.inc:42
+msgid "FLV Media Player Profile"
+msgstr ""
+
+#: emfield.admin.inc:43
+msgid "-----"
+msgstr ""
+
+#: emfield.admin.inc:44
+msgid "You may choose to display the FLV Media Player with a !profile, if configured."
+msgstr ""
+
+#: emfield.admin.inc:44
+msgid "profile"
+msgstr ""
+
+#: emfield.admin.inc:53;60
+msgid "Some providers may support the !player, and may be configured to use that player for display of its media. In that case, please enter the path to this player here, without a leading slash. If you are certain you have the player installed on this server, the path doesn't show up here, and you don't know the path, you can blank out this field and save the configuration, and an attempt will be made to autodiscover the player. For best success, you should put the file somewhere in the /sites/all/plugins folder."
+msgstr ""
+
+#: emfield.admin.inc:58;60
+msgid "JW Image Rotator"
+msgstr ""
+
+#: emfield.admin.inc:64
+msgid "As you have the <a href=\"@swfobject_api\" target=\"_blank\">SWFObject API</a> module installed, Embedded Media Field will use those settings, assuming you have configured them properly. Visit its <a href=\"@settings\">settings page</a> for more information."
+msgstr ""
+
+#: emfield.admin.inc:67
+msgid "If you have the swfobject.js file installed on your system, you can make it available to Embedded Media Field and its related modules by entering the information here. You can download and find out more about <a href=\"@here\" target=\"_blank\">SWFObject here</a>. You may also choose to install the <a href=\"@swfobject_api\" target=\"_blank\">SWFObject API</a> module, which will integrate automatically with this module.."
+msgstr ""
+
+#: emfield.admin.inc:71
+msgid "SWF Object"
+msgstr ""
+
+#: emfield.admin.inc:77
+msgid "Use SWFObject"
+msgstr ""
+
+#: emfield.admin.inc:79
+msgid "When checked, then Embedded Media Field will use the SWFObject javascript library when it is able."
+msgstr ""
+
+#: emfield.admin.inc:85
+msgid "SWFObject location"
+msgstr ""
+
+#: emfield.admin.inc:87
+msgid "Enter the path to the swfobject.js file, relative to the web root, without the preceding slash (/)."
+msgstr ""
+
+#: emfield.admin.inc:93
+msgid "Thumbnail play button overlay"
+msgstr ""
+
+#: emfield.admin.inc:94
+msgid "If a thumbnail replacement or modal display formatter (such as Shadowbox) is selected, then a play button will be overlayed on the image if this box is checked."
+msgstr ""
+
+#: emfield.admin.inc:98
+msgid "Feature"
+msgstr ""
+
+#: emfield.admin.inc:98
+msgid "Supported"
+msgstr ""
+
+#: emfield.admin.inc:98
+msgid "Notes"
+msgstr ""
+
+#: emfield.admin.inc:105
+msgid "@neighborhood"
+msgstr ""
+
+#: emfield.admin.inc:113 emfield.cck.inc:134
+msgid "Providers"
+msgstr ""
+
+#: emfield.admin.inc:114
+msgid "The following settings determine what providers are allowed, and what provider-specific options, if any, are set."
+msgstr ""
+
+#: emfield.admin.inc:122
+msgid "@provider configuration"
+msgstr ""
+
+#: emfield.admin.inc:130
+msgid "Supported features"
+msgstr ""
+
+#: emfield.admin.inc:131
+msgid "This is a list of the current state of support for the following features by %provider:"
+msgstr ""
+
+#: emfield.admin.inc:142
+msgid "Allow content from %provider"
+msgstr ""
+
+#: emfield.admin.inc:143
+msgid "If checked, then content types may be created that allow content to be provided by %provider."
+msgstr ""
+
+#: emfield.admin.inc:166
+msgid "The SWFObject %file file was not found at that location. Please specify a valid location."
+msgstr ""
+
+#: emfield.admin.inc:179 emfield.module:262
+msgid "Reload Embedded Media Data"
+msgstr ""
+
+#: emfield.admin.inc:180
+msgid "You can reload the embedded media data on all nodes on your site if necessary.  This action will be queued to run on cron via the job queue module."
+msgstr ""
+
+#: emfield.admin.inc:196
+msgid "Types to reload"
+msgstr ""
+
+#: emfield.admin.inc:198
+msgid "Choose the content types to reload"
+msgstr ""
+
+#: emfield.admin.inc:203
+msgid "Submit"
+msgstr ""
+
+#: emfield.admin.inc:220
+msgid "The %type nodes have been queued to reload emfield data upon cron."
+msgstr ""
+
+#: emfield.cck.inc:30
+msgid "The version of the provider's data."
+msgstr ""
+
+#: emfield.cck.inc:127
+msgid "Providers Supported"
+msgstr ""
+
+#: emfield.cck.inc:128
+msgid "Select which third party providers you wish to allow for this content type from the list below. If no checkboxes are checked, then all providers will be supported. When a user submits new content, the URL they enter will be matched to the provider, assuming that provider is allowed here."
+msgstr ""
+
+#: emfield.cck.inc:190
+msgid "!description"
+msgstr ""
+
+#: emfield.cck.inc:193
+msgid "Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this."
+msgstr ""
+
+#: emfield.cck.inc:197
+msgid "The following services are provided: !urls"
+msgstr ""
+
+#: emfield.cck.inc:203
+msgid "@label"
+msgstr ""
+
+#: emfield.cck.inc:225
+msgid "(@provider ID: !value)"
+msgstr ""
+
+#: emfield.cck.inc:251
+msgid " - Provider"
+msgstr ""
+
+#: emfield.cck.inc:253
+msgid "Provider"
+msgstr ""
+
+#: emfield.module:178
+msgid "You have specified an invalid media URL or embed code."
+msgstr ""
+
+#: emfield.module:373;464
+msgid "Could not connect to @provider, HTTP error @error"
+msgstr ""
+
+#: emfield.module:393
+msgid "The response from @provider was corrupted and could not be unserialized."
+msgstr ""
+
+#: emfield.module:508
+msgid "emfield"
+msgstr ""
+
+#: emfield.module:508 contrib/emimage/providers/flickr.inc:186
+msgid "!error"
+msgstr ""
+
+#: emfield.module:15
+msgid "Embedded Media Field configuration"
+msgstr ""
+
+#: emfield.module:16;24
+msgid "Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc."
+msgstr ""
+
+#: emfield.module:23
+msgid "Media settings"
+msgstr ""
+
+#: emfield.module:34
+msgid "Reload data"
+msgstr ""
+
+#: emfield.module:35
+msgid "Reload emfield fields in bulk"
+msgstr ""
+
+#: emfield.install:72
+msgid "Added provider data version to the %field field."
+msgstr ""
+
+#: emfield.install:87
+msgid "Add duration to the %field field."
+msgstr ""
+
+#: emfield.install:99
+msgid "Importing provider data."
+msgstr ""
+
+#: emfield.install:122
+msgid "Retrieved current provider data for the %field field."
+msgstr ""
+
+#: emfield.info:0 contrib/emimage/providers/flickr.inc:186
+msgid "Embedded Media Field"
+msgstr ""
+
+#: emfield.info:0
+msgid "Provides an engine for modules to integrate various 3rd party content providers, such as Video Neighborhood, Image Neighborhood, and Audio Neighborhood."
+msgstr ""
+
+#: emfield.info:0 contrib/emaudio/emaudio.info:0 contrib/emimage/emimage.info:0 contrib/emthumb/emthumb.info:0 contrib/emvideo/emvideo.info:0 contrib/emwave/emwave.info:0
+msgid "CCK"
+msgstr ""
+
+#: contrib/emaudio/emaudio.theme.inc:54
+msgid "See audio"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:29 contrib/emaudio/emaudio.info:0
+msgid "Embedded Audio Field"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:32 contrib/emvideo/emvideo.module:41
+msgid "The following settings configure content with any fields controlled by @name."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:50
+msgid "Embedded Audio"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:51
+msgid "Automatically parse and display audio from a 3rd party by submitting its URL or embed code."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:100 contrib/emimage/emimage.module:95 contrib/emvideo/emvideo.module:274 contrib/emwave/emwave.module:98
+msgid "Default"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:104
+msgid "Full Size Audio Player"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:108
+msgid "Preview Size Audio Player"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:112 contrib/emimage/emimage.module:107 contrib/emvideo/emvideo.module:286
+msgid "Image Thumbnail"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:116;303 contrib/emimage/emimage.module:111;287 contrib/emvideo/emvideo.module:302;523 contrib/emwave/emwave.module:110
+msgid "Embed Code"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:139
+msgid "3rd Party Audio"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:158
+msgid "Audio Display Settings"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:159
+msgid "These settings control how this audio player is displayed in its full size, which defaults to @widthx@height."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:165
+msgid "Audio display width"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:168
+msgid "The width of the audio. It defaults to @width."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:172
+msgid "Audio display height"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:175
+msgid "The height of the audio. It defaults to @height."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:179;209 contrib/emaudio/providers/custom_url.inc:25 contrib/emaudio/providers/odeo.inc:25 contrib/emaudio/providers/podcastalley.inc:26 contrib/emaudio/providers/podomatic.inc:24 contrib/emimage/providers/custom_url.inc:22 contrib/emvideo/emvideo.module:393;423 contrib/emvideo/providers/archive.inc:48 contrib/emvideo/providers/bliptv.inc:22 contrib/emvideo/providers/dailymotion.inc:24 contrib/emvideo/providers/google.inc:16 contrib/emvideo/providers/guba.inc:12 contrib/emvideo/providers/imeem.inc:11 contrib/emvideo/providers/lastfm.inc:24 contrib/emvideo/providers/livevideo.inc:26 contrib/emvideo/providers/metacafe.inc:13 contrib/emvideo/providers/myspace.inc:15 contrib/emvideo/providers/revver.inc:15 contrib/emvideo/providers/sevenload.inc:22 contrib/emvideo/providers/spike.inc:13 contrib/emvideo/providers/tudou.inc:24 contrib/emvideo/providers/twistage.inc:14 contrib/emvideo/providers/ustream.inc:23 contrib/emvideo/providers/ustreamlive.inc:23 contrib/emvideo/providers/voicethread.inc:20 contrib/emvideo/providers/yahoomusic.inc:28 contrib/emvideo/providers/youtube.inc:30 contrib/emvideo/providers/zzz_custom_url.inc:17 hooks/emfield.php:46
+msgid "Autoplay"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:181
+msgid "If supported by the provider, checking this box will cause the audio player to automatically begin after it loads when in its full size."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:188
+msgid "Audio Preview Settings"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:189
+msgid "These settings control how this audio is displayed in its preview size, which defaults to @widthx@height."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:195
+msgid "Audio preview width"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:198
+msgid "The width of the preview audio. It defaults to @width."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:202
+msgid "Audio preview height"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:205
+msgid "The height of the preview audio. It defaults to @height."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:211
+msgid "If supported by the provider, checking this box will cause the audio player to automatically begin after it loads when in its preview size."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:218 contrib/emimage/emimage.module:211 contrib/eminline/eminline.module:191 contrib/emvideo/emvideo.module:432
+msgid "Thumbnail"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:219
+msgid "When displayed as a thumbnail, these settings control the image returned. Note that not all 3rd party audio content providers offer thumbnails, and others may require an API key or other requirements. More information from the <a href=\"@settings\">settings page</a>. The default size for thumbnails is @widthx@height."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:225
+msgid "Audio width"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:228 contrib/emvideo/emvideo.module:442
+msgid "The width of the thumbnail. It defaults to @width."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:232 contrib/emvideo/emvideo.module:446
+msgid "Thumbnail height"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:235 contrib/emvideo/emvideo.module:449
+msgid "The height of the thumbnail. It defaults to @height."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:239 contrib/emvideo/emvideo.module:454
+msgid "Path to a local default thumbnail image for cases when a thumbnail can't be found. For example, you might have a default thumbnail at %files."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:241 contrib/emvideo/emvideo.module:456
+msgid "You may be interested in activating the Embedded Media Thumbnails module as well, which will allow you to specify custom thumbnails on a per-node basis."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:246 contrib/emvideo/emvideo.module:460
+msgid "Default thumbnail path"
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:257
+msgid "\"Audio width\" must be a positive integer."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:260
+msgid "\"Audio height\" must be a positive integer."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:263 contrib/eminline/eminline.module:226 contrib/emvideo/emvideo.module:485
+msgid "\"Preview width\" must be a positive integer."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:266 contrib/eminline/eminline.module:231 contrib/emvideo/emvideo.module:488
+msgid "\"Preview height\" must be a positive integer."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:269 contrib/eminline/eminline.module:241 contrib/emvideo/emvideo.module:491
+msgid "\"Thumbnail width\" must be a positive integer."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:272 contrib/eminline/eminline.module:236 contrib/emvideo/emvideo.module:494
+msgid "\"Thumbnail height\" must be a positive integer."
+msgstr ""
+
+#: contrib/emaudio/emaudio.module:302
+msgid "To embed this audio on your own site, simply copy and paste the html code from this text area."
+msgstr ""
+
+#: contrib/emaudio/emaudio.info:0
+msgid "Defines a field type for displaying third party music, podcasts, and other audio, such as podOmatic and Odeo."
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:14
+msgid "MPEG-1 Audio Layer 3 (mp3)"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:15
+msgid "Waveform Audio Format (wav)"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:16
+msgid "Real Audio (ra)"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:17
+msgid "Musical Instrument Digital Interface (mid)"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:18
+msgid "Ogg Vorbis (ogg)"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:24 contrib/emaudio/providers/odeo.inc:27 contrib/emaudio/providers/podcastalley.inc:28 contrib/emaudio/providers/podomatic.inc:26 contrib/emimage/providers/custom_url.inc:21 contrib/emvideo/providers/archive.inc:50 contrib/emvideo/providers/bliptv.inc:24 contrib/emvideo/providers/dailymotion.inc:26 contrib/emvideo/providers/google.inc:18 contrib/emvideo/providers/guba.inc:14 contrib/emvideo/providers/imeem.inc:14 contrib/emvideo/providers/lastfm.inc:26 contrib/emvideo/providers/livevideo.inc:28 contrib/emvideo/providers/metacafe.inc:15 contrib/emvideo/providers/myspace.inc:17 contrib/emvideo/providers/revver.inc:17 contrib/emvideo/providers/sevenload.inc:24 contrib/emvideo/providers/spike.inc:15 contrib/emvideo/providers/tudou.inc:26 contrib/emvideo/providers/twistage.inc:17 contrib/emvideo/providers/ustream.inc:25 contrib/emvideo/providers/ustreamlive.inc:25 contrib/emvideo/providers/vimeo.inc:27 contrib/emvideo/providers/voicethread.inc:22 contrib/emvideo/providers/yahoomusic.inc:29 contrib/emvideo/providers/youtube.inc:33 contrib/emvideo/providers/zzz_custom_url.inc:16 hooks/emfield.php:48
+msgid "Thumbnails"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:24;26 contrib/emaudio/providers/odeo.inc:25;26;27 contrib/emaudio/providers/podcastalley.inc:26;27;28 contrib/emaudio/providers/podomatic.inc:24;25;26 contrib/emimage/providers/custom_url.inc:21;23 contrib/emimage/providers/picasa.inc:29 contrib/emvideo/providers/dailymotion.inc:25 contrib/emvideo/providers/guba.inc:13 contrib/emvideo/providers/imeem.inc:12;13 contrib/emvideo/providers/lastfm.inc:24;25;26 contrib/emvideo/providers/livevideo.inc:27 contrib/emvideo/providers/metacafe.inc:14 contrib/emvideo/providers/myspace.inc:15;16 contrib/emvideo/providers/revver.inc:16 contrib/emvideo/providers/sevenload.inc:22;23;24 contrib/emvideo/providers/spike.inc:13;14 contrib/emvideo/providers/tudou.inc:24;25;26 contrib/emvideo/providers/twistage.inc:16 contrib/emvideo/providers/ustream.inc:23;24;25 contrib/emvideo/providers/ustreamlive.inc:23;24;25 contrib/emvideo/providers/voicethread.inc:21;22;23 contrib/emvideo/providers/zzz_custom_url.inc:16;18
+msgid "No"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:25 contrib/emimage/providers/custom_url.inc:22 contrib/emimage/providers/flickr.inc:31 contrib/emvideo/providers/archive.inc:48;49;50;51 contrib/emvideo/providers/bliptv.inc:22;23;24 contrib/emvideo/providers/dailymotion.inc:24;26 contrib/emvideo/providers/google.inc:16;17;18;19 contrib/emvideo/providers/guba.inc:12;14 contrib/emvideo/providers/imeem.inc:11;14 contrib/emvideo/providers/livevideo.inc:26;28 contrib/emvideo/providers/metacafe.inc:13;15 contrib/emvideo/providers/myspace.inc:17;18 contrib/emvideo/providers/revver.inc:14;15;17 contrib/emvideo/providers/twistage.inc:14;15;17 contrib/emvideo/providers/vimeo.inc:26;27;28 contrib/emvideo/providers/voicethread.inc:20 contrib/emvideo/providers/yahoomusic.inc:28;29;30 contrib/emvideo/providers/youtube.inc:30;31;32;33;34;35;36;37 contrib/emvideo/providers/zzz_custom_url.inc:17 hooks/emfield.php:46;47;48;49;50;51
+msgid "Yes"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:26 contrib/emimage/providers/custom_url.inc:23 contrib/emvideo/providers/bliptv.inc:23 contrib/emvideo/providers/zzz_custom_url.inc:18
+msgid "RSS attachment"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:30 contrib/emimage/providers/custom_url.inc:19 contrib/emvideo/providers/zzz_custom_url.inc:14
+msgid "Custom URL"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:32
+msgid "These settings specifically affect how custom audio files are displayed. When a field uses a URL it determines to be a link directly to an audio file, it will embed that file into the content. Installing the <a href=\"@flowplayer\">Flowplayer module</a> will give the embedded player a nicer look."
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:42 contrib/emvideo/providers/zzz_custom_url.inc:44
+msgid "Supported Types"
+msgstr ""
+
+#: contrib/emaudio/providers/custom_url.inc:45
+msgid "Select the audio types you wish to support. When a custom url with that type is entered into an embedded audio field, it will be parsed and displayed appropriately. If a type is not supported, then it will be ignored."
+msgstr ""
+
+#: contrib/emaudio/providers/odeo.inc:26 contrib/emaudio/providers/podcastalley.inc:27 contrib/emaudio/providers/podomatic.inc:25 contrib/emvideo/providers/archive.inc:49 contrib/emvideo/providers/dailymotion.inc:25 contrib/emvideo/providers/google.inc:17 contrib/emvideo/providers/guba.inc:13 contrib/emvideo/providers/imeem.inc:12 contrib/emvideo/providers/lastfm.inc:25 contrib/emvideo/providers/livevideo.inc:27 contrib/emvideo/providers/metacafe.inc:14 contrib/emvideo/providers/myspace.inc:16 contrib/emvideo/providers/revver.inc:16 contrib/emvideo/providers/sevenload.inc:23 contrib/emvideo/providers/spike.inc:14 contrib/emvideo/providers/tudou.inc:25 contrib/emvideo/providers/twistage.inc:15 contrib/emvideo/providers/ustream.inc:24 contrib/emvideo/providers/ustreamlive.inc:24 contrib/emvideo/providers/voicethread.inc:21 contrib/emvideo/providers/youtube.inc:31 hooks/emfield.php:47
+msgid "RSS Attachment"
+msgstr ""
+
+#: contrib/emaudio/providers/odeo.inc:27 contrib/emaudio/providers/podcastalley.inc:28 contrib/emaudio/providers/podomatic.inc:26 contrib/emvideo/providers/archive.inc:50 contrib/emvideo/providers/guba.inc:14 contrib/emvideo/providers/lastfm.inc:26 contrib/emvideo/providers/tudou.inc:26 contrib/emvideo/providers/ustream.inc:25 contrib/emvideo/providers/ustreamlive.inc:25 contrib/emvideo/providers/voicethread.inc:22;23 contrib/emvideo/providers/yahoomusic.inc:29 contrib/emvideo/providers/youtube.inc:33 hooks/emfield.php:48
+msgid ""
+msgstr ""
+
+#: contrib/emaudio/providers/odeo.inc:31
+msgid "odeo"
+msgstr ""
+
+#: contrib/emaudio/providers/odeo.inc:33
+msgid "These settings specifically affect audio podcasts displayed from <a href=\"@odeo\" target=\"_blank\">odeo</a>."
+msgstr ""
+
+#: contrib/emaudio/providers/podcastalley.inc:33
+msgid "Podcast Alley"
+msgstr ""
+
+#: contrib/emaudio/providers/podcastalley.inc:35
+msgid "These settings specifically affect audio podcasts displayed from <a href=\"@podcastalley\" target=\"_blank\">Podcast Alley</a>."
+msgstr ""
+
+#: contrib/emaudio/providers/podomatic.inc:30
+msgid "podOmatic"
+msgstr ""
+
+#: contrib/emaudio/providers/podomatic.inc:32
+msgid "These settings specifically affect audio podcasts displayed from <a href=\"@podomatic\" target=\"_blank\">podOmatic</a>."
+msgstr ""
+
+#: contrib/emimage/emimage.module:36 contrib/emimage/emimage.info:0
+msgid "Embedded Image Field"
+msgstr ""
+
+#: contrib/emimage/emimage.module:37
+msgid "The following settings configure content with any fields controlled by Embedded Image Field."
+msgstr ""
+
+#: contrib/emimage/emimage.module:54
+msgid "Embedded Image"
+msgstr ""
+
+#: contrib/emimage/emimage.module:99
+msgid "Full Size Image"
+msgstr ""
+
+#: contrib/emimage/emimage.module:103
+msgid "Preview Size Image"
+msgstr ""
+
+#: contrib/emimage/emimage.module:128
+msgid "3rd Party Image"
+msgstr ""
+
+#: contrib/emimage/emimage.module:144 contrib/emwave/emwave.module:143
+msgid "No link"
+msgstr ""
+
+#: contrib/emimage/emimage.module:145 contrib/emwave/emwave.module:144
+msgid "Link to content"
+msgstr ""
+
+#: contrib/emimage/emimage.module:146 contrib/emwave/emwave.module:145 includes/views/handlers/emfield_handler_field_provider.inc:24
+msgid "Link to provider"
+msgstr ""
+
+#: contrib/emimage/emimage.module:152 contrib/emwave/emwave.module:151
+msgid "Full size display settings"
+msgstr ""
+
+#: contrib/emimage/emimage.module:153
+msgid "These settings control how this image is displayed in its full size, which defaults to @widthx@height. Note that if one of the dimensions is 0, then the image will be resized to be no larger than the other dimension."
+msgstr ""
+
+#: contrib/emimage/emimage.module:159 contrib/emwave/emwave.module:158
+msgid "Full size display width"
+msgstr ""
+
+#: contrib/emimage/emimage.module:161
+msgid "The width of the image. It defaults to @width. Set it to 0 or blank if you want to leave the image at its original aspect ratio."
+msgstr ""
+
+#: contrib/emimage/emimage.module:165 contrib/emwave/emwave.module:164
+msgid "Full size display height"
+msgstr ""
+
+#: contrib/emimage/emimage.module:167
+msgid "The height of the image. It defaults to @height. Set it to 0 or blank if you want to leave the image at its original aspect ratio."
+msgstr ""
+
+#: contrib/emimage/emimage.module:172 contrib/emwave/emwave.module:171
+msgid "Full size link"
+msgstr ""
+
+#: contrib/emimage/emimage.module:173
+msgid "Where the image will link when displayed in its full size. 'Content' links to the content page, 'provider' links to the provider's image page, and 'none' displays the image with no link."
+msgstr ""
+
+#: contrib/emimage/emimage.module:182
+msgid "Image Preview Settings"
+msgstr ""
+
+#: contrib/emimage/emimage.module:183
+msgid "These settings control how this image is displayed in its preview size, which defaults to @widthx@height. Note that if one of the dimensions is 0, then the image will be resized to be no larger than the other dimension."
+msgstr ""
+
+#: contrib/emimage/emimage.module:189
+msgid "Image preview width"
+msgstr ""
+
+#: contrib/emimage/emimage.module:191
+msgid "The width of the image preview. It defaults to @width. Set it to 0 or blank if you want to leave the image at its original aspect ratio."
+msgstr ""
+
+#: contrib/emimage/emimage.module:195
+msgid "Image preview height"
+msgstr ""
+
+#: contrib/emimage/emimage.module:197
+msgid "The height of the image preview. It defaults to @height. Set it to 0 or blank if you want to leave the image at its original aspect ratio."
+msgstr ""
+
+#: contrib/emimage/emimage.module:202 contrib/emwave/emwave.module:201
+msgid "Preview size link"
+msgstr ""
+
+#: contrib/emimage/emimage.module:203
+msgid "Where the image will link when displayed in its preview size. 'Content' links to the content page, 'provider' links to the provider's image page, and 'none' displays the image with no link."
+msgstr ""
+
+#: contrib/emimage/emimage.module:212
+msgid "When displayed as a thumbnail, these settings control the image returned. The default size for thumbnails is @widthx@height. Note that if one of the dimensions is 0, then the image will be resized to be no larger than the other dimension."
+msgstr ""
+
+#: contrib/emimage/emimage.module:218
+msgid "Image thumbnail width"
+msgstr ""
+
+#: contrib/emimage/emimage.module:220
+msgid "The width of the image thumbnail. It defaults to @width. Set it to 0 or blank if you want to leave the image at its original aspect ratio."
+msgstr ""
+
+#: contrib/emimage/emimage.module:224
+msgid "Image thumbnail height"
+msgstr ""
+
+#: contrib/emimage/emimage.module:226
+msgid "The height of the image thumbnail. It defaults to @height. Set it to 0 or blank if you want to leave the image at its original aspect ratio."
+msgstr ""
+
+#: contrib/emimage/emimage.module:231
+msgid "Image thumbnail link"
+msgstr ""
+
+#: contrib/emimage/emimage.module:232
+msgid "Where the image will link when displayed as a thumbnail. 'Content' links to the content page, 'provider' links to the provider's image page, and 'none' displays the image with no link."
+msgstr ""
+
+#: contrib/emimage/emimage.module:242 contrib/emwave/emwave.module:280
+msgid "\"Full size width\" must be an integer."
+msgstr ""
+
+#: contrib/emimage/emimage.module:245 contrib/emwave/emwave.module:283
+msgid "\"Full size height\" must be an integer."
+msgstr ""
+
+#: contrib/emimage/emimage.module:248 contrib/emwave/emwave.module:286
+msgid "\"Preview width\" must be an integer."
+msgstr ""
+
+#: contrib/emimage/emimage.module:251 contrib/emwave/emwave.module:289
+msgid "\"Preview height\" must be an integer."
+msgstr ""
+
+#: contrib/emimage/emimage.module:254
+msgid "\"Thumbnail width\" must be an integer."
+msgstr ""
+
+#: contrib/emimage/emimage.module:257
+msgid "\"Thumbnail height\" must be an integer."
+msgstr ""
+
+#: contrib/emimage/emimage.module:288
+msgid "To embed this image on your own site, simply copy and paste the html code from this text area."
+msgstr ""
+
+#: contrib/emimage/emimage.install:80
+msgid "Rebuilt the theme to accommodate new options."
+msgstr ""
+
+#: contrib/emimage/emimage.info:0
+msgid "Defines a field type for displaying images from third party providers, such as Flickr or Photobucket."
+msgstr ""
+
+#: contrib/emimage/providers/custom_url.inc:28
+msgid "The settings of this provider will allow images from any public hosting server."
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:29;35
+msgid "Flickr"
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:31 contrib/emimage/providers/picasa.inc:29
+msgid "Import photosets"
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:31
+msgid "If you have the Embedded Media Import module activated, you may allow @name photosets to be imported into content."
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:37
+msgid "These settings specifically affect images displayed from <a href=\"@flickr\" target=\"_blank\">Flickr</a>."
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:39 contrib/emimage/providers/picasa.inc:37
+msgid "photosets"
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:92
+msgid "Flickr API"
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:93
+msgid "You will first need to apply for an API Developer Key from the <a href=\"@flickr\" target=\"_blank\">Flickr Developer Profile page</a>."
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:99
+msgid "Flickr API Key"
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:101
+msgid "Please enter your Flickr Developer Key here."
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:105
+msgid "Flickr API Secret"
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:107
+msgid "If you have a secret for the Flickr API, enter it here."
+msgstr ""
+
+#: contrib/emimage/providers/flickr.inc:182
+msgid "You do not yet have a Flickr API key set. You will need to <a href=\"@apply\" target=\"_blank\">apply for a Flickr API key</a> and enter your key at the <a href=\"@settings\">settings administration page</a> before Flickr images may be displayed."
+msgstr ""
+
+#: contrib/emimage/providers/imageshack.inc:28
+msgid "ImageShack"
+msgstr ""
+
+#: contrib/emimage/providers/imageshack.inc:30
+msgid "These settings specifically affect images displayed from <a href=\"@imageshack\" target=\"_blank\">ImageShack</a>."
+msgstr ""
+
+#: contrib/emimage/providers/photobucket.inc:28
+msgid "Photobucket"
+msgstr ""
+
+#: contrib/emimage/providers/photobucket.inc:30
+msgid "These settings specifically affect images displayed from <a href=\"@photobucket\" target=\"_blank\">Photobucket</a>."
+msgstr ""
+
+#: contrib/emimage/providers/picasa.inc:33
+msgid "Picasa"
+msgstr ""
+
+#: contrib/emimage/providers/picasa.inc:35
+msgid "These settings specifically affect images displayed from <a href=\"@picasa\" target=\"_blank\">Picasa</a>."
+msgstr ""
+
+#: contrib/emimage/providers/picasa.inc:93
+msgid "This URL does not contain enough information to access Picasa's current API. Please find the photo through this user's gallery and link its URL here."
+msgstr ""
+
+#: contrib/eminline/eminline.module:10 contrib/eminline/eminline.info:0
+msgid "Embedded Inline Media"
+msgstr ""
+
+#: contrib/eminline/eminline.module:15
+msgid "Embed videos from specified URL."
+msgstr ""
+
+#: contrib/eminline/eminline.module:47
+msgid "You may embed videos from the following providers %providers. Just add the video URL to your textarea in the place where you would like the video to appear, i.e. http://www.youtube.com/watch?v=pw0jmvdh."
+msgstr ""
+
+#: contrib/eminline/eminline.module:186
+msgid "Video display in node view"
+msgstr ""
+
+#: contrib/eminline/eminline.module:189
+msgid "Video"
+msgstr ""
+
+#: contrib/eminline/eminline.module:190
+msgid "Preview"
+msgstr ""
+
+#: contrib/eminline/eminline.module:197
+msgid "Embed inline"
+msgstr ""
+
+#: contrib/eminline/eminline.module:216 contrib/emvideo/emvideo.module:479
+msgid "\"Video width\" must be a positive integer."
+msgstr ""
+
+#: contrib/eminline/eminline.module:221 contrib/emvideo/emvideo.module:482
+msgid "\"Video height\" must be a positive integer."
+msgstr ""
+
+#: contrib/eminline/eminline.info:0
+msgid "Allows users to embed media into text-areas."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:143;369
+msgid "If you upload a custom thumbnail, then this will be displayed when the @field thumbnail is called for, overriding any automatic thumbnails by custom providers."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:150
+msgid "Upload"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:170
+msgid "Replace"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:177
+msgid "Delete"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:188
+msgid "Filename:"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:199
+msgid "Alternate text"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:201
+msgid "Alternate text to be displayed if the image cannot be displayed."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:215
+msgid "Title"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:217
+msgid "Text to be displayed on mouse overs."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:233
+msgid "If a new custom thumbnail is chosen, the current custom thumbnail will be replaced upon submitting the form."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:264
+msgid "The thumbnail was resized to fit within the maximum allowed resolution of %resolution pixels"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:311;363
+msgid "@field custom thumbnail"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:311
+msgid "Custom thumbnail"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:324
+msgid "New upload"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:344
+msgid "Embedded Custom Thumbnails"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:350
+msgid "Store remote thumbnails for this field"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:351
+msgid "If checked, then remote thumbnails will be stored locally for this field.."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:356
+msgid "Allow custom thumbnails for this field"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:357
+msgid "If checked, then editors may specify a custom thumbnail to be used, overriding any automatic thumbnails otherwise created."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:362
+msgid "Custom thumbnail label"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:364
+msgid "This label will be displayed when uploading a custom thumbnail."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:368
+msgid "Custom thumbnail description"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:370
+msgid "This description will be displayed when uploading a custom thumbnail."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:375
+msgid "Maximum resolution for Images"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:380
+msgid "The maximum allowed custom thumbnail size expressed as WIDTHxHEIGHT (e.g. 640x480). Set to 0 for no restriction."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:384
+msgid "Image path"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:386
+msgid "Optional subdirectory within the \"%dir\" directory where images will be stored. Do not include trailing slash."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:391
+msgid "Enable custom alternate text"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:393
+msgid "Enable custom alternate text for custom thumbnails. Filename will be used if not checked."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:397
+msgid "Enable custom title text"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:399
+msgid "Enable custom title text for custom thumbnails. Filename will be used if not checked."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:403
+msgid "Default display is collapsed"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:405
+msgid "Enable default display to be collapsed."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:461
+msgid "Thumbnail upload (%filename) was unsuccessful."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:612
+msgid "The selected file %name could not be saved."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:624
+msgid "Thumbnail error. Could not copy provider thumbnail."
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:625
+msgid "file"
+msgstr ""
+
+#: contrib/emthumb/emthumb.module:625
+msgid "Upload error. Could not move file %file to destination %destination."
+msgstr ""
+
+#: contrib/emthumb/emthumb.info:0
+msgid "Embedded Media Thumbnail"
+msgstr ""
+
+#: contrib/emthumb/emthumb.info:0
+msgid "Allows custom thumbnails for Embedded Media Fields."
+msgstr ""
+
+#: contrib/emvideo/emvideo.theme.inc:99;162;190 contrib/emvideo/emvideo.module:467
+msgid "See video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:38 contrib/emvideo/emvideo.info:0
+msgid "Embedded Video Field"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:192
+msgid "Embedded Video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:193
+msgid "Automatically parse and display a third party video from its URL or embed code."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:214
+msgid " - Duration"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:216 contrib/emvideo/providers/google.inc:19 contrib/emvideo/providers/myspace.inc:18 contrib/emvideo/providers/youtube.inc:34 hooks/emfield.php:49
+msgid "Duration"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:233
+msgid "Store the duration of a video in seconds."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:278
+msgid "Full Size Video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:282
+msgid "Preview Video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:290
+msgid "Link to original video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:294
+msgid "URL to original video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:298
+msgid "Video duration"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:306
+msgid "Thumbnail -> Full Size Video inline replacement"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:310
+msgid "Thumbnail -> Preview Size Video inline replacement"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:318
+msgid "Thickbox: Image Thumbnail -> Full Size Video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:324
+msgid "Lightbox2: Image Thumbnail -> Full Size Video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:330
+msgid "Shadowbox: Image Thumbnail -> Full Size Video"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:372
+msgid "Video Display Settings"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:373
+msgid "These settings control how this video is displayed in its full size, which defaults to @widthx@height."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:379
+msgid "Video display width"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:382
+msgid "The width of the video. It defaults to @width."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:386
+msgid "Video display height"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:389
+msgid "The height of the video. It defaults to @height."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:395
+msgid "If supported by the provider, checking this box will cause the video to automatically begin after the video loads when in its full size."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:402
+msgid "Video Preview Settings"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:403
+msgid "These settings control how this video is displayed in its preview size, which defaults to @widthx@height."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:409
+msgid "Video preview width"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:412
+msgid "The width of the preview video. It defaults to @width."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:416
+msgid "Video preview height"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:419
+msgid "The height of the preview video. It defaults to @height."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:425
+msgid "If supported by the provider, checking this box will cause the video to automatically begin after the video loads when in its preview size."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:433
+msgid "When displayed as a thumbnail, these settings control the image returned. Note that not all 3rd party video content providers offer thumbnails, and others may require an API key or other requirements. More information from the <a href=\"@settings\">settings page</a>. The default size for thumbnails is @widthx@height."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:439
+msgid "Thumbnail width"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:466
+msgid "Thumbnail title"
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:468
+msgid "The title/alt to display when hovering over a thumbnail, or if an image is broken."
+msgstr ""
+
+#: contrib/emvideo/emvideo.module:524
+msgid "To embed this video on your own site, simply copy and paste the html code from this text area."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:177
+msgid "The Embedded Video Field allowed provider variables have been updated."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:202
+msgid "The old Embedded Video Field allowed provider variables have been cleaned up."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:232
+msgid "Rebuilt the theme to accommodate new third party video providers."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:244
+msgid "Rebuilt the theme to accommodate changes to the YouTube video provider theme."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:285;313
+msgid "Rebuilt the theme for modal iframes."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:370
+msgid "Added duration to the %field field."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:401
+msgid "Importing duration."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:408
+msgid "Saved available video durations for the %field field."
+msgstr ""
+
+#: contrib/emvideo/emvideo.install:475
+msgid "Rebuilt the theme to accommodate new formatters."
+msgstr ""
+
+#: contrib/emvideo/emvideo.info:0
+msgid "Defines a field type for displaying third party videos, such as YouTube and Google Video."
+msgstr ""
+
+#: contrib/emvideo/includes/views/handlers/emvideo_handler_field_duration.inc:22
+msgid "Duration (mm:ss)"
+msgstr ""
+
+#: contrib/emvideo/includes/views/handlers/emvideo_handler_field_duration.inc:23
+msgid "Duration (seconds)"
+msgstr ""
+
+#: contrib/emvideo/providers/archive.inc:51 contrib/emvideo/providers/vimeo.inc:28 contrib/emvideo/providers/yahoomusic.inc:30 contrib/emvideo/providers/youtube.inc:36 hooks/emfield.php:50
+msgid "Full screen mode"
+msgstr ""
+
+#: contrib/emvideo/providers/archive.inc:51 contrib/emvideo/providers/vimeo.inc:28 contrib/emvideo/providers/yahoomusic.inc:30 contrib/emvideo/providers/youtube.inc:36 hooks/emfield.php:50
+msgid "You may customize the player to enable or disable full screen playback. Full screen mode is enabled by default."
+msgstr ""
+
+#: contrib/emvideo/providers/archive.inc:55
+msgid "archive.org"
+msgstr ""
+
+#: contrib/emvideo/providers/archive.inc:57
+msgid "These settings specifically affect videos displayed from !archive. You can also read more about its !api."
+msgstr ""
+
+#: contrib/emvideo/providers/archive.inc:57
+msgid "Archive.com"
+msgstr ""
+
+#: contrib/emvideo/providers/archive.inc:57
+msgid "developer's API"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:23
+msgid "When displaying in an RSS feed, these videos will be attached to the feed. (The feed reader or aggregator must support enclosure tags.)"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:28
+msgid "Blip.tv"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:30
+msgid "These settings specifically affect videos displayed from <a href=\"@provider\" target=\"_blank\">Blip.tv</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36;37
+msgid "No video"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Flash Video"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Override tag"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Web"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Web High Resolution"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Portable (iPod)"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Portable (other)"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Television"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "HDTV"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Cell Phone"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:36
+msgid "Source"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37
+msgid "Flash video (flv)"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37
+msgid "Quicktime Movie (mov)"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37
+msgid "MP3"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37
+msgid "m4a"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37
+msgid "MPEG"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37
+msgid "mp4"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37
+msgid "m4v"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:37 contrib/emvideo/providers/zzz_custom_url.inc:32
+msgid "Windows Media (wmv)"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:42
+msgid "Video formats"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:43
+msgid "Blip.TV allows users to upload videos of various formats, sizes, and qualities. These options will allow the administrator to choose the default video formats to display. Blip.TV uses 'tags' to determine this, such as 'Web' for a standard web resolution, and 'HDTV' for a high definition. If you select a tag, then the video format provided by Blip.TV for that tag will be displayed. If you select 'Override tag', then you may specify that the first available video of the given format will be displayed instead, which may or may not have your desired resolution. If a tag or format is not available for a specific video, the module will display the Flash video format instead, which is always present."
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:49
+msgid "RSS"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:50
+msgid "This will determine the preferred video format for RSS feeds."
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:57
+msgid "RSS full page tag"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:58
+msgid "When RSS feeds are displayed, and this tag is available for a video, then the clip for that tag will be displayed as an enclosure tag in the feed. Select 'Override tag' if you wish to control the format displayed. Select 'No video' if you do not wish a video to be displayed in RSS feeds."
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:64
+msgid "RSS full page format override"
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:65
+msgid "When RSS feeds are displayed, and the 'Override tag' option is selected above, then this format will be displayed as an enclosure tag in the feed."
+msgstr ""
+
+#: contrib/emvideo/providers/bliptv.inc:77
+msgid "Please do not use the Embed Code from Blip.TV. You must instead paste the URL from the video page."
+msgstr ""
+
+#: contrib/emvideo/providers/dailymotion.inc:26
+msgid "Although thumbnails are generated, they are restricted to a size of 160x120."
+msgstr ""
+
+#: contrib/emvideo/providers/dailymotion.inc:30
+msgid "Dailymotion"
+msgstr ""
+
+#: contrib/emvideo/providers/dailymotion.inc:32
+msgid "These settings specifically affect videos displayed from <a href=\"@dailymotion\" target=\"_blank\">Dailymotion</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/google.inc:23 contrib/emwave/providers/google.inc:27
+msgid "Google"
+msgstr ""
+
+#: contrib/emvideo/providers/google.inc:25
+msgid "These settings specifically affect videos displayed from <a href=\"@google\" target=\"_blank\">Google</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/google.inc:34
+msgid "Google video domain"
+msgstr ""
+
+#: contrib/emvideo/providers/google.inc:36
+msgid "Google hosts their videos on various servers throughout the world. By default, videos from Google will be displayed from the United States, at their google.<b><em>com</em></b> servers. If you wish to display the video from another Google server, please enter the domain here, without the initial dot. For instance, you might enter <b><em>it</em></b> for the Italian Google servers at google.it, or <b><em>ca</em></b> for their Canadian servers."
+msgstr ""
+
+#: contrib/emvideo/providers/google.inc:86
+msgid "Your browser is not able to display this multimedia content."
+msgstr ""
+
+#: contrib/emvideo/providers/guba.inc:18
+msgid "GUBA"
+msgstr ""
+
+#: contrib/emvideo/providers/guba.inc:20
+msgid "These settings specifically affect videos displayed from <a href=\"@guba\" target=\"_blank\">GUBA</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:13 contrib/emvideo/providers/twistage.inc:16 contrib/emvideo/providers/youtube.inc:32;57
+msgid "Show related videos"
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:13 contrib/emvideo/providers/youtube.inc:32
+msgid "This is embedded in the video itself when enabled; currently not available with other providers. Set the feature above."
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:14
+msgid "May not currently resize thumbnails. Must have an API key for thumbnails at the moment, although research is underway to determine an alternative to this. Set your API key above."
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:18
+msgid "IMEEM"
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:20
+msgid "These settings specifically affect videos displayed from <a href=\"@imeem\" target=\"_blank\">IMEEM</a>. You can learn more about its <a href=\"@api\" target=\"_blank\">API</a> here."
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:28
+msgid "IMEEM API"
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:29
+msgid "If you wish to be able to display IMEEM thumbnails automatically, you will first need to apply for an API Developer Key from the <a href=\"@imeem\" target=\"_blank\">IMEEM Developer Profile page</a>. Note that you do not need this key to display IMEEM videos themselves."
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:35
+msgid "IMEEM API Key"
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:37
+msgid "Please enter your IMEEM Developer Key here."
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:41
+msgid "IMEEM API Secret"
+msgstr ""
+
+#: contrib/emvideo/providers/imeem.inc:43
+msgid "If you have a secret for the IMEEM API, enter it here."
+msgstr ""
+
+#: contrib/emvideo/providers/lastfm.inc:30
+msgid "Last.fm"
+msgstr ""
+
+#: contrib/emvideo/providers/lastfm.inc:32
+msgid "These settings specifically affect videos displayed from <a href=\"@lastfm\" target=\"_blank\">Last.fm</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/livevideo.inc:33
+msgid "Live Video"
+msgstr ""
+
+#: contrib/emvideo/providers/livevideo.inc:35
+msgid "These settings specifically affect videos displayed from <a href=\"@livevideo\" target=\"_blank\">Live Video</a>. You can learn more about its <a href=\"@api\" target=\"_blank\">API</a> here."
+msgstr ""
+
+#: contrib/emvideo/providers/livevideo.inc:49
+msgid "Live Video API"
+msgstr ""
+
+#: contrib/emvideo/providers/livevideo.inc:50
+msgid "If you wish to be able to display Live Video thumbnails automatically, you will first need to apply for an API Developer Key from the <a href=\"@livevideo\" target=\"_blank\">Live Video Developer Profile page</a>. Note that you do not need this key to display Live Video videos themselves."
+msgstr ""
+
+#: contrib/emvideo/providers/livevideo.inc:56
+msgid "Live Video API Key"
+msgstr ""
+
+#: contrib/emvideo/providers/livevideo.inc:58
+msgid "Please enter your Live Video Developer Key here."
+msgstr ""
+
+#: contrib/emvideo/providers/metacafe.inc:19
+msgid "MetaCafe"
+msgstr ""
+
+#: contrib/emvideo/providers/metacafe.inc:21
+msgid "These settings specifically affect videos displayed from <a href=\"@provider\" target=\"_blank\">MetaCafe</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/myspace.inc:22
+msgid "MySpace"
+msgstr ""
+
+#: contrib/emvideo/providers/myspace.inc:24
+msgid "These settings specifically affect videos displayed from <a href=\"@provider\" target=\"_blank\">MySpace</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:14
+msgid "Affliate program"
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:14
+msgid "Not currently supported by other providers. Set affiliate ID above."
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:17
+msgid "May not currently resize thumbnails, but this will be easy to add. Meanwhile, you can override theme_emvideo_revver_thumbnail if you have a pressing need for this and know how to theme."
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:21
+msgid "Revver"
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:23
+msgid "These settings specifically affect videos displayed from <a href=\"@provider\" target=\"_blank\">Revver</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:32
+msgid "Revver affiliate program"
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:33
+msgid "You may share ad revenue if you publish Revver videos through their <a href=\"@program\" target=\"_blank\">Affiliate Program</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:39
+msgid "Revver associate key"
+msgstr ""
+
+#: contrib/emvideo/providers/revver.inc:41
+msgid "If you have a Revver Affiliate ID, you may enter it here. This is not required for viewing videos, but will give you proper credit when doing so. You can find your Affiliate ID by examining the URL of a video while logged into their site."
+msgstr ""
+
+#: contrib/emvideo/providers/sevenload.inc:28
+msgid "Sevenload"
+msgstr ""
+
+#: contrib/emvideo/providers/sevenload.inc:30
+msgid "These settings specifically affect videos displayed from <a href=\"@provider\" target=\"_blank\">Sevenload</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/spike.inc:13;15
+msgid "In the works..."
+msgstr ""
+
+#: contrib/emvideo/providers/spike.inc:19
+msgid "Spike TV"
+msgstr ""
+
+#: contrib/emvideo/providers/spike.inc:21
+msgid "These settings specifically affect videos displayed from <a href=\"@spike\" target=\"_blank\">Spike TV</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/tudou.inc:30
+msgid "Tudou"
+msgstr ""
+
+#: contrib/emvideo/providers/tudou.inc:32
+msgid "These settings specifically affect videos displayed from <a href=\"@tudou\" target=\"_blank\">Tudou</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:15
+msgid "Provides the main asset of the video in the RSS enclosure."
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:17
+msgid "Allows customized sizing of thumbnail images."
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:21
+msgid "Twistage"
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:23
+msgid "These settings specifically affect videos displayed from <a href=\"@twistage\" target=\"_blank\">Twistage</a>. You can learn more about its <a href=\"@api\" target=\"_blank\">API</a> here."
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:34
+msgid "Twistage Settings"
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:41
+msgid "Player Profile"
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:43
+msgid "If desired, enter the player profile to use for videos."
+msgstr ""
+
+#: contrib/emvideo/providers/twistage.inc:48
+msgid "Allow Fullscreen"
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:21
+msgid "UStream.TV"
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:31 contrib/emvideo/providers/ustreamlive.inc:31
+msgid "These settings specifically affect videos displayed from !ustream. You can learn more about its !api here."
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:31 contrib/emvideo/providers/ustreamlive.inc:31
+msgid "API"
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:45 contrib/emvideo/providers/ustreamlive.inc:45
+msgid "UStream.TV API"
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:46
+msgid "The API is required for thumbnails and other features.You will first need to apply for an API Developer Key from the !ustream."
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:46 contrib/emvideo/providers/ustreamlive.inc:46
+msgid "Ustream Application Registration page"
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:52 contrib/emvideo/providers/ustreamlive.inc:52
+msgid "UStream.TV API Key"
+msgstr ""
+
+#: contrib/emvideo/providers/ustream.inc:54 contrib/emvideo/providers/ustreamlive.inc:54
+msgid "Please enter your UStream.TV API Key here."
+msgstr ""
+
+#: contrib/emvideo/providers/ustreamlive.inc:21
+msgid "UStream.TV (Live Streams)"
+msgstr ""
+
+#: contrib/emvideo/providers/ustreamlive.inc:46
+msgid "The API is required for thumbnails and other features.You will first need to apply for an API Developer Key from the !ustreamlive."
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:26
+msgid "Custom player color"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:26
+msgid "You may customize the player's skin by choosing your own color."
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:27
+msgid "You may select the size of thumbnail to request from Vimeo."
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:32
+msgid "Vimeo"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:34
+msgid "These settings specifically affect videos displayed from <a href=\"@provider\" target=\"_blank\">Vimeo</a>. You can learn more about its <a href=\"@api\" target=\"_blank\">API</a> here. (You no longer need a key for any current supported features.)"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:48
+msgid "Embedded video player color"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:49
+msgid "If allowed, this color, in hexidecimal form (#RRGGBB), will be used to change the skin of the Vimeo player."
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:55
+msgid "Override player color"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:60
+msgid "Color"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:65 contrib/emvideo/providers/yahoomusic.inc:82 contrib/emvideo/providers/youtube.inc:103
+msgid "Embedded video player options"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:71
+msgid "On-screen info"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:74
+msgid "Show video author's portrait"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:75
+msgid "Show video title"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:76
+msgid "Show byline"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:78
+msgid "Provide additional video information on the Vimeo player."
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:82 contrib/emvideo/providers/yahoomusic.inc:88 contrib/emvideo/providers/youtube.inc:109
+msgid "Allow fullscreen"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:84 contrib/emvideo/providers/yahoomusic.inc:90 contrib/emvideo/providers/youtube.inc:111
+msgid "Allow users to view video using the entire computer screen."
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:88
+msgid "Vimeo API Key"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:93
+msgid "Vimeo API Shared Secret"
+msgstr ""
+
+#: contrib/emvideo/providers/vimeo.inc:98
+msgid "Vimeo Thumbnail Size"
+msgstr ""
+
+#: contrib/emvideo/providers/voicethread.inc:18
+msgid "VoiceThread"
+msgstr ""
+
+#: contrib/emvideo/providers/voicethread.inc:23 contrib/emvideo/providers/youtube.inc:35
+msgid "Custom player colors"
+msgstr ""
+
+#: contrib/emvideo/providers/voicethread.inc:30
+msgid "These settings specifically affect videos displayed from !voicethread."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:34
+msgid "Yahoo! Music"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:36
+msgid "These settings specifically affect videos displayed from <a href=\"@yahoomusic\" target=\"_blank\">Yahoo Music</a>. You can learn more about its <a href=\"@api\" target=\"_blank\">API</a> here."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:50
+msgid "Yahoo! Music API"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:51
+msgid "You will first need to apply for a Yahoo App ID from the <a href=\"@yahoomusic\" target=\"_blank\">Yahoo! Developer Network</a>."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:57
+msgid "Yahoo! App ID"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:59
+msgid "Please enter your Yahoo! App ID here."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:63
+msgid "Locale"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:66
+msgid "United States"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:67
+msgid "United States (Español)"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:68
+msgid "Canada"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:69
+msgid "Mexico"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:70
+msgid "Australia"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:71
+msgid "New Zealand"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:72
+msgid "United Kingdom"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:73
+msgid "Germany"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:74
+msgid "Spain"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:75
+msgid "Italy"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:76
+msgid "France"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:78
+msgid "If your application is designed for use by a web site or service in a particular country, Yahoo! Music requires that you use the locale for that country."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:94
+msgid "Enable Close"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:96
+msgid "Sets visibility of the close button; button action will throw a callback event of type \"close\"."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:100
+msgid "Enable Controls"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:102
+msgid "Enables the player controls."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:106
+msgid "Enable Info"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:108
+msgid "Sets visibility of the \"more info\" button."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:112
+msgid "Enable Intro"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:114
+msgid "Enables the intro \"Now Playing: ...\" component during the first few seconds of playback."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:118
+msgid "Enable Post Panel"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:120
+msgid "Enables the post panel; displayed after a clip completes playback."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:124
+msgid "Enable Pre Panel"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:126
+msgid "Enables the pre meta panel on player initialization when autoStart is disabled and a valid id has been passed into the player."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:130
+msgid "Enable Share"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:132
+msgid "Enables the Share panel."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:136 contrib/emwave/emwave.module:220
+msgid "Background Color"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:141
+msgid "Bandwidth"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:143
+msgid "Used to force a bandwidth; if bw is not specified the player will attempt to determine the best video bitrate quality for the user."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:147
+msgid "Event Handler"
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:149
+msgid "Callback event handler that the player should make calls to."
+msgstr ""
+
+#: contrib/emvideo/providers/yahoomusic.inc:292
+msgid "Bad locale lookup request."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:35
+msgid "You may customize the player's skin by choosing your own colors, and/or border in that setting field set."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:37;154 hooks/emfield.php:51
+msgid "Use JW FLV Media Player"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:37
+msgid "You may opt to use the !flvplayer to play YouTube videos if it's installed on your server."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:41
+msgid "YouTube"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:43
+msgid "These settings specifically affect videos displayed from <a href=\"@youtube\" target=\"_blank\">YouTube</a>. You can learn more about its <a href=\"@api\" target=\"_blank\">API</a> here."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:59
+msgid "If checked, then when playing a video from YouTube, users may hover over the video to see thumbnails & links to related videos."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:63
+msgid "YouTube API"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:64
+msgid "This is not currently required. At some point, you may need to apply for an API Developer Key from the <a href=\"@youtube\" target=\"_blank\">YouTube Developer Profile page</a>. Note that you do not need this key to display YouTube videos or their thumbnails."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:70
+msgid "YouTube Developer Key"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:72
+msgid "Please enter your YouTube Developer Key here."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:76
+msgid "Embedded Video Player Colors"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:77
+msgid "If allowed, these two colors, in hexidecimal form (#RRGGBB), will be used to skin the YouTube player."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:83
+msgid "Override player colors"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:88
+msgid "Display border around player"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:93
+msgid "Color 1"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:98
+msgid "Color 2"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:115
+msgid "Use YouTube high quality content"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:117
+msgid "If checked, then a parameter will be set to request high quality content.  Note: Not all videos from youtube are available in high quality. Those that aren't will play in normal quality."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:121
+msgid "Remove titles and ratings on videos"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:123
+msgid "If checked, additional info, such as title and rating, will NOT be displayed on the YouTube player."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:133
+msgid "Color 1 picker"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:134;139
+msgid "Click in this textfield to start picking your color"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:138
+msgid "Color 2 picker"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:143
+msgid "The <a href=\"@colorpicker\">Colorpicker module</a>, if active, gives an easy way to select these colors."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:148
+msgid "JW FLV Media Player Options"
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:155
+msgid "If checked, and the server is properly configured, YouTube videos will be played using the !flvplayer."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:159
+msgid "You must first install the !flvplayer, preferably in your /sites/all/plugins folder."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:162
+msgid "You must have the yt.swf file installed in the same folder as your !flvplayer."
+msgstr ""
+
+#: contrib/emvideo/providers/youtube.inc:164
+msgid "!flvplayer is properly configured on your server, so may be used to play YouTube videos if desired."
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:24
+msgid "These settings specifically affect videos displayed from custom URLs. When a field uses a URL it determines to be a link directly to a video file, it will embed that file into the content."
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:33
+msgid "Windows Media (wma)"
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:34
+msgid "Flash (swf)"
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:35
+msgid "Flash Video (flv)"
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:36
+msgid "Quicktime (mov)"
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:37
+msgid "Quicktime (mp4)"
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:38
+msgid "Quicktime (m4v)"
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:39
+msgid "Real Media (rm)"
+msgstr ""
+
+#: contrib/emvideo/providers/zzz_custom_url.inc:47
+msgid "Select the video types you wish to support. When a custom url with that type is entered into an embedded video field, it will be parsed and displayed appropriately. If a type is not supported, then it will be ignored."
+msgstr ""
+
+#: contrib/emwave/emwave.module:39 contrib/emwave/emwave.info:0
+msgid "Embedded Wave Field"
+msgstr ""
+
+#: contrib/emwave/emwave.module:40
+msgid "The following settings configure content with any fields controlled by Embedded Wave Field."
+msgstr ""
+
+#: contrib/emwave/emwave.module:57
+msgid "Embedded Wave"
+msgstr ""
+
+#: contrib/emwave/emwave.module:102
+msgid "Full Size Wave"
+msgstr ""
+
+#: contrib/emwave/emwave.module:106
+msgid "Preview Size Wave"
+msgstr ""
+
+#: contrib/emwave/emwave.module:127
+msgid "3rd Party Wave"
+msgstr ""
+
+#: contrib/emwave/emwave.module:152
+msgid "These settings control how this wave is displayed in its full size, which defaults to @widthx@height. Note that if one of the dimensions is 0, then the wave will be resized to be no larger than the other dimension."
+msgstr ""
+
+#: contrib/emwave/emwave.module:160
+msgid "The width of the wave. It defaults to @width. Set it to 0 or blank if you want to leave the wave at its original aspect ratio."
+msgstr ""
+
+#: contrib/emwave/emwave.module:166
+msgid "The height of the wave. It defaults to @height. Set it to 0 or blank if you want to leave the wave at its original aspect ratio."
+msgstr ""
+
+#: contrib/emwave/emwave.module:172
+msgid "Where the wave will link when displayed in its full size. 'Content' links to the content page, 'provider' links to the provider's wave page, and 'none' displays the wave with no link."
+msgstr ""
+
+#: contrib/emwave/emwave.module:181
+msgid "Preview Settings"
+msgstr ""
+
+#: contrib/emwave/emwave.module:182
+msgid "These settings control how this wave is displayed in its preview size, which defaults to @widthx@height. Note that if one of the dimensions is 0, then the wave will be resized to be no larger than the other dimension."
+msgstr ""
+
+#: contrib/emwave/emwave.module:188
+msgid "Preview width"
+msgstr ""
+
+#: contrib/emwave/emwave.module:190
+msgid "The width of the wave preview. It defaults to @width. Set it to 0 or blank if you want to leave the wave at its original aspect ratio."
+msgstr ""
+
+#: contrib/emwave/emwave.module:194
+msgid "Preview height"
+msgstr ""
+
+#: contrib/emwave/emwave.module:196
+msgid "The height of the wave preview. It defaults to @height. Set it to 0 or blank if you want to leave the wave at its original aspect ratio."
+msgstr ""
+
+#: contrib/emwave/emwave.module:202
+msgid "Where the wave will link when displayed in its preview size. 'Content' links to the content page, 'provider' links to the provider's wave page, and 'none' displays the wave with no link."
+msgstr ""
+
+#: contrib/emwave/emwave.module:213
+msgid "Style Settings"
+msgstr ""
+
+#: contrib/emwave/emwave.module:214
+msgid "These settings control of look of the embedded wave."
+msgstr ""
+
+#: contrib/emwave/emwave.module:222
+msgid "The background color to use, e.g. 'white'"
+msgstr ""
+
+#: contrib/emwave/emwave.module:226
+msgid "Font Color"
+msgstr ""
+
+#: contrib/emwave/emwave.module:228
+msgid "The font color to use, e.g. 'black'"
+msgstr ""
+
+#: contrib/emwave/emwave.module:232
+msgid "Font"
+msgstr ""
+
+#: contrib/emwave/emwave.module:233
+msgid "The font to use, e.g. 'Arial'"
+msgstr ""
+
+#: contrib/emwave/emwave.module:238
+msgid "Font Size"
+msgstr ""
+
+#: contrib/emwave/emwave.module:240
+msgid "The font size to use in points(pt.), e.g. '12'."
+msgstr ""
+
+#: contrib/emwave/emwave.module:245
+msgid "Integration Settings"
+msgstr ""
+
+#: contrib/emwave/emwave.module:246
+msgid "**DISABLED FOR NOW**These settings control of level of integration with the embedded wave."
+msgstr ""
+
+#: contrib/emwave/emwave.module:252
+msgid "Participant Settings"
+msgstr ""
+
+#: contrib/emwave/emwave.module:253
+msgid "These settings control how other users interact with the embedded wave."
+msgstr ""
+
+#: contrib/emwave/emwave.module:255
+msgid "Anyone with permission to edit the node can add themselves to the wave."
+msgstr ""
+
+#: contrib/emwave/emwave.module:256
+msgid "Anyone with permission to comment on node can add themselves to the wave."
+msgstr ""
+
+#: contrib/emwave/emwave.module:263
+msgid "Comment Settings"
+msgstr ""
+
+#: contrib/emwave/emwave.module:264
+msgid "These settings control how comments interact with the embedded wave."
+msgstr ""
+
+#: contrib/emwave/emwave.module:266
+msgid "No Synchoronization"
+msgstr ""
+
+#: contrib/emwave/emwave.module:267
+msgid "Synchonized. Keep both the wave and the node's comments synchronized."
+msgstr ""
+
+#: contrib/emwave/emwave.module:268
+msgid "Add wave comments to node. Add all wave comments to this wave's node."
+msgstr ""
+
+#: contrib/emwave/emwave.module:269
+msgid "Add node commments to wave. Add all node comments to this wave."
+msgstr ""
+
+#: contrib/emwave/emwave.module:322
+msgid "Wave Id"
+msgstr ""
+
+#: contrib/emwave/emwave.module:323
+msgid "To embed this wave on your own site, simply copy and paste the html code from this text area."
+msgstr ""
+
+#: contrib/emwave/emwave.info:0
+msgid "Defines a field type for displaying waves from third party providers, such as Google or ..."
+msgstr ""
+
+#: contrib/emwave/providers/google.inc:29
+msgid "These settings specifically affect images displayed from <a href=\"@google\" target=\"_blank\">Google</a>."
+msgstr ""
+
+#: hooks/emfield.php:51
+msgid "You may opt to use the !flvplayer to play example.com videos if it's installed on your server."
+msgstr ""
+
+#: hooks/emfield.php:55
+msgid "Example.com"
+msgstr ""
+
+#: hooks/emfield.php:57
+msgid "These settings specifically affect videos displayed from <a href=\"@example\" target=\"_blank\">Example.com</a>."
+msgstr ""
+
+#: hooks/emfield.php:106
+msgid "That video no longer exists on example.com."
+msgstr ""
+
+#: includes/themes/emfield.themes.inc:45
+msgid "Sorry, you need to install flash to see this content."
+msgstr ""
+
+#: includes/views/handlers/emfield_handler_field_provider.inc:22
+msgid "Provider name"
+msgstr ""
+
+#: includes/views/handlers/emfield_handler_field_provider.inc:23
+msgid "Internal provider name"
+msgstr ""
+
+#: includes/views/handlers/emfield_handler_field_provider.inc:25
+msgid "URL to provider"
+msgstr ""
+
+#: includes/views/handlers/emfield_handler_field_provider.inc:26
+msgid "Link to original media"
+msgstr ""
+
+#: includes/views/handlers/emfield_handler_field_provider.inc:27
+msgid "URL to original media"
+msgstr ""
+
