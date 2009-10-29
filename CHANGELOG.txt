@@ -5,6 +5,12 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+#618272 by hutch: Fixed bug in emfield.php.
+
+================
+ DRUPAL-6--1-13
+================
+
 #612780 by cangeceiro: Fixed Error in emfield.php.
 
 ================

@@ -54,7 +54,7 @@ function EMMODULE_PROVIDER_info() {
     'provider' => 'example',
     'name' => t('Example.com'),
     'url' => 'http://example.com/',
-    'settings_description' => t('These settings specifically affect videos displayed from <a href="@example" target="_blank">Example.com</a>.', array('@example' => 'http://example.com'),
+    'settings_description' => t('These settings specifically affect videos displayed from <a href="@example" target="_blank">Example.com</a>.', array('@example' => 'http://example.com')),
     'supported_features' => $features,
   );
 }
