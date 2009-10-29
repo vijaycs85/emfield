@@ -119,7 +119,7 @@ function emvideo_lastfm_thumbnail($field, $item, $formatter, $node, $width, $hei
   // if we have a large thumbnail size, then get the larger version available.
   if ($width >= 320) {
     $tn = "http://userserve-ak.last.fm/serve/image:320/$lastfm_id.jpg";
-  } 
+  }
   else {
     $tn = "http://userserve-ak.last.fm/serve/image:160/$lastfm_id.jpg";
   }
@@ -142,7 +142,7 @@ function emvideo_lastfm_thumbnail($field, $item, $formatter, $node, $width, $hei
  *  @return
  *    the html of the embedded video
  */
-function emvideo_lastfm_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_lastfm_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_lastfm_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
@@ -163,7 +163,7 @@ function emvideo_lastfm_video($embed, $width, $height, $field, $item, &$node, $a
  *  @return
  *    the html of the embedded video
  */
-function emvideo_lastfm_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_lastfm_preview($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_lastfm_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

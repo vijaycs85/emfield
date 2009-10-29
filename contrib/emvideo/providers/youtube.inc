@@ -547,7 +547,7 @@ function emvideo_youtube_thumbnail($field, $item, $formatter, $node, $width, $he
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+function emvideo_youtube_video($code, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
   $options['item'] = $item;
   $options['node'] = $node;
   $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay, $options);
@@ -570,7 +570,7 @@ function emvideo_youtube_video($code, $width, $height, $field, $item, &$node, $a
  *  @return
  *    the html of the embedded video
  */
-function emvideo_youtube_preview($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+function emvideo_youtube_preview($code, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
   $options['item'] = $item;
   $options['node'] = $node;
   $output = theme('emvideo_youtube_flash', $code, $width, $height, $autoplay, $options);

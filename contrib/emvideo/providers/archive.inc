@@ -366,7 +366,7 @@ function emvideo_archive_thumbnail($field, $item, $formatter, $node, $width, $he
  *  @return
  *    The html of the embedded video.
  */
-function emvideo_archive_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_archive_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_archive_flash', $item, $width, $height, $autoplay);
   return $output;
 }
@@ -389,7 +389,7 @@ function emvideo_archive_video($embed, $width, $height, $field, $item, &$node, $
  *  @return
  *    The html of the embedded video.
  */
-function emvideo_archive_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_archive_preview($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_archive_flash', $item, $width, $height, $autoplay);
   return $output;
 }

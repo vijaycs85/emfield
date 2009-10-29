@@ -66,12 +66,12 @@ function emvideo_metacafe_thumbnail($field, $item, $formatter, $node, $width, $h
   return 'http://www.metacafe.com/thumb/'. $values[0] .'.jpg';
 }
 
-function emvideo_metacafe_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_metacafe_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_metacafe_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
-function emvideo_metacafe_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_metacafe_preview($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_metacafe_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

@@ -137,7 +137,7 @@ function emaudio_podcastalley_thumbnail($field, $item, $formatter, $node, $width
  * @return
  *   The html of the embedded audio.
  */
-function emaudio_podcastalley_audio($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emaudio_podcastalley_audio($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emaudio_podcastalley_flash', $embed, $width, $height, $autoplay);
 
   return $output;
@@ -161,7 +161,7 @@ function emaudio_podcastalley_audio($embed, $width, $height, $field, $item, &$no
  * @return
  *   The html of the embedded audio.
  */
-function emaudio_podcastalley_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emaudio_podcastalley_preview($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emaudio_podcastalley_flash', $embed, $width, $height, $autoplay);
 
   return $output;

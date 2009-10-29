@@ -430,7 +430,7 @@ function emvideo_yahoomusic_thumbnail($field, $item, $formatter, $node, $width, 
  *  @return
  *    the html of the embedded video
  */
-function emvideo_yahoomusic_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_yahoomusic_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_yahoomusic_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

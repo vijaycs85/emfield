@@ -239,14 +239,14 @@ function emvideo_zzz_custom_url_thumbnail($field, $item, $formatter, $node, $wid
   return '';
 }
 
-function emvideo_zzz_custom_url_video($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+function emvideo_zzz_custom_url_video($code, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
   $type = $item['data']['type'];
   $options['node'] = $node;
   $output = theme('emvideo_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item, $options);
   return $output;
 }
 
-function emvideo_zzz_custom_url_preview($code, $width, $height, $field, $item, &$node, $autoplay, $options = array()) {
+function emvideo_zzz_custom_url_preview($code, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
   $type = $item['data']['type'];
   $options['node'] = $node;
   $output = theme('emvideo_zzz_custom_url_embedded_video', $type, $code, $width, $height, $autoplay, $field, $item, $options);

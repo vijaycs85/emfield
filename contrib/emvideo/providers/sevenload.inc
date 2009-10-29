@@ -105,7 +105,7 @@ function theme_emvideo_sevenload_flash($embed, $width, $height) {
  *  @return
  *    the html of the embedded video
  */
-function emvideo_sevenload_video($embed, $width, $height, $field, $item, &$node) {
+function emvideo_sevenload_video($embed, $width, $height, $field, $item, $node) {
   $output = theme('emvideo_sevenload_flash', $embed, $width, $height);
   return $output;
 }
@@ -126,7 +126,7 @@ function emvideo_sevenload_video($embed, $width, $height, $field, $item, &$node)
  *  @return
  *    the html of the embedded video
  */
-function emvideo_sevenload_preview($embed, $width, $height, $field, $item, &$node) {
+function emvideo_sevenload_preview($embed, $width, $height, $field, $item, $node) {
   $output = theme('emvideo_sevenload_flash', $embed, $width, $height);
   return $output;
 }

@@ -131,7 +131,7 @@ function emaudio_podomatic_thumbnail($field, $item, $formatter, $node, $width, $
  *  @return
  *    the html of the embedded audio
  */
-function emaudio_podomatic_audio($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emaudio_podomatic_audio($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emaudio_podomatic_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
@@ -152,7 +152,7 @@ function emaudio_podomatic_audio($embed, $width, $height, $field, $item, &$node,
  *  @return
  *    the html of the embedded audio
  */
-function emaudio_podomatic_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emaudio_podomatic_preview($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emaudio_podomatic_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

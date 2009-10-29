@@ -65,12 +65,12 @@ function emvideo_spike_thumbnail($field, $item, $formatter, $node, $width, $heig
   return 'http://img1.ifilmpro.com/resize/image/stills/films/resize/istd/'. $picturelink .'.jpg?width='. $width;
 }
 
-function emvideo_spike_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_spike_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_spike_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
-function emvideo_spike_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_spike_preview($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_spike_flash', $embed, $width, $height, $autoplay);
   return $output;
 }

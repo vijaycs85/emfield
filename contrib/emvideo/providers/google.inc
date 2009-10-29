@@ -200,12 +200,12 @@ function emvideo_google_thumbnail($field, $item, $formatter, $node, $width, $hei
   return NULL;
 }
 
-function emvideo_google_video($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_google_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_google_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
 
-function emvideo_google_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_google_preview($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_google_flash', $embed, $width, $height, $autoplay);
   return $output;
 }
