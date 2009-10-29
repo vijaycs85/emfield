@@ -678,62 +678,64 @@ function emthumb_theme() {
       'arguments' => array('element' => NULL),
     ),
   );
-  foreach (imagecache_presets() as $preset) {
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_default'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_default',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_linked'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_linked',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_imagelink'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_imagelink',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_path'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_path',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_url'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_url',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_providerlink'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_provider_link',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_full'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_full',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_preview'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_preview',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_thickbox'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_thickbox',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_lightbox2'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_lightbox2',
-      'file' => 'emthumb.theme.inc',
-    );
-    $themes['emthumb_formatter_'. $preset['presetname'] .'_shadowbox'] = array(
-      'arguments' => array('element' => NULL),
-      'function' => 'theme_emthumb_imagecache_formatter_shadowbox',
-      'file' => 'emthumb.theme.inc',
-    );
+  if (module_exists('imagecache')) {
+    foreach (imagecache_presets() as $preset) {
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_default'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_default',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_linked'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_linked',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_imagelink'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_imagelink',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_path'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_path',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_url'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_url',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_providerlink'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_provider_link',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_full'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_full',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_preview'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_preview',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_thickbox'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_thickbox',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_lightbox2'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_lightbox2',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_shadowbox'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_shadowbox',
+        'file' => 'emthumb.theme.inc',
+      );
+    }
   }
   return $themes;
 }
@@ -808,7 +810,7 @@ function theme_emthumb_widget($element) {
  */
 function emthumb_field_formatter_info() {
   $formatters = array();
-  if (!function_exists('imagecache_presets')) {
+  if (!module_exists('imagecache')) {
     return $formatters;
   }
   $field_types = array('emvideo', 'emimage', 'emaudio');

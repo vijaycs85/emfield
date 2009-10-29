@@ -5,6 +5,12 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+by aaron: Make imagecache requirement conditional.
+
+================
+ DRUPAL-6--1-13
+================
+
 #356511 | #593760 by aaron: Add imagecache support.
 
 ================
