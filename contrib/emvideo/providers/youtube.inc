@@ -477,10 +477,19 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       // See http://www.w3.org/TR/WCAG10-HTML-TECHS/#text-equivs-multimedia.
       unset($tn_options['return_url']);
       $noembed = theme('emvideo_video_thumbnail', NULL, $options['item'], 'emvideo_thumbnail', $options['node'], TRUE, $tn_options);
-
+      $flv_path = url($flv_path);
       $flashvars = drupal_query_string_encode($flashvars);
+      // Use object tags rather than embed.
+      // See http://www.alistapart.com/articles/flashsatay
       $output = <<<FLV
-        <div id="$div_id"><embed src="$url" width="$width" height="$height" allowscriptaccess="always" wmode="transparent" allowfullscreen="$fullscreen_value" flashvars="$flashvars" /><NOEMBED>$noembed</NOEMBED></div>
+        <div id="$div_id">
+          <object
+            type="application/x-shockwave-flash" data="$flv_path"
+            width="$width" height="$height">
+            <param name="movie" value="$flv_path" />
+            <param name="flashvars" value="$flashvars" />
+          </object>
+        </div>
 FLV;
     }
     else {
