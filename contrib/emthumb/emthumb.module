@@ -18,6 +18,7 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
     case 'validate':
       if ($field['multiple']) {
         foreach ($items as $delta => $item) {
+          // @TODO: This has to be buggy... Need to test and fix this!
           $items[$delta]['data'] = $list['provider'];
         }
       }
