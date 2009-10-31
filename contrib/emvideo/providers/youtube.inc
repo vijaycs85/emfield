@@ -478,7 +478,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
       unset($tn_options['return_url']);
       $noembed = theme('emvideo_video_thumbnail', NULL, $options['item'], 'emvideo_thumbnail', $options['node'], TRUE, $tn_options);
       $flv_path = url($flv_path);
-      $flashvars = drupal_query_string_encode($flashvars);
+      $flashvars = check_plain(drupal_query_string_encode($flashvars));
       // Use object tags rather than embed.
       // See http://www.alistapart.com/articles/flashsatay
       $output = <<<FLV
