@@ -5,6 +5,12 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Add name to youtube object w/ raw flvmediaplayer to avoid IE error.
+
+================
+ DRUPAL-6--1-15
+================
+
 by aaron: Valid W3 code for youtube flashparams when using w/ flv player.
 
 ================

@@ -485,7 +485,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
         <div id="$div_id">
           <object
             type="application/x-shockwave-flash" data="$flv_path"
-            width="$width" height="$height">
+            width="$width" height="$height" id="$id">
             <param name="movie" value="$flv_path" />
             <param name="flashvars" value="$flashvars" />
             $noembed
@@ -499,7 +499,7 @@ FLV;
       $output = theme('emvideo_youtube_default_external', $height, $width, $url, $id, $div_id, $fullscreen_value, $flashvars);
     }
   }
-  return $output;
+  return '<div class="emfield-emvideo emfield-emvideo-youtube">'. $output .'</div>';
 }
 
 /**
