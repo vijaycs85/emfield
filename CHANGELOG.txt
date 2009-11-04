@@ -5,6 +5,12 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+#621792 by aaron: Fix space after youtube link.
+
+==============
+ DRUPAL-6--15
+==============
+
 #618272 by hutch: Fixed bug in emfield.php.
 
 ================
