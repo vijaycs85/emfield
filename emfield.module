@@ -270,12 +270,12 @@ function emfield_parse_embed($field, $embed = '', $module) {
 //     $module = $field['widget']['helper_module'];
     $providers = emfield_allowed_providers($field, $module);
     foreach ($providers as $provider) {
-      $success = emfield_include_invoke($module, $provider->name, 'extract', $embed, $field);
+      $success = emfield_include_invoke($module, $provider->name, 'extract', trim($embed), $field);
       // we've been given an array of regex strings, so let's see if we can find a match
       if (is_array($success)) {
         foreach ($success as $regex) {
           $matches = NULL;
-          if (preg_match($regex, $embed, $matches)) {
+          if (preg_match($regex, trim($embed), $matches)) {
             return array('provider' => $provider->name, 'value' => $matches[1]);
           }
         }
