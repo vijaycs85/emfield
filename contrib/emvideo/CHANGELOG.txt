@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#601944 by aaron: Fix EM Video 1.4 -> 1.11 update stuck.
 by aaron: Add name to youtube object w/ raw flvmediaplayer to avoid IE error.
 
 ================
