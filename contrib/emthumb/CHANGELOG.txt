@@ -5,6 +5,12 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+#605708 by aaron: add message to readme re. allow_url_fopen requirement.
+
+================
+ DRUPAL-6--1-15
+================
+
 by aaron: Make imagecache requirement conditional.
 
 ================
