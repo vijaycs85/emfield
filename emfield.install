@@ -187,7 +187,12 @@ function _emfield_update_fix_data($field, $providers = array(), $old_data_keys =
   }
 
   // Work our way through the field values 50 rows at a time.
-  $limit = 50;
+  // Note that if PHP times out here, you can set the
+  // emfield_install_fix_data_rows variable in settings.php to a lower number.
+  // If you get this error, please report it so we can find a better limit
+  // to work with; I'm not sure if this value will work in the majority of
+  // cases. Thanks, Aaron.
+  $limit = variable_get('emfield_install_fix_data_rows', 50);
   if (empty($context['sandbox']['providers'])) {
     $result = db_query_range("SELECT * FROM {{$context['sandbox']['table']}} WHERE vid > %d ORDER BY vid ASC", $context['sandbox']['current_node'], 0, $limit);
   }
