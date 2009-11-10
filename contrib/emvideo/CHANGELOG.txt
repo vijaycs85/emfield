@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Add Kitten Killers to YouTube devel generate...
 #601944 by aaron: Fix EM Video 1.4 -> 1.11 update stuck.
 by aaron: Add name to youtube object w/ raw flvmediaplayer to avoid IE error.
 

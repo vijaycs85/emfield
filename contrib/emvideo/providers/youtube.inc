@@ -614,5 +614,6 @@ function emvideo_youtube_content_generate() {
     'http://www.youtube.com/watch?v=B3qxki6H8Fk',
     'http://www.youtube.com/watch?v=Rsaw5NuFIto',
     'http://www.youtube.com/watch?v=J3CaN-g5mQQ',
+    'http://www.youtube.com/watch?v=L2pXcNu4GRo',
   );
 }
