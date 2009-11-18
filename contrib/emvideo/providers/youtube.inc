@@ -488,6 +488,7 @@ function theme_emvideo_youtube_flash($code, $width, $height, $autoplay, $options
             width="$width" height="$height" id="$id">
             <param name="movie" value="$flv_path" />
             <param name="flashvars" value="$flashvars" />
+            <param name="wmode" value="transparent" />
             $noembed
           </object>
         </div>
