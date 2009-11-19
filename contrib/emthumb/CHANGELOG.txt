@@ -5,6 +5,7 @@
  *  Changelog for Embedded Thumbnail Field.
  */
 
+#611684 by jcarnett: Fix "Allow custom thumbnails for this field".
 #605708 by aaron: add message to readme re. allow_url_fopen requirement.
 
 ================

@@ -308,26 +308,29 @@ function emthumb_emfield_widget_extra_file_included() {
  */
 function emthumb_emfield_widget_extra(&$form, &$form_state, $field, $items, $delta = 0, $module) {
   $element = array();
-  // Construct the thumbnail fieldset with the custom label.
-  $emthumb_label = isset($field['widget']['emthumb_label']) ? $field['widget']['emthumb_label'] : (isset($field['widget']['label']) ? t('@field custom thumbnail', array('@field' => $field['widget']['label'])) : t('Custom thumbnail'));
-  $element['emthumb'] = array(
-    '#type' => 'fieldset',
-    '#title' => $emthumb_label,
-    '#collapsible' => TRUE,
-    '#collapsed' => ($field['widget']['emthumb_start_collapsed']),
-    '#tree' => TRUE,
-  );
-  if (isset($field['widget']['emthumb_weight'])) {
-    $element['emthumb']['#weight'] = $field['widget']['emthumb_weight'];
+  if (isset($field['widget']['emthumb']) && $field['widget']['emthumb']) {
+    // Construct the thumbnail fieldset with the custom label.
+    $emthumb_label = isset($field['widget']['emthumb_label']) ? $field['widget']['emthumb_label'] : (isset($field['widget']['label']) ? t('@field custom thumbnail', array('@field' => $field['widget']['label'])) : t('Custom thumbnail'));
+    $element['emthumb'] = array(
+      '#type' => 'fieldset',
+      '#title' => $emthumb_label,
+      '#collapsible' => TRUE,
+      '#collapsed' => ($field['widget']['emthumb_start_collapsed']),
+      '#tree' => TRUE,
+    );
+    if (isset($field['widget']['emthumb_weight'])) {
+      $element['emthumb']['#weight'] = $field['widget']['emthumb_weight'];
+    }
+    $element['emthumb']['emthumb'] = array(
+      '#type' => 'emthumb_widget',
+      '#title' => t('New upload'),
+      '#field' => $field,
+      '#fieldname' => $field['field_name'],
+      '#items' => $items,
+      '#delta' => $delta,
+    );
+
   }
-  $element['emthumb']['emthumb'] = array(
-    '#type' => 'emthumb_widget',
-    '#title' => t('New upload'),
-    '#field' => $field,
-    '#fieldname' => $field['field_name'],
-    '#items' => $items,
-    '#delta' => $delta,
-  );
   return $element;
 }
 
