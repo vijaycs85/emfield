@@ -60,7 +60,7 @@ function emvideo_tudou_extract($embed = '') {
   // <object width="400" height="300"><param name="movie" value="http://www.tudou.com/v/uprLNXyEGpc"></param><param name="allowScriptAccess" value="always"></param><param name="wmode" value="transparent"></param><embed src="http://www.tudou.com/v/uprLNXyEGpc" type="application/x-shockwave-flash" width="400" height="300" allowFullScreen="true" wmode="transparent" allowScriptAccess="always"></embed></object>
   return array(
     '@tudou\.com/programs/view/([^"\&/]+)@i',
-    '@value="http\://www\.tudou\.com/v/([^"\&/]+)@i'
+    '@tudou\.com/v/([^"\&/]+)@i',
   );
 }
 

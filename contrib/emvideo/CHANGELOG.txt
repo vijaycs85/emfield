@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#612406 by cityreader: Fix RegEx pattern bug in provider Tudou.
 by aaron: Add wmode transparent to YouTube w/ raw flvplayer.
 by aaron: Add Kitten Killers to YouTube devel generate...
 #601944 by aaron: Fix EM Video 1.4 -> 1.11 update stuck.
