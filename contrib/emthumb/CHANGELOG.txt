@@ -5,6 +5,10 @@
  * Changelog for Embedded Thumbnail Field.
  */
 
+================
+ DRUPAL-6--1-18
+================
+
 #638758 by andrewlevine: Fixes and improvements to emthumb.
 
 ================

@@ -5,6 +5,10 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+================
+ DRUPAL-6--1-18
+================
+
 #612406 by cityreader: Fix RegEx pattern bug in provider Tudou.
 by aaron: Add wmode transparent to YouTube w/ raw flvplayer.
 by aaron: Add Kitten Killers to YouTube devel generate...

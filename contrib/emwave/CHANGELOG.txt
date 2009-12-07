@@ -2,4 +2,8 @@
 
 CHANGELOG for Embedded Wave Field
 
+================
+ DRUPAL-6--1-18
+================
+
 #530526 by noahb: Add a new contrib project for emwave.

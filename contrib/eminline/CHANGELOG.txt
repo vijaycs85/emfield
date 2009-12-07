@@ -2,6 +2,10 @@
 
 CHANGELOG for Embedded Inline Media.
 
+================
+ DRUPAL-6--1-18
+================
+
 September 2009
 --------------
 by aaron: Add instructions to the README.txt file.
