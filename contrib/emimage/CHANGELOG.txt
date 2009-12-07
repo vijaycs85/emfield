@@ -1,5 +1,11 @@
 /* $Id$ */
 
+by aaron: Remove Flickr provider (replaced by Media: Flickr).
+
+=============
+ DRUPAL-6--2
+=============
+
 ================
  DRUPAL-6--1-18
 ================
