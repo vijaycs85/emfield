@@ -5,6 +5,14 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+by aaron: Allow administrator to remove warning message for missing providers.
+by aaron: Add message if attempting to enable missing provider.
+by aaron: Remove obsolete or missing providers.
+
+=============
+ DRUPAL-6--2
+=============
+
 ================
  DRUPAL-6--1-18
 ================

@@ -238,3 +238,14 @@ function emfield_reload($nid) {
     }
   }
 }
+
+function emfield_disable_obsolete_provider($module = NULL, $provider = NULL) {
+  if ($module && $provider) {
+    $providers = emfield_system_list($module, $provider, array('suppress_errors' => TRUE));
+    if (!isset($providers[$provider])) {
+      variable_set('emfield_'. $module .'_allow_'. $provider, FALSE);
+      drupal_set_message(t('The message regarding the missing or obsolete Embedded Media Field %provider provider file has been disabled. Note that if you decide in the future to install the provider, you will need to re-enable it at the !admin page.', array('%provider' => $provider, '!admin' => l(t('Embedded Media Field configuration'), 'admin/content/emfield'))));
+    }
+  }
+  drupal_goto($_GET['destination']);
+}

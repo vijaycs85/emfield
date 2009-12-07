@@ -27,6 +27,13 @@ function emfield_menu() {
     'access arguments' => array('administer site configuration'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
+  $items['admin/content/emfield/obsolete'] = array(
+    'file' => 'emfield.admin.inc',
+    'title' => 'Disable obsolete provider',
+    'page callback' => 'emfield_disable_obsolete_provider',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
 
   if (module_exists('job_queue')) {
     $items['admin/content/emfield/reload'] = array(
@@ -515,21 +522,33 @@ function emfield_set_error($error) {
  *
  * @param $provider
  *   Optional; name of the passed $provider to find (e.g. "youtube", "google", etc.).
- * @param $load
- *   Defaults to TRUE; whether to include matching files into memory.
  * @return
  *   An array of file objects optionally matching $provider.
  */
-function emfield_system_list($module, $provider = NULL, $load = TRUE) {
+function emfield_system_list($module, $provider = NULL, $options = array()) {
   $override_files = module_invoke_all('emfield_providers', $module, $provider);
   $files = drupal_system_listing("$provider\.inc$", drupal_get_path('module', $module) ."/providers", 'name', 0);
   $files = array_merge($files, $override_files);
 
   ksort($files);
 
-  if ($load) {
-    foreach ($files as $file) {
-      emfield_include_list($file);
+  foreach ($files as $provider => $file) {
+    emfield_include_list($file);
+    if (!function_exists($module .'_'. $provider .'_info')) {
+      emfield_include_list($file, TRUE);
+      unset($files[$provider]);
+      if (function_exists($module .'_'. $provider .'_obsolete') && variable_get('emfield_'. $module .'_allow_'. $provider, TRUE)) {
+        if (isset($options['suppress_errors']) && $options['suppress_errors']) {
+          continue;
+        }
+        $error = t('Attempted to load obsolete provider: %provider at @file.', array('%provider' => $provider, '@file' => $file->filename));
+        emfield_set_error($error);
+        if (user_access('administer site configuration')) {
+          drupal_set_message($error, error);
+          call_user_func($module .'_'. $provider .'_obsolete');
+          drupal_set_message(t('You may also choose to !turn_off this warning about the missing or obsolete Embedded Media Field %provider provider file.', array('%provider' => $provider, '!turn_off' => l(t('turn off'), 'admin/content/emfield/obsolete/'. $module .'/'. $provider, array('query' => 'destination='. $_GET['q'])))), 'error');
+        }
+      }
     }
   }
 
@@ -541,15 +560,20 @@ function emfield_system_list($module, $provider = NULL, $load = TRUE) {
  *
  * @param $file
  *   Optional; a file object (from emfield_system_list()) to be included.
+ * @param $remove
+ *   Optional boolean; if TRUE, then remove the file from the list.
  * @return
  *   An array of all loaded includes (without the .inc extension).
  */
-function emfield_include_list($file = NULL) {
+function emfield_include_list($file = NULL, $remove = FALSE) {
   static $list = array();
 
   if ($file && !isset($list[$file->filename])) {
     include_once('./'. $file->filename);
     $list[$file->filename] = $file->name;
+  }
+  if ($file && $remove) {
+    unset($list[$file->filename]);
   }
 
   return $list;
