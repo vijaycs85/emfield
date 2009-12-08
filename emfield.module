@@ -881,7 +881,7 @@ function emfield_theme() {
  *    Optional; if TRUE, then we'll force a new load of the XML. Otherwise,
  *    a cached version will be retrieved if possible.
  *  @return
- *    A fully populated object, or FALSE on an error.
+ *    A fully populated and unserialized array, or FALSE on an error.
  */
 function emfield_retrieve_xml($url, $display_errors = FALSE, $refresh = FALSE) {
   module_load_include('inc', 'emfield', 'includes/emfield.xml');
