@@ -5,6 +5,8 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Remove archive.org provider in favor of Media: Archive.
+
 ================
  DRUPAL-6--1-18
 ================
