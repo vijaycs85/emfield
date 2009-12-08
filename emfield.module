@@ -20,13 +20,37 @@ function emfield_menu() {
   );
   $items['admin/content/emfield/media'] = array(
     'file' => 'emfield.admin.inc',
-    'title' => 'Media settings',
+    'title' => 'General',
     'description' => 'Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('emfield_settings'),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -3,
   );
+  foreach (module_implements('emfield_info', TRUE) as $module) {
+    $emfield_info = module_invoke($module, 'emfield_info');
+    $items['admin/content/emfield/'. $module] = array(
+      'title' => $emfield_info['#settings_title'],
+      'description' => $emfield_info['#settings_description'],
+      'file' => 'emfield.admin.inc',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('emfield_module_settings', 3),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_LOCAL_TASK,
+    );
+  }
+/*  $items['admin/content/emfield/%emfield_module'] = array(
+    'title callback' => 'emfield_module_settings_title',
+    'title arguments' => array(3),
+    'description callback' => 'emfield_module_settings_description',
+    'description arguments' => array(3),
+    'file' => 'emfield.admin.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('emfield_module_settings', 3),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );*/
   $items['admin/content/emfield/obsolete'] = array(
     'file' => 'emfield.admin.inc',
     'title' => 'Disable obsolete provider',
@@ -44,6 +68,7 @@ function emfield_menu() {
       'page arguments' => array('emfield_settings_jobqueue'),
       'access arguments' => array('administer site configuration'),
       'type' => MENU_LOCAL_TASK,
+      'weight' => 3,
     );
   }
 
@@ -881,7 +906,7 @@ function emfield_theme() {
  *    Optional; if TRUE, then we'll force a new load of the XML. Otherwise,
  *    a cached version will be retrieved if possible.
  *  @return
- *    A fully populated and unserialized array, or FALSE on an error.
+ *    A fully populated object, or FALSE on an error.
  */
 function emfield_retrieve_xml($url, $display_errors = FALSE, $refresh = FALSE) {
   module_load_include('inc', 'emfield', 'includes/emfield.xml');

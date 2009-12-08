@@ -10,12 +10,29 @@
  * Implementation of hook_install().
  */
 function emfield_install() {
+  $success = drupal_install_schema('emfield');
+
+  if ($success) {
+    drupal_set_message(st('The Embedded Media Field module installed tables successfully.'));
+  }
+  else {
+    drupal_set_message(st('The installation of Embedded Media Field module failed.'), 'error');
+  }
 }
 
 /**
  * Implementation of hook_uninstall().
  */
 function emfield_uninstall() {
+  drupal_uninstall_schema('emfield');
+
+  // Remove all variables that live in our namespace.
+  $result = db_query("SELECT name FROM {variable} WHERE name LIKE 'emfield_%'");
+  while ($row = db_fetch_object($result)) {
+    variable_del($row->name);
+  }
+
+  drupal_set_message(t('Embedded Media Field has been uninstalled.'));
 }
 
 /**
@@ -28,6 +45,7 @@ function emfield_enable() {
  * Implementation of hook_disable().
  */
 function emfield_disable() {
+  cache_clear_all('*', 'cache_emfield_xml', TRUE);
 }
 
 /**
@@ -156,6 +174,28 @@ function emfield_update_6006() {
 }
 
 /**
+ *  Build a table to cache XML results.
+ */
+function emfield_update_6200() {
+  $schema = array();
+
+  $schema['cache_emfield_xml'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_emfield_xml']['description'] = 'Cache table used to store third party XML files for Embedded Media Field.';
+
+  $ret = array();
+  db_create_table($ret, 'cache_emfield_xml', $schema['cache_emfield_xml']);
+  return $ret;
+}
+
+/**
+ *  Rebuild menu for new admin settings pages.
+ */
+function emfield_update_6201() {
+  menu_rebuild();
+  return array();
+}
+
+/**
  *  Batch function to retrieve the most recent data from providers.
  *
  *  @param $field
@@ -243,4 +283,16 @@ function _emfield_update_fix_data($field, $providers = array(), $old_data_keys =
   else {
     $context['finished'] = 1;
   }
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function emfield_schema() {
+  $schema = array();
+
+  $schema['cache_emfield_xml'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_emfield_xml']['description'] = 'Cache table used to store third party XML files for Embedded Media Field.';
+
+  return $schema;
 }

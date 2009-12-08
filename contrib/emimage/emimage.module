@@ -34,6 +34,7 @@ function emimage_menu() {
 function emimage_emfield_info() {
   return array(
     '#name' => t('Embedded Image Field'),
+    '#settings_title' => t('Images'),
     '#settings_description' => t('The following settings configure content with any fields controlled by Embedded Image Field.'),
   );
 }

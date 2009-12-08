@@ -5,6 +5,8 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+by aaron: Refactor admin forms to use vertical tabs when available.
+by aaron: Move module settings into their own pages.
 by aaron: Retrieve and cache XML docs using simplexml.
 by aaron: Create cache table to store retrieved XML documents.
 by aaron: Add new XML wrapper function.
