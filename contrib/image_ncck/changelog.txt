@@ -1,5 +1,8 @@
 /* $Id$ */
-2008-08-04 
+
+#373340 by aaron: Backport picasa provider extract function.
+
+2008-08-04
 #281334 - a_c_m added classes to images
 
 2008-07-02

@@ -68,11 +68,20 @@ function image_ncck_picasa_data($field, $item) {
 }
 
 function image_ncck_picasa_extract($embed = '') {
-  // http://picasaweb.google.com/kaos777/YearlyKos/photo#5119063656501095090
-  if (preg_match('!picasaweb\.google\.com/([^/]*)/([^/]*)/photo\#(.*)!i', $embed, $matches)) {
-    return $matches[3];
+  // Note that the API doesn't seem to support calls that don't include at
+  // least the User (though the Album seems to be optional).
+  // http://picasaweb.google.com/lh/photo/oVr_uf6LoEhUWOMOujA_lQ?feat=directlink
+  if (preg_match('@picasaweb\.google\.com/lh/(.+)@i', $embed, $matches)) {
+    return 'PICASA_ERROR_USER';
   }
-  return array();
+
+  // http://picasaweb.google.com/kaos777/YearlyKos/photo#5119063656501095090
+  // http://picasaweb.google.com/irina1005/qdihmG#5298825003004278162
+  // http://picasaweb.google.com/eugene.martov/1508?feat=featured#5381754383516490642
+  return array(
+    '@picasaweb\.google\.com/[^/]+/[^/]+/photo.*?#([^\&]+)@i',
+    '@picasaweb\.google\.com/[^/]+/[^/\?]+.*?#([^\&]+)@i',
+  );
 }
 
 /**
