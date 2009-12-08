@@ -5,6 +5,9 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+by aaron: Retrieve and cache XML docs using simplexml.
+by aaron: Create cache table to store retrieved XML documents.
+by aaron: Add new XML wrapper function.
 by aaron: Move module to the Media group.
 by aaron: Require PHP 5.2.
 by aaron: Allow administrator to remove warning message for missing providers.
