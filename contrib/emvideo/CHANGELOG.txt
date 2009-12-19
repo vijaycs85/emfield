@@ -5,6 +5,8 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#663836 by ressa: Fix typo in youtube.inc.
+
 ================
  DRUPAL-6--1-18
 ================
