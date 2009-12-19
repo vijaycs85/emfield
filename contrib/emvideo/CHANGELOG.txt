@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#663836 by ressa: Fix typo in youtube.inc.
 by aaron: Remove archive.org provider in favor of Media: Archive.
 
 ================

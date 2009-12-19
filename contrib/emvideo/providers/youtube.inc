@@ -511,7 +511,7 @@ function theme_emvideo_youtube_default_external($height, $width, $url, $id, $div
   $output = <<<FLASH
         <div id="$div_id"><object type="application/x-shockwave-flash" height="$height" width="$width" data="$url" id="$id">
           <param name="movie" value="$url" />
-          <param name="allowScriptAcess" value="sameDomain"/>
+          <param name="allowScriptAccess" value="sameDomain"/>
           <param name="quality" value="best"/>
           <param name="allowFullScreen" value="$fullscreen_value"/>
           <param name="bgcolor" value="#FFFFFF"/>
