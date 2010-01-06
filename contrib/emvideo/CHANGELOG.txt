@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+by aaron: Tweak spike's regex.
 by aaron: Fix spike's emvideo_PROVIDER_embedded_link.
 by aaron: Fix metacafe's emvideo_PROVIDER_embedded_link.
 #663836 by ressa: Fix typo in youtube.inc.
