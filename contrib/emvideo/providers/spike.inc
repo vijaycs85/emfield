@@ -41,7 +41,15 @@ function emvideo_spike_request($embed, $cacheable = TRUE) {
   return NULL;
 }
 
-function emvideo_spike_video_link($video_code) {
+/**
+ * hook emvideo_PROVIDER_embedded_link($video_code)
+ * returns a link to view the video at the provider's site.
+ *  @param $video_code
+ *    The string containing the video to watch.
+ *  @return
+ *    A string containing the URL to view the video at the original provider's site.
+ */
+function emvideo_spike_embedded_link($video_code) {
   return 'http://www.spike.com/video/'. $video_code;
 }
 
