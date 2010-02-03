@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#523860 by Rob Loach | mvc: Add plain video & image url to views.
 by aaron: Remove Flickr provider (replaced by Media: Flickr).
 
 =============
