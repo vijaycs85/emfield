@@ -5,6 +5,7 @@
  *  Changelog for Embedded Video Field (emvideo).
  */
 
+#372094 by Rob Loach | aaron: Experimental support for RTMP streaming servers.
 by aaron: Tweak spike's regex.
 by aaron: Fix spike's emvideo_PROVIDER_embedded_link.
 by aaron: Fix metacafe's emvideo_PROVIDER_embedded_link.

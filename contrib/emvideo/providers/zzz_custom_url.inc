@@ -116,7 +116,27 @@ function emvideo_zzz_custom_url_embedded_link($video_code) {
 }
 
 function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = FALSE, $field = NULL, $item = NULL, $options = array()) {
-  if ($url = url($url, array('absolute' => TRUE))) {
+  if (count($parts = explode('rtmp://', $url)) == 2) {
+    if (module_exists('flowplayer')) {
+      $config = array(
+        'clip' => array(
+          'autoPlay' => $autoplay,
+          'url' => $url,
+        ),
+        'plugins' => array(
+          'rtmp' => array(
+            'url' => drupal_get_path('module', 'flowplayer') .'/flowplayer/flowplayer.rtmp.swf',
+            'netConnectionUrl' => ,
+          ),
+        ),
+      );
+      $attributes = array(
+        'style' => "width:{$width}px;height:{$height}px;",
+      );
+      return theme('flowplayer', $config, 'emvideo-zzz-custom-url-embedded-video', $attributes);
+    }
+  }
+  else if ($url = url($url, array('absolute' => TRUE))) {
     if (module_exists('flowplayer')) {
       $config = array(
         'clip' => array(
