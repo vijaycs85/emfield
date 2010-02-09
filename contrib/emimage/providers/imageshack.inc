@@ -4,6 +4,8 @@
 /**
  * @file
  * This include processes imageshack.com image files for use by emfield.module.
+ *
+ * @TODO: Use imageshack's API? Requires letting web users know re hosting.
  */
 
 define('EMIMAGE_IMAGESHACK_MAIN_URL', 'http://www.imageshack.us/');
@@ -79,22 +81,23 @@ function emimage_imageshack_embedded_link($code, $data) {
 }
 
 /**
- *  implement emimage_PROVIDER_image_url
+ *  Implements emimage_PROVIDER_image_url.
  *
  *  @param $code
- *    the code of the image
- *  @param $data
- *    any stored data for the image, which may already have the title
+ *    The provider code of the image.
+ *  @param $width
+ *  @param $height
+ *    The dimensions of the photo to display.
  *  @return
- *    the url directly to the image to display
+ *    The url directly to the image to display.
  */
-function emimage_imageshack_image_url($code, $data) {
-  if (func_num_args() == 7) {
-    $arg = func_get_arg(5);
-    $code = &$arg['data']['file'];
-    $data = &$arg['data'];
+function emimage_imageshack_image_url($code, $width, $height, $formatter = NULL, $field = NULL, $item = NULL, $node = NULL) {
+  if (is_array($item)) {
+    $file = $item['data']['file'];
+    $data = $item['data'];
+    return "http://{$data['server']}.imageshack.us/{$data['a1']}/{$data['a2']}/{$file}";
   }
-  return "http://{$data['server']}.imageshack.us/{$data['a1']}/{$data['a2']}/{$code}";
+//   return _emimage_imageshack_scrape_image_url($code);
 }
 
 /**
@@ -116,17 +119,30 @@ function emimage_imageshack_image_title($code, $data) {
  *
  * @param String $url
  *   ImageShack page.
+ * @param boolean $reset
+ *   If TRUE, then reset the cache.
  * @return String
  *   ImageShack image URL.
  */
-function _emimage_imageshack_scrape_image_url($url) {
+function _emimage_imageshack_scrape_image_url($url, $reset = FALSE) {
   static $urls;
+
+  if (!isset($urls) || $reset) {
+    $urls = array();
+  }
+
   if (isset($urls[$url])) {
+    return $urls[$url];
+  }
+
+  if (!$reset && ($cache = cache_get('emimage:imageshack:'. $url))) {
+    $urls[$url] = $cache->data;
     return $urls[$url];
   }
 
   $html = file_get_contents($url);
   if (preg_match('!<img id="thepic" .+? src="(.+?)"!is', $html, $matches)) {
-    return $urls[$url] = $matches[1];
+    cache_set('emimage:imageshack:'. $url, $urls[$url] = $matches[1]);
+    return $urls[$url];
   }
 }
