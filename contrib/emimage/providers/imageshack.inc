@@ -94,10 +94,9 @@ function emimage_imageshack_embedded_link($code, $data) {
 function emimage_imageshack_image_url($code, $width, $height, $formatter = NULL, $field = NULL, $item = NULL, $node = NULL) {
   if (is_array($item)) {
     $file = $item['data']['file'];
-    $data = $item['data'];
+    $data = $item['data'] ? unserialize($arg['data']) : $arg['data'];
     return "http://{$data['server']}.imageshack.us/{$data['a1']}/{$data['a2']}/{$file}";
   }
-//   return _emimage_imageshack_scrape_image_url($code);
 }
 
 /**
