@@ -783,25 +783,12 @@ function emfield_provider_menus($module, $provider = NULL) {
 function emfield_flvmediaplayer_url($reset = FALSE) {
   static $path;
 
-  if (is_null($path) || $reset) {
+  if (!isset($path) || $reset) {
     if (module_exists('flvmediaplayer')) {
       $path = variable_get('flvmediaplayer_path', drupal_get_path('module', 'flvmediaplayer') .'/mediaplayer.swf');
     }
-    else if (is_null($path = variable_get('emfield_flvmediaplayer_url', NULL)) || (!$path && $reset)) {
-      global $base_path;
-      $path = '';
-      $files = drupal_system_listing('(^player-viral\.swf$|^player\.swf$|^mediaplayer\.swf$)', 'plugins', 'basename', 0);
-      if (!empty($files)) {
-        $file = array_pop($files);
-        $path = $file->filename;
-      }
-      else {
-        $files = drupal_system_listing('(^player-viral\.swf$|^player\.swf$|^mediaplayer\.swf$)', 'modules', 'basename', 0);
-        if (!empty($files)) {
-          $file = array_pop($files);
-          $path = $file->filename;
-        }
-      }
+    else if ($reset || ($path = variable_get('emfield_flvmediaplayer_url', NULL) && !$path)) {
+      $path = _emfield_autodiscover_path('(^player-viral\.swf$|^player\.swf$|^mediaplayer\.swf$)');
       variable_set('emfield_flvmediaplayer_url', $path);
     }
   }
@@ -817,25 +804,22 @@ function emfield_imagerotator_url($reset = FALSE) {
 
   if (is_null($path) || $reset) {
     if (is_null($path = variable_get('emfield_imagerotator_url', NULL)) || (!$path && $reset)) {
-      global $base_path;
-      $path = '';
-      $files = drupal_system_listing('(^imagerotator\.swf$)', 'plugins', 'basename', 0);
-      if (!empty($files)) {
-        $file = array_pop($files);
-        $path = $file->filename;
-      }
-      else {
-        $files = drupal_system_listing('(^imagerotator\.swf$)', 'modules', 'basename', 0);
-        if (!empty($files)) {
-          $file = array_pop($files);
-          $path = $file->filename;
-        }
-      }
+      $path = _emfield_autodiscover_path('(^imagerotator\.swf$)');
       variable_set('emfield_imagerotator_url', $path);
     }
   }
 
   return $path;
+}
+
+function _emfield_autodiscover_path($pattern) {
+  foreach (array('libraries', 'plugins', 'modules') as $folder) {
+    $files = drupal_system_listing($pattern, $folder, 'basename', 0);
+    if (!empty($files)) {
+      $file = array_pop($files);
+      return $file->filename;
+    }
+  }
 }
 
 /**
@@ -911,4 +895,61 @@ function emfield_theme() {
 function emfield_retrieve_xml($url, $display_errors = FALSE, $refresh = FALSE) {
   module_load_include('inc', 'emfield', 'includes/emfield.xml');
   return _emfield_retrieve_xml($url, $display_errors, $refresh);
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function emfield_init() {
+  global $emfield_registered_classes;
+
+  // Build our game object class registry.
+  foreach (module_implements('emfield_register') as $module) {
+    foreach (module_invoke($module, 'emfield_register') as $class_name => $class) {
+      $emfield_registered_classes[$class_name] = is_array($class) ? $class : array();
+      if (!isset($emfield_registered_classes[$class_name]['class_name'])) {
+        $emfield_registered_classes[$class_name]['class_name'] = $class_name;
+      }
+      if (!isset($emfield_registered_classes[$class_name]['name'])) {
+        $emfield_registered_classes[$class_name]['name'] = $class_name;
+      }
+      if (!isset($emfield_registered_classes[$class_name]['path'])) {
+        $emfield_registered_classes[$class_name]['path'] = drupal_get_path('module', $module);
+      }
+      if (!isset($emfield_registered_classes[$class_name]['file'])) {
+        $emfield_registered_classes[$class_name]['file'] = $class_name .'.inc';
+      }
+    }
+  }
+
+  // Ensure the proper files are loaded when a new media object is initiated.
+  spl_autoload_register('game_object_autoload');
+}
+
+/**
+ * Autoload the media object classes when needed.
+ */
+function emfield_autoload($class_name) {
+  global $emfield_registered_classes;
+
+  if (isset($emfield_registered_classes[$class_name])) {
+    include_once($emfield_registered_classes[$class_name]['path'] .'/'. $emfield_registered_classes[$class_name]['file']);
+  }
+}
+
+/**
+ * Builds and returns a media object based on the parsed URL.
+ */
+function emfield_media($url, $overrides = array()) {
+  global $emfield_registered_classes;
+
+  // First parse the URL.
+  foreach ($emfield_registered_classes as $provider => $class) {
+    if ($class['parse callback'] && $class['class_name']) {
+      if ($parsed = $class['parse callback']($url, $overrides)) {
+        // If we have a provider class, then implement and return it.
+        return new $class['class_name']($parsed['code'], $overrides);
+      }
+    }
+  }
 }
