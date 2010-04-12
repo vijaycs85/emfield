@@ -903,7 +903,7 @@ function emfield_retrieve_xml($url, $display_errors = FALSE, $refresh = FALSE) {
 function emfield_init() {
   global $emfield_registered_classes;
 
-  // Build our game object class registry.
+  // Build our media object class registry.
   foreach (module_implements('emfield_register') as $module) {
     foreach (module_invoke($module, 'emfield_register') as $class_name => $class) {
       $emfield_registered_classes[$class_name] = is_array($class) ? $class : array();
@@ -923,7 +923,7 @@ function emfield_init() {
   }
 
   // Ensure the proper files are loaded when a new media object is initiated.
-  spl_autoload_register('game_object_autoload');
+  spl_autoload_register('emfield_autoload');
 }
 
 /**
