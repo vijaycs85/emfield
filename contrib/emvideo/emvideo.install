@@ -428,6 +428,13 @@ function emvideo_update_6016() {
 }
 
 /**
+ * New formatters for video thumbnail path & url.
+ */
+function emvideo_update_6017() {
+  return _emvideo_update_add_new_formatters();
+}
+
+/**
  *  Batch function to grab the duration for each video field.
  */
 function _emvideo_update_get_duration($field, &$context) {
@@ -481,8 +488,8 @@ function _emvideo_update_get_duration($field, &$context) {
  *  Rebuild the theme for new formatters.
  */
 function _emvideo_update_add_new_formatters($message = NULL) {
-  if (!isset($output)) {
-    $output = t('Rebuilt the theme to accommodate new formatters.');
+  if (!isset($message)) {
+    $message = t('Rebuilt the theme to accommodate new display formatters.');
   }
 
   // Adding new formatters, so need to rebuild the theme.

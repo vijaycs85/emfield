@@ -39,6 +39,24 @@ function theme_emvideo_video_thumbnail_provider_link($field, $item, $formatter, 
 }
 
 /**
+ * Returns the relative path to the video thumbnail.
+ */
+function theme_emvideo_video_thumbnail_path($field, $item, $formatter, $node, $options = array()) {
+  $options['return_url'] = TRUE;
+  return theme('emvideo_video_thumbnail', $field, $item, $formatter, $node, TRUE, $options);
+}
+
+/**
+ * Returns the absolute URL to the video thumbnail.
+ */
+function theme_emvideo_video_thumbnail_url($field, $item, $formatter, $node, $options = array()) {
+  $options['return_url'] = TRUE;
+  $options['raw'] = TRUE;
+  $path = theme('emvideo_video_thumbnail', $field, $item, $formatter, $node, TRUE, $options);
+  return url($path, array('absolute' => TRUE));
+}
+
+/**
  * This will return a provided thumbnail image for a video.
  *
  * @param $field
@@ -156,7 +174,7 @@ function theme_emvideo_video_video($field, $item, $formatter, $node, $options = 
     $height = isset($options['height']) ? $options['height'] : ($field['widget']['video_height'] ? $field['widget']['video_height'] : variable_get('emvideo_default_video_height', EMVIDEO_DEFAULT_VIDEO_HEIGHT));
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : $field['widget']['video_autoplay'];
     $options['node'] = $node;
-    $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
+    $output = emfield_include_invoke('emvideo', $item['provider'], 'video', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
     $output = '<div class="emvideo emvideo-video emvideo-'. check_plain($item['provider']) .'">'. $output .'</div>';
   }
 
@@ -188,9 +206,9 @@ function theme_emvideo_video_preview($field, $item, $formatter, $node, $options 
     $height = isset($options['height']) ? $options['height'] : (isset($field['widget']['preview_height']) ? $field['widget']['preview_height'] : variable_get('emvideo_default_preview_height', EMVIDEO_DEFAULT_PREVIEW_HEIGHT));
     $autoplay = isset($options['autoplay']) ? $options['autoplay'] : (isset($field['widget']['preview_autoplay']) ? $field['widget']['preview_autoplay'] : FALSE);
     $options['node'] = $node;
-    $output = module_invoke('emfield', 'include_invoke', 'emvideo', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
+    $output = emfield_include_invoke('emvideo', $item['provider'], 'preview', $embed, $width, $height, $field, $item, $node, $autoplay, $options);
     $output = '<div class="emvideo emvideo-preview emvideo-'. check_plain($item['provider']) .'">'. $output .'</div>';
-}
+  }
 
   return $output;
 }
@@ -331,13 +349,19 @@ function theme_emvideo_formatter_video_thumbnail_no_link($element) {
 function theme_emvideo_formatter_video_thumbnail_provider_link($element) {
   return _emvideo_formatter_theme_helper($element);
 }
+function theme_emvideo_formatter_video_thumbnail_path($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
+function theme_emvideo_formatter_video_thumbnail_url($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
 
 /**
  *  This ultimately calls theme('emvideo_[formatter]').
  */
 function _emvideo_formatter_theme_helper($element) {
   $field = content_fields($element['#field_name'], $element['#type_name']);
-  return module_invoke('emvideo', 'field_formatter', $field, $element['#item'], $element['#formatter'], $element['#node']);
+  return emvideo_field_formatter($field, $element['#item'], $element['#formatter'], $element['#node']);
 }
 
 /**
