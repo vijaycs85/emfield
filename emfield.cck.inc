@@ -23,11 +23,14 @@ function _emfield_field_columns($field) {
     // An array for any extra data required by this media,
     // such as unique thumbnail requirements or rss feed data.
     'data' => array('type' => 'text', 'size' => 'big', 'not null' => TRUE, 'not null' => FALSE, 'sortable' => FALSE),
+    // Some providers may have media that appears in results, but may be
+    // unavailable or private.
+    'status' => array('description' => "The availability status of this media.", 'type' => 'int', 'unsigned' => 'TRUE', 'not null' => TRUE, 'default' => EMFIELD_STATUS_AVAILABLE),
     // The version of the provider's data, as an integer. In general, this
     // number will be increased incrementally as changes to the API are
     // introduced, or the module introduces or requires new data.
     // Emfield uses this periodically in its updates.
-    'version' => array('description' => t("The version of the provider's data."), 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
+    'version' => array('description' => "The version of the provider's data.", 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0),
   );
 
   // Allow other modules to add new columns.

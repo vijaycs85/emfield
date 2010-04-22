@@ -49,7 +49,7 @@ function emfield_disable() {
 }
 
 /**
- *  Botched this the first time. Redo in 6003.
+ * Botched this the first time. Redo in 6003.
  */
 function emfield_update_6001() {
   $ret = array();
@@ -57,7 +57,7 @@ function emfield_update_6001() {
 }
 
 /**
- *  Rebuild themes and views.
+ * Rebuild themes and views.
  */
 function emfield_update_6002() {
   drupal_rebuild_theme_registry();
@@ -72,14 +72,14 @@ function emfield_update_6002() {
 }
 
 /**
- *  This caused an infinite loop in some cases. Redo in 6005.
+ * This caused an infinite loop in some cases. Redo in 6005.
  */
 function emfield_update_6003() {
   return array();
 }
 
 /**
- *  Rebuild themes.
+ * Rebuild themes.
  */
 function emfield_update_6004() {
   drupal_rebuild_theme_registry();
@@ -87,7 +87,7 @@ function emfield_update_6004() {
 }
 
 /**
- *  Add a provider data version column to existing fields.
+ * Add a provider data version column to existing fields.
  */
 function emfield_update_6005() {
   $ret = array();
@@ -166,7 +166,7 @@ function emfield_update_6005() {
 }
 
 /**
- *  Add new menu item for removing messages for obsolete providers.
+ * Add new menu item for removing messages for obsolete providers.
  */
 function emfield_update_6006() {
   menu_rebuild();
@@ -174,7 +174,7 @@ function emfield_update_6006() {
 }
 
 /**
- *  Build a table to cache XML results.
+ * Build a table to cache XML results.
  */
 function emfield_update_6200() {
   $schema = array();
@@ -188,7 +188,7 @@ function emfield_update_6200() {
 }
 
 /**
- *  Rebuild menu for new admin settings pages.
+ * Rebuild menu for new admin settings pages.
  */
 function emfield_update_6201() {
   menu_rebuild();
@@ -196,17 +196,57 @@ function emfield_update_6201() {
 }
 
 /**
- *  Batch function to retrieve the most recent data from providers.
+ * Add a new column to fields for media status.
+ */
+function emfield_update_6202() {
+  $ret = array();
+
+  include_once(drupal_get_path('module', 'content') .'/includes/content.admin.inc');
+
+  // Build a list of fields that need data updating.
+  $fields = array();
+  foreach (content_types_install() as $type_name => $type_fields) {
+    foreach ($type_fields as $field) {
+      if (in_array($field['module'], array('emvideo', 'emimage', 'emaudio'))) {
+        // We only process a given field once.
+        $fields[$field['field_name']] = $field;
+      }
+    }
+  }
+
+  // Update database storage.
+  foreach ($fields as $field) {
+    $new_field = $field;
+
+    unset($field['version']);
+    content_alter_db($field, $new_field);
+
+    $ret[] = array(
+      'query' => t('Added media availability status to the %field field.', array('%field' => $field['field_name'])),
+      'success' => TRUE,
+    );
+  }
+
+  content_clear_type_cache(TRUE);
+  content_associate_fields('emvideo');
+  content_associate_fields('emaudio');
+  content_associate_fields('emimage');
+
+  return $ret;
+}
+
+/**
+ * Batch function to retrieve the most recent data from providers.
  *
- *  @param $field
- *    The field definition.
- *  @param $providers
- *    An optional array of providers to check.
- *  @param $old_data_keys
- *    An optional array of the original version key in the data,
- *    keyed by provider.
- *  @param &$context
- *    The context for the batch operations.
+ * @param $field
+ *   The field definition.
+ * @param $providers
+ *   An optional array of providers to check.
+ * @param $old_data_keys
+ *   An optional array of the original version key in the data,
+ *   keyed by provider.
+ * @param &$context
+ *   The context for the batch operations.
  */
 function _emfield_update_fix_data($field, $providers = array(), $old_data_keys = array(), &$context) {
   // Setup the sandbox the first time through.

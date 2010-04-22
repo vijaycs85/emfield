@@ -6,6 +6,10 @@
  *   Embedded Media Field is a CCK-based framework for 3rd party media files.
  */
 
+define('EMFIELD_STATUS_UNAVAILABLE', 0x0000);
+define('EMFIELD_STATUS_AVAILABLE', 0x0001);
+define('EMFIELD_STATUS_PRIVATE', 0x0002);
+
 /**
  * Implementation of hook_menu().
  */
@@ -40,17 +44,6 @@ function emfield_menu() {
       'type' => MENU_LOCAL_TASK,
     );
   }
-/*  $items['admin/content/emfield/%emfield_module'] = array(
-    'title callback' => 'emfield_module_settings_title',
-    'title arguments' => array(3),
-    'description callback' => 'emfield_module_settings_description',
-    'description arguments' => array(3),
-    'file' => 'emfield.admin.inc',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('emfield_module_settings', 3),
-    'access arguments' => array('administer site configuration'),
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );*/
   $items['admin/content/emfield/obsolete'] = array(
     'file' => 'emfield.admin.inc',
     'title' => 'Disable obsolete provider',
@@ -156,7 +149,7 @@ function emfield_implement_types($cached = TRUE) {
           // If this field type is defined by this module, then include it here.
           if (!empty($modules[$field_types[$field['type']]['module']])) {
             // Settings per content type per module.
-			$module = $modules[$field_types[$field['type']]['module']];
+      $module = $modules[$field_types[$field['type']]['module']];
             $types[$module][$content_type][$field_type] = $field;
           }
         }
