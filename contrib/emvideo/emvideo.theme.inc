@@ -133,8 +133,9 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
 
   if (isset($thumbnail_url)) {
     if (isset($options['return_url'])) {
-      return $options['raw'] ? $thumbnail_url : url($thumbnail_url);
+      return $options['raw'] ? $thumbnail_url : url($thumbnail_url, array('absolute' => $options['absolute']));
     }
+    $thumbnail_url = url($thumbnail_url, array('absolute' => $options['absolute']);
     $width = isset($options['width']) ? $options['width'] : NULL;
     $width = isset($width) ? $width : ($field['widget']['thumbnail_width'] ? $field['widget']['thumbnail_width'] : variable_get('emvideo_default_thumbnail_width', EMVIDEO_DEFAULT_THUMBNAIL_WIDTH));
     $height = isset($options['height']) ? $options['height'] : NULL;
