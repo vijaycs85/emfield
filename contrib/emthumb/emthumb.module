@@ -510,7 +510,7 @@ function _emthumb_file_load($fid = NULL) {
  *    The path to the custom thumbnail file.
  */
 function emthumb_thumbnail_path($item) {
-  if ($item['data']['emthumb']['filepath']) {
+  if (is_array($item['data']['emthumb']) && $item['data']['emthumb']['filepath']) {
     return file_create_path($item['data']['emthumb']['filepath']);
   }
 }
