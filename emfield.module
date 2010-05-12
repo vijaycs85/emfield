@@ -892,6 +892,9 @@ function emfield_theme() {
     'emfield_handler_field_provider' => array(
       'arguments' => array('item' => NULL, 'field' => NULL, 'node' => NULL, 'values' => NULL, 'format' => NULL),
     ),
+    'emfield_handler_field_status' => array(
+      'arguments' => array('item' => NULL, 'field' => NULL, 'node' => NULL, 'values' => NULL, 'format' => NULL),
+    ),
     'emfield_swfobject' =>array(
       'arguments' => array("url" => NULL, '$div_id' => NULL, 'width' => NULL, 'height' => NULL, 'version' => "8"),
       'path' => drupal_get_path('module', 'emfield') . '/includes/themes',

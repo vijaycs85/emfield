@@ -236,6 +236,21 @@ function emfield_update_6202() {
 }
 
 /**
+ * Rebuild themes and views.
+ */
+function emfield_update_6203() {
+  drupal_rebuild_theme_registry();
+
+  $ret = array();
+
+  if (module_exists('views')) {
+    $ret[] = update_sql("DELETE FROM {cache_views}");
+  }
+
+  return $ret;
+}
+
+/**
  * Batch function to retrieve the most recent data from providers.
  *
  * @param $field

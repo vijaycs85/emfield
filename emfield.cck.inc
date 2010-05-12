@@ -251,6 +251,8 @@ function _emfield_emfield_field_settings($op, $field) {
     case 'views data':
       $table_alias = content_views_tablename($field);
       $data = content_views_field_views_data($field);
+
+      // Add provider views support.
       $field_provider = $field['field_name'] .'_provider';
       $data[$table_alias][$field_provider] = $data[$table_alias][$field['field_name'] .'_embed'];
       $data[$table_alias][$field_provider]['title'] .= t(' - Provider');
@@ -263,6 +265,20 @@ function _emfield_emfield_field_settings($op, $field) {
       $data[$table_alias][$field_provider]['argument']['handler'] = 'emfield_handler_argument_provider';
       $data[$table_alias][$field_provider]['filter']['field'] = $field_provider;
       $data[$table_alias][$field_provider]['sort']['field'] = $field_provider;
+
+      // Add status views support.
+      $field_status = $field['field_name'] .'_status';
+      $data[$table_alias][$field_status] = $data[$table_alias][$field['field_name'] .'_embed'];
+      $data[$table_alias][$field_status]['title'] .= t(' - Status');
+      $data[$table_alias][$field_status]['field']['title'] = $data[$table_alias][$field_status]['title'];
+      $data[$table_alias][$field_status]['title short'] = t('Status');
+      $data[$table_alias][$field_status]['field']['title short'] = $data[$table_alias][$field_status]['title short'];
+      $data[$table_alias][$field_status]['field']['field'] = $field_status;
+      $data[$table_alias][$field_status]['field']['handler'] = 'emfield_handler_field_status';
+      $data[$table_alias][$field_status]['argument']['field'] = $field_status;
+      $data[$table_alias][$field_status]['argument']['handler'] = 'content_handler_argument_number';
+      $data[$table_alias][$field_status]['filter']['field'] = $field_status;
+      $data[$table_alias][$field_status]['sort']['field'] = $field_status;
       return $data;
     case 'database columns':
       return emfield_field_columns($field);
