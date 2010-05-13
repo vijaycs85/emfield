@@ -226,9 +226,14 @@ function _emfield_field_submit_id($field, $item, $module) {
   if (!isset($item['provider'])) {
     $item['provider'] = '';
   }
+
   $item = array_merge($item, emfield_parse_embed($field, $item['embed'], $module));
   $item['data'] = (array)emfield_include_invoke($module, $item['provider'], 'data', $field, $item);
   $item['version'] = intval(emfield_include_invoke($module, $item['provider'], 'data_version', $field, $item));
+  $info = emfield_include_invoke($module, $item['provider'], 'info');
+  if ($info['module'] && module_hook($info['module'], 'emfield_status')) {
+    $item['status'] = module_invoke($info['module'], 'emfield_status', $item, $field, $module);
+  }
 
   return $item;
 }
