@@ -307,7 +307,7 @@ function emthumb_emfield_widget_extra($form, $form_state, $field, $items, $delta
   // Construct the thumbnail fieldset with the custom label.
   // We do not want this fieldset if there are no items
   // and the editor can't upload a thumb
-  if ((!empty($items) && !empty($items[0]['value'])) || $field['widget']['emthumb']) {
+  if ((!empty($items) && !empty($items[0]['value']) && $field['widget']['emthumb_store_local_thumbnail']) || $field['widget']['emthumb']) {
     $emthumb_label = isset($field['widget']['emthumb_label']) ? $field['widget']['emthumb_label'] : (isset($field['widget']['label']) ? t('@field custom thumbnail', array('@field' => $field['widget']['label'])) : t('Custom thumbnail'));
     $element['emthumb'] = array(
       '#type' => 'fieldset',
