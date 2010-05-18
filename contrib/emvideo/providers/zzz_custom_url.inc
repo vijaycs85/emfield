@@ -237,19 +237,24 @@ FLV;
         case 'wma':
           $autostart = $autoplay ? '1' : '0';
           $output = '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" autostart="'. $autostart .'" showcontrols="1" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/windows/windowsmedia/download/"> </embed>';
+          break;
         case 'mov':
         case 'mp4':
         case 'm4v':
           $autostart = $autoplay ? 'true' : 'false';
           $output = '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" autoplay="'. $autostart .'" controller="true" type="video/quicktime" scale="tofit" pluginspage="http://www.apple.com/quicktime/download/"> </embed>';
+          break;
         case 'rm':
           $autostart = $autoplay ? 'true' : 'false';
           $output = '<embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="'. $height .'" autostart="'. $autostart .'" controls="imagewindow" nojava="true" console="c1183760810807" pluginspage="http://www.real.com/"></embed><br /><embed type="audio/x-pn-realaudio-plugin" src="'. $url .'" width="'. $width .'" height="26" autostart="'. $autostart .'" nojava="true" controls="ControlPanel" console="c1183760810807"> </embed>';
+          break;
         case 'swf':
           $output = '<embed src="'. $url .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+          break;
         case 'flv':
           $autostart = $autoplay ? 'true' : 'false';
           $output = '<embed src="http://freevideocoding.com/flvplayer.swf?file='. $url .'&amp;autoStart='. $autostart .'" width="'. $width .'" height="'. $height .'" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>';
+          break;
       }
     }
     return $output;
