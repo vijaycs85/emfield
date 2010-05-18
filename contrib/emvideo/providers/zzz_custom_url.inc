@@ -155,7 +155,14 @@ function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $heigh
       $attributes = array(
         'style' => "width:{$width}px;height:{$height}px;",
       );
-      return theme('flowplayer', $config, 'emvideo-zzz-custom-url-embedded-video', $attributes);
+      // Build the Thumbnail image for the player.
+      $tn_options = array(
+        'width' => $width,
+        'height' => $height,
+      );
+      $thumbnail = '<span></span>'. theme('emvideo_video_thumbnail', NULL, $item, 'emvideo_thumbnail', $options['node'], TRUE, $tn_options);
+      drupal_add_css(drupal_get_path('module', 'emvideo') .'/emvideo.custom-url.css');
+      return theme('flowplayer', $config, 'emvideo-zzz-custom-url-embedded-video', $attributes, $thumbnail);
     }
 
     // Find the path to the JW FLV Media Player.
