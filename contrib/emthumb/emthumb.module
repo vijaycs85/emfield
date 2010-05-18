@@ -193,6 +193,15 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
       '#value' => $field['widget']['emthumb'] ? t('If a new custom thumbnail is chosen, the current custom thumbnail will be replaced upon submitting the form.') : '',
     );
   }
+  else if ($field['widget']['emthumb_store_local_thumbnail']) {
+    $element['emthumb']['no_current_thumb'] = array(
+      '#type' => 'markup',
+      '#value' => t('If possible, a remote thumbnail will be downloaded on the next save.'),
+    );
+    if ($field['widget']['emthumb']) {
+      $element['emthumb']['no_current_thumb']['#value'] .= ' ' . t("Alternatively, you may specify a custom thumbnail in this field.");
+    }
+  }
 
   if (isset($form_state['clicked_button']) && in_array('node_form_submit', $form_state['clicked_button']['#submit']) && isset($form_state['storage']['emthumb'])) {
     // Form is being submitted and we want to empty our storage
@@ -298,7 +307,7 @@ function emthumb_emfield_widget_extra($form, $form_state, $field, $items, $delta
   // Construct the thumbnail fieldset with the custom label.
   // We do not want this fieldset if there are no items
   // and the editor can't upload a thumb
-  if ((!empty($items) && !empty($items[0]['value'])) || $field['widget']['emthumb']) {
+  if ((!empty($items) && !empty($items[0]['value']) && $field['widget']['emthumb_store_local_thumbnail']) || $field['widget']['emthumb']) {
     $emthumb_label = isset($field['widget']['emthumb_label']) ? $field['widget']['emthumb_label'] : (isset($field['widget']['label']) ? t('@field custom thumbnail', array('@field' => $field['widget']['label'])) : t('Custom thumbnail'));
     $element['emthumb'] = array(
       '#type' => 'fieldset',
