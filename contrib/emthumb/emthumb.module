@@ -293,7 +293,7 @@ function emthumb_emfield_widget_extra_file_included() {
  *  building the widget on the node form. It creates a file upload element
  *  so the editor may upload a new thumbnail to replace the provider default.
  */
-function emthumb_emfield_widget_extra(&$form, &$form_state, $field, $items, $delta = 0, $module) {
+function emthumb_emfield_widget_extra($form, $form_state, $field, $items, $delta = 0, $module) {
   $element = array();
   // Construct the thumbnail fieldset with the custom label.
   // We do not want this fieldset if there are no items
