@@ -16,8 +16,7 @@
 .emvideo-zzz_custom_url .flowplayer {
   position: relative;
   display: block;
-  /* width: 425px; */
-  /* height: 350px; */
+  cursor: pointer;
 }
 
 /* This is the overlay of a play button on the video thumbnail. */
