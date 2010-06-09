@@ -1,0 +1,7 @@
+; $Id$
+
+name = Embedded Media API
+description = Provides an API for parsing, storage, and display of third party media.
+core = 6.x
+package = Media
+php = 5.2

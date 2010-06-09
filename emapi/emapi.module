@@ -1,0 +1,206 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Provides an API for parsing, storage, and display of third party media.
+ */
+
+/* ***************************************** */
+/* INCLUDES                                  */
+/* ***************************************** */
+
+// A registry of variable_get defaults.
+include_once('includes/emapi.variables.inc');
+
+/**
+ * Implementation of hook_init().
+ */
+function emapi_init() {
+  emapi_get_provider_classes();
+
+  // Ensure the proper files are loaded when a new media object is initiated.
+  spl_autoload_register('emapi_autoload');
+}
+
+/**
+ * Builds a registry of Media provider classes.
+ *
+ * Each module supporting a Media provider will need to implement
+ * hook_emapi_register, which will need to return an associated array keyed by
+ * the class name, with an array containing at least the following key => value
+ * pairs:
+ *  'name' => The human-readable name of the class.
+ *  'description' => A description of the class.
+ * The following key => value pairs are optional, and will otherwise be
+ * automatically derived:
+ *  'path' => The path where the class file resides.
+ *  'file' => The file containing the class definition.
+ *  'class_name' => The actual name of the class, if different than the
+ *    associated key.
+ *
+ * @param string $class
+ *  (Optional) The class name of the specific class registration to return.
+ * @param boolean $reset
+ *  (Optional) If TRUE, then reset the registration.
+ * @return array
+ *  If $class is specified, then return only the specified class array, or NULL
+ *  if there is no such registered class. Otherwise, return the entiry registry.
+ */
+function emapi_get_provider_classes($class = NULL, $reset = FALSE) {
+  static $emapi_registered_classes;
+
+  if ($reset || !isset($emapi_registered_classes)) {
+    $emapi_registered_classes = array();
+
+    // Build our media object class registry.
+    foreach (module_implements('emapi_register') as $module) {
+      foreach (module_invoke($module, 'emapi_register') as $class_name => $class_array) {
+        $emapi_registered_classes[$class_name] = is_array($class_array) ? $class_array : array();
+        if (!isset($emapi_registered_classes[$class_name]['class_name'])) {
+          $emapi_registered_classes[$class_name]['class_name'] = $class_name;
+        }
+        if (!isset($emapi_registered_classes[$class_name]['name'])) {
+          $emapi_registered_classes[$class_name]['name'] = t($class_name);
+        }
+        if (!isset($emapi_registered_classes[$class_name]['path'])) {
+          $emapi_registered_classes[$class_name]['path'] = drupal_get_path('module', $module);
+        }
+        if (!isset($emapi_registered_classes[$class_name]['file'])) {
+          $emapi_registered_classes[$class_name]['file'] = $class_name .'.inc';
+        }
+      }
+    }
+  }
+
+  if (isset($class)) {
+    return $emapi_registered_classes[$class];
+  }
+
+  return $emapi_registered_classes;
+}
+
+/**
+ * Implementation of hook_emapi_register().
+ */
+function emapi_emapi_register() {
+  return array(
+    'EmapiMedia' => array(
+      'name' => t('EmapiMedia'),
+      'description' => t(emapi_variable_get('class_emapimedia_description')),
+      'path' => drupal_get_path('module', 'emapi') .'/includes',
+      'file' => 'emapi.class.media.inc',
+    ),
+  );
+}
+
+/**
+ * Autoload the media object classes when needed.
+ */
+function emapi_autoload($class_name) {
+  if ($class = emapi_get_provider_classes($class_name)) {
+    include_once($class['path'] .'/'. $class['file']);
+  }
+}
+
+/**
+ * Builds and returns a media object based on the parsed URL.
+ */
+function emapi_media($url, $overrides = array()) {
+  global $emapi_registered_classes;
+
+  // First parse the URL.
+  foreach ($emapi_registered_classes as $provider => $class) {
+    if ($class['parse callback'] && $class['class_name']) {
+      if ($parsed = $class['parse callback']($url, $overrides)) {
+        // If we have a provider class, then implement and return it.
+        return new $class['class_name']($parsed['code'], $overrides);
+      }
+    }
+  }
+}
+
+/**
+ *  A wrapper around simplexml to retrieve a given XML file.
+ *
+ *  @param $url
+ *    The URL to the XML to retrieve.
+ *  @param $display_errors
+ *    Optional; if TRUE, then we'll display errors to the end user. They'll be
+ *    logged to the watchdog in any case.
+ *  @param $refresh
+ *    Optional; if TRUE, then we'll force a new load of the XML. Otherwise,
+ *    a cached version will be retrieved if possible.
+ *  @return
+ *    A fully populated object, or FALSE on an error.
+ */
+function emapi_retrieve_xml($url, $display_errors = FALSE, $refresh = FALSE) {
+  module_load_include('inc', 'emapi', 'includes/emapi.xml');
+  return _emapi_retrieve_xml($url, $display_errors, $refresh);
+}
+
+/**
+ * Returns the scheme of a URI (e.g. a stream).
+ *
+ * Note that this function is lifted from Drupal 7's file_uri_scheme().
+ *
+ * @param $uri
+ *   A stream, referenced as "scheme://target".
+ * @return
+ *   A string containing the name of the scheme, or FALSE if none. For example,
+ *   the URI "youtube://v/3gfh6asey" would return "youtube".
+ */
+function emapi_uri_scheme($uri) {
+  $data = explode('://', $uri, 2);
+
+  return count($data) == 2 ? $data[0] : FALSE;
+}
+
+/**
+ * Returns the registered class for a specific provider.
+ *
+ * @param string $uri
+ *  A stream, referenced as "scheme://target".
+ * @return string
+ *  The registered class, or NULL if it's an unsupported URI.
+ */
+function emapi_get_provider_class($uri) {
+  $class = emapi_get_provider_classes(emapi_uri_scheme($uri));
+  if (is_array($class) && $class['class_name']) {
+    return $class['class_name'];
+  }
+}
+
+/**
+ * Parses a URL or embed code into a media object.
+ *
+ * @param string $url
+ *  The URL or embed code to parse.
+ * @return mixed
+ *  The fully populated media object, or FALSE.
+ */
+function emapi_parse($url) {
+  foreach (emapi_get_provider_classes() as $class) {
+    $media = new $class['class_name'];
+    if ($media->parse($url)) {
+      return $media;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Loads a media object based on the given URI.
+ *
+ * @param string $uri
+ *  A stream, referenced as "scheme://target".
+ * @return mixed
+ *  The fully populated media object, or FALSE.
+ */
+function emapi_media_load($uri) {
+  if ($class = emapi_get_provider_class($uri)) {
+    $media = new $class($uri);
+    return $media;
+  }
+  return FALSE;
+}
