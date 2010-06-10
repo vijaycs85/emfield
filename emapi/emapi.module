@@ -28,26 +28,30 @@ function emapi_init() {
  *
  * Each module supporting a Media provider will need to implement
  * hook_emapi_register, which will need to return an associated array keyed by
- * the class name, with an array containing at least the following key => value
- * pairs:
- *  'name' => The human-readable name of the class.
- *  'description' => A description of the class.
+ * the scheme, with an array containing at least the following key => value
+ * pairs. Note that the scheme portion of the URI this class supports is in the
+ * form of scheme://identifier/id.
+ *  'class_name' => The actual name of the class.
  * The following key => value pairs are optional, and will otherwise be
  * automatically derived:
+ *  'name' => The human-readable name of the scheme.
+ *  'description' => A description of the scheme.
  *  'path' => The path where the class file resides.
  *  'file' => The file containing the class definition.
- *  'class_name' => The actual name of the class, if different than the
- *    associated key.
+ *  'module' => The module defining the class.
+ * The following key => value pair will be automatically set to the association
+ * and cannot be overridden:
+ *   'scheme' => The scheme portion of the URI.
  *
- * @param string $class
- *  (Optional) The class name of the specific class registration to return.
+ * @param string $scheme
+ *  (Optional) The scheme of the specific class registration to return.
  * @param boolean $reset
  *  (Optional) If TRUE, then reset the registration.
  * @return array
- *  If $class is specified, then return only the specified class array, or NULL
+ *  If $scheme is specified, then return only the specified class array, or NULL
  *  if there is no such registered class. Otherwise, return the entiry registry.
  */
-function emapi_get_provider_classes($class = NULL, $reset = FALSE) {
+function emapi_get_provider_classes($scheme = NULL, $reset = FALSE) {
   static $emapi_registered_classes;
 
   if ($reset || !isset($emapi_registered_classes)) {
@@ -55,52 +59,64 @@ function emapi_get_provider_classes($class = NULL, $reset = FALSE) {
 
     // Build our media object class registry.
     foreach (module_implements('emapi_register') as $module) {
-      foreach (module_invoke($module, 'emapi_register') as $class_name => $class_array) {
-        $emapi_registered_classes[$class_name] = is_array($class_array) ? $class_array : array();
-        if (!isset($emapi_registered_classes[$class_name]['class_name'])) {
-          $emapi_registered_classes[$class_name]['class_name'] = $class_name;
+      foreach (module_invoke($module, 'emapi_register') as $scheme_name => $class) {
+        $emapi_registered_classes[$scheme_name] = is_array($class) ? $class : array();
+        $emapi_registered_classes[$scheme_name]['scheme'] = $scheme_name;
+        if (!isset($emapi_registered_classes[$scheme_name]['name'])) {
+          $emapi_registered_classes[$scheme_name]['name'] = t($scheme_name);
         }
-        if (!isset($emapi_registered_classes[$class_name]['name'])) {
-          $emapi_registered_classes[$class_name]['name'] = t($class_name);
+        if (!isset($emapi_registered_classes[$scheme_name]['description'])) {
+          $emapi_registered_classes[$scheme_name]['description'] = t('Class definition for @scheme.', array('@scheme' => $scheme_name));
         }
-        if (!isset($emapi_registered_classes[$class_name]['path'])) {
-          $emapi_registered_classes[$class_name]['path'] = drupal_get_path('module', $module);
+        if (!isset($emapi_registered_classes[$scheme_name]['path'])) {
+          $emapi_registered_classes[$scheme_name]['path'] = drupal_get_path('module', $module);
         }
-        if (!isset($emapi_registered_classes[$class_name]['file'])) {
-          $emapi_registered_classes[$class_name]['file'] = $class_name .'.inc';
+        if (!isset($emapi_registered_classes[$scheme_name]['file'])) {
+          $emapi_registered_classes[$scheme_name]['file'] = $class_name .'.inc';
+        }
+        if (!isset($emapi_registered_classes[$scheme_name]['module'])) {
+          $emapi_registered_classes[$scheme_name]['module'] = $module;
         }
       }
     }
   }
 
-  if (isset($class)) {
-    return $emapi_registered_classes[$class];
+  if (isset($scheme)) {
+    return $emapi_registered_classes[$scheme];
   }
 
   return $emapi_registered_classes;
 }
 
 /**
- * Implementation of hook_emapi_register().
- */
-function emapi_emapi_register() {
-  return array(
-    'EmapiMedia' => array(
-      'name' => t('EmapiMedia'),
-      'description' => t(emapi_variable_get('class_emapimedia_description')),
-      'path' => drupal_get_path('module', 'emapi') .'/includes',
-      'file' => 'emapi.class.media.inc',
-    ),
-  );
-}
-
-/**
  * Autoload the media object classes when needed.
  */
 function emapi_autoload($class_name) {
-  if ($class = emapi_get_provider_classes($class_name)) {
+  if ($class_name == 'EmapiMedia') {
+    module_load_include('inc', 'emapi', 'includes/emapi.class.media');
+  }
+  else if ($class = emapi_get_provider_class_by_class_name($class_name)) {
     include_once($class['path'] .'/'. $class['file']);
   }
+}
+
+/**
+ * Return the registered EmAPI class specified by name.
+ */
+function emapi_get_provider_class_by_class_name($class_name = NULL, $reset = FALSE) {
+  static $classes;
+
+  if (!isset($classes) || $reset) {
+    $classes = array();
+    $provider_classes = emapi_get_provider_classes();
+    foreach ($provider_classes as $scheme => $class) {
+      $classes[$class['class_name']] = $class;
+    }
+  }
+  if (isset($class_name)) {
+    return $classes[$class_name];
+  }
+  return $classes;
 }
 
 /**
@@ -181,9 +197,11 @@ function emapi_get_provider_class($uri) {
  */
 function emapi_parse($url) {
   foreach (emapi_get_provider_classes() as $class) {
-    $media = new $class['class_name'];
-    if ($media->parse($url)) {
-      return $media;
+    if (class_exists($class['class_name'])) {
+      $media = new $class['class_name'];
+      if ($media->parse($url)) {
+        return $media;
+      }
     }
   }
   return FALSE;
@@ -198,7 +216,7 @@ function emapi_parse($url) {
  *  The fully populated media object, or FALSE.
  */
 function emapi_media_load($uri) {
-  if ($class = emapi_get_provider_class($uri)) {
+  if (($class = emapi_get_provider_class($uri)) && class_exists($class)) {
     $media = new $class($uri);
     return $media;
   }
