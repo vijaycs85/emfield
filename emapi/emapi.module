@@ -325,6 +325,9 @@ function emapi_media_save(&$media) {
 
 /**
  * Delete a media object from the database.
+ *
+ * @param integer $emid
+ *  The unique identifier of the media to delete.
  */
 function emapi_media_delete($emid) {
   $media = &emapi_static('emapi_media', array());
@@ -338,7 +341,7 @@ function emapi_media_delete($emid) {
 
     $link = l($item->get_uri(), $item->url());
 
-    $class = emapi_get_provider_classes(emapi_uri_scheme($uri));
+    $class = emapi_get_provider_classes(emapi_uri_scheme($item->get_uri()));
 
     watchdog('emapi', '@provider: deleted !link.', array('@provider' => $class['name'], '!link' => $link));
     drupal_set_message(t('@provider !link has been deleted.', array('@provider' => $class['name'], '!link' => $link)));
