@@ -62,7 +62,7 @@ function _emapi_retrieve_xml($url, $display_errors = FALSE, $refresh = FALSE) {
   }
   else {
     $xmls[$url] = _emapi_unserialize_xml($xml);
-    cache_set('emapi:xml:'. $url, $xmls[$url], 'cache_emapi_xml', variable_get('emapi_xml_cache_expire', 3600));
+    cache_set('emapi:xml:'. $url, $xmls[$url], 'cache_emapi_xml', emapi_variable_get('cache_expire'));
   }
 
   return $xmls[$url];

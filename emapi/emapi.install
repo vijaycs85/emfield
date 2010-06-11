@@ -1,0 +1,68 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * This is Embedded Media API's installation, configuration, and removal file.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function media_emapi_install() {
+  $success = drupal_install_schema('media_emapi');
+
+  if ($success) {
+    drupal_set_message(st('The Embedded Media API module installed tables successfully.'));
+  }
+  else {
+    drupal_set_message(st('The installation of the Embedded Media API module failed.'), 'error');
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function media_emapi_uninstall() {
+  foreach (media_emapi_variable_default() as $variable => $value) {
+    media_emapi_variable_del($variable);
+  }
+  drupal_uninstall_schema('media_emapi');
+  return array(array('success' => TRUE, 'query' => "Deleted all variables in the Embedded Media API namespace and dropped relevant tables."));
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function media_emapi_disable() {
+  cache_clear_all('*', 'cache_media_emapi_status', TRUE);
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function media_emapi_schema() {
+  $schema = array();
+
+  $schema['cache_emapi_xml'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_emapi_xml']['description'] = 'Cache table used to store xml data for Embedded Media API.';
+
+  return $schema;
+}
+
+/**
+ * Build a table to cache data.
+ */
+function media_emapi_update_6301() {
+  $schema = array();
+
+  $schema['cache_emapi_xml'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_emapi_xml']['description'] = 'Cache table used to store xml data for Embedded Media API.';
+
+  $ret = array();
+  if (!db_table_exists('cache_emapi_xml')) {
+    db_create_table($ret, 'cache_emapi_xml', $schema['cache_emapi_xml']);
+  }
+
+  return $ret;
+}

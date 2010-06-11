@@ -15,7 +15,7 @@
 define('EMAPI_NAMESPACE', 'emapi__');
 
 /**
- * Wrapper for variable_get() that uses the Embedded Media API variable registry.
+ * Wrapper for variable_get() using the Embedded Media API variable registry.
  *
  * @param string $name
  *  The variable name to retrieve. Note that it will be namespaced by
@@ -45,7 +45,7 @@ function emapi_variable_get($name, $default = NULL) {
 }
 
 /**
- * Wrapper for variable_set() that uses the Embedded Media API variable registry.
+ * Wrapper for variable_set() using the Embedded Media API variable registry.
  *
  * @param string $name
  *  The variable name to set. Note that it will be namespaced by
@@ -66,7 +66,7 @@ function emapi_variable_set($name, $value) {
 }
 
 /**
- * Wrapper for variable_del() that uses the Embedded Media API variable registry.
+ * Wrapper for variable_del() using the Embedded Media API variable registry.
  *
  * @param string $name
  *  The variable name to delete. Note that it will be namespaced by
@@ -102,6 +102,7 @@ function emapi_variable_default($name = NULL) {
   if (!isset($defaults)) {
     $defaults = array(
       'class_emapimedia_description' => 'Base Embedded Media Object, to be extended by individual providers.',
+      'cache_expire' => 3600,
     );
   }
 
