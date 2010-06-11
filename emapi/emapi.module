@@ -120,23 +120,6 @@ function emapi_get_provider_class_by_class_name($class_name = NULL, $reset = FAL
 }
 
 /**
- * Builds and returns a media object based on the parsed URL.
- */
-function emapi_media($url, $overrides = array()) {
-  global $emapi_registered_classes;
-
-  // First parse the URL.
-  foreach ($emapi_registered_classes as $provider => $class) {
-    if ($class['parse callback'] && $class['class_name']) {
-      if ($parsed = $class['parse callback']($url, $overrides)) {
-        // If we have a provider class, then implement and return it.
-        return new $class['class_name']($parsed['code'], $overrides);
-      }
-    }
-  }
-}
-
-/**
  *  A wrapper around simplexml to retrieve a given XML file.
  *
  *  @param $url
@@ -200,6 +183,7 @@ function emapi_parse($url) {
     if (class_exists($class['class_name'])) {
       $media = new $class['class_name'];
       if ($media->parse($url)) {
+        $media = emapi_media_from_uri($media->uri);
         return $media;
       }
     }
@@ -215,10 +199,183 @@ function emapi_parse($url) {
  * @return mixed
  *  The fully populated media object, or FALSE.
  */
-function emapi_media_load($uri) {
-  if (($class = emapi_get_provider_class($uri)) && class_exists($class)) {
-    $media = new $class($uri);
-    return $media;
+function emapi_media_from_uri($uri) {
+  $media = &emapi_static('emapi_media', array());
+
+  // First check to see if we've already loaded this media.
+  foreach ($media as $emid => $item) {
+    if ($item->uri == $uri) {
+      return $item;
+    }
   }
+
+  // Next see if the item is in the db.
+  $results = db_query("SELECT emid, uri, uid, status, timestamp FROM {emapi_media} WHERE uri = '%s'", $uri);
+  if ($result = db_fetch_object($results)) {
+    $media[$result->emid] = emapi_media_from_db_result($result);
+    return $media[$result->emid];
+  }
+
+  // Finally we simply create a new media object.
+  if (($class = emapi_get_provider_class($uri)) && class_exists($class)) {
+    global $user;
+    $item = new $class($uri);
+    $item->set_uid($user->uid);
+    $item->set_status(EMAPI_STATUS_PERMANENT);
+    $item->set_timestamp(time());
+    drupal_alter('emapi_media', $item);
+    return $item;
+  }
+
+  // No media matches the given URI.
   return FALSE;
+}
+
+/**
+ * Create a new media object from a db result.
+ *
+ * @param object $result
+ *  The db object returned from the db.
+ * @return mixed
+ *  The media object, or NULL if there's no class available for the scheme.
+ */
+function emapi_media_from_db_result($result) {
+  if (($class = emapi_get_provider_class($result->uri)) && class_exists($class)) {
+    $media = new $class($result->uri);
+    $media->set_emid($result->emid);
+    $media->set_uid($result->uid);
+    $media->set_status($result->status);
+    $media->set_timestamp($result->timestamp);
+    drupal_alter('emapi_media', $media);
+  }
+
+  return $media;
+}
+
+/**
+ * Load one or more fully populated media objects.
+ *
+ * @param array $emids
+ *  An array of unique integers corresponding to the media ID's.
+ * @return mixed
+ *  The fully populated media object, or FALSE.
+ */
+function emapi_media_load_multiple($emids) {
+  $media = &emapi_static('emapi_media', array());
+
+  if (!empty($emids)) {
+    // If any media were previously loaded, remove from the ids still to load.
+    $emids = array_flip($emids);
+    $ids_to_load = array_keys(array_diff_key($emids, $media));
+
+    if (!empty($ids_to_load)) {
+      $results = db_query("SELECT emid, uri, uid, status, timestamp FROM {emapi_media} WHERE emid IN (". db_placeholders($ids_to_load) .")", $ids_to_load);
+      while ($result = db_fetch_object($results)) {
+        $media[$result->emid] = emapi_media_from_db_result($result);
+        module_invoke_all("emapi_media_load", $media[$result->emid]);
+      }
+    }
+
+    // Ensure that the returned array is ordered the same as the original
+    // $ids array if this was passed in and remove any invalid ids.
+
+    // Remove any invalid ids from the array.
+    $requested_ids = array_intersect_key($media, $emids);
+    $returned_ids = array();
+    foreach ($emids as $id => $item) {
+      if ($requested_ids[$id]) {
+        $returned_ids[$id] = $requested_ids[$id];
+      }
+    }
+  }
+
+  return $returned_ids;
+}
+
+/**
+ * Load a single media object.
+ *
+ * @param integer $emid
+ *  The unique ID for the media.
+ * @return mixed
+ *  Either the desired media object, or NULL if not found.
+ */
+function emapi_media_load($emid) {
+  $media = emapi_media_load_multiple(array($emid));
+  return $media[$emid];
+}
+
+/**
+ * Save a media object to the database.
+ *
+ * @param object &$media
+ *  The media object to save.
+ */
+function emapi_media_save(&$media) {
+  module_invoke_all('emapi_media_presave', $media);
+  if ($media->emid) {
+    drupal_write_record('emapi_media', $media, 'emid');
+    module_invoke_all('emapi_media_update', $media);
+  }
+  else {
+    drupal_write_record('emapi_media', $media);
+    module_invoke_all('emapi_media_insert', $media);
+  }
+}
+
+/**
+ * Delete a media object from the database.
+ */
+function emapi_media_delete($emid) {
+  $media = &emapi_static('emapi_media', array());
+
+  $item = emapi_media_load($emid);
+
+  if ($item) {
+    unset($media[$emid]);
+    db_query("DELETE FROM {emapi_media} WHERE emid = %d", $emid);
+    module_invoke_all('emapi_media_delete', $item);
+
+    $link = l($item->get_uri(), $item->url());
+
+    $class = emapi_get_provider_classes(emapi_uri_scheme($uri));
+
+    watchdog('emapi', '@provider: deleted !link.', array('@provider' => $class['name'], '!link' => $link));
+    drupal_set_message(t('@provider !link has been deleted.', array('@provider' => $class['name'], '!link' => $link)));
+  }
+}
+
+/**
+ * Backport of d7's drupal_static().
+ */
+function &emapi_static($name, $default_value = NULL, $reset = FALSE) {
+  static $data = array(), $default = array();
+  if (!isset($name)) {
+    // All variables are reset. This needs to be done one at a time so that
+    // references returned by earlier invocations of drupal_static() also get
+    // reset.
+    foreach ($default as $name => $value) {
+      $data[$name] = $value;
+    }
+    // As the function returns a reference, the return should always be a
+    // variable.
+    return $data;
+  }
+  if ($reset) {
+    // The reset means the default is loaded.
+    if (array_key_exists($name, $default)) {
+      $data[$name] = $default[$name];
+    }
+    else {
+      // Reset was called before a default is set and yet a variable must be
+      // returned.
+      return $data;
+    }
+  }
+  elseif (!array_key_exists($name, $data)) {
+    // Store the default value internally and also copy it to the reference to
+    // be returned.
+    $default[$name] = $data[$name] = $default_value;
+  }
+  return $data[$name];
 }

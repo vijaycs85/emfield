@@ -7,12 +7,35 @@
  */
 
 class EmapiMedia {
+  /**
+   * The following variables are stored to the emapi_media table.
+   */
+
   // The raw URL or embed code from our provider.
   public $original;
 
   // The URI for final storage (using the format of Drupal 7's PHP Stream
   // Wrappers, in the form of scheme://unique-code).
   public $uri;
+
+  // The unique ID of the media.
+  public $emid;
+
+  // The {users}.uid of the user who is associated with the media.
+  public $uid;
+
+  // A bitmapped field indicating the status of the media. The least significant bit indicates temporary (0) or permanent (1). Temporary media older than DRUPAL_MAXIMUM_TEMP_FILE_AGE will be removed during a cron run.
+  public $status;
+
+  // UNIX timestamp for when the media was added.
+  public $timestamp;
+
+  // An array of any provider-specific metadata to store.
+  public $data = array();
+
+  /**
+   * The following variables are not saved to the database.
+   */
 
   // The value extracted from the original.
   public $value;
@@ -23,9 +46,6 @@ class EmapiMedia {
   // The specific media identifier prefix. The URI will be built from this
   // by default, using scheme://IDENTIFIER/value.
   public $identifier = 'id';
-
-  // An array of any provider-specific metadata to store.
-  public $data = array();
 
   // Regex patterns for matching while parsing a URL.
   public $patterns = array();
@@ -53,6 +73,34 @@ class EmapiMedia {
       $this->set_value($id);
     }
     return $this->set('uri', $value);
+  }
+
+  public function get_emid() {
+    return $this->get('emid');
+  }
+  public function set_emid($value) {
+    return $this->set('emid', $value);
+  }
+
+  public function get_uid() {
+    return $this->get('uid');
+  }
+  public function set_uid($value) {
+    return $this->set('uid', $value);
+  }
+
+  public function get_status() {
+    return $this->get('status');
+  }
+  public function set_status($value) {
+    return $this->set('status', $value);
+  }
+
+  public function get_timestamp() {
+    return $this->get('timestamp');
+  }
+  public function set_timestamp($value) {
+    return $this->set('timestamp', $value);
   }
 
   public function get_value() {

@@ -9,8 +9,8 @@
 /**
  * Implementation of hook_install().
  */
-function media_emapi_install() {
-  $success = drupal_install_schema('media_emapi');
+function emapi_install() {
+  $success = drupal_install_schema('emapi');
 
   if ($success) {
     drupal_set_message(st('The Embedded Media API module installed tables successfully.'));
@@ -23,29 +23,80 @@ function media_emapi_install() {
 /**
  * Implementation of hook_uninstall().
  */
-function media_emapi_uninstall() {
-  foreach (media_emapi_variable_default() as $variable => $value) {
-    media_emapi_variable_del($variable);
+function emapi_uninstall() {
+  foreach (emapi_variable_default() as $variable => $value) {
+    emapi_variable_del($variable);
   }
-  drupal_uninstall_schema('media_emapi');
+  drupal_uninstall_schema('emapi');
   return array(array('success' => TRUE, 'query' => "Deleted all variables in the Embedded Media API namespace and dropped relevant tables."));
 }
 
 /**
  * Implementation of hook_disable().
  */
-function media_emapi_disable() {
-  cache_clear_all('*', 'cache_media_emapi_status', TRUE);
+function emapi_disable() {
+  cache_clear_all('*', 'cache_emapi_xml', TRUE);
 }
 
 /**
  * Implementation of hook_schema().
  */
-function media_emapi_schema() {
+function emapi_schema() {
   $schema = array();
 
   $schema['cache_emapi_xml'] = drupal_get_schema_unprocessed('system', 'cache');
   $schema['cache_emapi_xml']['description'] = 'Cache table used to store xml data for Embedded Media API.';
+
+  $schema['emapi_media'] = array(
+    'description' => 'Stores Embedded Media info.',
+    'fields' => array(
+      'emid' => array(
+        'description' => 'The unique ID of the media.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uri' => array(
+        'description' => 'Unique URI for the media.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'uid' => array(
+        'description' => 'The {users}.uid of the user who is associated with the media.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'status' => array(
+        'description' => 'A bitmapped field indicating the status of the media. The least significant bit indicates temporary (0) or permanent (1). Temporary media older than DRUPAL_MAXIMUM_TEMP_FILE_AGE will be removed during a cron run.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'timestamp' => array(
+        'description' => 'UNIX timestamp for when the media was added.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'status' => array('status'),
+      'timestamp' => array('timestamp'),
+    ),
+    'unique keys' => array(
+      'uri' => array('uri'),
+    ),
+    'primary key' => array('emid'),
+    'foreign keys' => array(
+      'uid' => array('users' => 'uid'),
+    ),
+  );
 
   return $schema;
 }
@@ -53,7 +104,7 @@ function media_emapi_schema() {
 /**
  * Build a table to cache data.
  */
-function media_emapi_update_6301() {
+function emapi_update_6301() {
   $schema = array();
 
   $schema['cache_emapi_xml'] = drupal_get_schema_unprocessed('system', 'cache');
@@ -62,6 +113,71 @@ function media_emapi_update_6301() {
   $ret = array();
   if (!db_table_exists('cache_emapi_xml')) {
     db_create_table($ret, 'cache_emapi_xml', $schema['cache_emapi_xml']);
+  }
+
+  return $ret;
+}
+
+/**
+ * Build a table to store media.
+ */
+function emapi_update_6302() {
+  $schema = array();
+
+  $schema['emapi_media'] = array(
+    'description' => 'Stores Embedded Media info.',
+    'fields' => array(
+      'emid' => array(
+        'description' => 'The unique ID of the media.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uri' => array(
+        'description' => 'Unique URI for the media.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'uid' => array(
+        'description' => 'The {users}.uid of the user who is associated with the media.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'status' => array(
+        'description' => 'A bitmapped field indicating the status of the media. The least significant bit indicates temporary (0) or permanent (1). Temporary media older than DRUPAL_MAXIMUM_TEMP_FILE_AGE will be removed during a cron run.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'timestamp' => array(
+        'description' => 'UNIX timestamp for when the media was added.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'status' => array('status'),
+      'timestamp' => array('timestamp'),
+    ),
+    'unique keys' => array(
+      'uri' => array('uri'),
+    ),
+    'primary key' => array('emid'),
+    'foreign keys' => array(
+      'uid' => array('users' => 'uid'),
+    ),
+  );
+
+  $ret = array();
+  if (!db_table_exists('emapi_media')) {
+    db_create_table($ret, 'emapi_media', $schema['emapi_media']);
   }
 
   return $ret;

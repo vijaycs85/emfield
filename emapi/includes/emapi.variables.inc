@@ -14,6 +14,9 @@
  */
 define('EMAPI_NAMESPACE', 'emapi__');
 
+define('EMAPI_STATUS_TEMPORARY', 0);
+define('EMAPI_STATUS_PERMANENT', 1);
+
 /**
  * Wrapper for variable_get() using the Embedded Media API variable registry.
  *
