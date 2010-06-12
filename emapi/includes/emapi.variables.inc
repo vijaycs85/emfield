@@ -106,6 +106,7 @@ function emapi_variable_default($name = NULL) {
     $defaults = array(
       'class_emapimedia_description' => 'Base Embedded Media Object, to be extended by individual providers.',
       'cache_expire' => 3600,
+      'admin_pager_query' => 50,
     );
   }
 

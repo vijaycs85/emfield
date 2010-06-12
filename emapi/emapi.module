@@ -14,6 +14,22 @@
 include_once('includes/emapi.variables.inc');
 
 /**
+ * Implementation of hook_menu().
+ */
+function emapi_menu() {
+  $items = array();
+
+  $items['admin/content/emapi'] = array(
+    'page callback' => 'emapi_admin_list_page',
+    'title' => 'Embedded media',
+    'description' => 'Administration list of embedded media.',
+    'access arguments' => array('administer embedded media'),
+    'file' => 'includes/emapi.admin.inc',
+  );
+  return $items;
+}
+
+/**
  * Implementation of hook_init().
  */
 function emapi_init() {

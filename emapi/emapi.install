@@ -182,3 +182,12 @@ function emapi_update_6302() {
 
   return $ret;
 }
+
+/**
+ * Add administration listing of embedded media.
+ */
+function emapi_update_6303() {
+  // Add the new settings page to the menu.
+  menu_rebuild();
+  return array(array('success' => TRUE, 'query' => "Rebuilt the menu for the new administrative listing page of embedded media."));
+}
