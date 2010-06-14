@@ -353,9 +353,10 @@ function emfield_schema() {
 }
 
 /**
- * Rebuild legacy menu items.
+ * Rebuild legacy menu & theme items.
  */
 function emfield_update_6301() {
   menu_rebuild();
+  drupal_rebuild_theme_registry();
   return array();
 }

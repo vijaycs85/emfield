@@ -21,6 +21,26 @@ function emfield_menu() {
 }
 
 /**
+ * Implementation of hook_theme().
+ */
+function emfield_theme($existing, $type, $theme, $path) {
+  $themes = array();
+
+  // If we require legacy support, then load the old menu items.
+  if (emfield_check_for_deprecated_modules()) {
+    $themes = _emfield_deprecated_theme($existing, $type, $theme, $path);
+  }
+
+  $themes['emfield_formatter_default'] = array(
+    'arguments' => array('element' => NULL),
+    'path' => $path .'/includes/themes',
+    'file' => 'emfield.themes.inc',
+  );
+
+  return $themes;
+}
+
+/**
  * Implementation of hook_field_info().
  */
 function emfield_field_info() {
@@ -93,13 +113,6 @@ function emfield_field_formatter_info() {
     ),
   );
   return $formats;
-}
-
-/**
- * Implementation of hook_field_formatter().
- */
-function emfield_field_formatter($field, $item, $formatter, $node) {
-  return "@TODO: emfield_field_formatter ($formatter)";
 }
 
 /** Widgets **/

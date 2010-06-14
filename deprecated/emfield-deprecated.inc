@@ -911,7 +911,7 @@ function _emfield_autodiscover_path($pattern) {
 /**
  * Implementation of hook_theme().
  */
-function emfield_theme() {
+function _emfield_deprecated_theme($existing, $type, $theme, $path) {
   return array(
     'emfield_handler_field_provider' => array(
       'arguments' => array('item' => NULL, 'field' => NULL, 'node' => NULL, 'values' => NULL, 'format' => NULL),
@@ -921,8 +921,8 @@ function emfield_theme() {
     ),
     'emfield_swfobject' =>array(
       'arguments' => array("url" => NULL, '$div_id' => NULL, 'width' => NULL, 'height' => NULL, 'version' => "8"),
-      'path' => drupal_get_path('module', 'emfield') . '/includes/themes',
-      'file' => 'emfield.themes.inc',
+      'path' => $path . '/deprecated/themes',
+      'file' => 'emfield-deprecated.themes.inc',
     ),
   );
 }
