@@ -15,7 +15,7 @@ define('EMFIELD_STATUS_PRIVATE', 0x0002);
  */
 function _emfield_deprecated_menu() {
   $items['admin/content/emfield'] = array(
-    'file' => 'emfield.admin.inc',
+    'file' => 'deprecated/emfield-deprecated.admin.inc',
     'title' => 'Embedded Media Field configuration',
     'description' => 'Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.',
     'page callback' => 'drupal_get_form',
@@ -23,7 +23,7 @@ function _emfield_deprecated_menu() {
     'access arguments' => array('administer site configuration'),
   );
   $items['admin/content/emfield/media'] = array(
-    'file' => 'emfield.admin.inc',
+    'file' => 'deprecated/emfield-deprecated.admin.inc',
     'title' => 'General',
     'description' => 'Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.',
     'page callback' => 'drupal_get_form',
@@ -37,7 +37,7 @@ function _emfield_deprecated_menu() {
     $items['admin/content/emfield/'. $module] = array(
       'title' => $emfield_info['#settings_title'],
       'description' => $emfield_info['#settings_description'],
-      'file' => 'emfield.admin.inc',
+      'file' => 'deprecated/emfield-deprecated.admin.inc',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('emfield_module_settings', 3),
       'access arguments' => array('administer site configuration'),
@@ -45,7 +45,7 @@ function _emfield_deprecated_menu() {
     );
   }
   $items['admin/content/emfield/obsolete'] = array(
-    'file' => 'emfield.admin.inc',
+    'file' => 'deprecated/emfield-deprecated.admin.inc',
     'title' => 'Disable obsolete provider',
     'page callback' => 'emfield_disable_obsolete_provider',
     'access arguments' => array('administer site configuration'),
@@ -54,7 +54,7 @@ function _emfield_deprecated_menu() {
 
   if (module_exists('job_queue')) {
     $items['admin/content/emfield/reload'] = array(
-      'file' => 'emfield.admin.inc',
+      'file' => 'deprecated/emfield-deprecated.admin.inc',
       'title' => 'Reload data',
       'description' => 'Reload emfield fields in bulk',
       'page callback' => 'drupal_get_form',
@@ -855,7 +855,7 @@ function emfield_operations_reload($nids = array(), $show_message = TRUE) {
 function emfield_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'rss item':
-      module_load_include('inc', 'emfield', 'emfield.rss');
+      module_load_include('inc', 'emfield', 'deprecated/emfield-deprecated.rss');
       return _emfield_nodeapi_rss($node, $op, $teaser, $page);
   }
 }
