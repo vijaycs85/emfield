@@ -351,3 +351,11 @@ function emfield_schema() {
 
   return $schema;
 }
+
+/**
+ * Rebuild legacy menu items.
+ */
+function emfield_update_6301() {
+  menu_rebuild();
+  return array();
+}
