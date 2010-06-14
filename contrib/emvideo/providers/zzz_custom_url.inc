@@ -126,7 +126,7 @@ function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $heigh
         ),
         'plugins' => array(
           'rtmp' => array(
-            'url' => url(base_path() . drupal_get_path('module', 'flowplayer') . '/flowplayer/flowplayer.rtmp.swf', array('absolute' => TRUE)),
+            'url' => url(drupal_get_path('module', 'flowplayer') . '/flowplayer/flowplayer.rtmp.swf', array('absolute' => TRUE)),
             'netConnectionUrl' => dirname($url),
           ),
         ),
