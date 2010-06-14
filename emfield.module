@@ -90,6 +90,8 @@ function emfield_content_is_empty($item, $field) {
 function emfield_field($op, &$node, $field, &$items, $teaser, $page) {
   $return = array();
   switch ($op) {
+    case 'presave':
+      break;
     case 'validate':
       foreach ($items as $delta => $item) {
         if ($field['required'] && !emapi_get_provider_class($item['uri'])) {
@@ -174,6 +176,8 @@ function emfield_widget_settings($op, $widget) {
  * Implementation of hook_widget()
  */
 function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  static $js_added;
+
   // Our form element will need to be processed as a tree,
   // collapsing any children elements.
   $tree = array('#tree' => TRUE);
@@ -203,11 +207,24 @@ function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
   $tree['uri'] = array(
     '#type' => 'textfield',
     '#title' => t('@label', array('@label' => $field['widget']['label'])),
-    '#description' => $textfield_description,
+//     '#description' => $textfield_description,
     '#default_value' => $uri,
     '#required' => $delta == 0 ? $field['required'] : FALSE,
+    '#maxlength' => 255,
+  );
+
+  $tree['url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL: @TODO launch browser instead.'),
+    '#description' => $textfield_description,
     '#maxlength' => 4096,
   );
+
+  if (!$js_added) {
+    $js_added = TRUE;
+    drupal_add_js(drupal_get_path('module', 'emfield') .'/includes/js/emfield.widget.js');
+    drupal_add_js(array('emfield' => array('parseUrl' => 'emapi/parse/json')), 'setting');
+  }
 
   if ($uri) {
     $media = emapi_media_from_uri($uri);

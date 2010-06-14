@@ -26,6 +26,15 @@ function emapi_menu() {
     'access arguments' => array('administer embedded media'),
     'file' => 'includes/emapi.admin.inc',
   );
+
+  $items['emapi/parse/json'] = array(
+    'page callback' => 'emapi_parse_json',
+    'title' => 'Parse media',
+    'description' => 'Automatically derive a media object from a parsed URL or embed code.',
+    'access arguments' => array('administer embedded media'),
+    'file' => 'includes/emapi.parse.inc',
+  );
+
   return $items;
 }
 
