@@ -55,6 +55,7 @@ function emapi_init() {
  *  'path' => The path where the class file resides.
  *  'file' => The file containing the class definition.
  *  'module' => The module defining the class.
+ *  'url' => The URL to the remote media provider, if applicable.
  * The following key => value pair will be automatically set to the association
  * and cannot be overridden:
  *   'scheme' => The scheme portion of the URI.

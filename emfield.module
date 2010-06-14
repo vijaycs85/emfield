@@ -21,6 +21,229 @@ function emfield_menu() {
 }
 
 /**
+ * Implementation of hook_field_info().
+ */
+function emfield_field_info() {
+  $fields = array(
+    'emfield' => array(
+      'label' => t('Embedded media'),
+      'description' => t('Automatically parse and display embedded media from its URL or embed code.'),
+      'callbacks' => array(
+        'tables' => CONTENT_CALLBACK_DEFAULT,
+        'arguments' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
+  );
+
+  return $fields;
+}
+
+/**
+ *  Implementation of hook_field_settings().
+ */
+function emfield_field_settings($op, $field) {
+  switch ($op) {
+    case 'database columns':
+      // Store the URI of the embedded media.
+      $columns = array('uri' => array(
+          'description' => 'Unique URI for the media.',
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ),
+      );
+      return $columns;
+  }
+}
+
+/**
+ * Implementation of hook_content_is_empty().
+ */
+function emfield_content_is_empty($item, $field) {
+  return empty($item['uri']);
+}
+
+/**
+ * Implementation of hook_field().
+ */
+function emfield_field($op, &$node, $field, &$items, $teaser, $page) {
+  $return = array();
+  switch ($op) {
+    case 'validate':
+      foreach ($items as $delta => $item) {
+        if ($field['required'] && !emapi_get_provider_class($item['uri'])) {
+          $error_field = $field['multiple'] ? $field['field_name'] .']['. $delta .'][uri' : $field['field_name'];
+          form_set_error($error_field, t('You have specified an invalid media URI.'));
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_field_formatter_info()
+ */
+function emfield_field_formatter_info() {
+  $types = array('emfield');
+  $formats = array(
+    'default' => array(
+      'label' => t('Default'),
+      'field types' => $types,
+    ),
+  );
+  return $formats;
+}
+
+/**
+ * Implementation of hook_field_formatter().
+ */
+function emfield_field_formatter($field, $item, $formatter, $node) {
+  return "@TODO: emfield_field_formatter ($formatter)";
+}
+
+/** Widgets **/
+
+/**
+ * Implementation of hook_widget_info
+ */
+function emfield_widget_info() {
+  return array(
+    'emfield_browser' => array(
+      'label' => 'Media browser',
+      'field types' => array('emfield'),
+      'multiple values' => CONTENT_HANDLE_CORE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+        ),
+    ),
+  );
+}
+
+function emfield_widget_settings($op, $widget) {
+  switch ($op) {
+    case 'form':
+      if ($widget['type'] == 'emfield_browser') {
+        $form = array();
+        $classes = emapi_get_provider_classes();
+        foreach ($classes as $class) {
+          $options[$class['class_name']] = $class['name'];
+        }
+        $form['provider_list'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Providers Supported'),
+          '#description' => t('Select which third party providers you wish to allow for this content type from the list below. If no checkboxes are checked, then all providers will be supported. When a user submits new content, the URL they enter will be matched to the provider, assuming that provider is allowed here.'),
+          '#collapsible' => TRUE,
+          '#collapsed' => FALSE,
+        );
+        $form['provider_list']['providers'] = array(
+          '#type' => 'checkboxes',
+          '#title' => t('Providers'),
+          '#default_value' => empty($widget['providers']) ? array() : $widget['providers'],
+          '#options' => $options,
+        );
+      }
+      return $form;
+
+    case 'validate':
+      break;
+
+    case 'save':
+      if ($widget['widget_type'] == 'emfield_browser') {
+        $columns = array('providers');
+        return $columns;
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_widget()
+ */
+function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  // Our form element will need to be processed as a tree,
+  // collapsing any children elements.
+  $tree = array('#tree' => TRUE);
+
+  $providers = emfield_allowed_emapi_providers($field);
+  $urls = array();
+  $additional_form_elements = array();
+  foreach ($providers as $provider) {
+    $class = emapi_get_provider_class_by_class_name($provider);
+    // Grab the provider's URL.
+    $urls[] = $class['url'] ? l($class['name'], $class['url'], array('attributes' => array('target' => '_blank'))) : $class['name'];
+  }
+
+  // Set the widget description, but allow the field to override this.
+  if (!(empty($field['widget']['description']))) {
+    $textfield_description = t('!description', array('!description' => content_filter_xss($field['widget']['description'])));
+  }
+  else {
+    $textfield_description = t('Enter the URL or Embed Code here. The embedded third party content will be parsed and displayed appropriately from this.');
+  }
+
+  // Add a list of all supported third party providers.
+  $textfield_description .= '<br />'. t('The following services are provided: !urls', array('!urls' => implode(', ', $urls)));
+
+  // Get the value of our data, if it's been set for this node.
+  $uri = isset($items[$delta]['uri']) ? $items[$delta]['uri'] : '';
+  $tree['uri'] = array(
+    '#type' => 'textfield',
+    '#title' => t('@label', array('@label' => $field['widget']['label'])),
+    '#description' => $textfield_description,
+    '#default_value' => $uri,
+    '#required' => $delta == 0 ? $field['required'] : FALSE,
+    '#maxlength' => 4096,
+  );
+
+  if ($uri) {
+    $media = emapi_media_from_uri($uri);
+    $class = emapi_get_provider_classes(emapi_uri_scheme($uri));
+    if (is_array($class) && $class['name']) {
+      $name = $class['name'];
+      $link = l($uri, $media->url(), array('attributes' => array('target' => '_blank')));
+
+      $tree['value_markup'] = array(
+        '#type' => 'item',
+        '#value' => t('(@provider ID: !value)', array('@provider' => $name, '!value' => $link)),
+      );
+    }
+  }
+
+  return $tree;
+}
+
+/**
+ * Return a list of providers allowed for a specific field.
+ *
+ * @param array $field
+ *  (Optional) The field we're checking for providers.
+ * @return
+ *  If $field is NULL, then return all supported providers. Otherwise, we'll
+ *  return the subset of providers allowed by this field.
+ */
+function emfield_allowed_emapi_providers($field = NULL) {
+  $classes = emapi_get_provider_classes();
+  $providers = $all_providers = array();
+  foreach ($classes as $class) {
+    $providers[$class['class_name']] = $all_providers[$class['class_name']] = $class['class_name'];
+  }
+
+  $field_providers = isset($field['widget']['providers']) ? $field['widget']['providers'] : (isset($field['providers']) ? $field['providers'] : array());
+  foreach ($field_providers as $provider => $allowed) {
+    if (!$allowed) {
+      unset($providers[$provider]);
+    }
+  }
+
+  if (!empty($providers)) {
+    return $providers;
+  }
+
+  return $all_providers;
+}
+
+/**
  * Legacy support for deprecated functionality.
  *
  * If we're using a deprecated module, which expects emfield to support version
