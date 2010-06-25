@@ -12,6 +12,8 @@
 function theme_emfield_formatter_default($element) {
   if ($uri = $element['#item']['uri']) {
     $media = emapi_media_from_uri($uri);
-    return l($uri, $media->url());
+    if ($media) {
+      return l($uri, $media->url());
+    }
   }
 }
