@@ -95,7 +95,6 @@ function emfield_field($op, &$node, $field, &$items, $teaser, $page) {
         // Save the media to the database.
         $item['media'] = emapi_media_from_uri($item['uri']);
         emapi_media_save($item['media']);
-        dpm($item);
       }
       break;
     case 'validate':
