@@ -350,7 +350,7 @@ function emapi_media_save(&$media) {
     drupal_write_record('emapi_media', $media, 'emid');
     module_invoke_all('emapi_media_update', $media);
   }
-  else {
+  else if ($media) {
     drupal_write_record('emapi_media', $media);
     module_invoke_all('emapi_media_insert', $media);
   }
