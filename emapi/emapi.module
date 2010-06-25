@@ -49,6 +49,13 @@ function emapi_init() {
 }
 
 /**
+ * Implementation of hook_flush_caches().
+ */
+function emapi_flush_caches() {
+  return array('cache_emapi_xml');
+}
+
+/**
  * Builds a registry of Media provider classes.
  *
  * Each module supporting a Media provider will need to implement
