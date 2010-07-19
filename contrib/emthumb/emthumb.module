@@ -548,10 +548,10 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
       global $user;
 
       // Attempt to fetch the thumbnail from the provided URL.
-      $image = @file_get_contents($thumbnail);
+      $request = drupal_http_request($thumbnail);
 
       // Only go forward if we actually have an image stream.
-      if ($image) {
+      if ($image = $request->data) {
 
         // Add in our check of the the file name length.
         $validators['file_validate_name_length'] = array();
