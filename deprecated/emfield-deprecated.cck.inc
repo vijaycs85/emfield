@@ -67,6 +67,17 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
     case 'presave':
       foreach ($items as $delta => $item) {
         $items[$delta] = _emfield_field_submit_id($field, $item, $module);
+        // Remove empty fields
+        if (empty($item['value'])) {
+          // Remove thumbnail files
+          if (module_exists('emthumb')) {
+            // see http://drupal.org/node/393490#comment-1328368
+            if (is_array($item) && !empty($item['emthumb']['emthumb']['emthumb']['emthumb']['file'])) {
+              _emthumb_file_delete($item['emthumb']['emthumb']['emthumb']['emthumb']['file'], $field['field_name']);
+            }
+          }
+          unset($items[$delta]);
+        }
       }
       break;
 
