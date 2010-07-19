@@ -76,7 +76,7 @@ function emvideo_voicethread_embedded_link($book_id) {
 /**
  * the embedded flash displaying the voicethread
  */
-function theme_emvideo_voicethread_flash($embed, $width, $height, $autoplay) {
+function theme_emvideo_voicethread_flash($embed, $width, $height, $autoplay, $options = array()) {
   if ($embed) {
     if ($autoplay) {
       $autoplay_value = '&autoplay=1';
@@ -104,8 +104,8 @@ function theme_emvideo_voicethread_flash($embed, $width, $height, $autoplay) {
  *  @return
  *    the html of the embedded video
  */
-function emvideo_voicethread_video($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('emvideo_voicethread_flash', $embed, $width, $height, $autoplay);
+function emvideo_voicethread_video($embed, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
+  $output = theme('emvideo_voicethread_flash', $embed, $width, $height, $autoplay, $options);
   return $output;
 }
 
@@ -125,8 +125,8 @@ function emvideo_voicethread_video($embed, $width, $height, $field, $item, $auto
  *  @return
  *    the html of the embedded video
  */
-function emvideo_voicethread_preview($embed, $width, $height, $field, $item, $autoplay) {
-  $output = theme('emvideo_voicethread_flash', $embed, $width, $height, $autoplay);
+function emvideo_voicethread_preview($embed, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
+  $output = theme('emvideo_voicethread_flash', $embed, $width, $height, $autoplay, $options);
   return $output;
 }
 

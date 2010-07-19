@@ -177,7 +177,7 @@ function emvideo_ustreamlive_thumbnail($field, $item, $formatter, $node, $width,
  *  @return
  *    the html of the embedded video
  */
-function emvideo_ustreamlive_video($embed, $width, $height, $field, $item, $autoplay, $options = array()) {
+function emvideo_ustreamlive_video($embed, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
 // print_r($item);
   $output = theme('emvideo_ustreamlive_flash', $embed, $width, $height, $autoplay, $options);
   return $output;
@@ -199,7 +199,7 @@ function emvideo_ustreamlive_video($embed, $width, $height, $field, $item, $auto
  *  @return
  *    the html of the embedded video
  */
-function emvideo_ustreamlive_preview($embed, $width, $height, $field, $item, $autoplay, $options = array()) {
+function emvideo_ustreamlive_preview($embed, $width, $height, $field, $item, $node, $autoplay, $options = array()) {
   $output = theme('emvideo_ustreamlive_flash', $embed, $width, $height, $autoplay, $options);
   return $output;
 }
