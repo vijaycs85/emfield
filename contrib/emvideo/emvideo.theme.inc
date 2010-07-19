@@ -403,7 +403,7 @@ function _emvideo_seconds_to_time($seconds) {
   }
 
   // Create a safe-for-output MM:SS.
-  $output .= check_plain(sprintf("%02d:%02d", $mm, $ss));
+  $output .= check_plain(sprintf($hh ? "%02d:%02d" : "%d:%02d", $mm, $ss));
 
   return $output;
 }
