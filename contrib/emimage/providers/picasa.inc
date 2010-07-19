@@ -191,3 +191,7 @@ function _emimage_picasa_guess_size($width, $height) {
   // we would use the original size if we could, but we can't since google won't serve it
   return '800';
 }
+
+function emimage_picasa_thumbnail($field, $item, $formatter, $node, $width, $height) {
+  return emimage_picasa_image_url($item['value'], $width, $height, $formatter, $field, $item, $node);
+}

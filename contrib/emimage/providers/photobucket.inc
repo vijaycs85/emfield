@@ -132,3 +132,8 @@ function _emimage_photobucket_scrape_image_title($url) {
   $html = $rs->data;
   return $title[$url] = preg_match('@<span id="photoTitle">(.+?)</span>@is', $html, $matches)? $matches[1] : '';
 }
+
+function emimage_photobucket_thumbnail($field, $item, $formatter, $node, $width, $height) {
+  return emimage_photobucket_image_url($item['value'], $item['data']);
+}
+

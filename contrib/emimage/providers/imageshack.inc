@@ -132,3 +132,7 @@ function _emimage_imageshack_scrape_image_url($url) {
     }
   }
 }
+
+function emimage_imageshack_thumbnail($field, $item, $formatter, $node, $width, $height) {
+  return emimage_imageshack_image_url($item['value'], $item['data']);
+}
