@@ -125,8 +125,10 @@ function _emimage_imageshack_scrape_image_url($url) {
     return $urls[$url];
   }
 
-  $html = file_get_contents($url);
-  if (preg_match('!<img id="thepic" .+? src="(.+?)"!is', $html, $matches)) {
-    return $urls[$url] = $matches[1];
+  $request = drupal_http_request($url);
+  if ($html = $request->data) {
+    if (preg_match('!<img id="thepic" .+? src="(.+?)"!is', $html, $matches)) {
+      return $urls[$url] = $matches[1];
+    }
   }
 }
