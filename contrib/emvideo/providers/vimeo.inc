@@ -156,12 +156,12 @@ function theme_emvideo_vimeo_flash($embed, $width, $height, $autoplay) {
     if (variable_get('emvideo_vimeo_color_override', FALSE)) {
       $color = emvideo_vimeo_convert_color(variable_get('emvideo_vimeo_color', EMVIDEO_VIMEO_COLOR_DEFAULT));
     }
-    $output = '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" data="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'">';
+    $output = '<object type="application/x-shockwave-flash" width="'. $width .'" height="'. $height .'" data="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'&autoplay='. $autoplay .'">';
     $output .= '<param name="quality" value="best" />';
     $output .= '<param name="wmode" value="transparent" />';
     $output .= '<param name="allowfullscreen" value="'. ($fullscreen ? 'true' : 'false') .'" />';
     $output .= '<param name="scale" value="showAll" />';
-    $output .= '<param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'" /></object>';
+    $output .= '<param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id='. $embed .'&amp;server=www.vimeo.com&amp;fullscreen='. $fullscreen .'&amp;show_title='. $show_title .'&amp;show_byline='. $show_byline .'&amp;show_portrait='. $show_portrait .'&amp;color='. $color .'&autoplay='. $autoplay .'" /></object>';
   }
   return $output;
 }
