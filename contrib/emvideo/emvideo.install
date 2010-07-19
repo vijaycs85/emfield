@@ -428,6 +428,20 @@ function emvideo_update_6016() {
 }
 
 /**
+ * Rebuild the theme to accomodate optional Colorbox support.
+ */
+function emvideo_update_6017() {
+  drupal_rebuild_theme_registry();
+
+  $ret[] = array(
+    'query' => t('Rebuilt the theme to accommodate optional Colorbox support.'),
+    'success' => TRUE
+  );
+
+  return $ret;
+}
+
+/**
  *  Batch function to grab the duration for each video field.
  */
 function _emvideo_update_get_duration($field, &$context) {
