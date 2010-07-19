@@ -198,10 +198,24 @@ function _eminline_url_settings($format) {
   $form['eminline_'. $format]['#collapsible'] = TRUE;
   $form['eminline_'. $format]['#tree'] = TRUE;
 
-  // My submit && validator plz, kthxbi.
-  $form['#validate'] = array('_eminline_url_settings_form_validate');
-  $form['#submit'] = array('_eminline_url_settings_form_submit');
   return $form;
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Because filter format forms are merged, any common keys need to be added in
+ * a form_alter. Otherwise, e.g. submit handlers added by one module would be
+ * overwritten by those of another module.
+ */
+function eminline_form_filter_admin_configure_alter(&$form, $form_state) {
+  if (isset($form['format']) && isset($form['eminline_' . $form['format']['#value']])) {
+    $form['#validate'][] = '_eminline_url_settings_form_validate';
+
+    // Add the submit callback to the beginning of the array because we need
+    // to prepare data for system_settings_form_submit().
+    array_unshift($form['#submit'], '_eminline_url_settings_form_submit');
+  }
 }
 
 /*
