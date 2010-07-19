@@ -9,7 +9,7 @@
 /**
  *  New formatters and theme functions.
  */
-function emthumb_update_6001() {
+function emthumb_update_6002() {
   drupal_rebuild_theme_registry();
   return _emthumb_update_reset_cache();
 }
