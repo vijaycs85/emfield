@@ -103,6 +103,18 @@ function theme_emthumb_imagecache_formatter_preview($element) {
 }
 
 /**
+ *  Returns the imagecache image linked to a modal colorbox.
+ */
+function theme_emthumb_imagecache_formatter_colorbox($element) {
+  $options = _emthumb_formatter_theme_helper($element);
+  $options['thumbnail'] = _emthumb_imagecache_formatter_default($element);
+  switch ($options['module']) {
+    case 'emvideo':
+      return theme('emvideo_colorbox', $options['field'], $options['item'], $options['formatter'], $options['node'], $options);
+  }
+}
+
+/**
  *  Returns the imagecache image linked to a modal thickbox.
  */
 function theme_emthumb_imagecache_formatter_thickbox($element) {

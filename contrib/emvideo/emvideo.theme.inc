@@ -271,6 +271,14 @@ function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = arr
 }
 
 /**
+ *  Display the video as a Colorbox modal popup. Requires the Colorbox module.
+ */
+function theme_emvideo_colorbox($field, $item, $formatter, $node, $options = array()) {
+  $options['modal'] = 'colorbox';
+  return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
+}
+
+/**
  *  Display the video as a Lightbox2 modal popup. Requires the Lightbox2 module.
  */
 function theme_emvideo_lightbox2($field, $item, $formatter, $node, $options = array()) {
@@ -329,6 +337,9 @@ function theme_emvideo_formatter_video_thumbnail($element) {
   return _emvideo_formatter_theme_helper($element);
 }
 function theme_emvideo_formatter_video_flash($element) {
+  return _emvideo_formatter_theme_helper($element);
+}
+function theme_emvideo_formatter_colorbox($element) {
   return _emvideo_formatter_theme_helper($element);
 }
 function theme_emvideo_formatter_thickbox($element) {

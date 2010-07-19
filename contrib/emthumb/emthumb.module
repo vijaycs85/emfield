@@ -721,6 +721,11 @@ function emthumb_theme() {
         'function' => 'theme_emthumb_imagecache_formatter_preview',
         'file' => 'emthumb.theme.inc',
       );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_colorbox'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_colorbox',
+        'file' => 'emthumb.theme.inc',
+      );
       $themes['emthumb_formatter_'. $preset['presetname'] .'_thickbox'] = array(
         'arguments' => array('element' => NULL),
         'function' => 'theme_emthumb_imagecache_formatter_thickbox',
@@ -848,6 +853,13 @@ function emthumb_field_formatter_info() {
       'label' => t('@preset image -> Preview Size Media', array('@preset' => $preset['presetname'])),
       'field types' => $field_types,
     );
+    // Add colorbox formatter if colorbox module exists.
+    if (module_exists('colorbox')) {
+      $formatters[$preset['presetname'] .'_colorbox'] = array(
+        'label' => t('Colorbox: @preset image -> Full Size Media', array('@preset' => $preset['presetname'])),
+        'field types' => $field_types,
+        );
+    }
     // Add thickbox formatter if thickbox module exists.
     if (module_exists('thickbox')) {
       $formatters[$preset['presetname'] .'_thickbox'] = array(

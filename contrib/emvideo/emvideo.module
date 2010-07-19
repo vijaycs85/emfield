@@ -105,93 +105,101 @@ function emvideo_theme() {
       'file' => 'emvideo.theme.inc',
     ),
     'emvideo_modal_generic' => array(
-        'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_colorbox' => array(
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_thickbox' => array(
-        'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_lightbox2' => array(
-        'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_shadowbox' => array(
-        'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('field' => NULL, 'item' => NULL, 'formatter' => NULL, 'node' => NULL, 'options' => array()),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_video' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_thumbnail' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_thumbnail_no_link' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_thumbnail_provider_link' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_thumbnail_path' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_thumbnail_url' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_link' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_url' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_duration' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_embed' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_preview' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_default' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
+    ),
+    'emvideo_formatter_colorbox' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_thickbox' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_lightbox2' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_shadowbox' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_replace' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_formatter_video_replace_preview' => array(
-        'arguments' => array('element' => NULL),
-        'file' => 'emvideo.theme.inc'
+      'arguments' => array('element' => NULL),
+      'file' => 'emvideo.theme.inc'
     ),
     'emvideo_modal_iframe' => array(
-        'arguments' => array('content' => ''),
-        'file' => 'emvideo.theme.inc',
-        'template' => 'emvideo_modal_iframe',
+      'arguments' => array('content' => ''),
+      'file' => 'emvideo.theme.inc',
+      'template' => 'emvideo_modal_iframe',
     ),
     'emvideo_handler_field_duration' => array(
       'arguments' => array('item' => NULL, 'field' => NULL, 'node' => NULL, 'values' => NULL, 'format' => NULL),
@@ -360,6 +368,14 @@ function emvideo_field_formatter_info() {
       'field types' => $types,
     ),
   );
+
+  // Add colorbox formatter if colorbox module exists.
+  if (module_exists('colorbox')) {
+    $formats['colorbox'] = array(
+      'label' => t('Colorbox: Image Thumbnail -> Full Size Video'),
+      'field types' => $types,
+    );
+  }
 
   // Add thickbox formatter if thickbox module exists.
   if (module_exists('thickbox')) {
