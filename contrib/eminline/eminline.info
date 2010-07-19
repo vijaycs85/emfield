@@ -2,4 +2,4 @@
 name = Embedded Inline Media
 description = Allows users to embed media into text-areas.
 dependencies = emfield
-dependencies = emvideo
+dependencies = video_cck
