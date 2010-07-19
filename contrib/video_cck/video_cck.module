@@ -423,8 +423,11 @@ function theme_video_cck_video_thumbnail($field, $item, $formatter, $node, $no_l
     if ($no_link) {
       $output = ''; //thickbox won't work without a thumbnail
     }
-    else {
+    else if ($item['value'] && $item['provider']) {
       $output = l($link_title, $link_url);
+    }
+    else {
+      $output = '';
     }
   }
 
