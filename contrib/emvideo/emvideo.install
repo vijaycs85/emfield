@@ -428,23 +428,9 @@ function emvideo_update_6016() {
 }
 
 /**
- * Rebuild the theme to accomodate optional Colorbox support.
+ * New formatters for video thumbnail path & url & Colorbox support.
  */
-function emvideo_update_6017() {
-  drupal_rebuild_theme_registry();
-
-  $ret[] = array(
-    'query' => t('Rebuilt the theme to accommodate optional Colorbox support.'),
-    'success' => TRUE
-  );
-
-  return $ret;
-}
-
-/**
- * New formatters for video thumbnail path & url.
- */
-function emvideo_update_6018() {
+function emvideo_update_6100() {
   return _emvideo_update_add_new_formatters();
 }
 
