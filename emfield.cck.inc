@@ -65,7 +65,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
       foreach ($items as $delta => $item) {
         $items[$delta] = _emfield_field_submit_id($field, $item, $module);
         // Remove empty fields
-        if (empty($item['value'])) {
+/*        if (empty($item['value'])) {
           // Remove thumbnail files
           if (module_exists('emthumb')) {
             // see http://drupal.org/node/393490#comment-1328368
@@ -74,7 +74,7 @@ function _emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $m
             }
           }
           unset($items[$delta]);
-        }
+        }*/
       }
       break;
 
