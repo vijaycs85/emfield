@@ -2,5 +2,5 @@
 name = Embedded Media Thumbnail
 description = Allows custom thumbnails for Embedded Media Fields.
 dependencies[] = emfield
-package = CCK
+package = Media
 core = 6.x

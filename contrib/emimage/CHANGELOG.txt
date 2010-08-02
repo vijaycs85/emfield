@@ -1,5 +1,6 @@
 /* $Id$ */
-
+by Alex UA: moved to the Media section of the module page in .info file
+by Alex UA: removed Flickr again- it was causing errors with new installs.
 #523860 by Rob Loach | mvc: Add plain video & image url to views.
 by aaron: Remove Flickr provider (replaced by Media: Flickr).
 

@@ -5,6 +5,7 @@
  *  Changelog for Embedded Media Field (Drupal version 6).
  */
 
+by Alex UA: removed Blip.tv, Archive, YouTube, and Flickr provider files, which were causing errors with new installs. 
 by aaron: Refactor admin forms to use vertical tabs when available.
 by aaron: Move module settings into their own pages.
 by aaron: Retrieve and cache XML docs using simplexml.

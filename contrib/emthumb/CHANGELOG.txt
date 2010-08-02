@@ -1,9 +1,10 @@
 /* $Id$ */
-
 /**
  * @file
  * Changelog for Embedded Thumbnail Field.
  */
+ 
+by Alex UA: moved to the Media section of the module page in .info file
 
 ================
  DRUPAL-6--1-18

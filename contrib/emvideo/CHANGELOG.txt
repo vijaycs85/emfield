@@ -4,7 +4,8 @@
  *  @file
  *  Changelog for Embedded Video Field (emvideo).
  */
-
+by Alex UA: moved to the Media section of the module page in .info file
+by Alex UA: removed Blip.tv, Archive, and YouTube, which were causing errors with new installs. 
 #372094 by Rob Loach | aaron: Experimental support for RTMP streaming servers.
 by aaron: Tweak spike's regex.
 by aaron: Fix spike's emvideo_PROVIDER_embedded_link.

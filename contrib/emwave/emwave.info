@@ -2,5 +2,5 @@
 name = Embedded Wave Field
 description = Defines a field type for displaying waves from third party providers, such as Google or ...
 dependencies[] = emfield
-package = CCK
+package = Media
 core = 6.x
