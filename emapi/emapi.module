@@ -114,11 +114,12 @@ function emapi_get_provider_classes($scheme = NULL, $reset = FALSE) {
     }
   }
 
-  if (isset($scheme)) {
+  if (isset($scheme) && isset($emapi_registered_classes[$scheme])) {
     return $emapi_registered_classes[$scheme];
   }
-
-  return $emapi_registered_classes;
+  else if (!isset($scheme)) {
+    return $emapi_registered_classes;
+  }
 }
 
 /**
