@@ -146,8 +146,7 @@ function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $heigh
   }
   else if ($url = url($url, array('external' => TRUE, 'absolute' => TRUE))) {
     global $base_path;
-    $url = $base_path.$url;
-
+	
     if (module_exists('flowplayer')) {
       $config = array(
         'clip' => array(
