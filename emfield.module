@@ -223,12 +223,15 @@ function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
     '#title' => t('URL: @TODO launch browser instead.'),
     '#description' => $textfield_description,
     '#maxlength' => 4096,
+    '#attributes' => array(
+      'class' => 'emfield-textfield-url',
+    ),
   );
 
   if (!$js_added) {
     $js_added = TRUE;
     drupal_add_js(drupal_get_path('module', 'emfield') .'/includes/js/emfield.widget.js');
-    drupal_add_js(array('emfield' => array('parseUrl' => 'emapi/parse/json')), 'setting');
+    drupal_add_js(array('emfield' => array('parseUrl' => url('emapi/parse/json'))), 'setting');
   }
 
   if ($uri) {
@@ -244,6 +247,9 @@ function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
       );
     }
   }
+
+  dpm($tree);
+  dpm($field);
 
   return $tree;
 }

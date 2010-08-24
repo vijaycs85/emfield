@@ -8,14 +8,19 @@
 (function ($) {
 
   Drupal.behaviors.emfieldLaunchBrowser = function(context) {
-    $('#edit-field-emfield-0-url', context).bind('change', function () {
-      $preset = $(this);
-      if ($preset.val()) {
-        $.getJSON(Drupal.settings.basePath + Drupal.settings.emfield.parseUrl + '?url=' + $preset.val(), function (data) {
-          // @todo: Check for errors.
-          $('#edit-field-emfield-0-uri').val(data.uri);
+    $('input.emfield-textfield-url:not(.emfieldLaunchBrowser-processed)', context)
+      .addClass('emfieldLaunchBrowser-processed')
+      .each(function() {
+        $(this).bind('change', function () {
+          $preset = $(this);
+          var _value = $preset.val();
+          if (_value) {
+            $.getJSON(Drupal.settings.emfield.parseUrl + '?url=' + _value, function (data) {
+              // @todo: Check for errors.
+              $('input', $preset.parent().siblings('div')).val(data.uri);
+            });
+          }
         });
-      }
-    });
+      });
   }
 })(jQuery);
