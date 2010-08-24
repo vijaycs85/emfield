@@ -216,6 +216,9 @@ function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
     '#default_value' => $uri,
     '#required' => $delta == 0 ? $field['required'] : FALSE,
     '#maxlength' => 255,
+    '#attributes' => array(
+      'class' => 'emfield-textfield-uri',
+    ),
   );
 
   $tree['url'] = array(
@@ -224,7 +227,7 @@ function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
     '#description' => $textfield_description,
     '#maxlength' => 4096,
     '#attributes' => array(
-      'class' => 'emfield-textfield-url',
+      'class' => 'emfield-textfield-url form-autocomplete',
     ),
   );
 
@@ -232,6 +235,7 @@ function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
     $js_added = TRUE;
     drupal_add_js(drupal_get_path('module', 'emfield') .'/includes/js/emfield.widget.js');
     drupal_add_js(array('emfield' => array('parseUrl' => url('emapi/parse/json'))), 'setting');
+    drupal_add_css(drupal_get_path('module', 'emfield') .'/includes/themes/css/emfield.widget.css');
   }
 
   if ($uri) {
