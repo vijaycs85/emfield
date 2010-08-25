@@ -243,12 +243,15 @@ function emfield_widget(&$form, &$form_state, $field, $items, $delta = 0) {
     $class = emapi_get_provider_classes(emapi_uri_scheme($uri));
     if (is_array($class) && $class['name']) {
       $name = $class['name'];
-      $link = l($uri, $media->url(), array('attributes' => array('target' => '_blank')));
+      $url = $media->url();
+      $link = l($uri, $url, array('attributes' => array('target' => '_blank')));
 
       $tree['value_markup'] = array(
         '#type' => 'item',
         '#value' => t('(@provider ID: !value)', array('@provider' => $name, '!value' => $link)),
       );
+
+      $tree['url']['#default_value'] = check_plain($media->url());
     }
   }
 
