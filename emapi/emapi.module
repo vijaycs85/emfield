@@ -33,6 +33,7 @@ function emapi_menu() {
     'description' => 'Automatically derive a media object from a parsed URL or embed code.',
     'access arguments' => array('administer embedded media'),
     'file' => 'includes/emapi.parse.inc',
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
