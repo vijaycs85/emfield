@@ -106,6 +106,28 @@ function emfield_field($op, &$node, $field, &$items, $teaser, $page) {
       }
       break;
   }
+  // Ensure our $op is callable.
+  $op = str_replace(' ', '_', $op);
+  foreach ($items as $delta => $item) {
+    if ($class_name = emapi_get_provider_class($item['uri'])) {
+      $class = emapi_get_provider_class_by_class_name($class_name);
+      if (module_hook($class['module'], 'emfield_field_'. $op)) {
+        $args = array(&$node, $field, &$items, $teaser, $page, $item, $delta);
+        $ret = call_user_func_array($class['module'] .'_emfield_field_'. $op, $args);
+        if (is_array($ret)) {
+          $return = array_merge($return, $ret);
+        }
+      }
+    }
+  }
+  foreach (module_implements('emfield_field_extra_'. $op) as $module) {
+    $args = array(&$node, $field, &$items, $teaser, $page);
+    $ret = call_user_func_array($module .'_emfield_field_extra_'. $op, $args);
+    if (is_array($ret)) {
+      $return = array_merge($return, $ret);
+    }
+  }
+  return $return;
 }
 
 /**
@@ -314,5 +336,5 @@ function emfield_check_for_deprecated_modules($reset = FALSE) {
   return $support_legacy;
 }
 
-// Always check for the requirement of legacy support.
+// Always check for the requirement of legacy support, until we no longer do @TODO.
 emfield_check_for_deprecated_modules();
