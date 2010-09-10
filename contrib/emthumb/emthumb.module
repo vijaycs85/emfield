@@ -173,6 +173,13 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
         'wrapper' => "emthumb-wrapper-$field_name-$delta",
         'progress' => array('type' => 'bar', 'message' => t('Please wait...')),
       ),
+      // @TODO: Disabled until AHAH is fixed.
+      '#disabled' => TRUE,
+    );
+    $element['emthumb-upload-disabled'] = array(
+      '#type' => 'item',
+      '#description' => t('The upload button is disabled until !this is resolved.', array('!this' => l(t('this issue'), 'http://drupal.org/node/802606', array('attributes' => array('target' => '_blank'))))),
+      '#weight' => 10,
     );
   }
 
