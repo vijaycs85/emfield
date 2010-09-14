@@ -360,3 +360,12 @@ function emfield_update_6301() {
   drupal_rebuild_theme_registry();
   return array();
 }
+
+/**
+ * Give a warning regarding obsolete providers.
+ */
+function emfield_update_6302() {
+  $warning = t('Embedded Media Field no longer offers default third party media providers. If you have not already done so, you will most likely need to visit the !project project page and install the module(s) supporting the provider(s) you wish to include.', array('!project' => l(t('Embedded Media Field'), 'http://drupal.org/project/emfield', array('attributes' => array('target' => '_blank')))));
+  drupal_set_message($warning, 'error');
+  return array(array('query' => $warning, 'success' => TRUE));
+}
