@@ -558,9 +558,9 @@ function emfield_set_error($error) {
  *   An array of file objects optionally matching $provider.
  */
 function emfield_system_list($module, $provider = NULL, $options = array()) {
-  $override_files = module_invoke_all('emfield_providers', $module, $provider);
-  $files = drupal_system_listing("$provider\.inc$", drupal_get_path('module', $module) ."/providers", 'name', 0);
-  $files = array_merge($files, $override_files);
+  $files = $override_files = module_invoke_all('emfield_providers', $module, $provider);
+//   $files = drupal_system_listing("$provider\.inc$", drupal_get_path('module', $module) ."/providers", 'name', 0);
+//   $files = array_merge($files, $override_files);
 
   ksort($files);
 
