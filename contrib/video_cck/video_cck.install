@@ -67,8 +67,6 @@ function video_cck_update_3() {
   );
   $ret = array_merge($ret, _video_cck_update_reset_cache());
 
-  // now we need to depend on emfield's menu. remove our old admin menu path
-  menu_rebuild();
   return $ret;
 }
 
@@ -105,6 +103,15 @@ function video_cck_update_5() {
 function video_cck_update_6() {
   $ret = _video_cck_update_reset_cache_views();
   return $ret;
+}
+
+/**
+ * Rebuild the menu to check content access at video-cck/thickbox.
+ */
+function video_cck_update_7() {
+  menu_rebuild();
+
+  return array();
 }
 
 // I'd like this to be conditional, so it only runs if they don't have views installed.

@@ -481,29 +481,57 @@ function video_cck_handler_arg_provider($op, &$query, $argtype, $arg = '') {
   return _emfield_handler_arg_provider($op, $query, $argtype, $arg, 'video_cck');
 }
 
+/**
+ * Implementation of hook_menu().
+ */
 function video_cck_menu($may_cache) {
   $items = array();
   if (module_exists('thickbox')) {
-    if ($may_cache) {
-      $items[] = array(
-        'path' => 'video-cck/thickbox',
-        'callback' => 'video_cck_thickbox',
-        'access' => user_access('access content'),
-        'type' => MENU_CALLBACK,
-        );
+    if (!$may_cache) {
+      if (arg(0) == 'video-cck' && arg(1) == 'thickbox' && is_numeric(arg(2))) {
+        $node = node_load(arg(2));
+        if ($node->nid) {
+
+          $items[] = array(
+            'path' => 'video-cck/thickbox/'. arg(2),
+            'callback' => 'video_cck_thickbox',
+            'callback arguments' => array($node),
+            'access' => node_access('view', $node),
+            'type' => MENU_CALLBACK,
+          );
+        }
+      }
     }
   }
   return $items;
 }
 
-function video_cck_thickbox($nid, $width, $height, $field_name) {
+/**
+ * Page callback for video-cck/thickbox/%node.
+ */
+function video_cck_thickbox($node, $width, $height, $field_name) {
   $field = array();
   $field['widget']['video_width'] = $width;
   $field['widget']['video_height'] = $height;
   $field['widget']['video_autoplay'] = 1;
   $field['field_name'] = $field_name;
-  $node = node_load($nid);
   $items = $node->$field_name;
   $item = $items[0];
+
+  $type = $node->type;
+
+  // Respect any field access permissions.
+  if (module_exists('cck_field_perms') && $types = variable_get('cfp_types', null)) {
+    if ($types[$type]) {
+      $disallowed_fields = unserialize(variable_get('cfp_values', null));
+      if ($disallowed_fields && $disallowed_fields[$type][$field_name] != 0) {
+        if (!(user_access(_cfp_content_to_readable($type, $disallowed_field, 'view')))) {
+          drupal_access_denied();
+          return;
+        }
+      }
+    }
+  }
+
   print theme('video_cck_video_video', $field, $item, 'video_video', $node);
 }
