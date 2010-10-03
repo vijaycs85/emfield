@@ -600,7 +600,7 @@ function emfield_system_list($module, $provider = NULL, $options = array()) {
 function emfield_include_list($file = NULL, $remove = FALSE) {
   static $list = array();
 
-  if ($file && !isset($list[$file->filename])) {
+  if ($file && $file->filename && !isset($list[$file->filename])) {
     include_once('./'. $file->filename);
     $list[$file->filename] = $file->name;
   }
