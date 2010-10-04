@@ -241,6 +241,9 @@ function theme_emvideo_modal_generic($field, $item, $formatter, $node, $options 
     // Shadowbox needs a .php extension so it knows to open as an iFrame.
     $destination .= '/index.php';
   }
+  else if ($options['modal'] == 'colorbox-load') {
+    $attributes['query'] = 'width='. $width .'&height='. ($height  3) .'&iframe=true';
+  }
 
   if (($options['modal'] == 'lightbox2') && function_exists('lightbox2_add_files')) {
     lightbox2_add_files();
@@ -281,7 +284,7 @@ function theme_emvideo_thickbox($field, $item, $formatter, $node, $options = arr
  *  Display the video as a Colorbox modal popup. Requires the Colorbox module.
  */
 function theme_emvideo_colorbox($field, $item, $formatter, $node, $options = array()) {
-  $options['modal'] = 'colorbox';
+  $options['modal'] = 'colorbox-load';
   return theme('emvideo_modal_generic', $field, $item, $formatter, $node, $options);
 }
 
