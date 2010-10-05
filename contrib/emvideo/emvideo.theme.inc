@@ -242,7 +242,7 @@ function theme_emvideo_modal_generic($field, $item, $formatter, $node, $options 
     $destination .= '/index.php';
   }
   else if ($options['modal'] == 'colorbox-load') {
-    $attributes['query'] = 'width='. $width .'&height='. ($height  3) .'&iframe=true';
+    $attributes['query'] = 'width='. $width .'&height='. ($height + 3) .'&iframe=true';
   }
 
   if (($options['modal'] == 'lightbox2') && function_exists('lightbox2_add_files')) {
