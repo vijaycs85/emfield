@@ -19,16 +19,12 @@
 function _emfield_audit() {
   $audit = array();
 
-  include_once(drupal_get_path('module', 'content') .'/content.install');
-
   // Build a list of fields that need data updating.
   $fields = array();
-  foreach (content_types_install() as $type_name => $type_fields) {
-    foreach ($type_fields as $field) {
-      if (in_array($field['module'], array('emvideo', 'emimage', 'emaudio'))) {
-        // We only process a given field once.
-        $fields[$field['field_name']] = $field;
-      }
+  foreach (content_fields() as $field) {
+    if (in_array($field['module'], array('emvideo', 'emimage', 'emaudio'))) {
+      // We only process a given field once.
+      $fields[$field['field_name']] = $field;
     }
   }
 
