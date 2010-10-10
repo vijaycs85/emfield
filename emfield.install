@@ -48,6 +48,32 @@ function emfield_disable() {
   cache_clear_all('*', 'cache_emfield_xml', TRUE);
 }
 
+function emfield_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time
+  $t = get_t();
+
+  // Report Drupal version
+  if ($phase == 'runtime') {
+    $providers = emfield_audit();
+    if (empty($providers)) {
+      $value = t('All media fields are properly associated with third party providers. You may still wish to install additional modules; see the !emfield module page for a listing of available modules.', array('!emfield' => l(t('Embedded Media Field'), 'http://drupal.org/project/emfield', array('attributes' => array('target' => '_blank')))));
+      $severity = REQUIREMENT_OK;
+    }
+    else {
+      $value = t('The following providers found in existing media fields are currently missing from the system: %providers. You must install the corresponding modules supporting the provider(s) to support them. See the !emfield module page for a listing of available modules.', array('%providers' => implode(', ', $providers), '!emfield' => l(t('Embedded Media Field'), 'http://drupal.org/project/emfield', array('attributes' => array('target' => '_blank')))));
+      $severity = REQUIREMENT_ERROR;
+    }
+    $requirements['emfield'] = array(
+      'title' => $t('Embedded Media Field'),
+      'value' => $value,
+      'severity' => $severity,
+    );
+  }
+
+  return $requirements;
+}
+
 /**
  * Botched this the first time. Redo in 6003.
  */
