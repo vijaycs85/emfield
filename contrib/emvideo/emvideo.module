@@ -736,7 +736,7 @@ function emvideo_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
           $items[$delta]['duration'] = 0;
           $items[$delta]['title'] = NULL;
           $items[$delta]['description'] = NULL;
-        } 
+        }
         else {
           // Add alt text and alt title
           if (!empty($items[$delta]['emvideo']['title'])) {
@@ -817,4 +817,9 @@ function emvideo_views_api() {
   );
 }
 
-
+/**
+ * Implementation of hook_content_generate().
+ */
+function emvideo_content_generate($node, $field) {
+  return emfield_content_generate($node, $field);
+}
