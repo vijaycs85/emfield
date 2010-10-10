@@ -928,6 +928,20 @@ function emfield_retrieve_xml($url, $display_errors = FALSE, $refresh = FALSE) {
 }
 
 /**
+ * This will audit all nodes to ensure all emfield providers are present.
+ *
+ * The function will pass through all emfield fields to see if there is any
+ * content in the system without a provider.
+ *
+ * @return array
+ *  An array of all missing providers. Ideally the array will be empty.
+ */
+function emfield_audit() {
+  module_load_include('inc', 'emfield', 'includes/emfield.audit');
+  return _emfield_audit();
+}
+
+/**
  * Implementation of hook_init().
  */
 function emfield_init() {
