@@ -597,9 +597,8 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
         $file->filename = $basename_arr['path'];
         $file->filepath = $filepath_arr['path'];
 
-        // If we have mimedetect, then do so. Otherwise we make a best guess
-        // based on the filename.
-        $file->filemime = module_exists('mimedetect') ? mimedetect_mime($file) : file_get_mimetype($file->filename);
+        // Make a best guess on mimetype.
+        $file->filemime = file_get_mimetype($file->filename);
 
         // Rename potentially executable files, to help prevent exploits.
         if (preg_match('/\.(php|pl|py|cgi|asp|js)$/i', $file->filename) && (substr($file->filename, -4) != '.txt')) {
@@ -643,6 +642,9 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
           watchdog('file', 'Upload error. Could not move file %file to destination %destination.', array('%file' => $file->filename, '%destination' => $file->destination));
           return 0;
         }
+        // If we have mimedetect, then do so, unless we forced text/plain earlier.
+        $file->filemime = (($file->filemime != 'text/plain') && module_exists('mimedetect')) ? mimedetect_mime($file) : $file->filemime;
+
         // If we made it this far it's safe to record this file in the database.
         $file->status = FILE_STATUS_PERMANENT;
         $file->timestamp = time();
