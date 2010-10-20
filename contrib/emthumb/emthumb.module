@@ -23,10 +23,14 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
           $existing_data = array();
           if (isset($file['data']) && isset($file['data']['emthumb']) && is_array($file['data']['emthumb'])) {
             $existing_data = $file['data']['emthumb'];
+            $items[$delta]['data']['emthumb'] = $existing_data;
           }
 
           // Merge new file with existing data so we include alt tag data.
-          $items[$delta]['data']['emthumb'] = array_merge($existing_data, _emthumb_file_load($file['data']['emthumb']['fid']));
+          if (!empty($file['data']['emthumb']['fid'])) {
+            $thumbnail = _emthumb_file_load($file['data']['emthumb']['fid']);
+            $items[$delta]['data']['emthumb'] = array_merge($existing_data, $thumbnail);
+          }
         }
         return array($field['field_name'] => $items);
       }
@@ -38,6 +42,9 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
       if (count($items)) {
         $values = array();
         foreach ($items as $delta => $file) {
+          if (empty($file['data']['emthumb']['fid'])) {
+            continue;
+          }
           $thumbnail = _emthumb_file_load($file['data']['emthumb']['fid']);
           if (isset($thumbnail['filepath'])) {
             $options = array('absolute' => TRUE);
@@ -522,7 +529,7 @@ function _emthumb_file_load($fid = NULL) {
  *    The path to the custom thumbnail file.
  */
 function emthumb_thumbnail_path($item) {
-  if (is_array($item['data']['emthumb']) && $item['data']['emthumb']['filepath']) {
+  if (is_array($item['data']['emthumb']) && !empty($item['data']['emthumb']['filepath'])) {
     return file_create_path($item['data']['emthumb']['filepath']);
   }
 }

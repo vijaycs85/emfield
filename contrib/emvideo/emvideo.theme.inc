@@ -132,7 +132,7 @@ function theme_emvideo_video_thumbnail($field, $item, $formatter, $node, $no_lin
   $image_alt = isset($options['image_alt']) ? $options['image_alt'] : (isset($item['description']) ? $item['description'] : $link_title);
 
   if (isset($thumbnail_url)) {
-    if ($options['absolute']) {
+    if (!empty($options['absolute'])) {
       $thumbnail_url = url($thumbnail_url, array('absolute' => $options['absolute']));
     }
     if (isset($options['return_url'])) {
