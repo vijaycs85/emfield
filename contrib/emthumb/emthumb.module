@@ -131,7 +131,10 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
       '#name' => $upload_op,
       '#attributes' => array('id' => $fieldname .'-attach-button'),
       '#tree' => FALSE,
-      '#submit' => array('emthumb_widget_upload_button_submit'),
+      '#submit' => array(
+        'node_form_submit_build_node',
+        'emthumb_widget_upload_button_submit'
+      ),
       '#weight' => 10,
     );
   }
