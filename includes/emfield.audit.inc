@@ -39,7 +39,7 @@ function _emfield_audit() {
     while ($result = db_fetch_object($results)) {
       $provider = emfield_system_list($module, $result->$provider_column);
       if (empty($provider)) {
-        $audit[$result->provider] = $result->$provider_column;
+        $audit[$result->$provider_column] = $result->$provider_column;
       }
     }
   }
