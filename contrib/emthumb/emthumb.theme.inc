@@ -158,18 +158,20 @@ function _emthumb_imagecache_formatter_default($element, $options = NULL) {
   if (!isset($options)) {
     $options = _emthumb_formatter_theme_helper($element);
   }
-  if ($thumbnail = emthumb_thumbnail_path($options['item'])) {
-    return theme('imagecache', $options['presetname'], $thumbnail);
-  }
-  switch ($options['module']) {
-    case 'emvideo':
-      // Look for a local file first for imagecaching.
-      $options['return_url'] = $options['raw'] = TRUE;
-      $thumbnail = theme('emvideo_video_thumbnail', $options['field'], $options['item'], $options['formatter'], $options['node'], TRUE, $options);
-      if (url($thumbnail) != url($thumbnail, array('absolute' => TRUE))) {
-        return theme('imagecache', $options['presetname'], $thumbnail);
-      }
-      return theme('image', $thumbnail);
+  if ($options['item']['value']) {
+    if ($thumbnail = emthumb_thumbnail_path($options['item'])) {
+      return theme('imagecache', $options['presetname'], $thumbnail);
+    }
+    switch ($options['module']) {
+      case 'emvideo':
+        // Look for a local file first for imagecaching.
+        $options['return_url'] = $options['raw'] = TRUE;
+        $thumbnail = theme('emvideo_video_thumbnail', $options['field'], $options['item'], $options['formatter'], $options['node'], TRUE, $options);
+        if (url($thumbnail) != url($thumbnail, array('absolute' => TRUE))) {
+          return theme('imagecache', $options['presetname'], $thumbnail);
+        }
+        return theme('image', $thumbnail);
+    }
   }
 }
 
