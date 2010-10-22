@@ -34,7 +34,7 @@ function _emfield_audit() {
     $table = $db_info['table'];
     $provider_column = $db_info['columns']['provider']['column'];
     $module = $field['module'];
-    $sql = "SELECT $provider_column FROM {$table} GROUP BY $provider_column";
+    $sql = "SELECT $provider_column FROM {{$table}} GROUP BY $provider_column";
     $results = db_query($sql);
     while ($result = db_fetch_object($results)) {
       $provider = emfield_system_list($module, $result->$provider_column);
