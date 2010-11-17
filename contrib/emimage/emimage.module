@@ -438,5 +438,6 @@ function emimage_image_url($field, $item, $formatter, $node, $code, $width = NUL
     if (empty($url)) {
       $url = emfield_include_invoke('emimage', $item['provider'], 'image_url', $code, $width, $height, $formatter, $field, $item, $node);
     }
+    return $url;
   }
 }
