@@ -110,6 +110,10 @@ function emaudio_custom_url_rss($item, $teaser = NULL) {
 }
 
 function theme_emaudio_custom_url_flash($url = NULL, $width = 0, $height = 0, $field = NULL, $data = array(), $node = NULL, $autoplay = FALSE) {
+  // Validate url
+  if (!valid_url($url, TRUE) && !valid_url($url)) {
+    return '';
+  }
   // Display the audio using Flowplayer if it's available.
   if (module_exists('flowplayer')) {
     $config = array(

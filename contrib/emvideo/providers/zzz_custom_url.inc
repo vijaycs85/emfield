@@ -116,6 +116,10 @@ function emvideo_zzz_custom_url_embedded_link($video_code) {
 }
 
 function theme_emvideo_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = FALSE, $field = NULL, $item = NULL, $options = array()) {
+  // Validate url
+  if (!valid_url($url, TRUE) && !valid_url($url)) {
+    return '';
+  }
   if ($url = url($url, array('external' => TRUE, 'absolute' => TRUE))) {
     global $base_path;
     $url = $base_path.$url;
