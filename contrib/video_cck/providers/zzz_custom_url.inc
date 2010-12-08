@@ -105,7 +105,7 @@ function video_cck_zzz_custom_url_embedded_link($video_code) {
 }
 
 function theme_video_cck_zzz_custom_url_embedded_video($type, $url, $width, $height, $autoplay = false, $field = NULL, $item = NULL) {
-  if ($url) {
+  if ($url && (valid_url($url) || valid_url($url, TRUE))) {
     switch ($type) {
       case 'wmv':
       case 'wma':

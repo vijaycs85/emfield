@@ -103,7 +103,7 @@ function emaudio_zzz_custom_url_embedded_link($audio_code) {
 
 function theme_emaudio_zzz_custom_url_embedded_audio($type, $url, $width, $height, $autoplay = false, $field = NULL, $item = NULL, $node = NULL, $options = array()) {
   static $count;
-  if ($url) {
+  if ($url && (valid_url($url) || valid_url($url, TRUE))) {
     $count++;
     $title = $options['title'] ? $options['title'] : t('Download audio');
     $class = $options['class'] ? $options['class'] : 'emaudio-zzz-custom-url-embedded-audio media';
