@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file emfield/includes/emfield.audit.inc
