@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_GOOGLE_MAIN_URL', 'http://video.google.com/');
 define('VIDEO_CCK_GOOGLE_XML', 'http://video.google.com/videofeed');

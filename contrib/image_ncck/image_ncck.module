@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('IMAGE_NCCK_LINK_NONE', 0);
 define('IMAGE_NCCK_LINK_CONTENT', 'node');

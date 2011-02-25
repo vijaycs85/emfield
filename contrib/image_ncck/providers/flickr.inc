@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('IMAGE_NCCK_FLICKR_MAIN_URL', 'http://www.flickr.com/');
 define('IMAGE_NCCK_FLICKR_API_INFO', 'http://flickr.com/services/api');

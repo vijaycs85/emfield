@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_SEVENLOAD_MAIN_URL', 'http://www.sevenload.com/');
 

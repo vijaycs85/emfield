@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_DEFAULT_VIDEO_WIDTH', 425);
 define('VIDEO_CCK_DEFAULT_VIDEO_HEIGHT', 350);

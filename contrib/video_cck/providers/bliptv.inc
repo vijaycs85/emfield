@@ -1,5 +1,4 @@
 <?php
-// $Id$
 define('VIDEO_CCK_BLIPTV_MAIN_URL', 'http://blip.tv/');
 
 function video_cck_bliptv_info() {

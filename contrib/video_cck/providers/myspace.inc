@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_MYSPACE_MAIN_URL', 'http://vids.myspace.com/index.cfm?fuseaction=vids.videos');
 

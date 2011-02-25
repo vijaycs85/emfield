@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_IFILM_MAIN_URL', 'http://www.ifilm.com/');
 

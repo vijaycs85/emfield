@@ -1,4 +1,3 @@
-/* $Id$ */
 
 2007-08-18
 begin backport to 4.7

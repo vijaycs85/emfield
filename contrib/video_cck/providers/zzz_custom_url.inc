@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 function _video_cck_zzz_custom_url_default_types() {
   return array('wmv', 'wma', 'swf', 'flv', 'mov', 'rm');

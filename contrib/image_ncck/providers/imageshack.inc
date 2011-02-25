@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('IMAGE_NCCK_IMAGESHACK_MAIN_URL', 'http://www.imageshack.us/');
 

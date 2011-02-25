@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_BRIGHTCOVE_MAIN_URL', 'http://www.brightcove.com/');
 

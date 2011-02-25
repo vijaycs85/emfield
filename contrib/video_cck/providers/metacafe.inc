@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_METACAFE_MAIN_URL', 'http://www.metacafe.com/');
 
