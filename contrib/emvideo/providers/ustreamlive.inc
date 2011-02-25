@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('EMVIDEO_USTREAMLIVE_MAIN_URL', 'http://www.ustream.tv/');
 define('EMVIDEO_USTREAMLIVE_API_INFO', 'http://developer.ustream.tv/');

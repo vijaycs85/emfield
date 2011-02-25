@@ -1,4 +1,3 @@
-// $Id$
 
 README for Embedded Inline Media
 

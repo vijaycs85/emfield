@@ -1,4 +1,3 @@
-; $Id$
 
 name = Embedded Media API
 description = Provides an API for parsing, storage, and display of third party media.

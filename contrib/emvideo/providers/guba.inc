@@ -1,5 +1,4 @@
 <?php
-// $Id$
 /**
  * @file
  *   Provide support for the Guba provider to the emfield.module.

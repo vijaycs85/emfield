@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('EMVIDEO_IMEEM_MAIN_URL', 'http://www.imeem.com/');
 define('EMVIDEO_IMEEM_API_INFO', 'http://www.imeem.com/developers/documentation/');

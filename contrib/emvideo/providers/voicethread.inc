@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('EMVIDEO_VOICETHREAD_MAIN_URL', 'http://www.voicethread.com/');
 

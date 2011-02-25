@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file Contains the variables and defaults used by Embedded Media API.
