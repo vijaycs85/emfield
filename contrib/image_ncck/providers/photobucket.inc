@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('IMAGE_NCCK_PHOTOBUCKET_MAIN_URL', 'http://www.photobucket.com/');
 

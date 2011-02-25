@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_TUDOU_MAIN_URL', 'http://www.tudou.com/');
 

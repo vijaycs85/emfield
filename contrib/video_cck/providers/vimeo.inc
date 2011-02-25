@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_VIMEO_MAIN_URL', 'http://www.vimeo.com/');
 define('VIDEO_CCK_VIMEO_API_INFO', 'http://vimeo.com/api');

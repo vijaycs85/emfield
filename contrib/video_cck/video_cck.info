@@ -1,4 +1,3 @@
-; $Id$
 name = Embedded Video Field
 description = Defines a field type for displaying third party videos, such as YouTube and Google Video.
 dependencies = emfield

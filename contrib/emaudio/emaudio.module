@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('EMAUDIO_DEFAULT_AUDIO_WIDTH', 425);
 define('EMAUDIO_DEFAULT_AUDIO_HEIGHT', 350);

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_DAILYMOTION_MAIN_URL', 'http://www.dailymotion.com/');
 

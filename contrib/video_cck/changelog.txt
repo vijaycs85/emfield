@@ -1,4 +1,3 @@
-/* $Id$ */
 
 #280466 by cogapp_alx | pribeh: Fixed MY Vimeo Not Worky.
 

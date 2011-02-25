@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_IMEEM_MAIN_URL', 'http://www.imeem.com/');
 define('VIDEO_CCK_IMEEM_API_INFO', 'http://www.imeem.com/developers/documentation/');

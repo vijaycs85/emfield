@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Implemenation of hook_filter().

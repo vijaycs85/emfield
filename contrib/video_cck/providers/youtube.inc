@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_YOUTUBE_MAIN_URL', 'http://www.youtube.com/');
 define('VIDEO_CCK_YOUTUBE_API_INFO', 'http://youtube.com/dev');

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_VOICETHREAD_MAIN_URL', 'http://www.voicethread.com/');
 

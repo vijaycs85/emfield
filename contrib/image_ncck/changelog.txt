@@ -1,4 +1,3 @@
-/* $Id$ */
 
 #278957 by coldice4678: Grab properly sized Flickr photos.
 #373340 by aaron: Backport picasa provider extract function.

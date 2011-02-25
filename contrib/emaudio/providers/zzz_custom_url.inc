@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 function _emaudio_zzz_custom_url_default_types() {
   return array('mp3', 'wav', 'rm');

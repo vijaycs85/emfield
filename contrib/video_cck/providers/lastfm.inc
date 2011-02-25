@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_LASTFM_MAIN_URL', 'http://www.lastfm.com/');
 

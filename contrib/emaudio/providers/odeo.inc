@@ -1,5 +1,4 @@
 <?php
-// $Id$
 define('EMAUDIO_ODEO_MAIN_URL', 'http://odeo.com/');
 /**
  * Implementation of hook emaudio_odeo_info().
