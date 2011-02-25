@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 function emthumb_menu($maycache) {
   $items = array();

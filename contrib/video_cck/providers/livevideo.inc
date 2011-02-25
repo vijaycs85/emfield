@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_LIVEVIDEO_MAIN_URL', 'http://www.livevideo.com/');
 define('VIDEO_CCK_LIVEVIDEO_API_INFO', 'http://www.livevideo.com/api/default.aspx');

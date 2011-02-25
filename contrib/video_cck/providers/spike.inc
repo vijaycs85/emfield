@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_SPIKE_MAIN_URL', 'http://www.spike.com/');
 

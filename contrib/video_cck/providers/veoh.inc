@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_VEOH_MAIN_URL', 'http://www.veoh.com/');
 define('VIDEO_CCK_VEOH_API_INFO', 'http://www.veoh.com/restApiDoc/restReference.html');

@@ -1,4 +1,3 @@
-/* $Id$ */
 2008-08-04 
 #281334 - a_c_m added classes to images
 

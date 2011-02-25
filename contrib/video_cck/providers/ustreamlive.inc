@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_USTREAMLIVE_MAIN_URL', 'http://www.ustream.tv/');
 define('VIDEO_CCK_USTREAMLIVE_API_INFO', 'http://developer.ustream.tv/');

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_JUMPCUT_MAIN_URL', 'http://jumpcut.com/');
 

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('EMAUDIO_PODOMATIC_MAIN_URL', 'http://www.podomatic.com/');
 

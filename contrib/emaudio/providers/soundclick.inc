@@ -1,5 +1,4 @@
 <?php
-// $Id$
 define('EMAUDIO_SOUNDCLICK_MAIN_URL', 'http://soundclick.com/');
 /**
  * Implementation of hook emaudio_soundclick_info().

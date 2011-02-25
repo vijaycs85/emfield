@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_REVVER_MAIN_URL', 'http://one.revver.com/revver');
 define('VIDEO_CCK_REVVER_AFFILIATE_PROGRAM_URL', 'http://one.revver.com/revver/go/faq#makingmoney1');

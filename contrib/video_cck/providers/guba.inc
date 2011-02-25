@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 define('VIDEO_CCK_GUBA_MAIN_URL', 'http://www.guba.com/');
 define('VIDEO_CCK_GUBA_API_INFO', 'http://www.guba.com/restApiDoc/restReference.html');

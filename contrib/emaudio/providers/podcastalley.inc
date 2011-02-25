@@ -1,5 +1,4 @@
 <?php
-// $Id$
 define('EMAUDIO_PODCASTALLEY_MAIN_URL', 'http://www.podcastalley.com');
 /**
  * Implementation of hook emaudio_podcastalley_info().
