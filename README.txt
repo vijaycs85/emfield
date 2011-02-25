@@ -1,4 +1,3 @@
-/* $Id$ */
 
 /*********************/
  Embedded Media Field

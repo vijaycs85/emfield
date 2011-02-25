@@ -1,4 +1,3 @@
-; $Id$
 
 name = Embedded Media Field
 description = Provides an engine for modules to integrate various 3rd party content providers, such as Video Neighborhood, Image Neighborhood, and Audio Neighborhood.

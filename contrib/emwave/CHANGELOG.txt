@@ -1,4 +1,3 @@
-// $Id$
 
 CHANGELOG for Embedded Wave Field
 

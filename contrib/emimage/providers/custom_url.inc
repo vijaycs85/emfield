@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * This hook of the emimage_PROVIDER_info() returns information relevant to

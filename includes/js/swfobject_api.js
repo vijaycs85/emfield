@@ -1,5 +1,4 @@
 
-// $Id$
 
 /**
  * This function looks for swfobject class items and loads them
