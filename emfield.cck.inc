@@ -252,7 +252,7 @@ function _emfield_emfield_widget(&$form, &$form_state, $field, $items, $delta = 
 
     // In Drupal 6, we need to build multipart/form-data forms manually.
     if (function_exists($module_extra. '_emfield_widget_extra_file_included')) {
-      if (call_user_func($module_extra. '_emfield_widget_extra_file_included')) {
+      if (call_user_func_array($module_extra. '_emfield_widget_extra_file_included', $args)) {
         $form['#attributes'] = array('enctype' => "multipart/form-data");
       }
     }
