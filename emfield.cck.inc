@@ -158,7 +158,7 @@ function _emfield_emfield_widget_settings($op, $widget, $module) {
       return $form;
 
     case 'save':
-      $columns = array('providers'); //, 'helper_module', );
+      $columns = array('providers');
       foreach (module_implements('emfield_widget_settings_extra') as $module) {
         $columns = array_merge($columns, module_invoke($module, 'emfield_widget_settings_extra', 'save', $widget));
       }
@@ -169,9 +169,11 @@ function _emfield_emfield_widget_settings($op, $widget, $module) {
 
 
 /**
- * Helper function for emfield_emfield_widget, which in turn is a help function
- * for all emfields  that implement hook_widget().
- * This creates default widget handling for all the Embedded Media Fields.
+ * Helper function for emfield_emfield_widget.
+ *
+ * This is a helper function for all emfields implementing cck's hook_widget().
+ * It creates default widget handling for all the Embedded Media Fields.
+ *
  * Helper modules are expected to call this function to create the widget,
  * which will include a list of all providers as well as handle data parsing.
  */
