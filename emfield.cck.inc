@@ -299,6 +299,6 @@ function _emfield_emfield_field_settings($op, $field) {
       $data[$table_alias][$field_status]['sort']['field'] = $field_status;
       return $data;
     case 'database columns':
-      return emfield_field_columns($field);
+      return _emfield_field_columns($field);
   }
 }
