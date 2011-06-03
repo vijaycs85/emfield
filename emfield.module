@@ -11,7 +11,7 @@ function emfield_menu($may_cache) {
       'title' => t('Embedded Media Field configuration'),
       'description' => t('Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.'),
       'callback' => 'drupal_get_form',
-      'callback arguments' => 'emfield_settings',
+      'callback arguments' => array('emfield_settings'),
       'access' => user_access('administer site configuration'),
     );
     $items[] = array(
@@ -19,7 +19,7 @@ function emfield_menu($may_cache) {
       'title' => t('Media settings'),
       'description' => t('Configure Embedded Media Field: Allow content types to use various 3rd party providers, enter API keys, etc.'),
       'callback' => 'drupal_get_form',
-      'callback arguments' => 'emfield_settings',
+      'callback arguments' => array('emfield_settings'),
       'access' => user_access('administer site configuration'),
       'type' => MENU_DEFAULT_LOCAL_TASK,
     );
