@@ -47,7 +47,7 @@ function _video_cck_zzz_custom_url_implode_types() {
 
 function video_cck_zzz_custom_url_extract($embed = '') {
   $types = _video_cck_zzz_custom_url_implode_types();
-  if (preg_match('@\.('. $types .')@i', $embed, $matches)) {
+  if (preg_match('@\.('. $types .')$@i', $embed, $matches)) {
     return $embed;
   }
   return false;
