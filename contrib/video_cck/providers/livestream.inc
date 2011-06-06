@@ -99,7 +99,7 @@ function video_cck_livestream_data($field, $item) {
   $data = array();
 
   // create some 'field' version control
-  $data['video_cck_livestream_version'] = 1;
+  $data['video_cck_livestream_version'] = 2;
 
   // Thumbnail creation
 
@@ -113,7 +113,7 @@ function video_cck_livestream_data($field, $item) {
     preg_match('/clip=([^&]+)/', $item['value'], $matches);
 
     // Example API 2.0 call : http://xMYCHANNELNAMEx.channel-api.livestream-api.com/2.0/thumbnail?id=VIDEOID
-    $api_url = 'http://x' . $channel .  'x.channel-api.livestream-api.com/2.0/thumbnail?id='. $matches[1];
+    $api_url = 'http://x' . $channel .  'x.channel-api.livestream-api.com/2.0/clipdetails?id='. $matches[1];
 
     // Get the thumbnail via an API 2.0 call
     $result = drupal_http_request($api_url);
@@ -128,7 +128,9 @@ function video_cck_livestream_data($field, $item) {
         foreach ($vals as $val) {
           if ($val['tag'] == 'MEDIA:THUMBNAIL') {
             $data['thumbnail']['url'] = $val['attributes']['URL'];
-            break;
+          }
+          elseif ($val['tag'] == 'MEDIA:CONTENT') {
+            $data['duration'] = $val['attributes']['DURATION'];
           }
         }
       }
