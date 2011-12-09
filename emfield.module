@@ -4,9 +4,9 @@
  * Implements hook_content_migrate_field_alter().
  */
 function emfield_content_migrate_field_alter(&$field_value, &$instance_value) {
-  if ($field_value['module'] == 'emfield') {
-    $field_value['module'] = 'media';
-    $field_value['type'] = 'media';
+  if (in_array($field_value['module'], array('emfield', 'emimage', 'emaudio', 'emvideo'))) {
+    $field_value['module'] = 'file';
+    $field_value['type'] = 'file';
     // TODO: need to convert settings etc for this field to the D7 version.
   }
 }
@@ -15,9 +15,37 @@ function emfield_content_migrate_field_alter(&$field_value, &$instance_value) {
  * Implements hook_content_migrate_instance_alter().
  */
 function emfield_content_migrate_instance_alter(&$instance_value, &$field_value) {
-  if ($instance_value['widget']['module'] == 'emfield') {
+  if (in_array($instance_value['widget']['module'], array('emfield', 'emimage', 'emaudio', 'emvideo'))) {
     $instance_value['widget']['module'] = 'media';
+    $instance_value['widget']['type'] = 'media_generic';
+    $instance_value['widget_type'] = 'media_generic';
     // TODO: need to convert settings etc to the D7 version.
   }
 }
 
+/**
+ * Implements hook_content_migrate_data_record_alter().
+ */
+function emfield_content_migrate_data_record_alter(&$record, &$field, $instance) {
+  if (!empty($record[$field['field_name'] . '_embed'])) {
+    $provider = media_internet_get_provider($record[$field['field_name'] . '_embed']);
+    // This is a hack to stop content migrate from misreading the content.
+    unset($field['type']);
+    if ($provider) {
+        $file = $provider->save();
+        $record[$field['field_name'] . '_fid'] = $file->fid;
+    }
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter();
+ */
+function emfield_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'content_migrate_data_record_alter') {
+    // Move emfield_content_migrate_data_record_alter() to the top of the list.
+    $group = $implementations['emfield'];
+    unset($implementations['emfield']);
+    $implementations = array('emfield'  => $group) + $implementations;
+  }
+}
