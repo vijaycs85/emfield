@@ -119,6 +119,15 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
     // Get uploaded file if we have it. Merge it with existing file to get alt text
     $file = array_merge($file, $form_state['storage']['emthumb'][$upload_op]);
   }
+  if (empty($file)) {
+    $validators = array('emthumb_validate_is_image' => array());
+    $filename = $source = $fieldname . '_' . $delta . '_file';
+    if ($file = file_save_upload($filename, $validators, file_create_path($field['widget']['emimport_image_path']), FILE_EXISTS_RENAME)) {
+      $file = (array)$file;
+      $file = _emthumb_scale_image($file, $field['widget']['emthumb_max_resolution']);
+      $form_state['storage']['emthumb'][$upload_op] = $file;
+    }
+  }
 
   // Do not display custom thumb stuff if we don't allow a custom thumb.
   if ($field['widget']['emthumb']) {
@@ -143,6 +152,7 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
       ),
       '#weight' => 10,
     );
+    
   }
 
   if (isset($file) && isset($file['filepath'])) {
