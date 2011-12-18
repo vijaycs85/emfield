@@ -50,10 +50,14 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
           $existing_data = array();
           if (isset($file['data']) && isset($file['data']['emthumb']) && is_array($file['data']['emthumb'])) {
             $existing_data = $file['data']['emthumb'];
+            $items[$delta]['data']['emthumb'] = $existing_data;
           }
 
           // Merge new file with existing data so we include alt tag data.
-          $items[$delta]['data']['emthumb'] = array_merge($existing_data, _emthumb_file_load($file['data']['emthumb']['fid']));
+          if (!empty($file['data']['emthumb']['fid'])) {
+            $thumbnail = _emthumb_file_load($file['data']['emthumb']['fid']);
+            $items[$delta]['data']['emthumb'] = array_merge($existing_data, $thumbnail);
+          }
         }
         return array($field['field_name'] => $items);
       }
@@ -65,6 +69,9 @@ function emthumb_emfield_field_extra($op, &$node, $field, &$items, $teaser, $pag
       if (count($items)) {
         $values = array();
         foreach ($items as $delta => $file) {
+          if (empty($file['data']['emthumb']['fid'])) {
+            continue;
+          }
           $thumbnail = _emthumb_file_load($file['data']['emthumb']['fid']);
           if (isset($thumbnail['filepath'])) {
             $options = array('absolute' => TRUE);
@@ -134,7 +141,7 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
   // If there is no uploaded file, check the form cache to see if it was
   // uploaded earlier, such as from a preview or AHAH.
   // @TODO: Doesn't work with AHAH.
-  if (empty($file) && isset($form_state['storage']) && isset($form_state['storage']['emthumb'][$upload_op])) {
+  if (empty($file) && isset($form_state['storage']) && isset($form_state['storage']['emthumb']) && isset($form_state['storage']['emthumb'][$upload_op])) {
     $file = $form_state['storage']['emthumb'][$upload_op];
   }
 
@@ -146,10 +153,9 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
       $file = $field_data['data']['emthumb'];
     }
   }
-
+  
   // Do not display custom thumb stuff if we don't allow a custom thumb.
   if ($field['widget']['emthumb']) {
-
     // Separate from tree becase of that silly things won't be
     // displayed if they are a child of '#type' = form issue
     $element[$emthumb_element_name] = array(
@@ -165,20 +171,18 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
       '#name' => $upload_op,
       '#attributes' => array('id' => $field_name .'-attach-button'),
       '#tree' => FALSE,
-      '#submit' => array('emthumb_widget_upload_button_submit'),
-      '#weight' => 10,
-      '#ahah' => array(
-        'path' => 'emthumb/js/'. $type_name .'/'. $field_name .'/'. $delta,
-        'wrapper' => "emthumb-wrapper-$field_name-$delta",
-        'progress' => array('type' => 'bar', 'message' => t('Please wait...')),
+      '#submit' => array(
+        'node_form_submit_build_node',
+        'emthumb_widget_upload_button_submit',
       ),
-      // @TODO: Disabled until AHAH is fixed.
-      '#disabled' => TRUE,
-    );
-    $element['emthumb-upload-disabled'] = array(
-      '#type' => 'item',
-      '#description' => t('The upload button is disabled until !this is resolved.', array('!this' => l(t('this issue'), 'http://drupal.org/node/802606', array('attributes' => array('target' => '_blank'))))),
       '#weight' => 10,
+      // @TODO: Disabled until AHAH is fixed.
+      // @see http://drupal.org/node/802606
+//      '#ahah' => array(
+//        'path' => 'emthumb/js/'. $type_name .'/'. $field_name .'/'. $delta,
+//        'wrapper' => "emthumb-wrapper-$field_name-$delta",
+//        'progress' => array('type' => 'bar', 'message' => t('Please wait...')),
+//      ),
     );
   }
 
@@ -203,7 +207,7 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
 
     $element['emthumb']['description'] = array(
       '#type' => 'markup',
-      '#value' => '<strong>'. t('Filename:') .' </strong>'. $file['filename'],
+      '#value' => '<strong>'. t('Filename:') .' </strong>'. check_plain($file['filename']),
     );
 
     // Overwrite with an input field if custom_alt is flagged.
@@ -259,6 +263,7 @@ function emthumb_widget_element_process($element, $edit, &$form_state) {
       unset($form_state['storage']['emthumb']);
     }
   }
+  
   return $element;
 }
 
@@ -272,7 +277,6 @@ function emthumb_widget_upload_button_submit($form, &$form_state) {
 }
 
 function  _emthumb_file_upload(&$form_state, $field_name, $field, $delta, $upload_op, $from_process = FALSE) {
-  $file = array();
   $limits = array(
     'extensions' => 'jpg jpeg gif png',
     'file_size' => 0,
@@ -797,6 +801,7 @@ function emthumb_fetch_remote_thumbnail($item, $field) {
           watchdog('file', 'Upload error. Could not move file %file to destination %destination.', array('%file' => $file->filename, '%destination' => $file->destination));
           return 0;
         }
+        
         // If we made it this far it's safe to record this file in the database.
         $file->status = FILE_STATUS_PERMANENT;
         $file->timestamp = time();
@@ -883,6 +888,11 @@ function emthumb_theme() {
       $themes['emthumb_formatter_'. $preset['presetname'] .'_preview'] = array(
         'arguments' => array('element' => NULL),
         'function' => 'theme_emthumb_imagecache_formatter_preview',
+        'file' => 'emthumb.theme.inc',
+      );
+      $themes['emthumb_formatter_'. $preset['presetname'] .'_colorbox'] = array(
+        'arguments' => array('element' => NULL),
+        'function' => 'theme_emthumb_imagecache_formatter_colorbox',
         'file' => 'emthumb.theme.inc',
       );
       $themes['emthumb_formatter_'. $preset['presetname'] .'_thickbox'] = array(
@@ -1012,6 +1022,13 @@ function emthumb_field_formatter_info() {
       'label' => t('@preset image -> Preview Size Media', array('@preset' => $preset['presetname'])),
       'field types' => $field_types,
     );
+    // Add colorbox formatter if colorbox module exists.
+    if (module_exists('colorbox')) {
+      $formatters[$preset['presetname'] .'_colorbox'] = array(
+        'label' => t('Colorbox: @preset image -> Full Size Media', array('@preset' => $preset['presetname'])),
+        'field types' => $field_types,
+        );
+    }
     // Add thickbox formatter if thickbox module exists.
     if (module_exists('thickbox')) {
       $formatters[$preset['presetname'] .'_thickbox'] = array(
