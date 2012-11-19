@@ -548,7 +548,7 @@ function emvideo_widget_settings($op, $widget) {
           '#type' => 'checkboxes',
           '#title' => t('Additional fields'),
           '#multiple' => TRUE,
-          '#default_value' => is_array($widget['meta_fields']) ? $widget['meta_fields'] : array(),
+          '#default_value' => isset($widget['meta_fields']) ? $widget['meta_fields'] : array(),
           '#options' => array('title' => t('Title'), 'description' => t('Description')),
         );
 
