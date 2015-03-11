@@ -8,7 +8,7 @@
 define('EMIMAGE_FLICKR_MAIN_URL', 'http://www.flickr.com/');
 define('EMIMAGE_FLICKR_API_INFO', 'http://flickr.com/services/api');
 define('EMIMAGE_FLICKR_API_APPLICATION_URL', 'http://www.flickr.com/services/api/keys');
-define('EMIMAGE_FLICKR_REST_ENDPOINT', 'http://api.flickr.com/services/rest/');
+define('EMIMAGE_FLICKR_REST_ENDPOINT', 'https://api.flickr.com/services/rest/');
 
 define('EMIMAGE_FLICKR_DATA_VERSION', 1);
 
