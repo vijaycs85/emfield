@@ -60,7 +60,7 @@ function emfield_emfield_field($op, &$node, $field, &$items, $teaser, $page, $mo
  *  Helper function to implement hook_content_is_empty.
  */
 function emfield_emfield_content_is_empty($item, $field) {
-  return empty($item['value']);
+  return (empty($item['value']) && empty($item['embed']));
 }
 
 /**
